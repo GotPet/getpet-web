@@ -1,0 +1,23 @@
+sudo: required
+
+language: minimal
+
+services:
+- docker
+
+before_install:
+- set -e
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
+- docker build -t vycius/zkr-platform --build-arg GIT_COMMIT=${TRAVIS_COMMIT::8} .
+- docker push vycius/zkr-platform
+- openssl aes-256-cbc -K $encrypted_c3e3f6321cf7_key -iv $encrypted_c3e3f6321cf7_iv
+  -in deploy_rsa.enc -out /tmp/deploy_rsa -d
+- eval "$(ssh-agent -s)"
+- chmod 600 /tmp/deploy_rsa
+- ssh-add /tmp/deploy_rsa
+- set +e
+
+after_success:
+- set -e
+- ssh -o "StrictHostKeyChecking no" -i /tmp/deploy_rsa $REMOTE_USER@$REMOTE_HOST 'bash -s' < config/deploy-travis.sh
+- set +e
