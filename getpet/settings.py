@@ -279,3 +279,5 @@ REST_FRAMEWORK = {
 }
 
 BASE_DOMAIN = "https://getpet.vycius.lt/" if not DEBUG else "http://localhost:8000/"
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
