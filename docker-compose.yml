@@ -34,6 +34,8 @@ services:
     build: .
     env_file:
     - .env
+    healthcheck:
+      disable: true
     deploy:
       replicas: 2
       restart_policy:
