@@ -1,5 +1,9 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+
+
+def index(request):
+    return HttpResponse("OK")
+
 
 def health_check(request):
     return HttpResponse("OK")
