@@ -6,4 +6,4 @@ pull:
 	git pull
 
 deploy:
-	docker stack deploy zkr-platform --compose-file docker-compose.yml
+	docker stack deploy getpet-web-platform --compose-file docker-compose.yml
