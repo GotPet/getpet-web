@@ -31,7 +31,7 @@ services:
         condition: on-failure
 
   platform:
-    image: vycius/zkr-platform
+    build: .
     env_file:
     - .env
     healthcheck:
