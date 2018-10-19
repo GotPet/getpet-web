@@ -261,7 +261,6 @@ DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = False
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
@@ -278,3 +277,5 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 30,
     'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%SZ",
 }
+
+BASE_DOMAIN = "https://getpet.vycius.lt/" if not DEBUG else "http://localhost:8000/"
