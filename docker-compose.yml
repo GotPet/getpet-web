@@ -31,11 +31,11 @@ services:
         condition: on-failure
 
   platform:
-    build: .
+    image: vycius/getpet-platform
     env_file:
     - .env
     healthcheck:
-      disable: true
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/health/ || exit 1"]
     deploy:
       replicas: 2
       restart_policy:

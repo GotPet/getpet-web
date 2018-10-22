@@ -6,4 +6,4 @@ pull:
 	git pull
 
 deploy:
-	docker-compose up -d --build
+	docker stack deploy getpet-platform --compose-file docker-compose.yml
