@@ -6,11 +6,12 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
-from api.views import PoliticianInfoListView
+from api.views import PetListView, ShelterListView
 from getpet import settings
 
 public_api_url_patterns = [
-    path('v1/pets/', PoliticianInfoListView.as_view(), name="api_pets"),
+    path('v1/pets/', PetListView.as_view(), name="api_pets"),
+    path('v1/shelters/', ShelterListView.as_view(), name="api_shelters"),
 ]
 
 private_api_url_patterns = []

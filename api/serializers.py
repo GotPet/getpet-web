@@ -10,8 +10,8 @@ class ShelterSerializer(serializers.ModelSerializer):
 
 
 class PetListSerializer(serializers.ModelSerializer):
-    shelter = ShelterSerializer()
+    shelter_id = serializers.PrimaryKeyRelatedField(source='shelter', read_only=True)
 
     class Meta:
         model = Pet
-        fields = ['id', 'name', 'photo', 'shelter', 'short_description', 'description', 'created_at', 'updated_at']
+        fields = ['id', 'name', 'photo', 'shelter_id', 'short_description', 'description']
