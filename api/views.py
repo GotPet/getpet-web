@@ -2,7 +2,9 @@ from django.utils.decorators import method_decorator
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
+from django_filters import rest_framework as filters
 
+from api.filters import PetFilter
 from api.serializers import PetListSerializer, ShelterSerializer
 from web.models import Pet, Shelter
 
@@ -17,6 +19,8 @@ class PetListView(ListAPIView):
     serializer_class = PetListSerializer
     permission_classes = (AllowAny,)
     pagination_class = None
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = PetFilter
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
