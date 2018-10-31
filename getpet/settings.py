@@ -56,6 +56,9 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
 
     'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+
     'django_filters',
     'drf_yasg',
     'rest_framework_tracking',

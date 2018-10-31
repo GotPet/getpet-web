@@ -1,5 +1,8 @@
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from django.utils.decorators import method_decorator
 from drf_yasg.utils import swagger_auto_schema
+from rest_auth.registration.views import SocialConnectView
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
 from django_filters import rest_framework as filters
@@ -26,10 +29,17 @@ class PetListView(ListAPIView):
 @method_decorator(name='get', decorator=swagger_auto_schema(
     operation_description="Returns all shelters.",
     security=[]
-
 ))
 class ShelterListView(ListAPIView):
     queryset = Shelter.objects.all()
     serializer_class = ShelterSerializer
     permission_classes = (AllowAny,)
     pagination_class = None
+
+
+class FacebookConnect(SocialConnectView):
+    adapter_class = FacebookOAuth2Adapter
+
+
+class GoogleConnect(SocialConnectView):
+    adapter_class = GoogleOAuth2Adapter
