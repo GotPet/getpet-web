@@ -19,12 +19,7 @@ drf-yasg==1.10.0
 git+git://github.com/aschn/drf-tracking.git
 
 django-enumfields==0.10.1
-celery[redis]==4.2.1
 django-redis==4.9.0
-beautifulsoup4==4.6.3
-lxml==4.2.4
-# This unreleased version has task name and other parameters
-git+git://github.com/celery/django-celery-results.git
 django-ipware==2.1.0
 raven==6.9.0
 # Version in pip doesn't have EXIF bugfix
