@@ -62,7 +62,6 @@ INSTALLED_APPS = [
     'rest_framework_tracking',
 
     'crispy_forms',
-    'django_celery_results',
     'adminsortable2',
     'reversion',
     'captcha',
