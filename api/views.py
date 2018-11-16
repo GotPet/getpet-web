@@ -18,7 +18,7 @@ from web.models import Pet, Shelter
 
 ))
 class PetListView(ListAPIView):
-    queryset = Pet.objects.select_related('shelter')
+    queryset = Pet.objects.select_related('shelter').prefetch_related('profile_photos')
     serializer_class = PetListSerializer
     permission_classes = (AllowAny,)
     pagination_class = None
