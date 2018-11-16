@@ -1,7 +1,9 @@
+from adminsortable2.admin import SortableInlineAdminMixin
 from django.contrib import admin
 from reversion.admin import VersionAdmin
 
-from web.models import Shelter, Pet
+from web.forms import PetProfilePhotoInlineFormset
+from web.models import Shelter, Pet, PetProfilePhoto
 
 
 class PetInline(admin.StackedInline):
@@ -18,6 +20,11 @@ class ShelterAdmin(VersionAdmin):
     ]
 
 
+class PetProfilePhotoInline(SortableInlineAdminMixin, admin.TabularInline):
+    model = PetProfilePhoto
+    formset = PetProfilePhotoInlineFormset
+
+
 @admin.register(Pet)
 class PetAdmin(VersionAdmin):
     search_fields = ['name', ]
@@ -25,5 +32,5 @@ class PetAdmin(VersionAdmin):
     list_select_related = ['shelter']
 
     inlines = [
-
+        PetProfilePhotoInline
     ]
