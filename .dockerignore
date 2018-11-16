@@ -13,3 +13,4 @@ venv/
 /Dockerfile
 /Makefile
 /deploy_rsa.enc
+/keyfiles/
