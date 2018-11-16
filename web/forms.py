@@ -1,9 +1,9 @@
+from adminsortable2.admin import CustomInlineFormSet
 from django.core.exceptions import ValidationError
-from django.forms import BaseInlineFormSet
 from django.utils.translation import gettext_lazy as _
 
 
-class PetProfilePhotoInlineFormset(BaseInlineFormSet):
+class PetProfilePhotoInlineFormset(CustomInlineFormSet):
     def is_valid(self):
         return super().is_valid() and \
                not any([bool(e) for e in self.errors])

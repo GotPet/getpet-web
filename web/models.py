@@ -89,3 +89,6 @@ class PetProfilePhoto(models.Model):
         verbose_name = _("Gyvūno nuotrauka")
         verbose_name_plural = _("Gyvūnų nuotraukos")
         ordering = ['order']
+
+    def __str__(self):
+        return self.photo.url
