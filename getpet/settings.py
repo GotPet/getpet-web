@@ -283,6 +283,6 @@ REST_FRAMEWORK = {
     'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%SZ",
 }
 
-BASE_DOMAIN = "https://getpet.vycius.lt/" if not DEBUG else "http://localhost:8000/"
+BASE_DOMAIN = "https://www.vycius.lt/" if not DEBUG else "http://localhost:8000/"
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
