@@ -1,9 +1,12 @@
 from adminsortable2.admin import SortableInlineAdminMixin
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
 from reversion.admin import VersionAdmin
 
 from web.forms import PetProfilePhotoInlineFormset
-from web.models import Shelter, Pet, PetProfilePhoto
+from web.models import Shelter, Pet, PetProfilePhoto, User
+
+admin.site.register(User, UserAdmin)
 
 
 class PetInline(admin.StackedInline):
