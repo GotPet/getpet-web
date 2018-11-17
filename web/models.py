@@ -82,12 +82,12 @@ class PetProfilePhoto(models.Model):
         return join('img', 'web', 'pet', slug, 'profile', filename)
 
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name='profile_photos')
-    photo = models.ImageField(upload_to=_pet_photo_file, verbose_name=_('Gyvūno nuotrauka'))
+    photo = models.ImageField(upload_to=_pet_photo_file, verbose_name=_('Gyvūno profilio nuotrauka'))
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
-        verbose_name = _("Gyvūno nuotrauka")
-        verbose_name_plural = _("Gyvūnų nuotraukos")
+        verbose_name = _("Gyvūno profilio nuotrauka")
+        verbose_name_plural = _("Gyvūnų profilio nuotraukos")
         ordering = ['order']
 
     def __str__(self):
