@@ -59,7 +59,6 @@ class Pet(models.Model):
         " paspausti ant gyvūno profilio."))
     description = models.TextField(verbose_name=_("Aprašymas"),
                                    help_text=_("Gyvūno aprašymas matomas įėjus į gyvūno profilį."))
-    age = models.PositiveIntegerField(null=True, blank=True, verbose_name=_("Amžius"))
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Sukūrimo data'))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinimo data"))

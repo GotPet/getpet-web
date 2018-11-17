@@ -31,7 +31,7 @@ class PetProfilePhotoInline(SortableInlineAdminMixin, admin.TabularInline):
 @admin.register(Pet)
 class PetAdmin(VersionAdmin):
     search_fields = ['name', ]
-    list_display = ['name', 'photo', 'short_description', 'shelter', 'age', 'created_at', 'updated_at']
+    list_display = ['name', 'photo', 'short_description', 'shelter', 'created_at', 'updated_at']
     list_select_related = ['shelter']
 
     inlines = [
