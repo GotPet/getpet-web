@@ -39,7 +39,9 @@ class ShelterListView(ListAPIView):
 
 class FacebookConnect(SocialConnectView):
     adapter_class = FacebookOAuth2Adapter
+    permission_classes = (AllowAny,)
 
 
 class GoogleConnect(SocialConnectView):
     adapter_class = GoogleOAuth2Adapter
+    permission_classes = (AllowAny,)
