@@ -6,12 +6,14 @@ from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
-from api.views import PetListView, ShelterListView, GoogleConnect, FacebookConnect
+from api.views import PetListView, ShelterListView, GoogleConnect, FacebookConnect, FirebaseConnect
 from getpet import settings
 
 public_api_url_patterns = [
     path('v1/pets/', PetListView.as_view(), name="api_pets"),
     path('v1/shelters/', ShelterListView.as_view(), name="api_shelters"),
+    path('v1/shelters/', ShelterListView.as_view(), name="api_shelters"),
+    path('v1/authentication/firebase/connect/', FirebaseConnect.as_view(), name="api_firebase_connect"),
     path('v1/authentication/google/connect/', GoogleConnect.as_view(), name="api_google_connect"),
     path('v1/authentication/facebook/connect/', FacebookConnect.as_view(), name="api_facebook_connect"),
 ]

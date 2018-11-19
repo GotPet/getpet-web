@@ -18,6 +18,7 @@ flex==6.13.2
 drf-yasg==1.10.0
 # This has a fix for migrations error
 git+git://github.com/aschn/drf-tracking.git
+firebase-admin==2.13.0
 
 django-enumfields==0.10.1
 django-redis==4.9.0

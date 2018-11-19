@@ -270,7 +270,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ),
     'DEFAULT_RENDERER_CLASSES': (
@@ -284,6 +283,8 @@ REST_FRAMEWORK = {
     'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%SZ",
 }
 
-BASE_DOMAIN = "https://www.vycius.lt/" if not DEBUG else "http://localhost:8000/"
+BASE_DOMAIN = "https://www.getpet.lt/" if not DEBUG else "http://localhost:8000/"
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+FIREBASE_KEY = os.path.join(BASE_DIR, 'keyfiles', 'firebase.json')
