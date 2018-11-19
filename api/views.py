@@ -25,7 +25,7 @@ class PetListView(ListAPIView):
     serializer_class = PetListSerializer
     pagination_class = None
     permission_classes = (IsAuthenticated,)
-    authentication_classes = (FirebaseAuthentication,)
+    authentication_classes = []
 
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = PetFilter
@@ -39,6 +39,7 @@ class ShelterListView(ListAPIView):
     queryset = Shelter.objects.all()
     serializer_class = ShelterSerializer
     permission_classes = (AllowAny,)
+    authentication_classes = []
     pagination_class = None
 
 
