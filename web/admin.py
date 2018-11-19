@@ -1,10 +1,11 @@
 from adminsortable2.admin import SortableInlineAdminMixin
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from enumfields.admin import EnumFieldListFilter
 from reversion.admin import VersionAdmin
 
 from web.forms import PetProfilePhotoInlineFormset
-from web.models import Shelter, Pet, PetProfilePhoto, User
+from web.models import Shelter, Pet, PetProfilePhoto, User, GetPetRequest
 
 admin.site.register(User, UserAdmin)
 
@@ -37,3 +38,10 @@ class PetAdmin(VersionAdmin):
     inlines = [
         PetProfilePhotoInline
     ]
+
+
+@admin.register(GetPetRequest)
+class GetPetRequestAdmin(VersionAdmin):
+    list_display = ['user', 'pet', 'status']
+    list_select_related = ['user', 'pet']
+    list_filter = [('status', EnumFieldListFilter)]

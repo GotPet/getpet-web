@@ -1,3 +1,4 @@
+from enum import unique
 from os.path import join
 
 from django.contrib.auth.models import AbstractUser
@@ -7,6 +8,7 @@ from django.utils.text import slugify
 from getpet import settings
 from web.utils import file_extension
 from django.utils.translation import gettext_lazy as _
+from enumfields import IntEnum, EnumIntegerField
 
 
 class User(AbstractUser):
@@ -91,3 +93,34 @@ class PetProfilePhoto(models.Model):
 
     def __str__(self):
         return self.photo.url
+
+
+@unique
+class GetPetRequestStatus(IntEnum):
+    USER_WANTS_PET = 1
+    PET_TAKEN_TEMPORARY = 2
+    PET_RETURNED = 3
+    PET_TAKEN_PERMANENTLY = 4
+
+    class Labels:
+        USER_WANTS_PET = _('Noras paimti gyvūną')
+        PET_TAKEN_TEMPORARY = _('Gyvūnas laikinai pasiimtas')
+        PET_RETURNED = _("Gyvūnas gražintas po laikinos globos")
+        PET_TAKEN_PERMANENTLY = _("Gyvūnas pasiimtas visam laikui")
+
+
+class GetPetRequest(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, verbose_name=_("Vartotojas"))
+    pet = models.ForeignKey(Pet, on_delete=models.PROTECT, verbose_name=_("Gyvūnas"))
+    status = EnumIntegerField(GetPetRequestStatus, default=GetPetRequestStatus.USER_WANTS_PET,
+                              verbose_name=_("Gyvūno statusas"),
+                              help_text=_("Pasirenkamas vienas iš gyvūno statusų pas potencialų šeimininką"))
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Sukūrimo data'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinimo data"))
+
+    class Meta:
+        verbose_name = _("Noras priglausti gyvūną")
+        verbose_name_plural = _("Norai priglausti gyvūnus")
+        unique_together = ('user', 'pet')
+        default_related_name = "get_pet_requests"
