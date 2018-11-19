@@ -46,6 +46,7 @@ services:
     volumes:
     - static_volume:/srv/platform/static
     - media_volume:/srv/platform/media
+    - /root/getpet-web/keyfiles:/srv/platform/keyfiles/
     networks:
     - nginx_network
     - database_network
