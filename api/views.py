@@ -24,7 +24,7 @@ class PetListView(ListAPIView):
     queryset = Pet.objects.select_related('shelter').prefetch_related('profile_photos')
     serializer_class = PetListSerializer
     pagination_class = None
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
     authentication_classes = []
 
     filter_backends = (filters.DjangoFilterBackend,)
