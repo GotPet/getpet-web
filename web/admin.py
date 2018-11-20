@@ -5,7 +5,7 @@ from enumfields.admin import EnumFieldListFilter
 from reversion.admin import VersionAdmin
 
 from web.forms import PetProfilePhotoInlineFormset
-from web.models import Shelter, Pet, PetProfilePhoto, User, GetPetRequest
+from web.models import Shelter, Pet, PetProfilePhoto, User, GetPetRequest, UserPetChoice
 
 admin.site.register(User, UserAdmin)
 
@@ -43,6 +43,16 @@ class PetAdmin(VersionAdmin):
 
 @admin.register(GetPetRequest)
 class GetPetRequestAdmin(VersionAdmin):
-    list_display = ['user', 'pet', 'status']
+    list_display = ['user', 'pet', 'status', 'created_at']
+    raw_id_fields = ['user', 'pet']
     list_select_related = ['user', 'pet']
     list_filter = [('status', EnumFieldListFilter)]
+
+
+@admin.register(UserPetChoice)
+class UserPetChoiceAdmin(VersionAdmin):
+    list_display = ['user', 'pet', 'created_at', 'updated_at']
+    date_hierarchy = 'created_at'
+    raw_id_fields = ['user', 'pet']
+    list_select_related = ['user', 'pet']
+    list_filter = ['is_favorite', 'created_at']

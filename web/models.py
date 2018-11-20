@@ -151,3 +151,19 @@ class GetPetRequest(models.Model):
         verbose_name_plural = _("Norai priglausti gyvūnus")
         unique_together = ('user', 'pet')
         default_related_name = "get_pet_requests"
+
+
+class UserPetChoice(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, verbose_name=_("Vartotojas"))
+    pet = models.ForeignKey(Pet, on_delete=models.PROTECT, verbose_name=_("Gyvūnas"))
+    is_favorite = models.BooleanField(verbose_name=_("Vartotojas pamėgo gyvūną"))
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Sukūrimo data'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinimo data"))
+
+    class Meta:
+        verbose_name = _("Vartotojo gyvūno pasirinkimaas")
+        verbose_name_plural = _("Vartotojų gyvūnų pasirinkimai")
+        unique_together = ('user', 'pet')
+        default_related_name = "users_pet_choices"
+        ordering = ['-id']
