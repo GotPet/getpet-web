@@ -42,6 +42,27 @@ class Shelter(models.Model):
         return self.name
 
 
+@unique
+class PetStatus(IntEnum):
+    AVAILABLE = 1
+    TAKEN_TEMPORARY = 2
+    TAKEN_PERMANENTLY = 3
+
+    class Labels:
+        AVAILABLE = _('Laukia šeimininko')
+        TAKEN_TEMPORARY = _('Laikinai paimtas')
+        TAKEN_PERMANENTLY = _('Paimtas visam laikui')
+
+
+class PetQuerySet(models.QuerySet):
+    pass
+
+
+class AvailablePetsManager(models.Manager):
+    def get_queryset(self):
+        return PetQuerySet(self.model, using=self._db).filter(status=PetStatus.AVAILABLE)
+
+
 class Pet(models.Model):
     def _pet_photo_file(self, filename):
         ext = file_extension(filename)
@@ -51,6 +72,9 @@ class Pet(models.Model):
         return join('img', 'web', 'pet', slug, filename)
 
     name = models.CharField(max_length=64, verbose_name=_("Gyvūno vardas"))
+    status = EnumIntegerField(PetStatus, default=PetStatus.AVAILABLE, db_index=True,
+                              verbose_name=_("Gyvūno statusas"),
+                              help_text=_("Pažymėjus gyvūną, kaip laukiantį šeiminką jis bus rodomas programėlėje."))
     photo = models.ImageField(upload_to=_pet_photo_file, verbose_name=_("Gyvūno nuotrauka"))
 
     shelter = models.ForeignKey(Shelter, on_delete=models.CASCADE, related_name='pets', verbose_name=_("Prieglauda"),
@@ -64,6 +88,9 @@ class Pet(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Sukūrimo data'))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinimo data"))
+
+    objects = PetQuerySet.as_manager()
+    available = AvailablePetsManager()
 
     class Meta:
         verbose_name = _("Gyvūnas")
