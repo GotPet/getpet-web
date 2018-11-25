@@ -16,8 +16,7 @@ django-rest-auth==0.9.3
 django-filter==2.0.0
 flex==6.13.2
 drf-yasg==1.10.0
-# This has a fix for migrations error
-git+git://github.com/aschn/drf-tracking.git
+drf-tracking==1.5.0
 firebase-admin==2.13.0
 
 django-enumfields==0.10.1
