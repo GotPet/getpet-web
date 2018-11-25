@@ -7,7 +7,7 @@ django-debug-toolbar==1.9.1
 # Version 0.6.21 of django-admin-sortable2 doesn't show add new row button in admin. New version is not released
 git+git://github.com/jrief/django-admin-sortable2.git
 django-allauth==0.38.0
-django-reversion==3.0.0
+django-reversion==3.0.2
 gunicorn>=19.9,<19.10
 ipdb==0.11
 
