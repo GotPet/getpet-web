@@ -25,9 +25,7 @@ class PetListView(ListAPIView):
     serializer_class = PetFlatListSerializer
     pagination_class = None
     permission_classes = (AllowAny,)
-    authentication_classes = []
 
-    filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = PetFilter
 
 
@@ -46,7 +44,6 @@ class PetGenerateListView(LoggingMixin, CreateAPIView, ListModelMixin):
     serializer_class = PetFlatListSerializer
     pagination_class = None
     permission_classes = (AllowAny,)
-    authentication_classes = []
 
     def get_queryset(self):
         serializer = GeneratePetsRequestSerializer(data=self.request.data)
@@ -70,14 +67,12 @@ class ShelterListView(ListAPIView):
     queryset = Shelter.objects.all()
     serializer_class = ShelterSerializer
     permission_classes = (AllowAny,)
-    authentication_classes = []
     pagination_class = None
 
 
 class FirebaseConnect(CreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = FirebaseSerializer
-    authentication_classes = []
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
