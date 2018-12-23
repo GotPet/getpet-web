@@ -69,6 +69,9 @@ class ShelterListView(ListAPIView):
     pagination_class = None
 
 
+@method_decorator(name='post', decorator=swagger_auto_schema(
+    security=[],
+))
 class FirebaseConnect(CreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = FirebaseSerializer
