@@ -79,6 +79,13 @@ class ShelterPetView(LoggingMixin, CreateAPIView):
 
 @method_decorator(name='post', decorator=swagger_auto_schema(
     security=[],
+    request_body=FirebaseSerializer,
+    responses={
+        status.HTTP_201_CREATED: openapi.Response(
+            description="Returns API token from Firebase ID token for API calls.",
+            schema=TokenSerializer
+        )
+    }
 ))
 class FirebaseConnect(CreateAPIView):
     permission_classes = (AllowAny,)
