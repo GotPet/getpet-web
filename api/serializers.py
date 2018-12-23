@@ -5,7 +5,7 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
 from api.firebase import Firebase
-from web.models import Pet, Shelter, PetProfilePhoto, User
+from web.models import Pet, Shelter, PetProfilePhoto, User, UserPetChoice
 
 logger = getLogger()
 
@@ -45,6 +45,12 @@ class PetFlatListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pet
         fields = ['id', 'name', 'photo', 'shelter', 'short_description', 'description', 'profile_photos']
+
+
+class UserPetChoiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserPetChoice
+        fields = ['pet', 'is_favorite']
 
 
 class TokenSerializer(serializers.ModelSerializer):

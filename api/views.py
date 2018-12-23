@@ -4,13 +4,13 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.mixins import ListModelMixin
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_tracking.mixins import LoggingMixin
 
 from api.filters import PetFilter
 from api.serializers import FirebaseSerializer, GeneratePetsRequestSerializer, PetFlatListSerializer, ShelterSerializer, \
-    TokenSerializer
+    TokenSerializer, UserPetChoiceSerializer
 from web.models import Pet, Shelter
 
 
@@ -55,6 +55,17 @@ class PetGenerateListView(LoggingMixin, CreateAPIView, ListModelMixin):
 
     def post(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
+
+
+@method_decorator(name='post', decorator=swagger_auto_schema(
+    operation_description="Saves pet choice on swipe.",
+))
+class UserPetChoiceView(LoggingMixin, CreateAPIView):
+    serializer_class = UserPetChoiceSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
