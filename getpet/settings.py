@@ -55,7 +55,6 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
-    'rest_auth',
 
     'django_filters',
     'drf_yasg',
@@ -70,7 +69,6 @@ INSTALLED_APPS = [
 
     'allauth',
     'allauth.account',
-    'rest_auth.registration',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
