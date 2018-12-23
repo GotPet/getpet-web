@@ -1,5 +1,6 @@
 from django.utils.decorators import method_decorator
 from django_filters import rest_framework as filters
+from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, ListAPIView
@@ -32,8 +33,14 @@ class PetListView(ListAPIView):
 
 @method_decorator(name='post', decorator=swagger_auto_schema(
     operation_description="Returns all pets.",
-    security=[]
-
+    security=[],
+    request_body=GeneratePetsRequestSerializer,
+    responses={
+        status.HTTP_200_OK: openapi.Response(
+            description="Returns generated pets list.",
+            schema=PetFlatListSerializer
+        )
+    }
 ))
 class PetGenerateListView(LoggingMixin, CreateAPIView, ListModelMixin):
     serializer_class = PetFlatListSerializer
