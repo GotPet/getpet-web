@@ -20,6 +20,11 @@ class User(AbstractUser):
 
         super().save(*args, **kwargs)
 
+    def __str__(self):
+        name = self.get_full_name()
+
+        return name if name else self.email
+
 
 class Shelter(models.Model):
     name = models.CharField(max_length=128, verbose_name=_("Prieglaudos pavadinimas"))
