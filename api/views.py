@@ -6,6 +6,7 @@ from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.mixins import ListModelMixin
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
+from rest_framework_tracking.mixins import LoggingMixin
 
 from api.filters import PetFilter
 from api.serializers import FirebaseSerializer, GeneratePetsRequestSerializer, PetFlatListSerializer, ShelterSerializer, \
@@ -15,8 +16,8 @@ from web.models import Pet, Shelter
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
     operation_description="Returns all pets.",
-    security=[]
-
+    security=[],
+    deprecated=True
 ))
 class PetListView(ListAPIView):
     queryset = Pet.objects.select_related('shelter').prefetch_related('profile_photos')
@@ -34,7 +35,7 @@ class PetListView(ListAPIView):
     security=[]
 
 ))
-class PetGenerateListView(CreateAPIView, ListModelMixin):
+class PetGenerateListView(LoggingMixin, CreateAPIView, ListModelMixin):
     serializer_class = PetFlatListSerializer
     pagination_class = None
     permission_classes = (AllowAny,)
@@ -55,7 +56,8 @@ class PetGenerateListView(CreateAPIView, ListModelMixin):
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
     operation_description="Returns all shelters.",
-    security=[]
+    security=[],
+    deprecated=True
 ))
 class ShelterListView(ListAPIView):
     queryset = Shelter.objects.all()
