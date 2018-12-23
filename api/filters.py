@@ -4,7 +4,7 @@ from web.models import Pet
 
 
 class PetFilter(filters.FilterSet):
-    exclude_pet_ids = filters.BaseInFilter(field_name="id", exclude=True)
+    pet_ids = filters.BaseInFilter(field_name="id")
 
     class Meta:
         model = Pet

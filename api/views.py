@@ -9,20 +9,18 @@ from rest_framework.response import Response
 from rest_framework_tracking.mixins import LoggingMixin
 
 from api.filters import PetFilter
-from api.serializers import FirebaseSerializer, GeneratePetsRequestSerializer, PetFlatListSerializer, ShelterSerializer, \
-    TokenSerializer, UserPetChoiceSerializer, ShelterPetSerializer
-from web.models import Pet, Shelter
+from api.serializers import FirebaseSerializer, GeneratePetsRequestSerializer, PetFlatListSerializer, \
+    ShelterPetSerializer, TokenSerializer, UserPetChoiceSerializer
+from web.models import Pet
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
     operation_description="Returns all pets.",
-    security=[],
-    deprecated=True
+    security=[]
 ))
 class PetListView(ListAPIView):
-    queryset = Pet.objects.select_related('shelter').prefetch_related('profile_photos')
+    queryset = Pet.objects.select_related('shelter').prefetch_related('profile_photos').order_by('-pk')
     serializer_class = PetFlatListSerializer
-    pagination_class = None
     permission_classes = (AllowAny,)
 
     filterset_class = PetFilter
@@ -77,18 +75,6 @@ class ShelterPetView(LoggingMixin, CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-
-
-@method_decorator(name='get', decorator=swagger_auto_schema(
-    operation_description="Returns all shelters.",
-    security=[],
-    deprecated=True
-))
-class ShelterListView(ListAPIView):
-    queryset = Shelter.objects.all()
-    serializer_class = ShelterSerializer
-    permission_classes = (AllowAny,)
-    pagination_class = None
 
 
 @method_decorator(name='post', decorator=swagger_auto_schema(
