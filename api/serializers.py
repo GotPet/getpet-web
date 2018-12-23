@@ -22,7 +22,23 @@ class PetProfilePhotoSerializer(serializers.ModelSerializer):
         fields = ['photo']
 
 
-class PetListSerializer(serializers.ModelSerializer):
+class GeneratePetsRequestSerializer(serializers.Serializer):
+    liked_pets = serializers.ListField(
+        child=serializers.IntegerField()
+    )
+
+    disliked_pets = serializers.ListField(
+        child=serializers.IntegerField()
+    )
+
+    def update(self, instance, validated_data):
+        raise RuntimeError("Unsupported operation")
+
+    def create(self, validated_data):
+        raise RuntimeError("Unsupported operation")
+
+
+class PetFlatListSerializer(serializers.ModelSerializer):
     shelter = ShelterSerializer()
     profile_photos = PetProfilePhotoSerializer(many=True)
 

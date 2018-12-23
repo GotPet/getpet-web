@@ -6,12 +6,15 @@ from drf_yasg.utils import swagger_auto_schema
 from rest_auth.registration.views import SocialConnectView
 from rest_framework import status
 from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.mixins import ListModelMixin
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from django.db.models import Value, IntegerField
 
 from api.authentication import FirebaseAuthentication
 from api.filters import PetFilter
-from api.serializers import PetListSerializer, ShelterSerializer, FirebaseSerializer, TokenSerializer
+from api.serializers import PetFlatListSerializer, ShelterSerializer, FirebaseSerializer, TokenSerializer, \
+    GeneratePetsRequestSerializer
 from web.models import Pet, Shelter
 
 
@@ -22,13 +25,37 @@ from web.models import Pet, Shelter
 ))
 class PetListView(ListAPIView):
     queryset = Pet.objects.select_related('shelter').prefetch_related('profile_photos')
-    serializer_class = PetListSerializer
+    serializer_class = PetFlatListSerializer
     pagination_class = None
     permission_classes = (AllowAny,)
     authentication_classes = []
 
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = PetFilter
+
+
+@method_decorator(name='post', decorator=swagger_auto_schema(
+    operation_description="Returns all pets.",
+    security=[]
+
+))
+class PetGenerateListView(CreateAPIView, ListModelMixin):
+    serializer_class = PetFlatListSerializer
+    pagination_class = None
+    permission_classes = (AllowAny,)
+    authentication_classes = []
+
+    def get_queryset(self):
+        serializer = GeneratePetsRequestSerializer(data=self.request.data)
+        serializer.is_valid(raise_exception=True)
+
+        return Pet.generate_pets(
+            liked_pet_ids=serializer.data['liked_pets'],
+            disliked_pet_ids=serializer.data['disliked_pets']
+        )
+
+    def post(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
