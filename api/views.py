@@ -1,20 +1,15 @@
-from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
-from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from django.utils.decorators import method_decorator
 from django_filters import rest_framework as filters
 from drf_yasg.utils import swagger_auto_schema
-from rest_auth.registration.views import SocialConnectView
 from rest_framework import status
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView
 from rest_framework.mixins import ListModelMixin
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from django.db.models import Value, IntegerField
 
-from api.authentication import FirebaseAuthentication
 from api.filters import PetFilter
-from api.serializers import PetFlatListSerializer, ShelterSerializer, FirebaseSerializer, TokenSerializer, \
-    GeneratePetsRequestSerializer
+from api.serializers import FirebaseSerializer, GeneratePetsRequestSerializer, PetFlatListSerializer, ShelterSerializer, \
+    TokenSerializer
 from web.models import Pet, Shelter
 
 
@@ -82,13 +77,3 @@ class FirebaseConnect(CreateAPIView):
         result = TokenSerializer(token)
 
         return Response(result.data, status=status.HTTP_201_CREATED)
-
-
-class FacebookConnect(SocialConnectView):
-    adapter_class = FacebookOAuth2Adapter
-    permission_classes = (AllowAny,)
-
-
-class GoogleConnect(SocialConnectView):
-    adapter_class = GoogleOAuth2Adapter
-    permission_classes = (AllowAny,)
