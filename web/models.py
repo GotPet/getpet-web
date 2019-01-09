@@ -177,7 +177,7 @@ class GetPetRequest(models.Model):
 
 class UserPetChoice(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, verbose_name=_("Vartotojas"))
-    pet = models.ForeignKey(Pet, on_delete=models.PROTECT, verbose_name=_("Gyvūnas"))
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, verbose_name=_("Gyvūnas"))
     is_favorite = models.BooleanField(verbose_name=_("Vartotojas pamėgo gyvūną"))
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Sukūrimo data'))
