@@ -2,7 +2,7 @@ from django.utils.decorators import method_decorator
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, ListAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView
 from rest_framework.mixins import ListModelMixin
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -58,7 +58,7 @@ class PetGenerateListView(LoggingMixin, CreateAPIView, ListModelMixin):
 @method_decorator(name='post', decorator=swagger_auto_schema(
     operation_description="Saves pet choice on swipe.",
 ))
-class UserPetChoiceView(LoggingMixin, CreateAPIView):
+class UserPetChoiceView(LoggingMixin, UpdateAPIView):
     serializer_class = UserPetChoiceSerializer
     permission_classes = (IsAuthenticated,)
 
