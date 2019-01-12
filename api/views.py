@@ -61,10 +61,15 @@ class PetGenerateListView(LoggingMixin, CreateAPIView, ListModelMixin):
 class UserPetChoiceView(LoggingMixin, UpdateAPIView):
     serializer_class = UserPetChoiceSerializer
     permission_classes = (IsAuthenticated,)
-    queryset = UserPetChoice.objects.all()
 
     def perform_update(self, serializer):
         serializer.save(user=self.request.user)
+
+    def get_object(self):
+        return UserPetChoice.objects.filter(
+            user=self.request.user,
+            pet__id=self.request.data.get('pet')
+        ).first()
 
 
 @method_decorator(name='post', decorator=swagger_auto_schema(
