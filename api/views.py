@@ -55,7 +55,7 @@ class PetGenerateListView(LoggingMixin, CreateAPIView, ListModelMixin):
         return self.list(request, *args, **kwargs)
 
 
-@method_decorator(name='post', decorator=swagger_auto_schema(
+@method_decorator(name='put', decorator=swagger_auto_schema(
     operation_description="Saves pet choice on swipe.",
 ))
 class UserPetChoiceView(LoggingMixin, UpdateAPIView):
