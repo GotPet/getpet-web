@@ -4,7 +4,6 @@ from django.contrib.auth.admin import UserAdmin
 from enumfields.admin import EnumFieldListFilter
 from reversion.admin import VersionAdmin
 
-from web.forms import PetProfilePhotoInlineFormset
 from web.models import Shelter, Pet, PetProfilePhoto, User, GetPetRequest, UserPetChoice
 
 admin.site.register(User, UserAdmin)
@@ -26,7 +25,6 @@ class ShelterAdmin(VersionAdmin):
 
 class PetProfilePhotoInline(SortableInlineAdminMixin, admin.TabularInline):
     model = PetProfilePhoto
-    formset = PetProfilePhotoInlineFormset
 
 
 @admin.register(Pet)
