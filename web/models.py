@@ -52,11 +52,13 @@ class PetStatus(IntEnum):
     AVAILABLE = 1
     TAKEN_TEMPORARY = 2
     TAKEN_PERMANENTLY = 3
+    TAKEN_NOT_VIA_GETPET = 4
 
     class Labels:
         AVAILABLE = _('Laukia šeimininko')
         TAKEN_TEMPORARY = _('Laikinai paimtas')
         TAKEN_PERMANENTLY = _('Paimtas visam laikui')
+        TAKEN_NOT_VIA_GETPET = _('Paimtas ne per GetPet')
 
 
 class PetQuerySet(models.QuerySet):
