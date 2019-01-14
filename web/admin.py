@@ -5,6 +5,7 @@ from enumfields.admin import EnumFieldListFilter
 from reversion.admin import VersionAdmin
 
 from web.models import Shelter, Pet, PetProfilePhoto, User, GetPetRequest, UserPetChoice
+from django.utils.translation import gettext_lazy as _
 
 admin.site.register(User, UserAdmin)
 
@@ -27,6 +28,18 @@ class PetProfilePhotoInline(SortableInlineAdminMixin, admin.TabularInline):
     model = PetProfilePhoto
 
 
+class GetPetRequestInline(admin.TabularInline):
+    model = GetPetRequest
+    fields = ['user', 'full_name', 'status', 'created_at']
+    readonly_fields = ['user', 'full_name', 'created_at']
+    extra = 0
+
+    def full_name(self, obj):
+        return obj.user.get_full_name()
+
+    full_name.short_description = _("Vartotojo vardas ir pavardė")
+
+
 @admin.register(Pet)
 class PetAdmin(VersionAdmin):
     search_fields = ['name', ]
@@ -35,7 +48,8 @@ class PetAdmin(VersionAdmin):
     list_filter = [('status', EnumFieldListFilter), 'shelter__name', ]
 
     inlines = [
-        PetProfilePhotoInline
+        PetProfilePhotoInline,
+        GetPetRequestInline
     ]
 
     def save_model(self, request, obj, form, change):
