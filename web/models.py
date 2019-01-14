@@ -56,8 +56,8 @@ class PetStatus(IntEnum):
 
     class Labels:
         AVAILABLE = _('Laukia šeimininko')
-        TAKEN_TEMPORARY = _('Laikinai paimtas')
-        TAKEN_PERMANENTLY = _('Paimtas visam laikui')
+        TAKEN_TEMPORARY = _('Laikinai paimtas per GetPet')
+        TAKEN_PERMANENTLY = _('Paimtas visam laikui per GetPet')
         TAKEN_NOT_VIA_GETPET = _('Paimtas ne per GetPet')
 
 
