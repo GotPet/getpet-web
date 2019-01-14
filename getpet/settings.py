@@ -286,3 +286,13 @@ BASE_DOMAIN = "https://www.getpet.lt/" if not DEBUG else "http://localhost:8000/
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 FIREBASE_KEY = os.path.join(BASE_DIR, 'keyfiles', 'firebase.json')
+
+# E-Mail
+EMAIL_FROM = os.environ.get('EMAIL')
+EMAIL_TO = [EMAIL_FROM, ]
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_PORT = os.environ.get('EMAIL_PORT')
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = EMAIL_FROM
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')

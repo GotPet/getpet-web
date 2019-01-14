@@ -40,6 +40,14 @@ class PetAdmin(VersionAdmin):
         PetProfilePhotoInline
     ]
 
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+
+        if change and 'status' in form.changed_data:
+            from web.tasks import send_email_about_pet_status_update
+
+            send_email_about_pet_status_update(obj.pk)
+
 
 @admin.register(GetPetRequest)
 class GetPetRequestAdmin(VersionAdmin):
