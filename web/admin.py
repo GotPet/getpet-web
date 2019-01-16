@@ -30,14 +30,20 @@ class PetProfilePhotoInline(SortableInlineAdminMixin, admin.TabularInline):
 
 class GetPetRequestInline(admin.TabularInline):
     model = GetPetRequest
-    fields = ['user', 'full_name', 'status', 'created_at']
-    readonly_fields = ['user', 'full_name', 'created_at']
+    fields = ['user', 'full_name', 'email', 'status', 'created_at']
+    raw_id_fields = ['user']
+    readonly_fields = ['full_name', 'email', 'created_at']
     extra = 0
 
     def full_name(self, obj):
         return obj.user.get_full_name()
 
     full_name.short_description = _("Vartotojo vardas ir pavardė")
+
+    def email(self, obj):
+        return obj.user.email
+
+    email.short_description = _("El. pašto adresas")
 
 
 @admin.register(Pet)
