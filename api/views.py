@@ -11,7 +11,7 @@ from rest_framework_tracking.mixins import LoggingMixin
 from api.filters import PetFilter
 from api.serializers import FirebaseSerializer, GeneratePetsRequestSerializer, PetFlatListSerializer, \
     ShelterPetSerializer, TokenSerializer, UserPetChoiceSerializer
-from web.models import Pet, UserPetChoice
+from web.models import Pet, UserPetChoice, GetPetRequest
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
@@ -72,15 +72,21 @@ class UserPetChoiceView(LoggingMixin, UpdateAPIView):
         ).first()
 
 
-@method_decorator(name='post', decorator=swagger_auto_schema(
+@method_decorator(name='put', decorator=swagger_auto_schema(
     operation_description="Saves shelter pet request.",
 ))
-class ShelterPetView(LoggingMixin, CreateAPIView):
+class ShelterPetView(LoggingMixin, UpdateAPIView):
     serializer_class = ShelterPetSerializer
     permission_classes = (IsAuthenticated,)
 
-    def perform_create(self, serializer):
+    def perform_update(self, serializer):
         serializer.save(user=self.request.user)
+
+    def get_object(self):
+        return GetPetRequest.objects.filter(
+            user=self.request.user,
+            pet__id=self.request.data.get('pet')
+        ).first()
 
 
 @method_decorator(name='post', decorator=swagger_auto_schema(
