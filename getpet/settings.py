@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 import logging.config
 from django.utils.log import DEFAULT_LOGGING
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -188,6 +190,16 @@ logging.config.dictConfig({
         'django.server': DEFAULT_LOGGING['loggers']['django.server'],
     },
 })
+
+# Sentry
+SENTRY_SECRET = os.environ.get("SENTRY_SECRET", None)
+SENTRY_PROJECT_ID = os.environ.get("SENTRY_PROJECT_ID", None)
+
+if SENTRY_SECRET and SENTRY_PROJECT_ID:
+    sentry_sdk.init(
+        dsn=f"https://{SENTRY_SECRET}@sentry.io/{SENTRY_PROJECT_ID}",
+        integrations=[DjangoIntegration()]
+    )
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
