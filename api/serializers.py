@@ -1,11 +1,11 @@
-from abc import ABC
 from logging import getLogger
 
+from django.db.models import Q
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
 from api.firebase import Firebase
-from web.models import Pet, Shelter, PetProfilePhoto, User, UserPetChoice, GetPetRequest
+from web.models import GetPetRequest, Pet, PetProfilePhoto, Shelter, User, UserPetChoice
 
 logger = getLogger()
 
@@ -82,10 +82,15 @@ class FirebaseSerializer(serializers.Serializer):
 
         email = firebase_user.email.lower()
 
-        user, is_created = User.objects.update_or_create(username=firebase_user.uid, defaults={
-            'email': email,
-            'first_name': firebase_user.display_name
-        })
+        user = User.objects.filter(Q(username=firebase_user.uid) | Q(email=email)).first()
+        if user:
+            user.first_name = firebase_user.display_name
+            user.save()
+        else:
+            user = User.objects.update_or_create(username=firebase_user.uid, defaults={
+                'email': email,
+                'first_name': firebase_user.display_name
+            })
 
         token = Token.objects.filter(user=user).first()
         if token is None:
