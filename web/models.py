@@ -162,7 +162,7 @@ class GetPetRequestStatus(IntEnum):
 
 class GetPetRequest(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT, verbose_name=_("Vartotojas"))
-    pet = models.ForeignKey(Pet, on_delete=models.PROTECT, verbose_name=_("Gyvūnas"))
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, verbose_name=_("Gyvūnas"))
     status = EnumIntegerField(GetPetRequestStatus, default=GetPetRequestStatus.USER_WANTS_PET,
                               verbose_name=_("Gyvūno statusas"),
                               help_text=_("Pasirenkamas vienas iš gyvūno statusų pas potencialų šeimininką"))
