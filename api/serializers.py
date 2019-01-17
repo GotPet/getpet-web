@@ -5,6 +5,7 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
 from api.firebase import Firebase
+from api.utils import first
 from web.models import GetPetRequest, Pet, PetProfilePhoto, Shelter, User, UserPetChoice
 
 logger = getLogger()
@@ -80,9 +81,19 @@ class FirebaseSerializer(serializers.Serializer):
         uid = decoded_token.get('uid')
         firebase_user = firebase.get_user(uid)
 
-        email = firebase_user.email.lower()
+        email = firebase_user.email
+        if not email:
+            provider_data = first(firebase_user.provider_data, lambda x: x.email)
+            if provider_data:
+                email = provider_data.email
 
-        user = User.objects.filter(Q(username=firebase_user.uid) | Q(email=email)).first()
+        if email:
+            email = email.lower()
+
+        user = User.objects.filter(username=firebase_user.uid).first()
+        if user is None:
+            user = User.objects.filter(email=email).first()
+
         if user:
             user.first_name = firebase_user.display_name
             user.save()
