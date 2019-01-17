@@ -100,7 +100,7 @@ class FirebaseSerializer(serializers.Serializer):
         else:
             user = User.objects.update_or_create(username=firebase_user.uid, defaults={
                 'email': email,
-                'first_name': firebase_user.display_name
+                'last_name': firebase_user.display_name
             })
 
         token = Token.objects.filter(user=user).first()
