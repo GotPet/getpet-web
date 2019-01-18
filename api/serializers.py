@@ -98,7 +98,7 @@ class FirebaseSerializer(serializers.Serializer):
             user.first_name = firebase_user.display_name
             user.save()
         else:
-            user = User.objects.update_or_create(username=firebase_user.uid, defaults={
+            user, _ = User.objects.update_or_create(username=firebase_user.uid, defaults={
                 'email': email,
                 'last_name': firebase_user.display_name
             })
