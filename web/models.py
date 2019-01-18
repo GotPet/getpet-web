@@ -107,20 +107,13 @@ class Pet(models.Model):
     def __str__(self):
         return self.name
 
-    # Return already disliked pets
     @staticmethod
     def generate_pets(liked_pet_ids, disliked_pet_ids):
         queryset = Pet.objects.select_related('shelter') \
             .prefetch_related('profile_photos') \
             .exclude(pk__in=liked_pet_ids).order_by()
 
-        new_pets = queryset.exclude(pk__in=disliked_pet_ids).annotate(
-            priority=models.Value(1, output_field=models.IntegerField())
-        ).order_by('?')
-
-        # already_disliked_pets = queryset.filter(pk__in=disliked_pet_ids).annotate(
-        #     priority=models.Value(2, output_field=models.IntegerField())
-        # )
+        new_pets = queryset.exclude(pk__in=disliked_pet_ids).order_by('?')
 
         return new_pets
 
