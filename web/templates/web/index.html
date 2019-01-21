@@ -19,14 +19,34 @@
     <meta name="yandex-verification" content="cb26ebef05ae45de"/>
 </head>
 <body>
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = 'https://connect.facebook.net/lt_LT/sdk.js#xfbml=1&version=v3.2&appId=1043794185794352&autoLogAppEvents=1';
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 <div>
     <img src="{% static 'logo/getpet-logo-v2.png' %}" style="max-width: 1000px;" class="d-block mx-auto" alt="GetPet">
     <a href="https://play.google.com/store/apps/details?id=lt.getpet.getpet&utm_source=web&utm_campaign=web&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1">
         <img alt="Gauti iš Google Play"
              style="max-width: 300px;"
-             class="d-block mx-auto"
+             class="d-block mx-auto m-2"
              src="https://play.google.com/intl/en_us/badges/images/generic/lt_badge_web_generic.png"/>
     </a>
+    <div class="d-block mx-auto m-2 text-center">
+
+        <div class="fb-page border" data-href="https://www.facebook.com/getpet.lt/" data-tabs="timeline"
+             data-small-header="false"
+             data-width="555"
+             data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+            <blockquote cite="https://www.facebook.com/getpet.lt/" class="fb-xfbml-parse-ignore"><a
+                    href="https://www.facebook.com/getpet.lt/">GetPet</a></blockquote>
+        </div>
+    </div>
+
 </div>
 
 </body>
