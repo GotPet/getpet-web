@@ -1,6 +1,5 @@
 from logging import getLogger
 
-from django.db.models import Q
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
@@ -45,7 +44,7 @@ class PetFlatListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Pet
-        fields = ['id', 'name', 'photo', 'shelter', 'short_description', 'description', 'profile_photos']
+        fields = ['id', 'name', 'is_available', 'photo', 'shelter', 'short_description', 'description', 'profile_photos']
 
 
 class UserPetChoiceSerializer(serializers.ModelSerializer):

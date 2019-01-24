@@ -107,6 +107,9 @@ class Pet(models.Model):
     def __str__(self):
         return self.name
 
+    def is_available(self) -> bool:
+        return self.status == PetStatus.AVAILABLE
+
     @staticmethod
     def generate_pets(liked_pet_ids, disliked_pet_ids):
         queryset = Pet.objects.select_related('shelter') \
