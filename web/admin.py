@@ -1,6 +1,7 @@
 from adminsortable2.admin import SortableInlineAdminMixin
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
+from django.db.models import Count, Q
 from enumfields.admin import EnumFieldListFilter
 from reversion.admin import VersionAdmin
 
@@ -49,7 +50,9 @@ class GetPetRequestInline(admin.TabularInline):
 @admin.register(Pet)
 class PetAdmin(VersionAdmin):
     search_fields = ['name', ]
-    list_display = ['name', 'status', 'photo', 'short_description', 'shelter', 'created_at', 'updated_at']
+    list_display = ['name', 'status', 'photo', 'shelter', 'short_description', 'total_pet_likes', 'total_pet_dislikes',
+                    'total_get_pet_requests',
+                    'created_at', 'updated_at', ]
     list_select_related = ['shelter']
     list_filter = [('status', EnumFieldListFilter), 'shelter__name', ]
 
@@ -57,6 +60,31 @@ class PetAdmin(VersionAdmin):
         PetProfilePhotoInline,
         GetPetRequestInline
     ]
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate(
+            total_pet_likes=Count('users_pet_choices', filter=Q(users_pet_choices__is_favorite=True)),
+            total_pet_dislikes=Count('users_pet_choices', filter=Q(users_pet_choices__is_favorite=False)),
+            total_get_pet_requests=Count('get_pet_requests'),
+        )
+
+    def total_pet_likes(self, obj):
+        return obj.total_pet_likes
+
+    total_pet_likes.admin_order_field = "total_pet_likes"
+    total_pet_likes.short_description = _("Patinka skaičius")
+
+    def total_pet_dislikes(self, obj):
+        return obj.total_pet_dislikes
+
+    total_pet_dislikes.admin_order_field = "total_pet_dislikes"
+    total_pet_dislikes.short_description = _("Nepatinka skaičius")
+
+    def total_get_pet_requests(self, obj):
+        return obj.total_get_pet_requests
+
+    total_get_pet_requests.admin_order_field = "total_get_pet_requests"
+    total_get_pet_requests.short_description = _("GetPet paspaudimų skaičius")
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
