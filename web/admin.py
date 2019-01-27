@@ -50,9 +50,20 @@ class GetPetRequestInline(admin.TabularInline):
 @admin.register(Pet)
 class PetAdmin(VersionAdmin):
     search_fields = ['name', ]
-    list_display = ['name', 'status', 'photo', 'shelter', 'short_description', 'total_pet_likes', 'total_pet_dislikes',
-                    'total_get_pet_requests',
-                    'created_at', 'updated_at', ]
+    list_display = [
+        'name',
+        'status',
+        'photo',
+        'shelter',
+        'short_description',
+        'total_pet_likes',
+        'total_pet_dislikes',
+        'total_get_pet_requests',
+        'likes_ratio',
+        'created_at',
+        'updated_at',
+    ]
+
     list_select_related = ['shelter']
     list_filter = [('status', EnumFieldListFilter), 'shelter__name', ]
 
@@ -85,6 +96,14 @@ class PetAdmin(VersionAdmin):
 
     total_get_pet_requests.admin_order_field = "total_get_pet_requests"
     total_get_pet_requests.short_description = _("GetPet paspaudimų skaičius")
+
+    def likes_ratio(self, obj):
+        total_pet_likes = self.total_pet_likes(obj)
+        total = total_pet_likes + self.total_pet_dislikes(obj)
+
+        return round(total_pet_likes * 100.0 / total, 2) if total else None
+
+    likes_ratio.short_description = _("% patinka")
 
     def save_model(self, request, obj, form, change):
         super().save_model(request, obj, form, change)
