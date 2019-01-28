@@ -1,15 +1,36 @@
 from adminsortable2.admin import SortableInlineAdminMixin
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from django.contrib.humanize.templatetags.humanize import intcomma
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.db.models import Count, Q
+from django.utils.translation import gettext_lazy as _
 from enumfields.admin import EnumFieldListFilter
 from reversion.admin import VersionAdmin
 
-from web.models import Shelter, Pet, PetProfilePhoto, User, GetPetRequest, UserPetChoice
-from django.utils.translation import gettext_lazy as _
+from web.models import GetPetRequest, Pet, PetProfilePhoto, Shelter, User, UserPetChoice
 
-admin.site.register(User, UserAdmin)
+
+@admin.register(User)
+class UserAdmin(BaseUserAdmin):
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate(
+            total_pet_likes=Count('users_pet_choices', filter=Q(users_pet_choices__is_favorite=True)),
+            total_getpet_requests=Count('get_pet_requests'),
+        )
+
+    list_display = [
+    'username', 'email', 'first_name', 'last_name', 'total_pet_likes', 'total_getpet_requests', 'is_staff']
+
+    def total_pet_likes(self, obj):
+        return obj.total_pet_likes
+
+    total_pet_likes.admin_order_field = "total_pet_likes"
+    total_pet_likes.short_description = _("Patinka skaičius")
+
+    def total_getpet_requests(self, obj):
+        return obj.total_getpet_requests
+
+    total_getpet_requests.admin_order_field = "total_getpet_requests"
+    total_getpet_requests.short_description = _("GetPet paspaudimai")
 
 
 class PetInline(admin.StackedInline):
