@@ -59,7 +59,6 @@ class PetAdmin(VersionAdmin):
         'short_description',
         'total_pet_likes',
         'total_pet_dislikes',
-        'total_get_pet_requests',
         'likes_ratio',
         'created_at',
         'updated_at',
@@ -77,26 +76,19 @@ class PetAdmin(VersionAdmin):
         return super().get_queryset(request).annotate(
             total_pet_likes=Count('users_pet_choices', filter=Q(users_pet_choices__is_favorite=True)),
             total_pet_dislikes=Count('users_pet_choices', filter=Q(users_pet_choices__is_favorite=False)),
-            total_get_pet_requests=Count('get_pet_requests'),
         )
 
     def total_pet_likes(self, obj):
-        return intcomma(obj.total_pet_likes)
+        return obj.total_pet_likes
 
     total_pet_likes.admin_order_field = "total_pet_likes"
     total_pet_likes.short_description = _("Patinka skaičius")
 
     def total_pet_dislikes(self, obj):
-        return intcomma(obj.total_pet_dislikes)
+        return obj.total_pet_dislikes
 
     total_pet_dislikes.admin_order_field = "total_pet_dislikes"
     total_pet_dislikes.short_description = _("Nepatinka skaičius")
-
-    def total_get_pet_requests(self, obj):
-        return intcomma(obj.total_get_pet_requests)
-
-    total_get_pet_requests.admin_order_field = "total_get_pet_requests"
-    total_get_pet_requests.short_description = _("GetPet paspaudimų skaičius")
 
     def likes_ratio(self, obj):
         total_pet_likes = self.total_pet_likes(obj)
