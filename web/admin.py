@@ -13,18 +13,11 @@ from web.models import GetPetRequest, Pet, PetProfilePhoto, Shelter, User, UserP
 class UserAdmin(BaseUserAdmin):
     def get_queryset(self, request):
         return super().get_queryset(request).annotate(
-            total_pet_likes=Count('users_pet_choices', filter=Q(users_pet_choices__is_favorite=True)),
             total_getpet_requests=Count('get_pet_requests'),
         )
 
     list_display = [
-    'username', 'email', 'first_name', 'last_name', 'total_pet_likes', 'total_getpet_requests', 'is_staff']
-
-    def total_pet_likes(self, obj):
-        return obj.total_pet_likes
-
-    total_pet_likes.admin_order_field = "total_pet_likes"
-    total_pet_likes.short_description = _("Patinka skaičius")
+        'username', 'email', 'first_name', 'last_name', 'total_getpet_requests', 'is_staff']
 
     def total_getpet_requests(self, obj):
         return obj.total_getpet_requests
