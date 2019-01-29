@@ -112,7 +112,7 @@ class Pet(models.Model):
 
     @staticmethod
     def generate_pets(liked_pet_ids, disliked_pet_ids):
-        queryset = Pet.objects.select_related('shelter') \
+        queryset = Pet.available.select_related('shelter') \
             .prefetch_related('profile_photos') \
             .exclude(pk__in=liked_pet_ids).order_by()
 
