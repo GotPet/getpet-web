@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'captcha',
 
     'web',
+    'rukla',
 
     'allauth',
     'allauth.account',
