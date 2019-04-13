@@ -56,10 +56,18 @@ class Answer(models.Model):
         return self.text
 
 
+class UserInfoQuerySet(models.QuerySet):
+    def annotate_with_points(self):
+        return self.annotate(points=models.Value(QUESTION_NUMBER_FOR_RANK, output_field=models.IntegerField) * (
+                models.F('rank__order') - models.Value(1, output_field=models.IntegerField)))
+
+
 class UserInfo(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="info")
 
     rank = models.ForeignKey(Rank, on_delete=models.CASCADE, verbose_name=_("Rangas"))
+
+    objects = UserInfoQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("Vartotojo informacija")

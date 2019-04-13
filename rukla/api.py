@@ -22,6 +22,18 @@ class QuestionSerializer(serializers.ModelSerializer):
         fields = ['id', 'text', 'answers', 'explanation', 'created_at', 'updated_at']
 
 
+class UserSerializer(serializers.ModelSerializer):
+    pass
+
+
+class ResultsSerializer(serializers.ModelSerializer):
+    rank = serializers.StringRelatedField()
+
+    class Meta:
+        model = UserInfo
+        fields = ['id', 'text', 'answers', 'explanation', 'created_at', 'updated_at']
+
+
 class UserInfoSerializer(serializers.ModelSerializer):
     rank = serializers.StringRelatedField()
     next_rank = serializers.StringRelatedField()

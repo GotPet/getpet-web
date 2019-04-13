@@ -20,6 +20,9 @@ class User(AbstractUser):
 
         super().save(*args, **kwargs)
 
+    def extract_name(self):
+        return self.get_full_name().split(' ')[0]
+
     def __str__(self):
         name = self.get_full_name()
 
