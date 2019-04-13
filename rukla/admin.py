@@ -27,13 +27,13 @@ class QuestionAdmin(VersionAdmin):
 @admin.register(GameStatus)
 class GameStatusAdmin(admin.ModelAdmin):
     search_fields = []
-    list_display = ['user_info', 'answered_count', 'failed', 'time', 'created_at', 'updated_at']
-    raw_id_fields = ['user_info', 'failed']
-    filter_horizontal = ['answered']
+    list_display = ['user_info', 'answered_count', 'failed_answer', 'time', 'created_at', 'updated_at']
+    raw_id_fields = ['user_info', 'failed_answer']
+    filter_horizontal = ['answered_questions']
     list_filter = ['is_finished']
 
     def get_queryset(self, request):
-        return super().get_queryset(request).annotate(answered_count=Count('answered'),
+        return super().get_queryset(request).annotate(answered_count=Count('answered_questions'),
                                                       time=F('updated_at') - F('created_at'))
 
     def answered_count(self, obj):

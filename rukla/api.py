@@ -27,15 +27,24 @@ class NewGameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GameStatus
-        fields = ['id', 'game_id', 'questions', 'answered', 'failed']
+        fields = ['id', 'game_id', 'questions', 'answered_questions', 'failed_answer']
 
 
-@method_decorator(name='put', decorator=swagger_auto_schema(
-    operation_description="Starts game and updates game status",
+class FinishedGameSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GameStatus
+        fields = ['answered_questions', 'failed_answer', 'is_finished']
+
+
+@method_decorator(name='patch', decorator=swagger_auto_schema(
+    operation_description="Ends game",
 ))
-class GameView(LoggingMixin, UpdateAPIView, CreateAPIView):
-    serializer_class = NewGameSerializer
+class FinishGameView(LoggingMixin, UpdateAPIView):
+    serializer_class = FinishedGameSerializer
     permission_classes = (IsAuthenticated,)
+    queryset = GameStatus.objects.all()
+    lookup_field = 'game_id'
+    lookup_url_kwarg = 'game_id'
 
     def user_info(self):
         info, _ = UserInfo.objects.get_or_create(
@@ -78,8 +87,3 @@ class NewGameView(LoggingMixin, CreateAPIView):
         )
 
         serializer.save(user_info=info, questions=questions)
-
-    # def get_object(self):
-    #     return GameStatus.objects.filter(
-    #         id=self.request.data.get('id')
-    #     ).first()

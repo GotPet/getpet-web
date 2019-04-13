@@ -78,10 +78,11 @@ class GameStatus(models.Model):
 
     questions = models.ManyToManyField(Question, blank=True, verbose_name=_("Žaidimo klausimai"))
 
-    answered = models.ManyToManyField(Answer, related_name='won_games', blank=True,
-                                      verbose_name=_("Pasirinkti teisingi atsakymai"))
-    failed = models.ForeignKey(Answer, on_delete=models.SET_NULL, null=True, blank=True, related_name="lost_games",
-                               verbose_name=_("Pasirinktas neteisingas atsakymas"))
+    answered_questions = models.ManyToManyField(Question, related_name='won_games', blank=True,
+                                                verbose_name=_("Pasirinkti teisingi atsakymai"))
+    failed_answer = models.ForeignKey(Answer, on_delete=models.SET_NULL, null=True, blank=True,
+                                      related_name="lost_games",
+                                      verbose_name=_("Pasirinktas neteisingas atsakymas"))
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Sukūrimo data'))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinimo data"))
