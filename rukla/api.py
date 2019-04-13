@@ -22,12 +22,22 @@ class QuestionSerializer(serializers.ModelSerializer):
         fields = ['id', 'text', 'answers', 'explanation', 'created_at', 'updated_at']
 
 
+class UserInfoSerializer(serializers.ModelSerializer):
+    rank = serializers.StringRelatedField()
+    next_rank = serializers.StringRelatedField()
+
+    class Meta:
+        model = UserInfo
+        fields = ['rank', 'next_rank']
+
+
 class NewGameSerializer(serializers.ModelSerializer):
     questions = QuestionSerializer(many=True, required=False)
+    user_info = UserInfoSerializer(required=False)
 
     class Meta:
         model = GameStatus
-        fields = ['id', 'game_id', 'questions', 'answered_questions', 'failed_answer']
+        fields = ['id', 'game_id', 'questions', 'answered_questions', 'failed_answer', 'user_info', ]
 
 
 class FinishedGameSerializer(serializers.ModelSerializer):
@@ -37,7 +47,7 @@ class FinishedGameSerializer(serializers.ModelSerializer):
 
 
 @method_decorator(name='patch', decorator=swagger_auto_schema(
-    operation_description="Ends game",
+    operation_description="Submit game results",
 ))
 class FinishGameView(LoggingMixin, UpdateAPIView):
     serializer_class = FinishedGameSerializer
@@ -46,26 +56,11 @@ class FinishGameView(LoggingMixin, UpdateAPIView):
     lookup_field = 'game_id'
     lookup_url_kwarg = 'game_id'
 
-    def user_info(self):
-        info, _ = UserInfo.objects.get_or_create(
-            user=self.request.user,
-            defaults={
-                'rank': Rank.default_rank()
-            }
-        )
-
-        return info
-
-    def perform_create(self, serializer):
-        serializer.save(user_info=self.user_info())
-
     def perform_update(self, serializer):
-        serializer.save(user_info=self.user_info())
+        game = serializer.save()
 
-    # def get_object(self):
-    #     return GameStatus.objects.filter(
-    #         id=self.request.data.get('id')
-    #     ).first()
+        if game.is_game_won():
+            game.user_info.advance_rank()
 
 
 @method_decorator(name='post', decorator=swagger_auto_schema(

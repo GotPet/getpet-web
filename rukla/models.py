@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 from getpet import settings
 
-QUESTION_NUMBER_FOR_RANK = 5
+QUESTION_NUMBER_FOR_RANK = 4
 
 
 class Rank(models.Model):
@@ -65,6 +65,18 @@ class UserInfo(models.Model):
         verbose_name = _("Vartotojo informacija")
         verbose_name_plural = _("Vartotojų informacijos")
 
+    def next_rank(self):
+        rank = Rank.objects.filter(order__gt=self.rank.order).order_by('order').first()
+
+        if rank is None:
+            rank = Rank.objects.order_by('-order').first()
+
+        return rank
+
+    def advance_rank(self):
+        self.rank = self.next_rank()
+        self.save(update_fields=['rank'])
+
     def __str__(self):
         return str(self.user)
 
@@ -94,6 +106,9 @@ class GameStatus(models.Model):
     @staticmethod
     def generate_game_questions(user):
         return Question.objects.all().order_by('?')[:QUESTION_NUMBER_FOR_RANK]
+
+    def is_game_won(self):
+        return self.failed_answer is None and self.answered_questions.count() == self.questions.count()
 
     def __str__(self):
         return str(self.user_info)

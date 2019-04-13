@@ -11,7 +11,7 @@ from rukla.api import NewGameView, FinishGameView
 
 public_api_url_patterns = [
     path('v1/game/start/', NewGameView.as_view(), name="api_rukla_start_game"),
-    path('v1/game/finish/<uuid:game_id>', FinishGameView.as_view(), name="api_rukla_finish_game"),
+    path('v1/game/finish/<uuid:game_id>/', FinishGameView.as_view(), name="api_rukla_finish_game"),
 ]
 
 private_api_url_patterns = []
