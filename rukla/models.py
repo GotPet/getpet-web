@@ -10,6 +10,10 @@ class Rank(models.Model):
     name = models.CharField(max_length=128, verbose_name=_("Pavadinimas"))
     order = models.IntegerField()
 
+    @staticmethod
+    def default_rank():
+        return Rank.objects.first()
+
     class Meta:
         verbose_name = _("Rangas")
         verbose_name_plural = _("Rangai")
@@ -64,13 +68,14 @@ class UserInfo(models.Model):
 
 
 class GameStatus(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    game_id = models.UUIDField(db_index=True, default=uuid.uuid4, editable=False)
 
     user_info = models.ForeignKey(UserInfo, on_delete=models.CASCADE, related_name="games",
                                   verbose_name=_("Vartotojo informacija"))
     is_finished = models.BooleanField(default=False, verbose_name=_("Ar žaidimas baigtas"))
 
-    answered = models.ManyToManyField(Answer, related_name='won_games', verbose_name=_("Pasirinkti teisingi atsakymai"))
+    answered = models.ManyToManyField(Answer, related_name='won_games', blank=True,
+                                      verbose_name=_("Pasirinkti teisingi atsakymai"))
     failed = models.ForeignKey(Answer, on_delete=models.SET_NULL, null=True, blank=True, related_name="lost_games",
                                verbose_name=_("Pasirinktas neteisingas atsakymas"))
 

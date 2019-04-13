@@ -25,9 +25,9 @@ class QuestionAdmin(VersionAdmin):
 
 
 @admin.register(GameStatus)
-class GameStatusAdmin(VersionAdmin):
-    search_fields = ['id', ]
-    list_display = ['id', 'user_info', 'answered_count', 'failed', 'time', 'created_at', 'updated_at']
+class GameStatusAdmin(admin.ModelAdmin):
+    search_fields = []
+    list_display = ['user_info', 'answered_count', 'failed', 'time', 'created_at', 'updated_at']
     raw_id_fields = ['user_info', 'failed']
     filter_horizontal = ['answered']
     list_filter = ['is_finished']
