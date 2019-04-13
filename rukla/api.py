@@ -81,4 +81,4 @@ class NewGameView(LoggingMixin, CreateAPIView):
             }
         )
 
-        serializer.save(user_info=info, questions=questions)
+        serializer.save(user_info=info, questions=questions, rank=info.rank, )
