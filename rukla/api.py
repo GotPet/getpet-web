@@ -111,4 +111,4 @@ class ResultsView(LoggingMixin, ListAPIView):
     serializer_class = ResultsSerializer
     permission_classes = (IsAuthenticated,)
     pagination_class = None
-    queryset = UserInfo.objects.all().annotate_with_points().order_by('-points')
+    queryset = UserInfo.objects.all().annotate_with_points().filter(points__gt=0).order_by('-points')
