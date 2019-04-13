@@ -9,10 +9,10 @@ from rest_framework import permissions
 from api.views import PetListView, FirebaseConnect, PetGenerateListView, UserPetChoiceView, \
     ShelterPetView
 from getpet import settings
-from rukla.api import GameView
+from rukla.api import GameView, NewGameView
 
 public_api_url_patterns = [
-    path('v1/game/', GameView.as_view(), name="api_rukla_game"),
+    path('v1/game/start/', NewGameView.as_view(), name="api_rukla_game"),
 ]
 
 private_api_url_patterns = []

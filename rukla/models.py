@@ -5,6 +5,8 @@ from django.utils.translation import gettext_lazy as _
 
 from getpet import settings
 
+QUESTION_NUMBER_FOR_RANK = 5
+
 
 class Rank(models.Model):
     name = models.CharField(max_length=128, verbose_name=_("Pavadinimas"))
@@ -74,6 +76,8 @@ class GameStatus(models.Model):
                                   verbose_name=_("Vartotojo informacija"))
     is_finished = models.BooleanField(default=False, verbose_name=_("Ar žaidimas baigtas"))
 
+    questions = models.ManyToManyField(Question, blank=True, verbose_name=_("Žaidimo klausimai"))
+
     answered = models.ManyToManyField(Answer, related_name='won_games', blank=True,
                                       verbose_name=_("Pasirinkti teisingi atsakymai"))
     failed = models.ForeignKey(Answer, on_delete=models.SET_NULL, null=True, blank=True, related_name="lost_games",
@@ -85,6 +89,10 @@ class GameStatus(models.Model):
     class Meta:
         verbose_name = _("Žaidimas")
         verbose_name_plural = _("Žaidimai")
+
+    @staticmethod
+    def generate_game_questions(user):
+        return Question.objects.all().order_by('?')[:QUESTION_NUMBER_FOR_RANK]
 
     def __str__(self):
         return str(self.user_info)
