@@ -59,7 +59,7 @@ class Answer(models.Model):
 class UserInfo(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="info")
 
-    rank = models.ForeignKey(Rank, on_delete=models.CASCADE)
+    rank = models.ForeignKey(Rank, on_delete=models.CASCADE, verbose_name=_("Rangas"))
 
     class Meta:
         verbose_name = _("Vartotojo informacija")
@@ -86,6 +86,8 @@ class GameStatus(models.Model):
 
     user_info = models.ForeignKey(UserInfo, on_delete=models.CASCADE, related_name="games",
                                   verbose_name=_("Vartotojo informacija"))
+    rank = models.ForeignKey(Rank, on_delete=models.CASCADE, verbose_name=_("Rangas"))
+
     is_finished = models.BooleanField(default=False, verbose_name=_("Ar žaidimas baigtas"))
 
     questions = models.ManyToManyField(Question, blank=True, verbose_name=_("Žaidimo klausimai"))

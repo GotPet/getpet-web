@@ -27,10 +27,12 @@ class QuestionAdmin(VersionAdmin):
 @admin.register(GameStatus)
 class GameStatusAdmin(admin.ModelAdmin):
     search_fields = []
-    list_display = ['user_info', 'answered_count', 'failed_answer', 'time', 'created_at', 'updated_at']
+    list_display = ['user_info', 'answered_count', 'is_finished', 'failed_answer', 'time', 'rank', 'created_at',
+                    'updated_at']
     raw_id_fields = ['user_info', 'failed_answer']
+    list_select_related = ['rank', 'user_info', 'failed_answer', ]
     filter_horizontal = ['answered_questions']
-    list_filter = ['is_finished']
+    list_filter = ['is_finished', 'rank']
 
     def get_queryset(self, request):
         return super().get_queryset(request).annotate(answered_count=Count('answered_questions'),
@@ -45,8 +47,8 @@ class GameStatusAdmin(admin.ModelAdmin):
     def time(self, obj):
         return obj.time
 
-    answered_count.admin_order_field = "time"
-    answered_count.short_description = _("Laikas")
+    time.admin_order_field = "time"
+    time.short_description = _("Laikas")
 
 
 @admin.register(Rank)
