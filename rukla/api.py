@@ -25,6 +25,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 class UserSerializer(serializers.ModelSerializer):
     name = serializers.CharField(max_length=256, source='extract_name')
+    photo = serializers.CharField(max_length=512, source='gravatar_url')
 
     class Meta:
         model = User
