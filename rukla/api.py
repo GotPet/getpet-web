@@ -1,11 +1,12 @@
 from django.utils.decorators import method_decorator
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import serializers
-from rest_framework.generics import CreateAPIView, UpdateAPIView
+from rest_framework.generics import CreateAPIView, UpdateAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_tracking.mixins import LoggingMixin
 
 from rukla.models import Answer, GameStatus, Question, Rank, UserInfo
+from web.models import User
 
 
 class AnswerSerializer(serializers.ModelSerializer):
@@ -23,15 +24,21 @@ class QuestionSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    pass
+    name = serializers.CharField(max_length=256, source='extract_name')
+
+    class Meta:
+        model = User
+        fields = ['photo', 'name', ]
 
 
 class ResultsSerializer(serializers.ModelSerializer):
+    user = UserSerializer()
     rank = serializers.StringRelatedField()
+    points = serializers.IntegerField()
 
     class Meta:
         model = UserInfo
-        fields = ['id', 'text', 'answers', 'explanation', 'created_at', 'updated_at']
+        fields = ['user', 'rank', 'points']
 
 
 class UserInfoSerializer(serializers.ModelSerializer):
@@ -94,3 +101,13 @@ class NewGameView(LoggingMixin, CreateAPIView):
         )
 
         serializer.save(user_info=info, questions=questions, rank=info.rank, )
+
+
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    operation_description="Retrieves results"
+))
+class ResultsView(LoggingMixin, ListAPIView):
+    serializer_class = ResultsSerializer
+    permission_classes = (IsAuthenticated,)
+    pagination_class = None
+    queryset = UserInfo.objects.all().annotate_with_points().order_by('-points')

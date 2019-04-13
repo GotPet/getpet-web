@@ -7,11 +7,12 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
 from getpet import settings
-from rukla.api import NewGameView, FinishGameView
+from rukla.api import NewGameView, FinishGameView, ResultsView
 
 public_api_url_patterns = [
     path('v1/game/start/', NewGameView.as_view(), name="api_rukla_start_game"),
     path('v1/game/finish/<uuid:game_id>/', FinishGameView.as_view(), name="api_rukla_finish_game"),
+    path('v1/game/results/', ResultsView.as_view(), name="api_rukla_results"),
 ]
 
 private_api_url_patterns = []

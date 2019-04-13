@@ -58,8 +58,10 @@ class Answer(models.Model):
 
 class UserInfoQuerySet(models.QuerySet):
     def annotate_with_points(self):
-        return self.annotate(points=models.Value(QUESTION_NUMBER_FOR_RANK, output_field=models.IntegerField) * (
-                models.F('rank__order') - models.Value(1, output_field=models.IntegerField)))
+        return self.annotate(points=models.ExpressionWrapper(
+            models.Value(value=QUESTION_NUMBER_FOR_RANK, output_field=models.IntegerField()) * (
+                    models.F('rank__order') - models.Value(value=1, output_field=models.IntegerField())),
+            output_field=models.IntegerField()))
 
 
 class UserInfo(models.Model):
