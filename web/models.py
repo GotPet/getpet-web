@@ -23,7 +23,7 @@ class User(AbstractUser):
 
     def gravatar_url(self):
         g_hash = md5(str(self.email).encode('utf-8').lower()).hexdigest()
-        return f"https://www.gravatar.com/avatar/{g_hash}?s=128"
+        return f"https://www.gravatar.com/avatar/{g_hash}?s=128&d=identicon"
 
     def extract_name(self):
         return self.get_full_name().split(' ')[0]
