@@ -117,7 +117,13 @@ class GameStatus(models.Model):
 
     @staticmethod
     def generate_game_questions(user):
-        return Question.objects.all().order_by('?')[:QUESTION_NUMBER_FOR_RANK]
+        answered_questions_ids = Question.objects.filter(won_games__user_info__user=user).distinct().values('pk')
+        new_questions = Question.objects.exclude(pk__in=answered_questions_ids).order_by('?')[:QUESTION_NUMBER_FOR_RANK]
+
+        if new_questions.count() == QUESTION_NUMBER_FOR_RANK:
+            return new_questions
+
+        return Question.objects.order_by('?')[:QUESTION_NUMBER_FOR_RANK]
 
     def is_game_won(self):
         return self.failed_answer is None and self.answered_questions.count() == self.questions.count()
