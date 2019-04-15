@@ -112,5 +112,5 @@ class ResultsView(LoggingMixin, ListAPIView):
     permission_classes = (IsAuthenticated,)
     pagination_class = None
     queryset = UserInfo.objects.select_related('user', 'rank').annotate_with_points().filter(points__gt=0).order_by(
-        '-points', 'pk')[:300]
+        '-points', '-pk')[:300]
 
