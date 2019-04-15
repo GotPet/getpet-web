@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 from getpet import settings
 
-QUESTION_NUMBER_FOR_RANK = 4
+QUESTION_NUMBER_FOR_RANK = 7
 
 
 class Rank(models.Model):
