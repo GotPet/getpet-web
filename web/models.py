@@ -14,12 +14,19 @@ from web.utils import file_extension
 
 class User(AbstractUser):
     photo = models.ImageField(blank=True, null=True, upload_to='img/users/', verbose_name=_("Vartotojo nuotrauka"))
+    social_image_url = models.URLField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.username:
             self.username = self.email
 
         super().save(*args, **kwargs)
+
+    def user_image_url(self):
+        if self.social_image_url:
+            return self.social_image_url
+
+        return self.gravatar_url()
 
     def gravatar_url(self):
         g_hash = md5(str(self.email).encode('utf-8').lower()).hexdigest()
