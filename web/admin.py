@@ -89,10 +89,16 @@ class PetAdmin(VersionAdmin):
     ]
 
     def get_queryset(self, request):
-        return super().get_queryset(request).annotate(
+        queryset = super().get_queryset(request).annotate(
             total_pet_likes=Count('users_pet_choices', filter=Q(users_pet_choices__is_favorite=True)),
             total_pet_dislikes=Count('users_pet_choices', filter=Q(users_pet_choices__is_favorite=False)),
         )
+
+        if request.user.is_superuser:
+            return queryset
+
+        shelters = Shelter.objects.filter(authenticated_users=request.user)
+        return queryset.filter(shelter__in=shelters)
 
     def total_pet_likes(self, obj):
         return obj.total_pet_likes
