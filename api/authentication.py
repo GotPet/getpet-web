@@ -33,7 +33,8 @@ class FirebaseAuthentication(authentication.BaseAuthentication):
 
         user, is_created = User.objects.update_or_create(username=uid, defaults={
             'email': email,
-            'first_name': firebase_user.display_name
+            'first_name': firebase_user.display_name,
+            'social_image_url': firebase_user.photo_url,
         })
 
         return user, None

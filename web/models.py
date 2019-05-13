@@ -1,24 +1,39 @@
+from _md5 import md5
 from enum import unique
 from os.path import join
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.text import slugify
+from django.utils.translation import gettext_lazy as _
+from enumfields import EnumIntegerField, IntEnum
 
 from getpet import settings
 from web.utils import file_extension
-from django.utils.translation import gettext_lazy as _
-from enumfields import IntEnum, EnumIntegerField
 
 
 class User(AbstractUser):
     photo = models.ImageField(blank=True, null=True, upload_to='img/users/', verbose_name=_("Vartotojo nuotrauka"))
+    social_image_url = models.URLField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if not self.username:
             self.username = self.email
 
         super().save(*args, **kwargs)
+
+    def user_image_url(self):
+        if self.social_image_url:
+            return self.social_image_url
+
+        return self.gravatar_url()
+
+    def gravatar_url(self):
+        g_hash = md5(str(self.email).encode('utf-8').lower()).hexdigest()
+        return f"https://www.gravatar.com/avatar/{g_hash}?s=128&d=identicon"
+
+    def extract_name(self):
+        return self.get_full_name().split(' ')[0]
 
     def __str__(self):
         name = self.get_full_name()

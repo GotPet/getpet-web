@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'captcha',
 
     'web',
+    'rukla',
 
     'allauth',
     'allauth.account',
@@ -147,7 +148,8 @@ else:
             'NAME': os.environ.get('POSTGRES_DB'),
             'USER': os.environ.get('POSTGRES_USER'),
             'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-            'HOST': 'postgres',  # <-- IMPORTANT: same name as docker-compose service!
+            'HOST': os.environ.get('POSTGRES_HOST', 'postgres'),
+            # <-- IMPORTANT: same name as docker-compose service!
             'PORT': '5432',
         }
     }
@@ -286,6 +288,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
     ),
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
