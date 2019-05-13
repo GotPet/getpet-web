@@ -8,6 +8,8 @@ from reversion.admin import VersionAdmin
 
 from web.models import GetPetRequest, Pet, PetProfilePhoto, Shelter, User, UserPetChoice
 
+admin.site.site_header = _('GetPet Administravimas')
+
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
