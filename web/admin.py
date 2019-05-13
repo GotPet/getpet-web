@@ -36,6 +36,7 @@ class PetInline(admin.StackedInline):
 class ShelterAdmin(VersionAdmin):
     search_fields = ['name', ]
     list_display = ['name', 'email', 'phone', 'created_at', 'updated_at']
+    raw_id_fields = ['authenticated_users']
 
     inlines = [
         PetInline
