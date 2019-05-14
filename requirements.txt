@@ -18,9 +18,7 @@ drf-tracking==1.5.0
 firebase-admin==2.13.0
 
 django-enumfields==0.10.1
-django-redis==4.9.0
-# Workaround for https://github.com/niwinz/django-redis/issues/342
-redis==2.10.6
+django-redis==4.10.0
 django-ipware==2.1.0
 raven==6.9.0
 # Version in pip doesn't have EXIF bugfix
