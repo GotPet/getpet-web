@@ -4,8 +4,7 @@ requests>=2.21.0,<2.22.0
 uWSGI==2.0.18
 psycopg2-binary==2.8.2
 django-debug-toolbar==1.9.1
-# Version 0.6.21 of django-admin-sortable2 doesn't show add new row button in admin. New version is not released
-git+git://github.com/jrief/django-admin-sortable2.git
+django-admin-sortable2==0.7.1
 django-allauth==0.38.0
 django-reversion==3.0.2
 gunicorn>=19.9,<19.10
