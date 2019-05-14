@@ -6,6 +6,8 @@ services:
 - docker
 
 before_install:
+- openssl aes-256-cbc -K $encrypted_f0ce29948891_key -iv $encrypted_f0ce29948891_iv
+  -in id_rsa.enc -out ./id_rsa -d
 - set -e
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USER" --password-stdin
 - docker build -t vycius/getpet-platform --build-arg GIT_COMMIT=${TRAVIS_COMMIT::8} .
