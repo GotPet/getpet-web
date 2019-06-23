@@ -4,6 +4,7 @@ from os.path import join
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models import Count
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from enumfields import EnumIntegerField, IntEnum
@@ -41,8 +42,58 @@ class User(AbstractUser):
         return name if name else self.email
 
 
+class CountryQuerySet(models.QuerySet):
+    def annotate_with_pets_count(self):
+        return self.annotate(total_pets=Count(
+            'regions__shelters__pets',
+        ))
+
+
+class Country(models.Model):
+    name = models.CharField(max_length=128, verbose_name=_("Šalies pavadinimas"))
+    code = models.CharField(verbose_name=_("Šalies kodas"), max_length=2, unique=True,
+                            help_text=_("Šalies kodas pagal ISO 3166 alpha 2 standartą pvz: lt, lv"))
+
+    objects = CountryQuerySet.as_manager()
+
+    class Meta:
+        verbose_name = _("Šalis")
+        verbose_name_plural = _("Šalys")
+        ordering = ['name']
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.code = self.code.lower()
+
+        super().save(force_insert, force_update, using, update_fields)
+
+    def __str__(self):
+        return self.name
+
+
+class Region(models.Model):
+    name = models.CharField(max_length=128, verbose_name=_("Regiono pavadinimas"))
+    code = models.CharField(verbose_name=_("Regiono kodas"), max_length=32, unique=True,
+                            help_text=_("Unikalus regiono kodas pvz: ankara"))
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name="regions", verbose_name=_("Šalis"))
+
+    class Meta:
+        verbose_name = _("Regionas")
+        verbose_name_plural = _("Regionai")
+        ordering = ['name']
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.code = self.code.lower()
+
+        super().save(force_insert, force_update, using, update_fields)
+
+    def __str__(self):
+        return self.name
+
+
 class Shelter(models.Model):
     name = models.CharField(max_length=128, verbose_name=_("Prieglaudos pavadinimas"))
+    region = models.ForeignKey(Region, on_delete=models.PROTECT, null=True, related_name="shelters",
+                               verbose_name=_("Regionas"))
     email = models.EmailField(verbose_name=_("Elektroninis paštas"))
     phone = models.CharField(max_length=24, verbose_name=_("Telefono numeris"))
     authenticated_users = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True,
@@ -126,10 +177,13 @@ class Pet(models.Model):
         return self.status == PetStatus.AVAILABLE
 
     @staticmethod
-    def generate_pets(liked_pet_ids, disliked_pet_ids):
+    def generate_pets(liked_pet_ids, disliked_pet_ids, region):
         queryset = Pet.available.select_related('shelter') \
             .prefetch_related('profile_photos') \
             .exclude(pk__in=liked_pet_ids).order_by()
+
+        if region:
+            queryset = queryset.filter(shelter__region=region)
 
         new_pets = queryset.exclude(pk__in=disliked_pet_ids).order_by('?')
 

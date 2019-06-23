@@ -10,8 +10,19 @@ from rest_framework_tracking.mixins import LoggingMixin
 
 from api.filters import PetFilter
 from api.serializers import FirebaseSerializer, GeneratePetsRequestSerializer, PetFlatListSerializer, \
-    ShelterPetSerializer, TokenSerializer, UserPetChoiceSerializer
-from web.models import Pet, UserPetChoice, GetPetRequest
+    ShelterPetSerializer, TokenSerializer, UserPetChoiceSerializer, CountryWithRegionSerializer
+from web.models import Pet, UserPetChoice, GetPetRequest, Country
+
+
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    operation_description="Returns all countries and regions.",
+    security=[]
+))
+class CountriesAndRegionsListView(ListAPIView):
+    queryset = Country.objects.prefetch_related('regions').order_by('name')
+    serializer_class = CountryWithRegionSerializer
+    permission_classes = (AllowAny,)
+    pagination_class = None
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
@@ -48,7 +59,8 @@ class PetGenerateListView(LoggingMixin, CreateAPIView, ListModelMixin):
 
         return Pet.generate_pets(
             liked_pet_ids=serializer.data['liked_pets'],
-            disliked_pet_ids=serializer.data['disliked_pets']
+            disliked_pet_ids=serializer.data['disliked_pets'],
+            region=serializer.data['region_code'],
         )
 
     def post(self, request, *args, **kwargs):

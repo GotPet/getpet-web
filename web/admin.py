@@ -6,7 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from enumfields.admin import EnumFieldListFilter
 from reversion.admin import VersionAdmin
 
-from web.models import GetPetRequest, Pet, PetProfilePhoto, Shelter, User, UserPetChoice
+from web.models import GetPetRequest, Pet, PetProfilePhoto, Shelter, User, UserPetChoice, Region, Country
 
 admin.site.site_header = _('GetPet Administravimas')
 admin.site.site_title = admin.site.site_header
@@ -38,10 +38,42 @@ class ShelterAdmin(VersionAdmin):
     search_fields = ['name', ]
     list_display = ['name', 'email', 'phone', 'created_at', 'updated_at']
     raw_id_fields = ['authenticated_users']
+    autocomplete_fields = ['region']
 
     inlines = [
         PetInline
     ]
+
+
+class RegionInline(admin.StackedInline):
+    model = Region
+
+
+@admin.register(Region)
+class RegionAdmin(VersionAdmin):
+    search_fields = ['name', 'code', ]
+    list_display = ['name', 'code', 'country']
+    list_select_related = ['country']
+    autocomplete_fields = ['country']
+
+
+@admin.register(Country)
+class CountryAdmin(VersionAdmin):
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate_with_pets_count()
+
+    search_fields = ['name', 'code', ]
+    list_display = ['name', 'code', 'total_pets', ]
+
+    inlines = [
+        RegionInline
+    ]
+
+    def total_pets(self, obj):
+        return obj.total_pets
+
+    total_pets.admin_order_field = "total_pets"
+    total_pets.short_description = _("Gyvūnų skaičius")
 
 
 class PetProfilePhotoInline(SortableInlineAdminMixin, admin.TabularInline):

@@ -5,7 +5,7 @@ from rest_framework.authtoken.models import Token
 
 from api.firebase import Firebase
 from api.utils import first
-from web.models import GetPetRequest, Pet, PetProfilePhoto, Shelter, User, UserPetChoice
+from web.models import GetPetRequest, Pet, PetProfilePhoto, Shelter, User, UserPetChoice, Country, Region
 
 logger = getLogger()
 
@@ -31,11 +31,32 @@ class GeneratePetsRequestSerializer(serializers.Serializer):
         child=serializers.IntegerField()
     )
 
+    region_code = serializers.SlugRelatedField(
+        queryset=Region.objects.all(),
+        slug_field='code',
+        required=False,
+        allow_null=True,
+    )
+
     def update(self, instance, validated_data):
         raise RuntimeError("Unsupported operation")
 
     def create(self, validated_data):
         raise RuntimeError("Unsupported operation")
+
+
+class RegionWithoutCountrySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Region
+        fields = ['name', 'code', ]
+
+
+class CountryWithRegionSerializer(serializers.ModelSerializer):
+    regions = RegionWithoutCountrySerializer(many=True)
+
+    class Meta:
+        model = Country
+        fields = ['name', 'code', 'regions', ]
 
 
 class PetFlatListSerializer(serializers.ModelSerializer):
@@ -44,7 +65,8 @@ class PetFlatListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Pet
-        fields = ['id', 'name', 'is_available', 'photo', 'shelter', 'short_description', 'description', 'profile_photos']
+        fields = ['id', 'name', 'is_available', 'photo', 'shelter', 'short_description', 'description',
+                  'profile_photos']
 
 
 class UserPetChoiceSerializer(serializers.ModelSerializer):
