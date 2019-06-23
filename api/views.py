@@ -30,7 +30,7 @@ class CountriesAndRegionsListView(ListAPIView):
     security=[]
 ))
 class PetListView(ListAPIView):
-    queryset = Pet.objects.select_related('shelter').prefetch_related('profile_photos').order_by('-pk')
+    queryset = Pet.objects.prefetch_related('profile_photos').select_related_full_shelter().order_by('-pk')
     serializer_class = PetFlatListSerializer
     permission_classes = (AllowAny,)
 

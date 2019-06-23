@@ -92,8 +92,7 @@ class Region(models.Model):
 
 class Shelter(models.Model):
     name = models.CharField(max_length=128, verbose_name=_("Prieglaudos pavadinimas"))
-    region = models.ForeignKey(Region, on_delete=models.PROTECT, null=True, related_name="shelters",
-                               verbose_name=_("Regionas"))
+    region = models.ForeignKey(Region, on_delete=models.PROTECT, related_name="shelters", verbose_name=_("Regionas"))
     email = models.EmailField(verbose_name=_("Elektroninis paštas"))
     phone = models.CharField(max_length=24, verbose_name=_("Telefono numeris"))
     authenticated_users = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True,
@@ -128,7 +127,8 @@ class PetStatus(IntEnum):
 
 
 class PetQuerySet(models.QuerySet):
-    pass
+    def select_related_full_shelter(self):
+        return self.select_related('shelter', 'shelter__region', 'shelter__region__country')
 
 
 class AvailablePetsManager(models.Manager):
@@ -178,8 +178,8 @@ class Pet(models.Model):
 
     @staticmethod
     def generate_pets(liked_pet_ids, disliked_pet_ids, region):
-        queryset = Pet.available.select_related('shelter') \
-            .prefetch_related('profile_photos') \
+        queryset = Pet.available.prefetch_related('profile_photos') \
+            .select_related_full_shelter() \
             .exclude(pk__in=liked_pet_ids).order_by()
 
         if region:

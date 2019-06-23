@@ -10,10 +10,26 @@ from web.models import GetPetRequest, Pet, PetProfilePhoto, Shelter, User, UserP
 logger = getLogger()
 
 
+class CountryWithoutRegionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Country
+        fields = ['name', 'code', ]
+
+
+class RegionWithCountrySerializer(serializers.ModelSerializer):
+    country = CountryWithoutRegionSerializer()
+
+    class Meta:
+        model = Region
+        fields = ['name', 'code', 'country', ]
+
+
 class ShelterSerializer(serializers.ModelSerializer):
+    region = RegionWithCountrySerializer()
+
     class Meta:
         model = Shelter
-        fields = ['id', 'name', 'email', 'phone']
+        fields = ['id', 'name', 'email', 'phone', 'region', ]
 
 
 class PetProfilePhotoSerializer(serializers.ModelSerializer):
