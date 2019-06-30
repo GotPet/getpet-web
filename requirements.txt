@@ -10,10 +10,10 @@ django-reversion==3.0.2
 gunicorn>=19.9,<19.10
 ipdb==0.12
 
-djangorestframework==3.8.2
-django-filter==2.0.0
+djangorestframework==3.9.4
+django-filter==2.1.0
 flex==6.13.2
-drf-yasg==1.10.0
+drf-yasg==1.16.0
 drf-tracking==1.5.0
 firebase-admin==2.13.0
 
