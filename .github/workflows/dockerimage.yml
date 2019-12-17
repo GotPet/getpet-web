@@ -12,7 +12,7 @@ jobs:
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
         name: getpet/getpet-platform
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
         cache: ${{ github.event_name != 'schedule' }}
         snapshot: true
