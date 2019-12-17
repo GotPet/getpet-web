@@ -17,10 +17,3 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
         cache: ${{ github.event_name != 'schedule' }}
         snapshot: true
-    - name: Publish to Registry (latest)
-      uses: elgohr/Publish-Docker-Github-Action@master
-      with:
-        name: gotpet/getpet-web/platform
-        registry: docker.pkg.github.com
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
