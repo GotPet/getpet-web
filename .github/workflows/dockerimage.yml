@@ -12,6 +12,7 @@ jobs:
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
         name: getpet/getpet-platform
+        registry: docker.pkg.github.com
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
         cache: ${{ github.event_name != 'schedule' }}
