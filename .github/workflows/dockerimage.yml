@@ -27,4 +27,5 @@ jobs:
         key: ${{ secrets.KEY }} 
         script: |
           cd ${{ secrets.TARGER }}
+          pwd
           make
