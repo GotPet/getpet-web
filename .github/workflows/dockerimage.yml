@@ -1,4 +1,4 @@
-name: Publish to Registry
+name: Build Docker image and Deploy to production
 on:
   push:
     branches:
@@ -17,4 +17,14 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
         cache: ${{ github.event_name != 'schedule' }}
         snapshot: true
-
+    
+    - name: Deploy to production
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: |
+          cd ${{ secrets.TARGER }}
+          make
