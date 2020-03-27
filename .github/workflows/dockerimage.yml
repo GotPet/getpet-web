@@ -26,6 +26,7 @@ jobs:
         passphrase: ${{ secrets.PASSWORD }}
         key: ${{ secrets.KEY }} 
         script: |
-          cd ${{ secrets.TARGER }}
+          cd ${{ secrets.TARGET }}
           pwd
+          ls
           make
