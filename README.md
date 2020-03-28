@@ -1,5 +1,4 @@
 # GetPet WEB
-
-[![Build Status](https://travis-ci.org/GotPet/getpet-web.svg?branch=master)](https://travis-ci.org/zinaukarenku/zkr-platform)
+![Build Docker image and Deploy to production](https://github.com/GotPet/getpet-web/workflows/Build%20Docker%20image%20and%20Deploy%20to%20production/badge.svg?branch=master)
 
 This repository contains all GetPet WEB code. 
