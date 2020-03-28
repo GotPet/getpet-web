@@ -12,6 +12,8 @@ services:
     - database_volume:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD", "pg_isready"]
+    labels:
+      - "lt.getpet.postgres"
     deploy:
       replicas: 1
       restart_policy:
