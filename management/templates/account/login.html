@@ -1,0 +1,28 @@
+{% extends 'account/base.html' %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% load account socialaccount %}
+
+
+{% block content %}
+    <h5 class="text-uppercase">
+        {% block title %}{% trans "Prisijungimas" %}{% endblock %}
+    </h5>
+    <br>
+
+    {% crispy form %}
+
+    <div class="divider">{% trans "Arba prisijunkite su" %}</div>
+
+    <div class="text-center">
+        {% include 'account/social-buttons.html' %}
+    </div>
+
+    <hr class="w-30px">
+
+    <p class="text-center text-muted fs-13 mt-20">{% trans "Neturite registruoto vartotojo?" %}
+        <a class="text-primary fw-500" href="{{ signup_url }}">{% trans "Užsiregistruokite" %}</a>
+    </p>
+
+{% endblock %}

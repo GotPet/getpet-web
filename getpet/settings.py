@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'captcha',
 
     'web',
+    'management',
     'rukla',
 
     'allauth',
@@ -316,3 +317,28 @@ EMAIL_PORT = os.environ.get('EMAIL_PORT')
 EMAIL_USE_SSL = True
 EMAIL_HOST_USER = EMAIL_FROM
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
+# Django all auth
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+LOGIN_REDIRECT_URL = "/accounts/profile/"
+ACCOUNT_EMAIL_VERIFICATION = "optional"
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+ACCOUNT_LOGOUT_ON_GET = False
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
+ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
+ACCOUNT_FORMS = {
+    'login': 'management.forms.LoginForm',
+    'signup': 'management.forms.SignupForm',
+    'reset_password': 'management.forms.ResetPasswordForm',
+}
+SOCIALACCOUNT_FORMS = {
+    'signup': 'management.forms.SocialSignupForm',
+}
+SOCIALACCOUNT_QUERY_EMAIL = True
+
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'

@@ -1,0 +1,215 @@
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1320px
+    }
+}
+
+@media (min-width: 576px) {
+    .card-columns-2 {
+        -webkit-column-count: 2;
+        -moz-column-count: 2;
+        column-count: 2;
+        -webkit-column-gap: 1.25rem;
+        -moz-column-gap: 1.25rem;
+        column-gap: 1.25rem
+    }
+}
+
+.p-tr {
+    padding: 0.75rem !important
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 300px;
+    overflow-x: hidden;
+}
+
+.row.equal-height {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.row.equal-height > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+}
+
+.row.equal-height > [class*='col-'] > .card {
+    flex: 1;
+}
+
+flex-wrap {
+    flex-wrap: wrap;
+}
+
+.member-main-content {
+    padding-top: 0px;
+    margin-top: -30px;
+}
+
+.btn-telegram {
+    background-color: #0088cc;
+    border-color: #0088cc;
+    color: #fff;
+}
+
+.btn-telegram:hover {
+    background-color: #009fee;
+    border-color: #009fee;
+    color: #fff;
+}
+
+.btn-telegram:focus, .btn-telegram.focus {
+    color: #fff;
+}
+
+.btn-telegram.disabled, .btn-telegram:disabled {
+    background-color: #0088cc;
+    border-color: #0088cc;
+    opacity: 0.5;
+}
+
+.btn-telegram:not([disabled]):not(.disabled).active, .btn-telegram:not([disabled]):not(.disabled):active,
+.show > .btn-telegram.dropdown-toggle {
+    background-color: #0088cc;
+    border-color: #0088cc;
+    color: #fff;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.btn-slack {
+    background-color: #e01563;
+    border-color: #e01563;
+    color: #fff;
+}
+
+.btn-slack:hover {
+    background-color: #eb2c75;
+    border-color: #eb2c75;
+    color: #fff;
+}
+
+.btn-slack:focus, .btn-slack.focus {
+    color: #fff;
+}
+
+.btn-slack.disabled, .btn-slack:disabled {
+    background-color: #e01563;
+    border-color: #e01563;
+    opacity: 0.5;
+}
+
+.btn-slack:not([disabled]):not(.disabled).active, .btn-slack:not([disabled]):not(.disabled):active,
+.show > .btn-slack.dropdown-toggle {
+    background-color: #e01563;
+    border-color: #e01563;
+    color: #fff;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.btn-bitcointalk {
+    background-color: #f90;
+    border-color: #f90;
+    color: #fff;
+}
+
+.btn-bitcointalk:hover {
+    background-color: #ffa722;
+    border-color: #ffa722;
+    color: #fff;
+}
+
+.btn-bitcointalk:focus, .btn-bitcointalk.focus {
+    color: #fff;
+}
+
+.btn-bitcointalk.disabled, .btn-bitcointalk:disabled {
+    background-color: #f90;
+    border-color: #f90;
+    opacity: 0.5;
+}
+
+.btn-bitcointalk:not([disabled]):not(.disabled).active, .btn-bitcointalk:not([disabled]):not(.disabled):active,
+.show > .btn-bitcointalk.dropdown-toggle {
+    background-color: #f90;
+    border-color: #f90;
+    color: #fff;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.btn-discord {
+    background-color: #7289da;
+    border-color: #7289da;
+    color: #fff;
+}
+
+.btn-discord:hover {
+    background-color: #8da0e1;
+    border-color: #8da0e1;
+    color: #fff;
+}
+
+.btn-discord:focus, .btn-discord.focus {
+    color: #fff;
+}
+
+.btn-discord.disabled, .btn-discord:disabled {
+    background-color: #7289da;
+    border-color: #7289da;
+    opacity: 0.5;
+}
+
+.btn-discord:not([disabled]):not(.disabled).active, .btn-discord:not([disabled]):not(.disabled):active,
+.show > .btn-discord.dropdown-toggle {
+    background-color: #7289da;
+    border-color: #7289da;
+    color: #fff;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.btn-steemit {
+    background-color: #04d6a7;
+    border-color: #04d6a7;
+    color: #fff;
+}
+
+.btn-steemit:hover {
+    background-color: #04e7b4;
+    border-color: #04e7b4;
+    color: #fff;
+}
+
+.btn-steemit:focus, .btn-steemit.focus {
+    color: #fff;
+}
+
+.btn-steemit.disabled, .btn-steemit:disabled {
+    background-color: #04d6a7;
+    border-color: #04d6a7;
+    opacity: 0.5;
+}
+
+.btn-steemit:not([disabled]):not(.disabled).active, .btn-steemit:not([disabled]):not(.disabled):active,
+.show > .btn-steemit.dropdown-toggle {
+    background-color: #04d6a7;
+    border-color: #04d6a7;
+    color: #fff;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.switch-active .switch-indicator {
+    background: #dcfcfa;
+}
+
+.switch-active .switch-indicator::after {
+    background: #33cabb;
+    left: calc(100% - 20px);
+    -webkit-box-shadow: 0px 0px 3px #fcfdfe;
+    box-shadow: 0px 0px 3px #fcfdfe;
+}

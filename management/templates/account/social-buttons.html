@@ -1,0 +1,23 @@
+{% load account socialaccount %}
+
+{% with google_social_account=user.google_social_account %}
+
+    <form method="post" class="m-1">
+        {% csrf_token %}
+
+        {% if google_social_account %}
+            <input type="hidden" name="account" value="{{ google_social_account.id }}">
+            <button class="btn btn-label btn-google btn-block" type="submit">
+                <label><i class="fa fa-google"></i></label>
+                Atsijungti iš Google
+            </button>
+        {% else %}
+            <a class="btn btn-label btn-google btn-block"
+               href="{% provider_login_url "google" process=process %}"><label><i
+                    class="fa fa-google"></i></label>
+                Prisijungti su Google
+            </a>
+        {% endif %}
+
+    </form>
+{% endwith %}
