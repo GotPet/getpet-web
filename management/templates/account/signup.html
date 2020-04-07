@@ -1,0 +1,19 @@
+{% extends 'account/base.html' %}
+
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block content %}
+    <h5 class="text-uppercase">
+        {% block title %}{% trans "Sign Up" %}{% endblock %}
+    </h5>
+    <br>
+
+    {% crispy form %}
+
+    <br>
+    <p class="text-center text-muted fs-13">
+        {% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}
+    </p>
+
+{% endblock %}
