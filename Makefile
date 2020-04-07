@@ -6,7 +6,7 @@ pull:
 	git pull
 
 deploy:
-	docker stack deploy getpet-platform --compose-file docker-compose.yml
+	docker stack deploy getpet-platform --with-registry-auth --compose-file docker-compose.yml
 
 docker_push:
 	 docker build -t vycius/getpet-platform  .
