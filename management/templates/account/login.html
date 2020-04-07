@@ -1,9 +1,9 @@
 {% extends 'account/base.html' %}
+
 {% load crispy_forms_tags %}
 {% load i18n %}
 
 {% load account socialaccount %}
-
 
 {% block content %}
     <h5 class="text-uppercase">
@@ -19,10 +19,14 @@
         {% include 'account/social-buttons.html' %}
     </div>
 
-    <hr class="w-30px">
-
-    <p class="text-center text-muted fs-13 mt-20">{% trans "Neturite registruoto vartotojo?" %}
-        <a class="text-primary fw-500" href="{{ signup_url }}">{% trans "Užsiregistruokite" %}</a>
+    <p class="text-center text-muted fs-13 mt-20">{% trans "Pamiršote slaptažodį?" %}
+        <a class="text-primary fw-500" href="{% url 'account_reset_password' %}">
+            {% trans "Priminti slaptažodį." %}
+        </a>
     </p>
+    <p class="text-center text-muted fs-13">{% trans "Neturite registruoto vartotojo?" %}
+        <a class="text-primary fw-500" href="{{ signup_url }}">{% trans "Užsiregistruokite." %}</a>
+    </p>
+
 
 {% endblock %}

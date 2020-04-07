@@ -1,8 +1,8 @@
-from allauth.account.forms import LoginForm as AllAuthLoginForm, SignupForm as AllAuthSignupForm, \
-    ResetPasswordForm as AllAuthResetPasswordForm
+from allauth.account.forms import LoginForm as AllAuthLoginForm, ResetPasswordForm as AllAuthResetPasswordForm, \
+    SignupForm as AllAuthSignupForm
 from allauth.socialaccount.forms import SignupForm as AllAuthSocialSignupForm
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Div, HTML, Submit
+from crispy_forms.layout import Div, Field, HTML, Layout, Submit
 from django.utils.translation import gettext_lazy as _
 
 
@@ -43,6 +43,7 @@ class LoginForm(AllAuthLoginForm):
                 """
             ),
             *login_fields,
+            Field('remember', css_class='custom-control custom-checkbox'),
             Submit('submit', _("Prisijungti"), css_class='btn btn-bold btn-block btn-primary')
         )
 

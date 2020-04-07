@@ -1,13 +1,19 @@
 {% extends 'management/base/base.html' %}
+{% load static %}
 
 
 {% block main_container %}
 
-    <div class="row min-h-fullscreen center-vh p-20 m-0">
-
-        <div class="card card-round card-shadowed px-50 py-30 w-400px mb-0" style="max-width: 100%">
-            {% block content %}{% endblock %}
+    <div class="row min-h-fullscreen bg-img center-vh p-20" style="background-image: url({% static "img/intro-bg.jpg" %});"
+         data-overlay="7">
+        <div class="col-12">
+            <div class="card card-round card-shadowed px-50 py-30 w-400px mb-0 mx-auto" style="max-width: 100%">
+                {% block content %}{% endblock %}
+            </div>
         </div>
+        <footer class="col-12 align-self-end text-center fs-13">
+            <p class="mb-0"><small>© 2020 <a href="https://www.getpet.lt">GetPet</a>. Visos teisės saugomos.</small></p>
+        </footer>
     </div>
 
 
