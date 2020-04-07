@@ -16,8 +16,7 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
         cache: ${{ github.event_name != 'schedule' }}
-        snapshot: true
-    
+
     - name: Deploy to production
       uses: appleboy/ssh-action@master
       with:
