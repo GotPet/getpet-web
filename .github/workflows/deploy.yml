@@ -11,10 +11,7 @@ jobs:
     - name: Publish to Registry
       uses: elgohr/Publish-Docker-Github-Action@master
       with:
-        name: gotpet/getpet-web/platform
-        registry: docker.pkg.github.com
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        name: vycius/getpet-platform
         cache: ${{ github.event_name != 'schedule' }}
 
     - name: Deploy to production

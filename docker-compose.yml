@@ -33,7 +33,7 @@ services:
         condition: on-failure
 
   platform:
-    image: docker.pkg.github.com/gotpet/getpet-web/platform:latest
+    image: vycius/getpet-platform:latest
     env_file:
     - .env
     healthcheck:
