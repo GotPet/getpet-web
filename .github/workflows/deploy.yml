@@ -27,4 +27,5 @@ jobs:
         key: ${{ secrets.KEY }} 
         script: |
           cd ${{ secrets.TARGET }}
+          git pull
           make

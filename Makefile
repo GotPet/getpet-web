@@ -1,9 +1,6 @@
 .PHONY: all
 
-all: pull deploy
-
-pull:
-	git pull
+all: deploy
 
 deploy:
 	docker stack deploy getpet-platform --with-registry-auth --compose-file docker-compose.yml
