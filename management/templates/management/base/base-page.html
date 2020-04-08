@@ -1,127 +1,109 @@
 {% extends "management/base/base.html" %}
 {% load static %}
 
-{% block extra_body_start %}
 
+
+{% block sidebar %}
+    <aside class="sidebar sidebar-expand-lg sidebar-iconic">
+        <header class="sidebar-header">
+            <span class="logo">
+                <img src="{% static "img/logo/getpet-logo-small-white.png" %}" alt="logo"
+            </span>
+        </header>
+
+        <nav class="sidebar-navigation">
+            <ul class="menu">
+
+                <li class="menu-item active">
+                    <a class="menu-link" href="index.html">
+                        <span class="icon fa fa-home"></span>
+                        <span class="title">Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a class="menu-link" href="position-list.html">
+                        <span class="icon fa fa-briefcase"></span>
+                        <span class="title">Positions</span>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a class="menu-link" href="applicant-list.html">
+                        <span class="icon fa fa-user"></span>
+                        <span class="title">Applicants</span>
+                        <span class="badge badge-pill badge-danger">2</span>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a class="menu-link" href="resume-list.html">
+                        <span class="icon fa fa-file-text-o"></span>
+                        <span class="title">Resumes</span>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a class="menu-link" href="settings.html">
+                        <span class="icon fa fa-cogs"></span>
+                        <span class="title">Settings</span>
+                    </a>
+                </li>
+
+            </ul>
+        </nav>
+
+    </aside>
 {% endblock %}
+
 {% block topbar %}
     <!-- Topbar -->
-    <header class="topbar topbar-expand-lg topbar-inverse{% if sticky_topbar %}{% else %} position-absolute{% endif %}">
+    <header class="topbar">
         <div class="topbar-left">
+            <span class="topbar-btn sidebar-toggler"><i>&#9776;</i></span>
 
-            <div class="topbar-brand">
-                <a href="{% url 'index' %}"><img src="{% static "img/logo/getpet-logo-small-white.png" %}"
-                                                 height="40"
-                                                 alt="GetPet"/></a>
+            <div class="lookup topbar-search" id="theadmin-search">
+                <input class="form-control w-300px" type="text">
+                <div class="lookup-placeholder">
+                    <i class="ti-search"></i>
+                    <span><strong>Try</strong> button, slider, modal, etc.</span>
+                </div>
             </div>
-            <nav class="topbar-navigation">
-                <ul class="menu">
-
-                    <li class="menu-item{% if active_top_bar_item == 'index' %} active{% endif %}">
-                        <a class="menu-link" href="{% url 'index' %}">
-                            <span class="title">Pagrindinis</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
         </div>
-        <div class="topbar-right">
-            <ul class="topbar-btns d-lg-none d-xl-none">
-                <li class="dropdown">
-                    <span class="topbar-btn" data-toggle="dropdown"><i class="ti-menu"></i></span>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="{% url 'index' %}">Pagrindinis</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-
     </header>
     <!-- END Topbar -->
 {% endblock %}
 
 {% block main_container %}
-    <!-- Main container -->
     <main class="main-container">
-        {% block content %}
-        {% endblock %}
 
-        <footer class="site-footer pt-50 pb-20">
-            <div class="row gap-y">
-                <div class="col-lg-5">
-                    <h5 class="text-uppercase fs-14 ls-1">About</h5>
-                    <p class="text-justify"><strong>TrackICO</strong> - a platform that was established to provide
-                        its
-                        users
-                        reliable information about the best Initial Coin Offering projects and help ICOs/STOs attract
-                        more
-                        investors.</p>
-                </div>
+        <div class="main-content">
+            {% block content %}
+            {% endblock %}
+        </div>
 
-                <div class="col-6 col-md-4 col-lg-2 text-left1 text-lg-center1">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://api.trackico.io/v1/" target="_blank">Developers API</a>
-                        </li>
-                    </ul>
-                </div>
 
-                <div class="col-6 col-md-4 col-lg-2 text-left1 text-lg-center1">
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://t.me/trackico" target="_blank" rel="me"
-                               onclick="ga('send', 'event', 'social_link', 'telegram');"><i class="fa fa-telegram"
-                                                                                            aria-hidden="true"></i>
-                                Telegram</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://twitter.com/TrackICO" target="_blank" rel="me"
-                               onclick="ga('send', 'event', 'social_link', 'twitter');"><i class="fa fa-twitter"
-                                                                                           aria-hidden="true"></i>
-                                Twitter</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://medium.com/@trackico/" target="_blank" rel="me"
-                               onclick="ga('send', 'event', 'social_link', 'medium');"><i class="fa fa-medium"
-                                                                                          aria-hidden="true"></i>
-                                Medium</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://www.facebook.com/TrackICO/" target="_blank" rel="me"
-                               onclick="ga('send', 'event', 'social_link', 'facebook');"><i
-                                    class="fa fa-facebook-square" aria-hidden="true"></i>
-                                Facebook</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="https://www.trackico.io/feed/" target="_blank"
-                               rel="alternate" type="application/rss+xml"
-                               onclick="ga('send', 'event', 'social_link', 'rss');"><i class="fa fa-rss"
-                                                                                       aria-hidden="true"></i>
-                                RSS</a>
-                        </li>
-
-                    </ul>
-                </div>
-
-                <div class="col-md-4 col-lg-3 text-left1 text-lg-center1">
-                    <h5 class="text-uppercase fs-14 ls-1">Newsletter</h5>
-                    <p><strong>Subscribe</strong> to our newsletter to receive news, updates, and special offers:
-                    </p>
-                </div>
-
-            </div>
-
-            <hr>
-
+        <!-- Footer -->
+        <footer class="site-footer">
             <div class="row">
-                <div class="col-md-6 justify-content-center justify-content-md-start">
-                    <p>Copyright © 2017. All rights reserved.</p>
+                <div class="col-md-6">
+                    <p class="text-center text-md-left">Copyright © 2019 <a
+                            href="http://thetheme.io/theadmin">TheAdmin</a>.
+                        All rights reserved.</p>
                 </div>
 
                 <div class="col-md-6">
                     <ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end">
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'index' %}">ICO Listing</a>
+                            <a class="nav-link" href="../help/articles.html">Documentation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../help/faq.html">FAQ</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               href="https://themeforest.net/item/theadmin-responsive-bootstrap-4-admin-dashboard-webapp-template/20475359?license=regular&open_purchase_for_item_id=20475359&purchasable=source&ref=thethemeio">Purchase
+                                Now</a>
                         </li>
                     </ul>
                 </div>
@@ -130,5 +112,4 @@
         <!-- END Footer -->
 
     </main>
-    <!-- END Main container -->
 {% endblock %}
