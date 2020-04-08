@@ -46,41 +46,41 @@ USE_X_FORWARDED_HOST = True
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.humanize',
-    'django.contrib.sitemaps',
-    'django.contrib.sites',
-    'django.contrib.postgres',
+                     'django.contrib.admin',
+                     'django.contrib.auth',
+                     'django.contrib.contenttypes',
+                     'django.contrib.sessions',
+                     'django.contrib.messages',
+                     'django.contrib.staticfiles',
+                     'django.contrib.humanize',
+                     'django.contrib.sitemaps',
+                     'django.contrib.sites',
+                     'django.contrib.postgres',
 
-    'rest_framework',
-    'rest_framework.authtoken',
+                     'rest_framework',
+                     'rest_framework.authtoken',
 
-    'django_filters',
-    'drf_yasg',
-    'rest_framework_tracking',
+                     'django_filters',
+                     'drf_yasg',
+                     'rest_framework_tracking',
 
-    'crispy_forms',
-    'adminsortable2',
-    'reversion',
-    'captcha',
+                     'crispy_forms',
+                     'adminsortable2',
+                     'reversion',
+                     'captcha',
 
-    'web',
-    'management',
-    'rukla',
+                     'web',
+                     'management',
+                     'rukla',
 
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.google',
-]
+                     'allauth',
+                     'allauth.account',
+                     'allauth.socialaccount',
+                     'allauth.socialaccount.providers.facebook',
+                     'allauth.socialaccount.providers.google',
+                 ] + ['nplusone.ext.django'] if DEBUG else []
 
-MIDDLEWARE = [
+MIDDLEWARE = (['nplusone.ext.django.NPlusOneMiddleware'] if DEBUG else []) + [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
