@@ -78,9 +78,9 @@ INSTALLED_APPS = [
                      'allauth.socialaccount',
                      'allauth.socialaccount.providers.facebook',
                      'allauth.socialaccount.providers.google',
-                 ] + ['nplusone.ext.django'] if DEBUG else []
+                 ]
 
-MIDDLEWARE = (['nplusone.ext.django.NPlusOneMiddleware'] if DEBUG else []) + [
+MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
