@@ -17,7 +17,6 @@ _redirect_field_html = HTML("""
 
 def _remove_autofocus_and_placeholders(form: Type[BaseSignupForm]):
     for field_name in form.fields:
-        form.fields[field_name].widget.attrs.pop("autofocus", None)
         form.fields[field_name].widget.attrs.pop("placeholder", None)
 
 
@@ -34,7 +33,7 @@ class AccountFormHelper(FormHelper):
         super().__init__(*args, **kwargs)
 
         self.form_method = 'POST'
-        self.form_class = "form-type-material"
+        self.form_class = "form-type-line"
         self.label_class = ''
         self.field_template = 'management/widget/bootstrap-field.html'
 
