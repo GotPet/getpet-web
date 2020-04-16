@@ -1,5 +1,4 @@
 {% extends "management/base/base.html" %}
-{% load i18n %}
 {% load static %}
 
 
@@ -17,10 +16,40 @@
 
                 <li class="menu-item active">
                     <a class="menu-link" href="index.html">
-                        <span class="icon fa fa-paw"></span>
-                        <span class="title">{% trans "Gyvūnai" %}</span>
+                        <span class="icon fa fa-home"></span>
+                        <span class="title">Dashboard</span>
                     </a>
                 </li>
+
+                <li class="menu-item">
+                    <a class="menu-link" href="position-list.html">
+                        <span class="icon fa fa-briefcase"></span>
+                        <span class="title">Positions</span>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a class="menu-link" href="applicant-list.html">
+                        <span class="icon fa fa-user"></span>
+                        <span class="title">Applicants</span>
+                        <span class="badge badge-pill badge-danger">2</span>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a class="menu-link" href="resume-list.html">
+                        <span class="icon fa fa-file-text-o"></span>
+                        <span class="title">Resumes</span>
+                    </a>
+                </li>
+
+                <li class="menu-item">
+                    <a class="menu-link" href="settings.html">
+                        <span class="icon fa fa-cogs"></span>
+                        <span class="title">Settings</span>
+                    </a>
+                </li>
+
             </ul>
         </nav>
 

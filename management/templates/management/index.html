@@ -1,11 +1,1 @@
 {% extends 'management/base/base-page.html' %}
-
-{% load i18n %}
-
-{% block title %}{% trans "Prieglaudos gyvūnų administravimas" %}{% endblock %}
-
-{% block content %}
-    {% for pet in pets %}
-        {% include 'management/cell/pet-big-cell.html' with pet=pet %}
-    {% endfor %}
-{% endblock %}

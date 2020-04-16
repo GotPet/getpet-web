@@ -1,7 +1,7 @@
 from django.urls import path
 
-from management.views import ShelterPetsListView
+from management.views import index
 
 urlpatterns = [
-    path('', ShelterPetsListView.as_view(), name="index"),
+    path('', index, name="index"),
 ]
