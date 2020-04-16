@@ -1,15 +1,20 @@
+from __future__ import annotations
+
 from _md5 import md5
 from enum import unique
 from os.path import join
+from typing import Optional
 
+from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.db.models import Count
+from django.db.models import Count, QuerySet
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from enumfields import EnumIntegerField, IntEnum
 
 from getpet import settings
+from management.utils import add_url_params
 from web.utils import file_extension
 
 
@@ -108,6 +113,13 @@ class Shelter(models.Model):
         verbose_name_plural = _("Gyvūnų prieglaudos")
         ordering = ['-created_at', 'name']
 
+    @staticmethod
+    def user_selected_shelter(user: AbstractBaseUser) -> Optional[Shelter]:
+        if user.is_authenticated:
+            return Shelter.objects.filter(authenticated_users=user).first()
+
+        return None
+
     def __str__(self):
         return self.name
 
@@ -175,6 +187,23 @@ class Pet(models.Model):
 
     def is_available(self) -> bool:
         return self.status == PetStatus.AVAILABLE
+
+    @staticmethod
+    def pets_from_shelter(shelter: Shelter) -> QuerySet[Pet]:
+        queryset = Pet.objects.prefetch_related('profile_photos') \
+            .select_related_full_shelter() \
+            .filter(shelter=shelter).order_by('-created_at')
+
+        return queryset
+
+    def main_profile_image(self, size=None) -> Optional[str]:
+        for photo in self.profile_photos.all():
+            return add_url_params(photo.photo.url, {'w': size, 'h': size})
+
+        return None
+
+    def main_profile_medium(self) -> Optional[str]:
+        return self.main_profile_image(size=64)
 
     @staticmethod
     def generate_pets(liked_pet_ids, disliked_pet_ids, region):
