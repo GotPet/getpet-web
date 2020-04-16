@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-echo "==> Django setup, executing: collectstatic"
-python manage.py collectstatic --noinput
+# echo "==> Django setup, executing: collectstatic"
+# python manage.py collectstatic --noinput
 
 echo "==> Django setup, executing: migrate"
 python manage.py migrate
