@@ -1,0 +1,25 @@
+{% extends 'management/base/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Vartotojas nesusietas su prieglauda" %}{% endblock %}
+
+{% block main_container %}
+    <div class="row no-margin h-fullscreen" style="padding-top: 10%">
+
+        <div class="col-12">
+            <div class="card card-transparent center-h text-center">
+                <h1 class="text-secondary lh-1" style="font-size: 200px"><i class="fa fa-paw"></i></h1>
+                <hr class="w-30px">
+                <h3 class="text-uppercase">Under maintenance!</h3>
+
+                <p class="lead">We're sorry for the inconvenience.<br>Please check back later.</p>
+            </div>
+        </div>
+
+
+        <footer class="col-12 align-self-end text-center fs-13">
+            <p>Copyright © 2019 <a href="http://thetheme.io/theadmin">TheAdmin</a>. All rights reserved.</p>
+        </footer>
+    </div>
+
+{% endblock %}
