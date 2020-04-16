@@ -28,14 +28,12 @@ class WebFormHelper(FormHelper):
         self.field_template = 'management/widget/bootstrap-field.html'
 
 
-class AccountFormHelper(FormHelper):
+class AccountFormHelper(WebFormHelper):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.form_method = 'POST'
         self.form_class = "form-type-line"
-        self.label_class = ''
-        self.field_template = 'management/widget/bootstrap-field.html'
 
 
 class LoginForm(AllAuthLoginForm):
