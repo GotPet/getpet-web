@@ -7,23 +7,33 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Publish to Registry
-      uses: elgohr/Publish-Docker-Github-Action@master
-      with:
-        name: vycius/getpet-platform
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-        cache: ${{ github.event_name != 'schedule' }}
+      - uses: actions/checkout@master
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@master
+        with:
+          name: vycius/getpet-platform
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          cache: ${{ github.event_name != 'schedule' }}
 
-    - name: Deploy to production
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        passphrase: ${{ secrets.PASSWORD }}
-        key: ${{ secrets.KEY }} 
-        script: |
-          cd ${{ secrets.TARGET }}
-          git pull
-          make
+      - name: Create a Sentry.io release
+        uses: tclindner/sentry-releases-action@v1.1.0
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: getpet
+          SENTRY_PROJECT: getpet-web
+        with:
+          tagName: ${{ github.ref }}
+          environment: production
+
+      - name: Deploy to production
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          passphrase: ${{ secrets.PASSWORD }}
+          key: ${{ secrets.KEY }}
+          script: |
+            cd ${{ secrets.TARGET }}
+            git pull
+            make
