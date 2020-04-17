@@ -23,7 +23,7 @@ jobs:
           SENTRY_ORG: getpet
           SENTRY_PROJECT: getpet-web
         with:
-          tagName: ${{ github.GITHUB_SHA }}
+          tagName: ${{ GITHUB_SHA }}
           environment: production
 
       - name: Deploy to production
