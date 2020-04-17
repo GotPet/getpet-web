@@ -10,7 +10,7 @@ from management.utils import add_url_params
 from web.models import Pet, Shelter
 
 
-class ShelterPetsListView(ListView, ViewPaginatorMixin, LoginRequiredMixin):
+class ShelterPetsListView(LoginRequiredMixin, ViewPaginatorMixin, ListView):
     template_name = 'management/index.html'
     model = Pet
     context_object_name = 'pets'
