@@ -8,4 +8,10 @@
     {% for pet in pets %}
         {% include 'management/cell/pet-big-cell.html' with pet=pet %}
     {% endfor %}
+
+    <footer class="flexbox align-items-center mb-4">
+        {% include 'management/widget/pagination.html' with paginator_page=page_obj %}
+    </footer>
+
 {% endblock %}
+
