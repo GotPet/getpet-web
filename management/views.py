@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
@@ -9,8 +10,7 @@ from management.utils import add_url_params
 from web.models import Pet, Shelter
 
 
-# Todo add check for associated shelter
-class ShelterPetsListView(ListView, ViewPaginatorMixin):
+class ShelterPetsListView(ListView, ViewPaginatorMixin, LoginRequiredMixin):
     template_name = 'management/index.html'
     model = Pet
     context_object_name = 'pets'
