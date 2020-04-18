@@ -9,6 +9,7 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import Count, QuerySet
+from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
@@ -196,6 +197,9 @@ class Pet(models.Model):
 
     def main_profile_medium(self) -> str:
         return self.main_profile_image(size=64)
+
+    def edit_pet_url(self) -> str:
+        return reverse('management_pet_update', kwargs={'pk': self.pk})
 
     @staticmethod
     def generate_pets(liked_pet_ids, disliked_pet_ids, region):

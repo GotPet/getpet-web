@@ -1,11 +1,15 @@
 from typing import Type
+from django import forms
 
 from allauth.account.forms import LoginForm as AllAuthLoginForm, ResetPasswordForm as AllAuthResetPasswordForm, \
     SignupForm as AllAuthSignupForm, BaseSignupForm
 from allauth.socialaccount.forms import SignupForm as AllAuthSocialSignupForm
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Div, Field, HTML, Layout, Submit
+from crispy_forms.layout import Column, Div, Field, HTML, Layout, Submit
+from django.forms.widgets import ClearableFileInput
 from django.utils.translation import gettext_lazy as _
+
+from web.models import Pet
 
 _redirect_field_html = HTML("""
                   {% if redirect_field_value %}
@@ -50,7 +54,67 @@ class LoginForm(AllAuthLoginForm):
             Field('remember', css_class='custom-control custom-checkbox'),
             Submit('submit', _("Sign In"), css_class='btn btn-bold btn-block btn-primary')
         )
-        _remove_autofocus_and_placeholders(self)
+
+
+class ShelterPetUpdateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = WebFormHelper()
+
+        self.helper.layout = Layout(
+            Div(
+                Div(
+                    Div(
+                        HTML(f"""
+                    <h4 class="card-title">
+                        <strong>{_("Pagrindinė")}</strong> {_("informacija")}
+                    </h4>
+                    """),
+                        Div(
+                            Div(
+                                Div('name', css_class='col-md-6'),
+                                Div('short_description', css_class='col-md-6'),
+                                Div('status', css_class='col-md-6'),
+                                Div('description', css_class='col-12'),
+                                css_class='row'
+                            ),
+                            css_class='card-body'
+                        ),
+                        css_class='card'
+                    ),
+                    css_class='col-lg-8'
+                ),
+                Div(
+                    Div(
+                        HTML(f"""
+                    <h4 class="card-title">
+                        <strong>{_("Profilio")}</strong> {_("nuotrauka")}
+                    </h4>
+                    """),
+                        Div(
+                            Div(
+                                Div('photo', css_class='col-12'),
+                                css_class='row'
+                            ),
+                            css_class='card-body'
+                        ),
+                        css_class='card'
+                    ),
+                    css_class='col-lg-4'
+                ),
+                css_class='row'
+            ),
+            Submit('submit', _("Išsaugoti"), css_class='btn btn-bold btn-block btn-primary')
+        )
+
+    class Meta:
+        model = Pet
+        fields = ['name', 'status', 'photo', 'short_description', 'description', ]
+        widgets = {
+            'photo': ClearableFileInput(attrs={
+                'data-provide': "dropify",
+            }),
+        }
 
 
 # TODO add recaptcha

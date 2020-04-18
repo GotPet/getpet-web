@@ -1,0 +1,30 @@
+{% extends 'management/base/base-page.html' %}
+
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block title %}{% trans "Prieglaudos gyvūnų atnaujinimas" %}{% endblock %}
+
+{% block content %}
+    {% crispy form %}
+{% endblock %}
+
+{% block script %}
+
+    <script>
+        function initDropifyPetPhoto() {
+            $('.photo').dropify(
+                {
+                    messages: {
+                        default: '{% trans 'Nutempkite nuotrauką arba paspauskite ir įdėkite naują nuotrauką' %}',
+                        replace: '{% trans 'Pakeiskite nuotrauką' %}'
+                    }
+                });
+        }
+
+        app.ready(function () {
+            initDropifyPetPhoto();
+        })
+    </script>
+
+{% endblock %}
