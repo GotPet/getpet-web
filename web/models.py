@@ -187,19 +187,14 @@ class Pet(models.Model):
 
     @staticmethod
     def pets_from_shelter(shelter: Shelter) -> QuerySet[Pet]:
-        queryset = Pet.objects.prefetch_related('profile_photos') \
-            .select_related_full_shelter() \
-            .filter(shelter=shelter).order_by('-created_at')
+        queryset = Pet.objects.filter(shelter=shelter).order_by('-pk')
 
         return queryset
 
-    def main_profile_image(self, size=None) -> Optional[str]:
-        for photo in self.profile_photos.all():
-            return add_url_params(photo.photo.url, {'w': size, 'h': size})
+    def main_profile_image(self, size=None) -> str:
+        return add_url_params(self.photo.url, {'w': size, 'h': size})
 
-        return None
-
-    def main_profile_medium(self) -> Optional[str]:
+    def main_profile_medium(self) -> str:
         return self.main_profile_image(size=64)
 
     @staticmethod

@@ -14,6 +14,7 @@ class ShelterPetsListView(LoginRequiredMixin, ViewPaginatorMixin, ListView):
     template_name = 'management/index.html'
     model = Pet
     context_object_name = 'pets'
+    ordering = ["-pk"]
     paginate_by = 100
 
     def get_queryset(self):
