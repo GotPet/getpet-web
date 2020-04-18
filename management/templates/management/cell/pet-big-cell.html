@@ -1,15 +1,16 @@
 <div class="card b-1 hover-shadow-2 mb-20">
     <a class="media card-body" href="#">
         <div class="media-left pr-12">
-            <img class="avatar avatar-xl no-radius" src="{{ pet.main_profile_medium }}" loading="lazy" alt="...">
+            <img class="avatar avatar-xl no-radius" src="{{ pet.main_profile_medium }}" loading="lazy"
+                 alt="{{ pet.name }}">
         </div>
 
         <div class="media-body">
             <div class="mb-2">
                 <span class="fs-20 pr-16">{{ pet.name }}</span>
-                <span class="badge badge-success text-uppercase no-radius ls-1 opacity-75">Full-time</span>
+                <span class="badge badge-success text-uppercase no-radius ls-1 opacity-75">{{ pet.status }}</span>
             </div>
-            <small class="fs-16 fw-300 ls-1">Google</small>
+            <p class="fs-16 fw-300 ls-1 small text-truncate">{{ pet.description }}</p>
         </div>
 
         <div class="media-right text-right d-none d-md-block">
@@ -17,15 +18,4 @@
             <span class="text-fade fs-12">Applicants: <strong>0</strong></span>
         </div>
     </a>
-
-    <footer class="card-footer flexbox align-items-center">
-        <div>
-            <strong>Status:</strong>
-            <span>Pending approval</span>
-        </div>
-        <div class="card-hover-show">
-            <a class="btn btn-xs fs-10 btn-bold btn-secondary" href="#">Edit</a>
-            <a class="btn btn-xs fs-10 btn-bold btn-danger" href="#">Delete</a>
-        </div>
-    </footer>
 </div>
