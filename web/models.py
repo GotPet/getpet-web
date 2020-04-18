@@ -11,7 +11,6 @@ from django.db import models
 from django.db.models import Count, QuerySet
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
-from enumfields import EnumIntegerField, IntEnum
 
 from getpet import settings
 from management.utils import add_url_params
@@ -125,17 +124,11 @@ class Shelter(models.Model):
 
 
 @unique
-class PetStatus(IntEnum):
-    AVAILABLE = 1
-    TAKEN_TEMPORARY = 2
-    TAKEN_PERMANENTLY = 3
-    TAKEN_NOT_VIA_GETPET = 4
-
-    class Labels:
-        AVAILABLE = _('Laukia šeimininko')
-        TAKEN_TEMPORARY = _('Laikinai paimtas per GetPet')
-        TAKEN_PERMANENTLY = _('Paimtas visam laikui per GetPet')
-        TAKEN_NOT_VIA_GETPET = _('Paimtas ne per GetPet')
+class PetStatus(models.IntegerChoices):
+    AVAILABLE = 1, _('Laukia šeimininko')
+    TAKEN_TEMPORARY = 2, _('Laikinai paimtas per GetPet')
+    TAKEN_PERMANENTLY = 3, _('Paimtas visam laikui per GetPet')
+    TAKEN_NOT_VIA_GETPET = 4, _('Paimtas ne per GetPet')
 
 
 class PetQuerySet(models.QuerySet):
@@ -157,9 +150,13 @@ class Pet(models.Model):
         return join('img', 'web', 'pet', slug, filename)
 
     name = models.CharField(max_length=64, verbose_name=_("Gyvūno vardas"))
-    status = EnumIntegerField(PetStatus, default=PetStatus.AVAILABLE, db_index=True,
-                              verbose_name=_("Gyvūno statusas"),
-                              help_text=_("Pažymėjus gyvūną, kaip laukiantį šeiminką jis bus rodomas programėlėje."))
+    status = models.IntegerField(
+        choices=PetStatus.choices,
+        default=PetStatus.AVAILABLE,
+        db_index=True,
+        verbose_name=_("Gyvūno statusas"),
+        help_text=_("Pažymėjus gyvūną, kaip laukiantį šeiminką jis bus rodomas programėlėje.")
+    )
     photo = models.ImageField(upload_to=_pet_photo_file, verbose_name=_("Gyvūno nuotrauka"))
 
     shelter = models.ForeignKey(Shelter, on_delete=models.CASCADE, related_name='pets', verbose_name=_("Prieglauda"),
@@ -241,25 +238,22 @@ class PetProfilePhoto(models.Model):
 
 
 @unique
-class GetPetRequestStatus(IntEnum):
-    USER_WANTS_PET = 1
-    PET_TAKEN_TEMPORARY = 2
-    PET_RETURNED = 3
-    PET_TAKEN_PERMANENTLY = 4
-
-    class Labels:
-        USER_WANTS_PET = _('Noras paimti gyvūną')
-        PET_TAKEN_TEMPORARY = _('Gyvūnas laikinai pasiimtas')
-        PET_RETURNED = _("Gyvūnas gražintas po laikinos globos")
-        PET_TAKEN_PERMANENTLY = _("Gyvūnas pasiimtas visam laikui")
+class GetPetRequestStatus(models.IntegerChoices):
+    USER_WANTS_PET = 1, _('Noras paimti gyvūną')
+    PET_TAKEN_TEMPORARY = 2, _('Gyvūnas laikinai pasiimtas')
+    PET_RETURNED = 3, _("Gyvūnas gražintas po laikinos globos")
+    PET_TAKEN_PERMANENTLY = 4, _("Gyvūnas pasiimtas visam laikui")
 
 
 class GetPetRequest(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("Vartotojas"))
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, verbose_name=_("Gyvūnas"))
-    status = EnumIntegerField(GetPetRequestStatus, default=GetPetRequestStatus.USER_WANTS_PET,
-                              verbose_name=_("Gyvūno statusas"),
-                              help_text=_("Pasirenkamas vienas iš gyvūno statusų pas potencialų šeimininką"))
+    status = models.IntegerField(
+        choices=GetPetRequestStatus.choices,
+        default=GetPetRequestStatus.USER_WANTS_PET,
+        verbose_name=_("Gyvūno statusas"),
+        help_text=_("Pasirenkamas vienas iš gyvūno statusų pas potencialų šeimininką")
+    )
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Sukūrimo data'))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinimo data"))

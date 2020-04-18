@@ -3,10 +3,9 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.db.models import Count, Q
 from django.utils.translation import gettext_lazy as _
-from enumfields.admin import EnumFieldListFilter
 from reversion.admin import VersionAdmin
 
-from web.models import GetPetRequest, Pet, PetProfilePhoto, Shelter, User, UserPetChoice, Region, Country
+from web.models import Country, GetPetRequest, Pet, PetProfilePhoto, Region, Shelter, User, UserPetChoice
 
 admin.site.site_header = _('GetPet Administravimas')
 admin.site.site_title = admin.site.site_header
@@ -115,7 +114,7 @@ class PetAdmin(VersionAdmin):
     ]
 
     list_select_related = ['shelter']
-    list_filter = [('status', EnumFieldListFilter), 'shelter__name', ]
+    list_filter = ['status', 'shelter__name', ]
 
     inlines = [
         PetProfilePhotoInline,
@@ -170,7 +169,7 @@ class GetPetRequestAdmin(VersionAdmin):
     list_display = ['user', 'pet', 'status', 'created_at']
     raw_id_fields = ['user', 'pet']
     list_select_related = ['user', 'pet', ]
-    list_filter = [('status', EnumFieldListFilter), 'pet__shelter__name', ]
+    list_filter = ['status', 'pet__shelter__name', ]
 
     def get_queryset(self, request):
         queryset = super().get_queryset(request)
