@@ -20,7 +20,6 @@ drf-yasg~=1.17.1
 drf-api-tracking~=1.6.0
 firebase-admin~=4.0.0
 
-django-enumfields~=2.0.0
 django-redis~=4.11.0
 django-ipware~=2.1.0
 # Version in pip doesn't have EXIF bugfix
