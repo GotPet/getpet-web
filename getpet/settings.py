@@ -67,7 +67,6 @@ INSTALLED_APPS = [
                      'crispy_forms',
                      'adminsortable2',
                      'reversion',
-                     'captcha',
 
                      'web',
                      'management',
