@@ -130,13 +130,14 @@ class ShelterPetUpdateForm(forms.ModelForm):
                         Div(
                             Div(
                                 Div('gender', css_class='col-md-6'),
-                                Div('size', css_class='col-md-6'),
-                                Div('age', css_class='col-md-6'),
-                                Div(AppendedText('weight', 'kg'), css_class='col-md-6'),
+                                Div('desexed', css_class='col-md-6'),
 
-                                Div('desexed', css_class='col-md-4'),
-                                Div('is_vaccinated', css_class='col-md-4'),
-                                Div('is_special_care_needed', css_class='col-md-4'),
+                                Div('size', css_class='col-md-4'),
+                                Div('age', css_class='col-md-4'),
+                                Div(AppendedText('weight', 'kg'), css_class='col-md-4'),
+
+                                Div('is_vaccinated', css_class='col-md-6'),
+                                Div('is_special_care_needed', css_class='col-md-6'),
 
                                 Div('cat_friendly', css_class='col-md-4'),
                                 Div('dog_friendly', css_class='col-md-4'),
