@@ -1,3 +1,5 @@
+{% load i18n %}
+
 <div class="card b-1 hover-shadow-2 mb-20">
     <a class="media card-body" href="{{ pet.edit_pet_url }}">
         <div class="media-left pr-12">
@@ -20,8 +22,8 @@
         </div>
 
         <div class="media-right text-right d-none d-md-block">
-            <p class="fs-14 text-fade mb-12"><i class="fa fa-map-marker pr-1"></i> Menlo Park, CA</p>
-            <span class="text-fade fs-12">Applicants: <strong>0</strong></span>
+            <p class="fs-14 text-fade mb-12"><i class="fa fa-id-card-o pr-1"></i> {{ pet.pk }}</p>
+            <span class="text-fade fs-12">{% trans "Patinka" %}: <strong>{{ pet.total_likes }}</strong></span>
         </div>
     </a>
 </div>

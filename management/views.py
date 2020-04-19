@@ -23,7 +23,7 @@ class ShelterPetsListView(LoginRequiredMixin, ViewPaginatorMixin, ListView):
 
     def get_queryset(self):
         shelter = Shelter.user_selected_shelter(self.request.user)
-        return Pet.pets_from_shelter(shelter)
+        return Pet.pets_from_shelter(shelter, annotate_with_total_likes=True)
 
     def page_link(self, query_params, page):
         return add_url_params(reverse('management_pets_list') + query_params, {'page': page})

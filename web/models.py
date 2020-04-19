@@ -149,6 +149,14 @@ class PetQuerySet(models.QuerySet):
     def select_related_full_shelter(self):
         return self.select_related('shelter', 'shelter__region', 'shelter__region__country')
 
+    def annotate_with_total_likes(self):
+        return self.annotate(
+            total_likes=Count(
+                'users_pet_choices',
+                filter=models.Q(users_pet_choices__is_favorite=True)
+            )
+        )
+
 
 class AvailablePetsManager(models.Manager):
     def get_queryset(self):
@@ -275,8 +283,11 @@ class Pet(models.Model):
         return "badge-primary"
 
     @staticmethod
-    def pets_from_shelter(shelter: Shelter) -> QuerySet[Pet]:
+    def pets_from_shelter(shelter: Shelter, annotate_with_total_likes=False) -> QuerySet[Pet]:
         queryset = Pet.objects.filter(shelter=shelter).order_by('-pk')
+
+        if annotate_with_total_likes:
+            queryset = queryset.annotate_with_total_likes()
 
         return queryset
 
@@ -354,7 +365,7 @@ class GetPetRequest(models.Model):
 class UserPetChoice(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name=_("Vartotojas"))
     pet = models.ForeignKey(Pet, on_delete=models.CASCADE, verbose_name=_("Gyvūnas"))
-    is_favorite = models.BooleanField(verbose_name=_("Vartotojas pamėgo gyvūną"))
+    is_favorite = models.BooleanField(verbose_name=_("Vartotojas pamėgo gyvūną"), db_index=True)
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Sukūrimo data'))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinimo data"))
