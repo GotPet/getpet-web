@@ -6,6 +6,23 @@
 {% block title %}{% trans "Prieglaudos gyvūnų atnaujinimas" %}{% endblock %}
 
 {% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-3">
+                <div class="card-body p-3">
+                    <ol class="breadcrumb breadcrumb-arrow">
+                        <li class="breadcrumb-item">
+                            <a href="{% url 'management_pets_list' %}">
+                                <i class="fa fa-paw"></i>
+                                {% trans 'Prieglaudos gyvūnai' %}
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active">{{ pet.name }}</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
     {% crispy form %}
 
     {% crispy pet_photo_form_set pet_photo_form_set.form.helper %}
