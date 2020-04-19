@@ -268,6 +268,12 @@ class Pet(models.Model):
     def is_available(self) -> bool:
         return self.status == PetStatus.AVAILABLE
 
+    def pet_status_badge_color_class(self) -> str:
+        if self.status == PetStatus.AVAILABLE:
+            return "badge-success"
+
+        return "badge-primary"
+
     @staticmethod
     def pets_from_shelter(shelter: Shelter) -> QuerySet[Pet]:
         queryset = Pet.objects.filter(shelter=shelter).order_by('-pk')

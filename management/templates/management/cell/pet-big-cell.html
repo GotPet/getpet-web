@@ -11,8 +11,8 @@
 
         <div class="media-body">
             <div class="mb-2">
-                <span class="fs-20 pr-16">{{ pet.name }}</span>
-                <span class="badge badge-success text-uppercase no-radius ls-1 opacity-75">
+                <span class="fs-20 pr-16 align-middle">{{ pet.name }}</span>
+                <span class="badge {{ pet.pet_status_badge_color_class }} text-uppercase ls-1 opacity-75 align-middle">
                     {{ pet.get_status_display }}
                 </span>
             </div>
