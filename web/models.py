@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from _md5 import md5
-from enum import unique
 from os.path import join
 from typing import Optional
 
@@ -124,7 +123,6 @@ class Shelter(models.Model):
         return self.name
 
 
-@unique
 class PetStatus(models.IntegerChoices):
     AVAILABLE = 1, _('Laukia šeimininko')
     TAKEN_TEMPORARY = 2, _('Laikinai paimtas per GetPet')
@@ -236,7 +234,6 @@ class PetProfilePhoto(models.Model):
         return self.photo.url
 
 
-@unique
 class GetPetRequestStatus(models.IntegerChoices):
     USER_WANTS_PET = 1, _('Noras paimti gyvūną')
     PET_TAKEN_TEMPORARY = 2, _('Gyvūnas laikinai pasiimtas')
