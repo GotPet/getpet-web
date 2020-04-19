@@ -6,10 +6,11 @@ from allauth.socialaccount.forms import SignupForm as AllAuthSocialSignupForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Div, Field, HTML, Layout, Submit
 from django import forms
+from django.forms import inlineformset_factory
 from django.forms.widgets import ClearableFileInput, FileInput
 from django.utils.translation import gettext_lazy as _
 
-from web.models import Pet
+from web.models import Pet, PetProfilePhoto
 
 _redirect_field_html = HTML("""
                   {% if redirect_field_value %}
@@ -119,6 +120,19 @@ class ShelterPetUpdateForm(forms.ModelForm):
                 'data-show-remove': 'false',
             }),
         }
+
+
+class PetProfilePhotoForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = WebFormHelper()
+
+    class Meta:
+        model = PetProfilePhoto
+        fields = ['photo']
+
+
+PetProfilePhotoFormSet = inlineformset_factory(Pet, PetProfilePhoto, form=PetProfilePhotoForm)
 
 
 # TODO add recaptcha

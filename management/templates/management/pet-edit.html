@@ -7,6 +7,8 @@
 
 {% block content %}
     {% crispy form %}
+
+    {% crispy pet_photo_form_set pet_photo_form_set.form.helper %}
 {% endblock %}
 
 {% block script %}
