@@ -1,12 +1,12 @@
 from typing import Type
-from django import forms
 
-from allauth.account.forms import LoginForm as AllAuthLoginForm, ResetPasswordForm as AllAuthResetPasswordForm, \
-    SignupForm as AllAuthSignupForm, BaseSignupForm
+from allauth.account.forms import BaseSignupForm, LoginForm as AllAuthLoginForm, \
+    ResetPasswordForm as AllAuthResetPasswordForm, SignupForm as AllAuthSignupForm
 from allauth.socialaccount.forms import SignupForm as AllAuthSocialSignupForm
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Column, Div, Field, HTML, Layout, Submit
-from django.forms.widgets import ClearableFileInput
+from crispy_forms.layout import Div, Field, HTML, Layout, Submit
+from django import forms
+from django.forms.widgets import ClearableFileInput, FileInput
 from django.utils.translation import gettext_lazy as _
 
 from web.models import Pet
@@ -61,6 +61,9 @@ class ShelterPetUpdateForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = WebFormHelper()
 
+        if self.instance and self.instance.photo:
+            self.fields['photo'].widget.attrs['data-default-file'] = self.instance.photo.url
+
         self.helper.layout = Layout(
             Div(
                 Div(
@@ -111,8 +114,9 @@ class ShelterPetUpdateForm(forms.ModelForm):
         model = Pet
         fields = ['name', 'status', 'photo', 'short_description', 'description', ]
         widgets = {
-            'photo': ClearableFileInput(attrs={
-                'data-provide': "dropify",
+            'photo': FileInput(attrs={
+                'class': 'photo',
+                'data-show-remove': 'false',
             }),
         }
 
