@@ -130,6 +130,21 @@ class PetStatus(models.IntegerChoices):
     TAKEN_NOT_VIA_GETPET = 4, _('Paimtas ne per GetPet')
 
 
+class PetGender(models.IntegerChoices):
+    Male = 1, _('Patinas')
+    Female = 2, _('Patelė')
+
+    __empty__ = _('Nepatikslinta')
+
+
+class PetSize(models.IntegerChoices):
+    Small = 1, _('Mažas')
+    Medium = 2, _('Vidutinis')
+    Large = 3, _('Didelis')
+
+    __empty__ = _('Nepatikslinta')
+
+
 class PetQuerySet(models.QuerySet):
     def select_related_full_shelter(self):
         return self.select_related('shelter', 'shelter__region', 'shelter__region__country')
@@ -138,6 +153,13 @@ class PetQuerySet(models.QuerySet):
 class AvailablePetsManager(models.Manager):
     def get_queryset(self):
         return PetQuerySet(self.model, using=self._db).filter(status=PetStatus.AVAILABLE)
+
+
+NULLABLE_BOOLEAN_FIELD_CHOICES = (
+    (None, _("Nepatikslinta")),
+    (True, _("Taip")),
+    (False, _("Ne")),
+)
 
 
 class Pet(models.Model):
@@ -166,6 +188,68 @@ class Pet(models.Model):
         " paspausti ant gyvūno profilio."))
     description = models.TextField(verbose_name=_("Aprašymas"),
                                    help_text=_("Gyvūno aprašymas matomas įėjus į gyvūno profilį."))
+
+    gender = models.IntegerField(
+        verbose_name=_("Lytis"),
+        choices=PetGender.choices,
+        blank=True,
+        null=True
+    )
+    age = models.IntegerField(
+        verbose_name=_("Amžius"),
+        blank=True,
+        null=True
+    )
+    weight = models.IntegerField(
+        verbose_name=_("Svoris"),
+        blank=True,
+        null=True
+    )
+    size = models.IntegerField(
+        verbose_name=_("Dydis"),
+        choices=PetSize.choices,
+        blank=True,
+        null=True
+    )
+    desexed = models.BooleanField(
+        verbose_name=_("Kastruotas ar sterilizuotas"),
+        choices=NULLABLE_BOOLEAN_FIELD_CHOICES,
+        blank=True,
+        null=True,
+        help_text=_("Pažymėkite jei gyvūnas yra kastruotas arba sterilizuotas")
+    )
+    cat_friendly = models.BooleanField(
+        verbose_name=_("Draugiškas su katėmis"),
+        choices=NULLABLE_BOOLEAN_FIELD_CHOICES,
+        blank=True,
+        null=True,
+    )
+    dog_friendly = models.BooleanField(
+        verbose_name=_("Draugiškas su šunimis"),
+        choices=NULLABLE_BOOLEAN_FIELD_CHOICES,
+        blank=True,
+        null=True,
+    )
+    child_friendly = models.BooleanField(
+        verbose_name=_("Draugiškas su vaikais"),
+        choices=NULLABLE_BOOLEAN_FIELD_CHOICES,
+        blank=True,
+        null=True,
+    )
+    is_vaccinated = models.BooleanField(
+        verbose_name=_("Vakcinuotas"),
+        choices=NULLABLE_BOOLEAN_FIELD_CHOICES,
+        blank=True,
+        null=True,
+    )
+    is_special_care_needed = models.BooleanField(
+        verbose_name=_("Reikalinga speciali pagalba"),
+        choices=NULLABLE_BOOLEAN_FIELD_CHOICES,
+        blank=True,
+        null=True,
+        help_text=_("Pasirinkite taip, jei gyvūnas yra traumuotas, jam reikalinga ypatinga pagalba ir  "
+                    "gali paimti tik žmogus turintis patirties.")
+    )
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Sukūrimo data'))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinimo data"))

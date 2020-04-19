@@ -3,11 +3,12 @@ from typing import Type
 from allauth.account.forms import BaseSignupForm, LoginForm as AllAuthLoginForm, \
     ResetPasswordForm as AllAuthResetPasswordForm, SignupForm as AllAuthSignupForm
 from allauth.socialaccount.forms import SignupForm as AllAuthSocialSignupForm
+from crispy_forms.bootstrap import AppendedText as BaseAppendedText, PrependedText as BasePrependedText
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Div, Field, HTML, Layout, Submit
 from django import forms
 from django.forms import inlineformset_factory
-from django.forms.widgets import ClearableFileInput, FileInput
+from django.forms.widgets import FileInput
 from django.utils.translation import gettext_lazy as _
 
 from web.models import Pet, PetProfilePhoto
@@ -23,6 +24,18 @@ _redirect_field_html = HTML("""
 def _remove_autofocus_and_placeholders(form: Type[BaseSignupForm]):
     for field_name in form.fields:
         form.fields[field_name].widget.attrs.pop("placeholder", None)
+
+
+class PrependedText(BasePrependedText):
+    def __init__(self, field, text, *args, **kwargs):
+        kwargs['template'] = 'management/widget/prepended_appended_text.html'
+        super().__init__(field, text, *args, **kwargs)
+
+
+class AppendedText(BaseAppendedText):
+    def __init__(self, field, text, *args, **kwargs):
+        kwargs['template'] = 'management/widget/prepended_appended_text.html'
+        super().__init__(field, text, *args, **kwargs)
 
 
 class WebFormHelper(FormHelper):
@@ -77,8 +90,9 @@ class ShelterPetUpdateForm(forms.ModelForm):
                         Div(
                             Div(
                                 Div('name', css_class='col-md-6'),
-                                Div('short_description', css_class='col-md-6'),
                                 Div('status', css_class='col-md-6'),
+
+                                Div('short_description', css_class='col-12'),
                                 Div('description', css_class='col-12'),
                                 css_class='row'
                             ),
@@ -106,6 +120,35 @@ class ShelterPetUpdateForm(forms.ModelForm):
                     ),
                     css_class='col-lg-4'
                 ),
+                Div(
+                    Div(
+                        HTML(f"""
+            <h4 class="card-title">
+                <strong>{_("Savybių")}</strong> {_("informacija")}
+            </h4>
+            """),
+                        Div(
+                            Div(
+                                Div('gender', css_class='col-md-6'),
+                                Div('size', css_class='col-md-6'),
+                                Div('age', css_class='col-md-6'),
+                                Div(AppendedText('weight', 'kg'), css_class='col-md-6'),
+
+                                Div('desexed', css_class='col-md-4'),
+                                Div('is_vaccinated', css_class='col-md-4'),
+                                Div('is_special_care_needed', css_class='col-md-4'),
+
+                                Div('cat_friendly', css_class='col-md-4'),
+                                Div('dog_friendly', css_class='col-md-4'),
+                                Div('child_friendly', css_class='col-md-4'),
+                                css_class='row'
+                            ),
+                            css_class='card-body'
+                        ),
+                        css_class='card'
+                    ),
+                    css_class='col-lg-8'
+                ),
                 css_class='row'
             ),
             Submit('submit', _("Išsaugoti"), css_class='btn btn-bold btn-block btn-primary')
@@ -113,7 +156,23 @@ class ShelterPetUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Pet
-        fields = ['name', 'status', 'photo', 'short_description', 'description', ]
+        fields = [
+            'name',
+            'status',
+            'photo',
+            'short_description',
+            'description',
+            'gender',
+            'age',
+            'size',
+            'weight',
+            'desexed',
+            'is_vaccinated',
+            'is_special_care_needed',
+            'cat_friendly',
+            'dog_friendly',
+            'child_friendly',
+        ]
         widgets = {
             'photo': FileInput(attrs={
                 'class': 'photo',
