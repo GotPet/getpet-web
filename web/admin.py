@@ -28,20 +28,12 @@ class UserAdmin(BaseUserAdmin):
     total_getpet_requests.short_description = _("GetPet paspaudimai")
 
 
-class PetInline(admin.StackedInline):
-    model = Pet
-
-
 @admin.register(Shelter)
 class ShelterAdmin(VersionAdmin):
     search_fields = ['name', ]
     list_display = ['name', 'email', 'phone', 'created_at', 'updated_at']
     raw_id_fields = ['authenticated_users']
     autocomplete_fields = ['region']
-
-    inlines = [
-        PetInline
-    ]
 
 
 class RegionInline(admin.StackedInline):
