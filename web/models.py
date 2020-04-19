@@ -156,9 +156,9 @@ class AvailablePetsManager(models.Manager):
 
 
 NULLABLE_BOOLEAN_FIELD_CHOICES = (
-    (None, _("Nepatikslinta")),
     (True, _("Taip")),
     (False, _("Ne")),
+    (None, _("Nepatikslinta")),
 )
 
 
