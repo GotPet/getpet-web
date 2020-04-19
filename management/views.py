@@ -3,12 +3,13 @@ from typing import Any, Dict
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
+from django.http.request import HttpRequest
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
 
-from management.forms import PetProfilePhotoFormSet, ShelterPetUpdateForm
+from management.forms import PetListFiltersForm, PetProfilePhotoFormSet, ShelterPetUpdateForm
 from management.mixins import ViewPaginatorMixin
 from management.utils import add_url_params
 from web.models import Pet, Shelter
@@ -20,13 +21,28 @@ class ShelterPetsListView(LoginRequiredMixin, ViewPaginatorMixin, ListView):
     context_object_name = 'pets'
     ordering = ["-pk"]
     paginate_by = 100
+    petListFiltersForm = None
+
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        self.petListFiltersForm = PetListFiltersForm(request.GET)
+
+        return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
         shelter = Shelter.user_selected_shelter(self.request.user)
-        return Pet.pets_from_shelter(shelter, annotate_with_total_likes=True)
+
+        pets = Pet.pets_from_shelter(shelter, annotate_with_total_likes=True)
+
+        return self.petListFiltersForm.filter_queryset(pets)
 
     def page_link(self, query_params, page):
         return add_url_params(reverse('management_pets_list') + query_params, {'page': page})
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['filters_form'] = self.petListFiltersForm
+
+        return context
 
 
 class ShelterPetUpdateView(LoginRequiredMixin, UpdateView):

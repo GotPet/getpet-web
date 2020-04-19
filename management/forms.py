@@ -1,17 +1,20 @@
-from typing import Type
+from abc import abstractmethod
+from typing import Optional, Type
 
 from allauth.account.forms import BaseSignupForm, LoginForm as AllAuthLoginForm, \
     ResetPasswordForm as AllAuthResetPasswordForm, SignupForm as AllAuthSignupForm
 from allauth.socialaccount.forms import SignupForm as AllAuthSocialSignupForm
 from crispy_forms.bootstrap import AppendedText as BaseAppendedText, PrependedText as BasePrependedText
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Div, Field, HTML, Layout, Submit
+from crispy_forms.layout import Button, Div, Field, HTML, Layout, Submit
 from django import forms
 from django.forms import inlineformset_factory
-from django.forms.widgets import FileInput
+from django.forms.utils import ErrorList
+from django.forms.widgets import FileInput, RadioSelect
+from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from web.models import Pet, PetProfilePhoto
+from web.models import Pet, PetProfilePhoto, PetStatus
 
 _redirect_field_html = HTML("""
                   {% if redirect_field_value %}
@@ -240,3 +243,69 @@ class ResetPasswordForm(AllAuthResetPasswordForm):
         )
 
         _remove_autofocus_and_placeholders(self)
+
+
+class BaseFiltersForm(forms.Form):
+    def __init__(self, data=None, files=None, auto_id='id_%s', prefix=None, initial=None, error_class=ErrorList,
+                 label_suffix=None, empty_permitted=False, field_order=None, use_required_attribute=None,
+                 renderer=None):
+        super().__init__(data, files, auto_id, prefix, initial, error_class, label_suffix, empty_permitted, field_order,
+                         use_required_attribute, renderer)
+        self.is_valid()
+
+    @abstractmethod
+    def filter_queryset(self, queryset):
+        pass
+
+
+class PetListFiltersForm(BaseFiltersForm):
+    all_choice = [("", _("Visi"))]
+
+    status = forms.ChoiceField(
+        label=_("Gyvūno statusas"),
+        choices=all_choice + [(str(k), str(v)) for k, v in PetStatus.choices],
+        required=False,
+        initial=str(PetStatus.AVAILABLE),
+        widget=RadioSelect
+    )
+
+    def __init__(self, data=None, files=None, auto_id='id_%s', prefix=None, initial=None, error_class=ErrorList,
+                 label_suffix=None, empty_permitted=False, field_order=None, use_required_attribute=None,
+                 renderer=None):
+        super().__init__(data, files, auto_id, prefix, initial, error_class, label_suffix, empty_permitted, field_order,
+                         use_required_attribute, renderer)
+
+        self.helper = WebFormHelper()
+        self.helper.form_method = 'GET'
+        self.helper.form_class = 'aside-block'
+        self.helper.layout = Layout(
+            'status',
+            HTML("<hr>"),
+            Div(
+                HTML(
+                    f"""<a href="{reverse("management_pets_list")}" 
+                           class="button btn btn-sm btn-secondary">{_("Atstatyti")}</a>"""),
+                Submit('', _("Filtruoti"), css_class='btn btn-sm btn-primary'),
+                css_class='flexbox'
+            )
+        )
+
+    def get_selected_status(self) -> Optional[PetStatus]:
+        status_param = self.cleaned_data.get('status')
+
+        if status_param:
+            try:
+                return PetStatus(int(status_param))
+            except ValueError:
+                return None
+
+    # noinspection PyMethodMayBeStatic
+    def filter_pet_status(self, queryset, status: PetStatus):
+        return queryset.filter(status=status)
+
+    def filter_queryset(self, queryset):
+        status = self.get_selected_status()
+        if status:
+            queryset = self.filter_pet_status(queryset, status)
+
+        return queryset
