@@ -10,15 +10,24 @@
             <div class="card card-transparent center-h text-center">
                 <h1 class="text-secondary lh-1" style="font-size: 200px"><i class="fa fa-paw"></i></h1>
                 <hr class="w-30px">
-                <h3 class="text-uppercase">Under maintenance!</h3>
+                <h3 class="text-uppercase">{% trans 'Vartotojas nesusietas su prieglauda' %}</h3>
 
-                <p class="lead">We're sorry for the inconvenience.<br>Please check back later.</p>
+                <p class="lead">
+                    {% trans 'Jūsų el. paštas: ' %} {{ user.email }}.<br>
+                    {% trans 'Jei manote, kad tai klaida, susisiekite su GetPet administracija' %}
+                    {{ "info@getpet.lt"|urlize }}.
+                </p>
+                <div class="text-center">
+                    <a href="{% url 'management_pets_list' %}"
+                       class="btn btn-primary">{% trans 'Bandyti dar kartą' %}
+                    </a>
+                </div>
             </div>
         </div>
 
 
         <footer class="col-12 align-self-end text-center fs-13">
-            <p>Copyright © 2019 <a href="http://thetheme.io/theadmin">TheAdmin</a>. All rights reserved.</p>
+            <p>© 2020 GetPet. {% trans 'Visos teisės saugomos' %}.</p>
         </footer>
     </div>
 

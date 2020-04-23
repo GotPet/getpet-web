@@ -1,7 +1,6 @@
 from typing import Any, Dict
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.http.request import HttpRequest
 from django.shortcuts import render
@@ -10,12 +9,12 @@ from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
 
 from management.forms import PetListFiltersForm, PetProfilePhotoFormSet, ShelterPetUpdateForm
-from management.mixins import ViewPaginatorMixin
+from management.mixins import UserWithAssociatedShelterMixin, ViewPaginatorMixin
 from management.utils import add_url_params
 from web.models import Pet, Shelter
 
 
-class ShelterPetsListView(LoginRequiredMixin, ViewPaginatorMixin, ListView):
+class ShelterPetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, ListView):
     template_name = 'management/pets-list.html'
     model = Pet
     context_object_name = 'pets'
@@ -24,6 +23,7 @@ class ShelterPetsListView(LoginRequiredMixin, ViewPaginatorMixin, ListView):
     petListFiltersForm = None
 
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        # noinspection PyTypeChecker
         self.petListFiltersForm = PetListFiltersForm(request.GET)
 
         return super().get(request, *args, **kwargs)
@@ -45,7 +45,7 @@ class ShelterPetsListView(LoginRequiredMixin, ViewPaginatorMixin, ListView):
         return context
 
 
-class ShelterPetUpdateView(LoginRequiredMixin, UpdateView):
+class ShelterPetUpdateView(UserWithAssociatedShelterMixin, UpdateView):
     model = Pet
     template_name = 'management/pet-edit.html'
     context_object_name = 'pet'

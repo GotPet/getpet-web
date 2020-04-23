@@ -1,6 +1,9 @@
 import logging
+from datetime import datetime
 from json import dumps
+from typing import Optional
 from urllib.parse import urlencode, unquote, urlparse, parse_qsl, ParseResult
+from django.utils.timezone import now
 
 from django.core.paginator import Page, Paginator
 
@@ -9,6 +12,18 @@ logger = logging.getLogger(__name__)
 
 def image_url_with_size_params(url: str, size: int) -> str:
     return add_url_params(url, {'w': size, 'h': size})
+
+
+def try_parse_int(value) -> Optional[int]:
+    if value:
+        try:
+            return int(value)
+        except ValueError:
+            return None
+
+
+def django_now() -> datetime:
+    return now()
 
 
 class PageWithPageLink(Page):

@@ -122,11 +122,20 @@ class Shelter(models.Model):
         ordering = ['-created_at', 'name']
 
     @staticmethod
-    def user_selected_shelter(user: AbstractBaseUser) -> Optional[Shelter]:
+    def user_associated_shelters(user: AbstractBaseUser):
         if user.is_authenticated:
-            return Shelter.objects.filter(authenticated_users=user).first()
+            return Shelter.objects.filter(authenticated_users=user)
 
-        return None
+        return Shelter.objects.none()
+
+    @staticmethod
+    def user_selected_shelter(user: AbstractBaseUser, shelter_id=None) -> Optional[Shelter]:
+        shelters = Shelter.user_associated_shelters(user) if user.is_authenticated else Shelter.objects.none()
+
+        if shelter_id:
+            shelters = shelters.filter(id=shelter_id)
+
+        return shelters.first()
 
     def square_logo_medium_url(self) -> Optional[str]:
         if self.square_logo:
