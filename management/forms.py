@@ -14,7 +14,7 @@ from django.forms.widgets import FileInput, RadioSelect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from web.models import Pet, PetProfilePhoto, PetStatus
+from web.models import Pet, PetGender, PetProfilePhoto, PetStatus
 
 _redirect_field_html = HTML("""
                   {% if redirect_field_value %}
@@ -265,7 +265,13 @@ class PetListFiltersForm(BaseFiltersForm):
         label=_("Gyvūno statusas"),
         choices=all_choice + [(str(k), str(v)) for k, v in PetStatus.choices],
         required=False,
-        initial=str(PetStatus.AVAILABLE),
+        widget=RadioSelect
+    )
+
+    gender = forms.ChoiceField(
+        label=_("Gyvūno lytis"),
+        choices=all_choice + sorted([(str(k), str(v)) for k, v in PetGender.choices], key=lambda x: x[0]),
+        required=False,
         widget=RadioSelect
     )
 
@@ -280,6 +286,7 @@ class PetListFiltersForm(BaseFiltersForm):
         self.helper.form_class = 'aside-block'
         self.helper.layout = Layout(
             'status',
+            'gender',
             HTML("<hr>"),
             Div(
                 HTML(
