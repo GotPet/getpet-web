@@ -7,9 +7,11 @@
 {% block sidebar %}
     <aside class="sidebar sidebar-expand-lg sidebar-iconic">
         <header class="sidebar-header">
-            <span class="logo">
-                <img src="{% static "img/logo/getpet-logo-small-white.png" %}" alt="logo"
-            </span>
+            <a href="{% url 'management_pets_list' %}">
+                <span class="logo">
+                    <img src="{% static "img/logo/getpet-logo-small-white.png" %}" alt="GetPet">
+                </span>
+            </a>
         </header>
 
         <nav class="sidebar-navigation">
