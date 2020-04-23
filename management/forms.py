@@ -270,7 +270,7 @@ class PetListFiltersForm(BaseFiltersForm):
 
     gender = forms.ChoiceField(
         label=_("Gyvūno lytis"),
-        choices=all_choice + sorted([(str(k), str(v)) for k, v in PetGender.choices], key=lambda x: x[0]),
+        choices=all_choice + [(str(k), str(v)) for k, v in PetGender.choices if k is not None],
         required=False,
         widget=RadioSelect
     )
@@ -306,13 +306,31 @@ class PetListFiltersForm(BaseFiltersForm):
             except ValueError:
                 return None
 
+    def get_selected_gender(self) -> Optional[PetGender]:
+        gender_param = self.cleaned_data.get('gender')
+
+        if gender_param:
+            try:
+                return PetGender(int(gender_param))
+            except ValueError:
+                return None
+
     # noinspection PyMethodMayBeStatic
     def filter_pet_status(self, queryset, status: PetStatus):
         return queryset.filter(status=status)
 
+    # noinspection PyMethodMayBeStatic
+    def filter_pet_gender(self, queryset, gender: PetGender):
+        return queryset.filter(gender=gender)
+
     def filter_queryset(self, queryset):
         status = self.get_selected_status()
+        gender = self.get_selected_gender()
+
         if status:
             queryset = self.filter_pet_status(queryset, status)
+
+        if gender:
+            queryset = self.filter_pet_gender(queryset, gender)
 
         return queryset
