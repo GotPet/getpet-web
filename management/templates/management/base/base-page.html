@@ -15,6 +15,17 @@
         </header>
 
         <nav class="sidebar-navigation">
+            {% with square_logo_medium_url=user_selected_shelter.square_logo_medium_url %}
+                {% if square_logo_medium_url %}
+                    <div class="sidebar-profile">
+                    <img class="rounded border"
+                         src="{{ square_logo_medium_url }}"
+                         alt="{{ user_selected_shelter.name }}"
+                         width="64"
+                         height="64">
+                {% endif %}
+            {% endwith %}
+            </div>
             <ul class="menu">
 
                 <li class="menu-item active">

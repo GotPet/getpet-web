@@ -7,6 +7,10 @@ from django.core.paginator import Page, Paginator
 logger = logging.getLogger(__name__)
 
 
+def image_url_with_size_params(url: str, size: int) -> str:
+    return add_url_params(url, {'w': size, 'h': size})
+
+
 class PageWithPageLink(Page):
     def __init__(self, page_link_function, object_list, number, paginator):
         self._page_link_function = page_link_function

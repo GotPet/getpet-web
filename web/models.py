@@ -13,7 +13,7 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
 from getpet import settings
-from management.utils import add_url_params
+from management.utils import image_url_with_size_params
 from web.utils import file_extension
 
 
@@ -95,7 +95,16 @@ class Region(models.Model):
 
 
 class Shelter(models.Model):
+    def _shelter_square_logo_file(self, filename):
+        ext = file_extension(filename)
+        slug = slugify(self.name)
+
+        filename = f"{slug}-square-logo.{ext}"
+        return join('img', 'web', 'shelter', slug, filename)
+
     name = models.CharField(max_length=128, verbose_name=_("Prieglaudos pavadinimas"))
+    square_logo = models.ImageField(upload_to=_shelter_square_logo_file, null=True, blank=True,
+                                    verbose_name=_("Kvadratinis logotipas"))
     region = models.ForeignKey(Region, on_delete=models.PROTECT, related_name="shelters", verbose_name=_("Regionas"))
     email = models.EmailField(verbose_name=_("Elektroninis paštas"))
     phone = models.CharField(max_length=24, verbose_name=_("Telefono numeris"))
@@ -118,6 +127,10 @@ class Shelter(models.Model):
             return Shelter.objects.filter(authenticated_users=user).first()
 
         return None
+
+    def square_logo_medium_url(self) -> Optional[str]:
+        if self.square_logo:
+            return image_url_with_size_params(self.square_logo.url, size=64)
 
     def __str__(self):
         return self.name
@@ -291,11 +304,8 @@ class Pet(models.Model):
 
         return queryset
 
-    def main_profile_image(self, size=None) -> str:
-        return add_url_params(self.photo.url, {'w': size, 'h': size})
-
     def main_profile_medium(self) -> str:
-        return self.main_profile_image(size=64)
+        return image_url_with_size_params(self.photo.url, size=64)
 
     def edit_pet_url(self) -> str:
         return reverse('management_pet_update', kwargs={'pk': self.pk})
