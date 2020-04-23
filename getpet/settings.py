@@ -14,6 +14,7 @@ import os
 import logging.config
 
 from django.core.exceptions import DisallowedHost
+from django.urls import reverse_lazy
 from django.utils.log import DEFAULT_LOGGING
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
@@ -322,7 +323,7 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_CONFIRM_EMAIL_ON_GET = True
-LOGIN_REDIRECT_URL = "/accounts/profile/"
+ACCOUNT_LOGOUT_REDIRECT_URL = reverse_lazy("management_pets_list")
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_LOGOUT_ON_GET = False
