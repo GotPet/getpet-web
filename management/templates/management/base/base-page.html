@@ -41,6 +41,16 @@
                 </div>
             </div>
         </div>
+        <div class="topbar-right">
+            <div>
+                <form method="post" action="{% url 'account_logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-sm btn-outline btn-primary">
+                        {% trans 'Atsijungti' %}
+                    </button>
+                </form>
+            </div>
+        </div>
     </header>
     <!-- END Topbar -->
 {% endblock %}
