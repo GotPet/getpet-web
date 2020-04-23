@@ -43,15 +43,18 @@
 {% block topbar %}
     <!-- Topbar -->
     <header class="topbar">
-        <div class="topbar-left">
+        <div class="topbar-left flex-grow mr-5">
             <span class="topbar-btn sidebar-toggler"><i>&#9776;</i></span>
+            <div class="w-100">
+                <form class="lookup lookup-huge">
+                    <!--suppress HtmlFormInputWithoutLabel -->
+                    <input class="no-radius no-border" type="text"
+                           placeholder="{% trans 'Ieškokite gyvūnų pagal vardą, kodą ir kitus parametrus ...' %}">
+                    <button type="submit" class="btn btn-info">
+                        {% trans 'Ieškoti' %}
+                    </button>
+                </form>
 
-            <div class="lookup topbar-search" id="theadmin-search">
-                <input class="form-control w-300px" type="text">
-                <div class="lookup-placeholder">
-                    <i class="ti-search"></i>
-                    <span><strong>Try</strong> button, slider, modal, etc.</span>
-                </div>
             </div>
         </div>
         <div class="topbar-right">
@@ -63,6 +66,7 @@
                     </button>
                 </form>
             </div>
+            <div class="topbar-divider"></div>
         </div>
     </header>
     <!-- END Topbar -->
