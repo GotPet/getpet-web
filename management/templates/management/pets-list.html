@@ -18,13 +18,28 @@
 {% endblock %}
 
 {% block content %}
-    {% for pet in pets %}
-        {% include 'management/cell/pet-big-cell.html' with pet=pet %}
-    {% endfor %}
+    {% if pets.exists %}
+        {% for pet in pets %}
+            {% include 'management/cell/pet-big-cell.html' with pet=pet %}
+        {% endfor %}
 
-    <footer class="flexbox align-items-center mb-4">
-        {% include 'management/widget/pagination.html' with paginator_page=page_obj %}
-    </footer>
+        <footer class="flexbox align-items-center mb-4">
+            {% include 'management/widget/pagination.html' with paginator_page=page_obj %}
+        </footer>
+    {% else %}
+        <div class="row">
+            <div class="col-12 text-center">
+                <div class="card">
+                    <div class="card-body">
+                        <div>
+                            <i class="fa fa-paw fs-90"></i>
+                        </div>
+                        {% trans 'Deja, pagal dabartinius paieškos kriterijus gyvūnų nerasta.' %}.
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 
 {% endblock %}
 
