@@ -61,6 +61,9 @@ class ShelterPetUpdateView(UserWithAssociatedShelterMixin, UpdateView):
 
         return context
 
+    def get_success_url(self) -> str:
+        return self.get_object().edit_pet_url()
+
 
 @login_required
 def no_associated_shelter(request) -> HttpResponse:
