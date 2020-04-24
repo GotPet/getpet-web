@@ -19,7 +19,7 @@ class ShelterPetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, Li
     model = Pet
     context_object_name = 'pets'
     ordering = ["-pk"]
-    paginate_by = 100
+    paginate_by = 50
     petListFiltersForm = None
 
     def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
