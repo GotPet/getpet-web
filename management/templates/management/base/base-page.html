@@ -46,9 +46,9 @@
         <div class="topbar-left flex-grow">
             <span class="topbar-btn sidebar-toggler"><i>&#9776;</i></span>
             <div class="w-100">
-                <form class="lookup lookup-huge">
+                <form class="lookup lookup-huge" method="get" action="{% url 'management_pets_list' %}">
                     <!--suppress HtmlFormInputWithoutLabel -->
-                    <input class="no-radius no-border" type="text" required
+                    <input class="no-radius no-border" name="q" type="text" required
                            placeholder="{% trans 'Ieškokite gyvūnų pagal vardą, kodą ir kitus parametrus ...' %}">
                     <button type="submit" class="btn btn-info">
                         {% trans 'Ieškoti' %}

@@ -6,7 +6,7 @@ from allauth.account.forms import BaseSignupForm, LoginForm as AllAuthLoginForm,
 from allauth.socialaccount.forms import SignupForm as AllAuthSocialSignupForm
 from crispy_forms.bootstrap import AppendedText as BaseAppendedText, PrependedText as BasePrependedText
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Button, Div, Field, HTML, Layout, Submit
+from crispy_forms.layout import Button, Div, Field, HTML, Hidden, Layout, Submit
 from django import forms
 from django.forms import inlineformset_factory
 from django.forms.utils import ErrorList
@@ -14,7 +14,7 @@ from django.forms.widgets import FileInput, RadioSelect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from web.models import Pet, PetGender, PetProfilePhoto, PetStatus
+from web.models import Pet, PetGender, PetProfilePhoto, PetQuerySet, PetStatus
 
 _redirect_field_html = HTML("""
                   {% if redirect_field_value %}
@@ -275,6 +275,8 @@ class PetListFiltersForm(BaseFiltersForm):
         widget=RadioSelect
     )
 
+    q = forms.CharField(widget=forms.HiddenInput(), required=False)
+
     def __init__(self, data=None, files=None, auto_id='id_%s', prefix=None, initial=None, error_class=ErrorList,
                  label_suffix=None, empty_permitted=False, field_order=None, use_required_attribute=None,
                  renderer=None):
@@ -287,6 +289,7 @@ class PetListFiltersForm(BaseFiltersForm):
         self.helper.layout = Layout(
             'status',
             'gender',
+            'q',
             HTML("<hr>"),
             Div(
                 HTML(
@@ -315,22 +318,29 @@ class PetListFiltersForm(BaseFiltersForm):
             except ValueError:
                 return None
 
+    def get_search_term(self) -> Optional[str]:
+        return self.cleaned_data.get('q')
+
     # noinspection PyMethodMayBeStatic
-    def filter_pet_status(self, queryset, status: PetStatus):
+    def filter_pet_status(self, queryset: PetQuerySet, status: PetStatus) -> PetQuerySet:
         return queryset.filter(status=status)
 
     # noinspection PyMethodMayBeStatic
-    def filter_pet_gender(self, queryset, gender: PetGender):
+    def filter_pet_gender(self, queryset: PetQuerySet, gender: PetGender) -> PetQuerySet:
         return queryset.filter(gender=gender)
 
-    def filter_queryset(self, queryset):
-        status = self.get_selected_status()
-        gender = self.get_selected_gender()
+    # noinspection PyMethodMayBeStatic
+    def filter_by_search_term(self, queryset: PetQuerySet, search_term: str) -> PetQuerySet:
+        return queryset.filter_by_search_term(search_term)
 
-        if status:
+    def filter_queryset(self, queryset: PetQuerySet) -> PetQuerySet:
+        if status := self.get_selected_status():
             queryset = self.filter_pet_status(queryset, status)
 
-        if gender:
+        if gender := self.get_selected_gender():
             queryset = self.filter_pet_gender(queryset, gender)
+
+        if search_term := self.get_search_term():
+            queryset = self.filter_by_search_term(queryset, search_term)
 
         return queryset

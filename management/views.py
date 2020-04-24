@@ -41,6 +41,7 @@ class ShelterPetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, Li
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
         context['filters_form'] = self.petListFiltersForm
+        context['search_term'] = self.petListFiltersForm.get_search_term()
 
         return context
 

@@ -18,6 +18,12 @@
 {% endblock %}
 
 {% block content %}
+    {% if search_term %}
+        <div class="alert alert-info" role="alert">
+            {% trans 'Žemiau pateikiami paieškos rezultatai pagal' %}: <strong>{{ search_term }}</strong>
+        </div>
+    {% endif %}
+
     {% if pets.exists %}
         {% for pet in pets %}
             {% include 'management/cell/pet-big-cell.html' with pet=pet %}

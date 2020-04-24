@@ -179,6 +179,9 @@ class PetQuerySet(models.QuerySet):
             )
         )
 
+    def filter_by_search_term(self, search_term: str):
+        return self.filter(name__icontains=search_term)
+
 
 class AvailablePetsManager(models.Manager):
     def get_queryset(self):
