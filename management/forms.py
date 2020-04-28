@@ -10,7 +10,7 @@ from crispy_forms.layout import Button, Div, Field, HTML, Hidden, Layout, Submit
 from django import forms
 from django.forms import inlineformset_factory
 from django.forms.utils import ErrorList
-from django.forms.widgets import FileInput, RadioSelect
+from django.forms.widgets import ClearableFileInput, FileInput, RadioSelect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
@@ -77,6 +77,8 @@ class ShelterPetUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = WebFormHelper()
+        self.helper.disable_csrf = True
+        self.helper.form_tag = False
 
         if self.instance and self.instance.photo:
             self.fields['photo'].widget.attrs['data-default-file'] = self.instance.photo.url
@@ -84,78 +86,74 @@ class ShelterPetUpdateForm(forms.ModelForm):
         self.helper.layout = Layout(
             Div(
                 Div(
-                    Div(
-                        HTML(f"""
+                    HTML(f"""
                     <h4 class="card-title">
                         <strong>{_("Pagrindinė")}</strong> {_("informacija")}
                     </h4>
                     """),
-                        Div(
-                            Div(
-                                Div('name', css_class='col-md-6'),
-                                Div('status', css_class='col-md-6'),
-
-                                Div('short_description', css_class='col-12'),
-                                Div('description', css_class='col-12'),
-                                css_class='row'
-                            ),
-                            css_class='card-body'
-                        ),
-                        css_class='card'
-                    ),
-                    css_class='col-lg-8'
-                ),
-                Div(
                     Div(
-                        HTML(f"""
+                        Div(
+                            Div('name', css_class='col-md-6'),
+                            Div('status', css_class='col-md-6'),
+
+                            Div('short_description', css_class='col-12'),
+                            Div('description', css_class='col-12'),
+                            css_class='row'
+                        ),
+                        css_class='card-body'
+                    ),
+                    css_class='card'
+                ),
+                css_class='col-lg-8'
+            ),
+            Div(
+                Div(
+                    HTML(f"""
                     <h4 class="card-title">
                         <strong>{_("Profilio")}</strong> {_("nuotrauka")}
                     </h4>
                     """),
-                        Div(
-                            Div(
-                                Div('photo', css_class='col-12'),
-                                css_class='row'
-                            ),
-                            css_class='card-body'
-                        ),
-                        css_class='card'
-                    ),
-                    css_class='col-lg-4'
-                ),
-                Div(
                     Div(
-                        HTML(f"""
+                        Div(
+                            Div('photo', css_class='col-12'),
+                            css_class='row'
+                        ),
+                        css_class='card-body'
+                    ),
+                    css_class='card'
+                ),
+                css_class='col-lg-4'
+            ),
+            Div(
+                Div(
+                    HTML(f"""
             <h4 class="card-title">
                 <strong>{_("Savybių")}</strong> {_("informacija")}
             </h4>
             """),
+                    Div(
                         Div(
-                            Div(
-                                Div('gender', css_class='col-md-6'),
-                                Div('desexed', css_class='col-md-6'),
+                            Div('gender', css_class='col-md-6'),
+                            Div('desexed', css_class='col-md-6'),
 
-                                Div('size', css_class='col-md-4'),
-                                Div('age', css_class='col-md-4'),
-                                Div(AppendedText('weight', 'kg'), css_class='col-md-4'),
+                            Div('size', css_class='col-md-4'),
+                            Div('age', css_class='col-md-4'),
+                            Div(AppendedText('weight', 'kg'), css_class='col-md-4'),
 
-                                Div('is_vaccinated', css_class='col-md-6'),
-                                Div('is_special_care_needed', css_class='col-md-6'),
+                            Div('is_vaccinated', css_class='col-md-6'),
+                            Div('is_special_care_needed', css_class='col-md-6'),
 
-                                Div('cat_friendly', css_class='col-md-4'),
-                                Div('dog_friendly', css_class='col-md-4'),
-                                Div('child_friendly', css_class='col-md-4'),
-                                css_class='row'
-                            ),
-                            css_class='card-body'
+                            Div('cat_friendly', css_class='col-md-4'),
+                            Div('dog_friendly', css_class='col-md-4'),
+                            Div('child_friendly', css_class='col-md-4'),
+                            css_class='row'
                         ),
-                        css_class='card'
+                        css_class='card-body'
                     ),
-                    css_class='col-lg-8'
+                    css_class='card'
                 ),
-                css_class='row'
+                css_class='col-lg-8'
             ),
-            Submit('submit', _("Išsaugoti"), css_class='btn btn-bold btn-block btn-primary')
         )
 
     class Meta:
@@ -178,7 +176,7 @@ class ShelterPetUpdateForm(forms.ModelForm):
             'child_friendly',
         ]
         widgets = {
-            'photo': FileInput(attrs={
+            'photo': ClearableFileInput(attrs={
                 'class': 'photo',
                 'data-show-remove': 'false',
             }),
@@ -189,10 +187,12 @@ class PetProfilePhotoForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = WebFormHelper()
+        self.helper.disable_csrf = True
+        self.helper.form_tag = False
 
     class Meta:
         model = PetProfilePhoto
-        fields = ['photo']
+        fields = ['id']
 
 
 PetProfilePhotoFormSet = inlineformset_factory(Pet, PetProfilePhoto, form=PetProfilePhotoForm)

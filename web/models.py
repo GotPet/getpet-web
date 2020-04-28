@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import uuid
 from _md5 import md5
 from os.path import join
 from typing import Optional
@@ -339,14 +340,22 @@ class Pet(models.Model):
 class PetProfilePhoto(models.Model):
     def _pet_photo_file(self, filename):
         ext = file_extension(filename)
-        slug = slugify(self.pet.name)
 
-        filename = f"{slug}-photo-{self.order}.{ext}"
-        return join('img', 'web', 'pet', slug, 'profile', filename)
+        if self.pet:
+            slug = slugify(self.pet.name)
 
-    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name='profile_photos')
+            filename = f"{slug}-photo-{self.order}.{ext}"
+            return join('img', 'web', 'pet', slug, 'profile', filename)
+        else:
+            filename = f"{uuid.uuid4()}-photo.{ext}"
+            return join('img', 'web', 'pet', 'all', 'profile', filename)
+
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, null=True, blank=True, related_name='profile_photos')
     photo = models.ImageField(upload_to=_pet_photo_file, verbose_name=_('Gyvūno profilio nuotrauka'))
     order = models.PositiveIntegerField(default=0)
+
+    def large_photo(self) -> str:
+        return image_url_with_size_params(self.photo.url, size=120)
 
     class Meta:
         verbose_name = _("Gyvūno profilio nuotrauka")

@@ -2,6 +2,7 @@ from django.utils.decorators import method_decorator
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView
 from rest_framework.mixins import ListModelMixin
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -10,7 +11,9 @@ from rest_framework_tracking.mixins import LoggingMixin
 
 from api.filters import PetFilter
 from api.serializers import FirebaseSerializer, GeneratePetsRequestSerializer, PetFlatListSerializer, \
-    ShelterPetSerializer, TokenSerializer, UserPetChoiceSerializer, CountryWithRegionSerializer
+    PetProfilePhotoSerializer, PetProfilePhotoUploadSerializer, ShelterPetSerializer, TokenSerializer, \
+    UserPetChoiceSerializer, \
+    CountryWithRegionSerializer
 from web.models import Pet, UserPetChoice, GetPetRequest, Country
 
 
@@ -99,6 +102,16 @@ class ShelterPetView(LoggingMixin, UpdateAPIView):
             user=self.request.user,
             pet__id=self.request.data.get('pet')
         ).first()
+
+
+@method_decorator(name='post', decorator=swagger_auto_schema(
+    operation_description="Upload pet profile photo.",
+))
+class PetProfilePhotoView(CreateAPIView):
+    serializer_class = PetProfilePhotoUploadSerializer
+    # TODO Change to ShelterAuthenticated
+    permission_classes = (IsAuthenticated,)
+    authentication_classes = [SessionAuthentication]
 
 
 @method_decorator(name='post', decorator=swagger_auto_schema(

@@ -97,6 +97,12 @@ class ShelterPetSerializer(serializers.ModelSerializer):
         fields = ['pet', ]
 
 
+class PetProfilePhotoUploadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PetProfilePhoto
+        fields = ['id', 'photo', 'order']
+
+
 class TokenSerializer(serializers.ModelSerializer):
     class Meta:
         model = Token

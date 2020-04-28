@@ -5,6 +5,11 @@
 
 {% block title %}{% trans "Prieglaudos gyvūnų atnaujinimas" %}{% endblock %}
 
+{% block head %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.min.css"
+          integrity="sha256-NkyhTCRnLQ7iMv7F3TQWjVq25kLnjhbKEVPqGJBcCUg=" crossorigin="anonymous"/>
+{% endblock %}
+
 {% block content %}
     <div class="row">
         <div class="col-12">
@@ -23,27 +28,125 @@
             </div>
         </div>
     </div>
-    {% crispy form %}
+    <form method="POST" enctype="multipart/form-data" class="row">
+        {% csrf_token %}
 
-    {% crispy pet_photo_form_set pet_photo_form_set.form.helper %}
+        {% crispy form %}
+        <div class="d-none">
+            {% crispy pet_photo_form_set pet_photo_form_set.form.helper %}
+        </div>
+
+        <div class="col-12">
+            <div class="card">
+                <h4 class="card-title"><strong>{% trans 'Gyvūno nuotraukos' %}</strong></h4>
+                <div class="card-body">
+                    <div id="dropzone" class="dropzone"></div>
+                    {% trans 'Vilkite arba spauskite ir pridėkite gyvūno nuotraukas' %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12">
+
+            <input type="submit" name="submit" value="{% trans 'Išsaugoti' %}"
+                   class="btn btn-primary btn btn-bold btn-block btn-primary"
+                   id="submit-id-submit">
+        </div>
+
+
+    </form>
 {% endblock %}
 
 {% block script %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.min.js"
+            integrity="sha256-OG/103wXh6XINV06JTPspzNgKNa/jnP1LjPP5Y3XQDY=" crossorigin="anonymous"></script>
 
-    <script data-provide="dropify">
-        function initDropifyPetPhoto() {
-            $('.photo').dropify(
-                {
-                    messages: {
-                        default: '{% trans 'Nutempkite nuotrauką arba paspauskite ir įdėkite naują nuotrauką' %}',
-                        replace: '{% trans 'Pakeiskite nuotrauką' %}'
+    <script>
+        Dropzone.autoDiscover = false;
+
+        $(document).ready(function () {
+            new Dropzone("div#dropzone", {
+                url: "{% url 'api_pet_profile_photo' %}",
+                paramName: "photo",
+                init: function () {
+                    let self = this;
+                    let images = [
+                        {% for photo in pet.profile_photos.all %}
+                            {
+                                "id": {{ photo.id }},
+                                "order": {{ photo.order }},
+                                "url": "{{ photo.large_photo|escapejs }}",
+                            },
+                        {% endfor %}
+                    ]
+
+                    images.forEach(function (photo, _) {
+                        let mockFile = {
+                            name: photo.url,
+                            url: photo.url,
+                            order: photo.order,
+                            serverID: photo.id,
+                            accepted: true,
+                        };
+
+                        self.emit("addedfile", mockFile);
+                        self.options.thumbnail.call(self, mockFile, mockFile.url);
+                        self.emit("success", mockFile);
+                        self.emit("complete", mockFile);
+                        self.files.push(mockFile);
+                    });
+
+                },
+                success: function (file, response) {
+                    if (response === undefined) {
+                        return
                     }
-                });
-        }
+                    file.serverID = response.id;
+                    console.log("success", response);
 
-        app.ready(function () {
-            initDropifyPetPhoto();
-        })
+                    this.files.forEach(function (obj, index) {
+                        console.log("File object from foreach", obj);
+                        let photoId = file.serverID;
+
+                        $('<input>').attr({
+                            type: 'hidden',
+                            value: photoId,
+                            id: 'id_profile_photos-' + index + '-id',
+                            name: 'profile_photos-' + index + '-id'
+                        }).appendTo('form');
+
+                        {% if pet %}
+                            $('<input>').attr({
+                                type: 'hidden',
+                                value: "{{ pet.id }}",
+                                id: 'id_profile_photos-' + index + '-id',
+                                name: 'profile_photos-' + index + '-id'
+                            }).appendTo('form')
+                        {% endif %}
+                    });
+
+                },
+                sending: function (file, xhr, formData) {
+                    let order = this.files.map(function (obj, index) {
+                        if (file === obj) {
+                            return index;
+                        }
+                    }).filter(isFinite)[0];
+
+                    formData.append("order", order);
+                },
+                parallelUploads: 1,
+                resizeHeight: 1024,
+                resizeQuality: 1,
+                addRemoveLinks: true,
+                acceptedFiles: 'image/*',
+                headers: {
+                    'X-CSRFToken': "{{ csrf_token }}"
+                },
+                dictDefaultMessage: "{% trans 'Tempkite arba spauskite norėdami įkelti nuotraukas' %}",
+                dictRemoveFile: "{% trans 'Panaikinti' %}",
+            });
+        });
     </script>
 
 {% endblock %}

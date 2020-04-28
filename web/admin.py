@@ -180,3 +180,10 @@ class UserPetChoiceAdmin(VersionAdmin):
     raw_id_fields = ['user', 'pet']
     list_select_related = ['user', 'pet']
     list_filter = ['is_favorite', 'created_at']
+
+
+@admin.register(PetProfilePhoto)
+class PetProfilePhotoAdmin(VersionAdmin):
+    list_display = ['pet', 'photo', 'order', ]
+    raw_id_fields = ['pet']
+    list_select_related = ['pet']
