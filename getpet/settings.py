@@ -47,38 +47,38 @@ USE_X_FORWARDED_HOST = True
 # Application definition
 
 INSTALLED_APPS = [
-                     'django.contrib.admin',
-                     'django.contrib.auth',
-                     'django.contrib.contenttypes',
-                     'django.contrib.sessions',
-                     'django.contrib.messages',
-                     'django.contrib.staticfiles',
-                     'django.contrib.humanize',
-                     'django.contrib.sitemaps',
-                     'django.contrib.sites',
-                     'django.contrib.postgres',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.humanize',
+    'django.contrib.sitemaps',
+    'django.contrib.sites',
+    'django.contrib.postgres',
 
-                     'rest_framework',
-                     'rest_framework.authtoken',
+    'rest_framework',
+    'rest_framework.authtoken',
 
-                     'django_filters',
-                     'drf_yasg',
-                     'rest_framework_tracking',
+    'django_filters',
+    'drf_yasg',
+    'rest_framework_tracking',
 
-                     'crispy_forms',
-                     'adminsortable2',
-                     'reversion',
+    'crispy_forms',
+    'adminsortable2',
+    'reversion',
 
-                     'web',
-                     'management',
-                     'rukla',
+    'web',
+    'management',
+    'rukla',
 
-                     'allauth',
-                     'allauth.account',
-                     'allauth.socialaccount',
-                     'allauth.socialaccount.providers.facebook',
-                     'allauth.socialaccount.providers.google',
-                 ]
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -282,6 +282,7 @@ DJANGORESIZED_DEFAULT_KEEP_META = False
 DJANGORESIZED_DEFAULT_NORMALIZE_ROTATION = False
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_FAIL_SILENTLY = not DEBUG
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
