@@ -14,7 +14,7 @@ from django.forms.widgets import ClearableFileInput, RadioSelect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from web.models import Pet, PetGender, PetProfilePhoto, PetQuerySet, PetStatus
+from web.models import Pet, PetGender, PetProfilePhoto, PetQuerySet, PetStatus, Shelter
 
 _redirect_field_html = HTML("""
                   {% if redirect_field_value %}
@@ -71,6 +71,84 @@ class LoginForm(AllAuthLoginForm):
             Field('remember', css_class='custom-control custom-checkbox'),
             Submit('submit', _("Sign In"), css_class='btn btn-bold btn-block btn-primary')
         )
+
+
+class ShelterInfoUpdateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = WebFormHelper()
+        self.helper.form_class = 'row'
+
+        if self.instance and self.instance.square_logo:
+            self.fields['square_logo'].widget.attrs['data-default-file'] = self.instance.square_logo.url
+
+        self.helper.layout = Layout(
+            Div(
+                Div(
+                    HTML(f"""
+                    <h4 class="card-title">
+                        <strong>{_("Prieglaudos informacija")}</strong>
+                    </h4>
+                    """),
+                    Div(
+                        Div(
+                            Div(
+                                Div(
+                                    'name',
+                                    Field('is_published', css_class="custom-control custom-control-lg custom-checkbox"),
+                                    'legal_name',
+                                    'address',
+                                    'region',
+                                ), css_class='col-md-6'),
+                            Div('square_logo', css_class='col-md-6'),
+                            Div(PrependedText('phone', '<i class="ti-mobile"></i>'), css_class='col-md-6'),
+                            Div(PrependedText('email', '<i class="ti-email"></i>'), css_class='col-md-6'),
+                            Div(PrependedText('website', '<i class="fa fa-globe"></i>'), css_class='col-md-4'),
+                            Div(PrependedText('facebook', '<i class="fa fa-facebook"></i>'), css_class='col-md-4'),
+                            Div(PrependedText('instagram', '<i class="fa fa-instagram"></i>'), css_class='col-md-4'),
+
+                            css_class='row'
+                        ),
+                        css_class='card-body'
+                    ),
+                    Div(
+                        Submit("submit", _("Išsaugoti"), css_class="btn btn-flat btn-primary"),
+                        css_class="card-footer text-right"
+                    ),
+                    css_class='card'
+                ),
+                css_class='col-12'
+            ),
+        )
+
+    class Meta:
+        model = Shelter
+        fields = [
+            'name',
+            'square_logo',
+            'legal_name',
+            'is_published',
+            'region',
+            'address',
+            'email',
+            'phone',
+            'website',
+            'facebook',
+            'instagram',
+        ]
+        widgets = {
+            'square_logo': ClearableFileInput(attrs={
+                'class': 'photo',
+                'data-show-remove': 'false',
+                'data-provide': "dropify",
+            }),
+        }
+        help_texts = {
+            'is_published': "",
+        }
+        labels = {
+            'is_published': "Rodyti prieglaudą ir jos gyvūnus GetPet'e",
+        }
 
 
 class ShelterPetUpdateForm(forms.ModelForm):

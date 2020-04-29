@@ -1,0 +1,33 @@
+{% extends 'management/base/base-page.html' %}
+
+{% load crispy_forms_tags %}
+{% load i18n %}
+
+{% block title %}{% trans "Prieglaudos informacijos atnaujinimas" %}{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.min.css"
+          integrity="sha256-NkyhTCRnLQ7iMv7F3TQWjVq25kLnjhbKEVPqGJBcCUg=" crossorigin="anonymous"/>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-3">
+                <div class="card-body p-3">
+                    <ol class="breadcrumb breadcrumb-arrow">
+                        <li class="breadcrumb-item">
+                            <a href="{% url 'management_pets_list' %}">
+                                <i class="fa fa-paw"></i>
+                                {% trans 'Prieglaudos gyvūnai' %}
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active">{{ shelter.name }}</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% crispy form %}
+
+{% endblock %}

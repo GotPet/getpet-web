@@ -17,21 +17,31 @@
         <nav class="sidebar-navigation">
             {% with square_logo_medium_url=user_selected_shelter.square_logo_medium_url %}
                 {% if square_logo_medium_url %}
-                    <div class="sidebar-profile">
-                    <img class="rounded border"
-                         src="{{ square_logo_medium_url }}"
-                         alt="{{ user_selected_shelter.name }}"
-                         width="64"
-                         height="64">
+                    <div class="sidebar-profile"
+                         data-provide="tooltip"
+                         data-placement="right"
+                         title="{{ user_selected_shelter.name }}">
+                        <img class="rounded border"
+                             src="{{ square_logo_medium_url }}"
+                             alt="{{ user_selected_shelter.name }}"
+                             width="64"
+                             height="64">
+                    </div>
                 {% endif %}
             {% endwith %}
-            </div>
             <ul class="menu">
 
-                <li class="menu-item active">
+                <li class="menu-item{% if active_menu_item == 'pets_list' %} active{% endif %}">
                     <a class="menu-link" href="{% url 'management_pets_list' %}">
                         <span class="icon fa fa-paw"></span>
                         <span class="title">{% trans "Gyvūnai" %}</span>
+                    </a>
+                </li>
+
+                <li class="menu-item {% if active_menu_item == 'shelter' %} active{% endif %}">
+                    <a class="menu-link" href="{% url 'management_shelter_info_update' user_selected_shelter.pk %}">
+                        <span class="icon fa fa-building-o"></span>
+                        <span class="title">{% trans "Prieglauda" %}</span>
                     </a>
                 </li>
             </ul>

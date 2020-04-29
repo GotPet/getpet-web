@@ -1,8 +1,7 @@
-from pprint import pprint
 from typing import Any, Dict
 
 from django.contrib.auth.decorators import login_required
-from django.db import transaction
+from django.db import models, transaction
 from django.http import HttpResponse
 from django.http.request import HttpRequest
 from django.shortcuts import render
@@ -10,7 +9,7 @@ from django.urls import reverse
 from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
 
-from management.forms import PetListFiltersForm, PetProfilePhotoFormSet, ShelterPetUpdateForm
+from management.forms import PetListFiltersForm, PetProfilePhotoFormSet, ShelterInfoUpdateForm, ShelterPetUpdateForm
 from management.mixins import UserWithAssociatedShelterMixin, ViewPaginatorMixin
 from management.utils import add_url_params
 from web.models import Pet, Shelter
@@ -44,6 +43,7 @@ class ShelterPetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, Li
         context = super().get_context_data(**kwargs)
         context['filters_form'] = self.petListFiltersForm
         context['search_term'] = self.petListFiltersForm.get_search_term()
+        context['active_menu_item'] = 'pets_list'
 
         return context
 
@@ -66,7 +66,13 @@ class ShelterPetUpdateView(UserWithAssociatedShelterMixin, UpdateView):
         return context
 
     def get_success_url(self) -> str:
+        # noinspection PyUnresolvedReferences
         return self.get_object().edit_pet_url()
+
+    def get_queryset(self) -> models.query.QuerySet:
+        shelter = Shelter.user_selected_shelter(self.request.user)
+
+        return Pet.pets_from_shelter(shelter)
 
     def form_valid(self, form):
         context = self.get_context_data()
@@ -79,6 +85,26 @@ class ShelterPetUpdateView(UserWithAssociatedShelterMixin, UpdateView):
                 pet_photo_form_set.save()
 
         return super().form_valid(form)
+
+
+class ShelterInfoUpdateView(UserWithAssociatedShelterMixin, UpdateView):
+    model = Shelter
+    template_name = 'management/shelter-info-edit.html'
+    context_object_name = 'shelter'
+    form_class = ShelterInfoUpdateForm
+
+    def get_queryset(self) -> models.query.QuerySet:
+        return Shelter.user_associated_shelters(self.request.user)
+
+    def get_success_url(self) -> str:
+        # noinspection PyUnresolvedReferences
+        return self.get_object().edit_shelter_url()
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['active_menu_item'] = 'shelter'
+
+        return context
 
 
 @login_required

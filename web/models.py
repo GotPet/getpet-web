@@ -95,8 +95,17 @@ class Region(models.Model):
         return self.name
 
 
+class ShelterQuerySet(models.QuerySet):
+    pass
+
+
+class SheltersManager(models.Manager):
+    def get_queryset(self) -> ShelterQuerySet:
+        return ShelterQuerySet(self.model, using=self._db).filter(is_published=True)
+
+
 class Shelter(models.Model):
-    def _shelter_square_logo_file(self, filename):
+    def _shelter_square_logo_file(self, filename: str) -> str:
         ext = file_extension(filename)
         slug = slugify(self.name)
 
@@ -104,11 +113,25 @@ class Shelter(models.Model):
         return join('img', 'web', 'shelter', slug, filename)
 
     name = models.CharField(max_length=128, verbose_name=_("Prieglaudos pavadinimas"))
+    legal_name = models.CharField(max_length=256, null=True, verbose_name=_("Įstaigos pavadinimas"))
+
+    is_published = models.BooleanField(default=True, db_index=True, verbose_name=_("Paskelbta"),
+                                       help_text=_("Pažymėjus prieglauda matoma viešai"))
+
     square_logo = models.ImageField(upload_to=_shelter_square_logo_file, null=True, blank=True,
                                     verbose_name=_("Kvadratinis logotipas"))
+
     region = models.ForeignKey(Region, on_delete=models.PROTECT, related_name="shelters", verbose_name=_("Regionas"))
+
+    address = models.CharField(max_length=256, null=True, verbose_name=_("Adresas"))
+
     email = models.EmailField(verbose_name=_("Elektroninis paštas"))
     phone = models.CharField(max_length=24, verbose_name=_("Telefono numeris"))
+
+    website = models.URLField(blank=True, null=True, verbose_name=_("Interneto svetainė"))
+    facebook = models.URLField(blank=True, null=True, verbose_name=_("Facebook"))
+    instagram = models.URLField(blank=True, null=True, verbose_name=_("Instagram"))
+
     authenticated_users = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True,
                                                  verbose_name=_("Vartotojai tvarkantys prieglaudos informaciją"),
                                                  help_text=_("Priskirti vartotojai gali matyti prieglaudos gyvūnus "
@@ -116,6 +139,9 @@ class Shelter(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Sukūrimo data'))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinimo data"))
+
+    objects = ShelterQuerySet.as_manager()
+    available = SheltersManager()
 
     class Meta:
         verbose_name = _("Gyvūnų prieglauda")
@@ -137,6 +163,9 @@ class Shelter(models.Model):
             shelters = shelters.filter(id=shelter_id)
 
         return shelters.first()
+
+    def edit_shelter_url(self) -> str:
+        return reverse('management_shelter_info_update', kwargs={'pk': self.pk})
 
     def square_logo_medium_url(self) -> Optional[str]:
         if self.square_logo:
@@ -186,7 +215,7 @@ class PetQuerySet(models.QuerySet):
 
 class AvailablePetsManager(models.Manager):
     def get_queryset(self):
-        return PetQuerySet(self.model, using=self._db).filter(status=PetStatus.AVAILABLE)
+        return PetQuerySet(self.model, using=self._db).filter(status=PetStatus.AVAILABLE, shelter__is_published=True)
 
 
 NULLABLE_BOOLEAN_FIELD_CHOICES = (
