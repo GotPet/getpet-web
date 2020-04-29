@@ -6,10 +6,11 @@ from django.http import HttpResponse
 from django.http.request import HttpRequest
 from django.shortcuts import render
 from django.urls import reverse
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 
-from management.forms import PetListFiltersForm, PetProfilePhotoFormSet, ShelterInfoUpdateForm, ShelterPetUpdateForm
+from management.forms import PetListFiltersForm, PetProfilePhotoFormSet, ShelterInfoUpdateForm, \
+    ShelterPetCreateUpdateForm
 from management.mixins import UserWithAssociatedShelterMixin, ViewPaginatorMixin
 from management.utils import add_url_params
 from web.models import Pet, Shelter
@@ -48,26 +49,25 @@ class ShelterPetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, Li
         return context
 
 
-class ShelterPetUpdateView(UserWithAssociatedShelterMixin, UpdateView):
+class ShelterPetCreateView(UserWithAssociatedShelterMixin, CreateView):
     model = Pet
-    template_name = 'management/pet-edit.html'
+    template_name = 'management/pet-create.html'
+    form_class = ShelterPetCreateUpdateForm
     context_object_name = 'pet'
-    form_class = ShelterPetUpdateForm
 
+    # https://dev.to/zxenia/django-inline-formsets-with-class-based-views-and-crispy-forms-14o6
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-        # https://dev.to/zxenia/django-inline-formsets-with-class-based-views-and-crispy-forms-14o6
-        pet = context[self.context_object_name]
-        if self.request.POST:
-            context['pet_photo_form_set'] = PetProfilePhotoFormSet(self.request.POST, instance=pet)
-        else:
-            context['pet_photo_form_set'] = PetProfilePhotoFormSet(instance=pet)
+
+        # noinspection PyUnresolvedReferences
+        context['pet_photo_form_set'] = PetProfilePhotoFormSet(data=self.request.POST or None,
+                                                               instance=self.object)
 
         return context
 
     def get_success_url(self) -> str:
         # noinspection PyUnresolvedReferences
-        return self.get_object().edit_pet_url()
+        return self.object.edit_pet_url()
 
     def get_queryset(self) -> models.query.QuerySet:
         shelter = Shelter.user_selected_shelter(self.request.user)
@@ -77,6 +77,8 @@ class ShelterPetUpdateView(UserWithAssociatedShelterMixin, UpdateView):
     def form_valid(self, form):
         context = self.get_context_data()
         pet_photo_form_set = context['pet_photo_form_set']
+        if not hasattr(form.instance, 'shelter') or form.instance.shelter is None:
+            form.instance.shelter = Shelter.user_selected_shelter(self.request.user, request=self.request)
 
         with transaction.atomic():
             obj = form.save()
@@ -85,6 +87,10 @@ class ShelterPetUpdateView(UserWithAssociatedShelterMixin, UpdateView):
                 pet_photo_form_set.save()
 
         return super().form_valid(form)
+
+
+class ShelterPetUpdateView(ShelterPetCreateView, UpdateView):
+    template_name = 'management/pet-edit.html'
 
 
 class ShelterInfoUpdateView(UserWithAssociatedShelterMixin, UpdateView):

@@ -9,6 +9,7 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import Count, QuerySet
+from django.http import HttpRequest
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
@@ -156,8 +157,14 @@ class Shelter(models.Model):
         return Shelter.objects.none()
 
     @staticmethod
-    def user_selected_shelter(user: AbstractBaseUser, shelter_id=None) -> Optional[Shelter]:
+    def user_selected_shelter(user: AbstractBaseUser,
+                              shelter_id: int = None,
+                              request: HttpRequest = None) -> Optional[Shelter]:
         shelters = Shelter.user_associated_shelters(user) if user.is_authenticated else Shelter.objects.none()
+
+        if shelter_id is None and request:
+            from management.middleware import AssociateSheltersMiddleware
+            shelter_id = request.COOKIES.get(AssociateSheltersMiddleware.SELECTED_SHELTER_COOKIE_ID, None)
 
         if shelter_id:
             shelters = shelters.filter(id=shelter_id)

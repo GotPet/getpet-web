@@ -151,7 +151,7 @@ class ShelterInfoUpdateForm(forms.ModelForm):
         }
 
 
-class ShelterPetUpdateForm(forms.ModelForm):
+class ShelterPetCreateUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = WebFormHelper()
@@ -257,6 +257,7 @@ class ShelterPetUpdateForm(forms.ModelForm):
             'photo': ClearableFileInput(attrs={
                 'class': 'photo',
                 'data-show-remove': 'false',
+                'data-provide': "dropify",
             }),
         }
 
