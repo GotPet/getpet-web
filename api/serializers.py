@@ -100,7 +100,7 @@ class ShelterPetSerializer(serializers.ModelSerializer):
 class PetProfilePhotoUploadSerializer(serializers.ModelSerializer):
     class Meta:
         model = PetProfilePhoto
-        fields = ['id', 'photo', 'order']
+        fields = ['id', 'photo', 'pet', 'order']
 
 
 class TokenSerializer(serializers.ModelSerializer):

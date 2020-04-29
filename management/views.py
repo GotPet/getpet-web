@@ -2,6 +2,7 @@ from pprint import pprint
 from typing import Any, Dict
 
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from django.http import HttpResponse
 from django.http.request import HttpRequest
 from django.shortcuts import render
@@ -55,7 +56,7 @@ class ShelterPetUpdateView(UserWithAssociatedShelterMixin, UpdateView):
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
-
+        # https://dev.to/zxenia/django-inline-formsets-with-class-based-views-and-crispy-forms-14o6
         pet = context[self.context_object_name]
         if self.request.POST:
             context['pet_photo_form_set'] = PetProfilePhotoFormSet(self.request.POST, instance=pet)
@@ -66,6 +67,18 @@ class ShelterPetUpdateView(UserWithAssociatedShelterMixin, UpdateView):
 
     def get_success_url(self) -> str:
         return self.get_object().edit_pet_url()
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        pet_photo_form_set = context['pet_photo_form_set']
+
+        with transaction.atomic():
+            obj = form.save()
+            if pet_photo_form_set.is_valid():
+                pet_photo_form_set.instance = obj
+                pet_photo_form_set.save()
+
+        return super().form_valid(form)
 
 
 @login_required

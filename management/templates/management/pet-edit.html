@@ -32,7 +32,7 @@
         {% csrf_token %}
 
         {% crispy form %}
-        <div class="d-none">
+        <div class="d-none" id="pets-formset">
             {% crispy pet_photo_form_set pet_photo_form_set.form.helper %}
         </div>
 
@@ -62,7 +62,20 @@
             integrity="sha256-OG/103wXh6XINV06JTPspzNgKNa/jnP1LjPP5Y3XQDY=" crossorigin="anonymous"></script>
 
     <script>
+        const PET_PROFILE_PHOTO_CLASS = 'pet-profile-photo';
+
         Dropzone.autoDiscover = false;
+
+        function createHiddenInputElement(id, name, value) {
+            let input = document.createElement("input");
+
+            input.setAttribute("type", "hidden");
+            input.setAttribute("id", id);
+            input.setAttribute("name", name);
+            input.setAttribute("value", value);
+
+            return input;
+        }
 
         $(document).ready(function () {
             new Dropzone("div#dropzone", {
@@ -102,29 +115,36 @@
                         return
                     }
                     file.serverID = response.id;
-                    console.log("success", response);
 
-                    this.files.forEach(function (obj, index) {
-                        console.log("File object from foreach", obj);
-                        let photoId = file.serverID;
+                    let petCells = this.files.map(function (currentFile, index) {
+                        let petCellDiv = document.createElement("div");
+                        petCellDiv.className = PET_PROFILE_PHOTO_CLASS;
 
-                        $('<input>').attr({
-                            type: 'hidden',
-                            value: photoId,
-                            id: 'id_profile_photos-' + index + '-id',
-                            name: 'profile_photos-' + index + '-id'
-                        }).appendTo('form');
+                        petCellDiv.appendChild(createHiddenInputElement(
+                            'id_profile_photos-' + index + '-id',
+                            'profile_photos-' + index + '-id',
+                            currentFile.serverID
+                        ));
 
-                        {% if pet %}
-                            $('<input>').attr({
-                                type: 'hidden',
-                                value: "{{ pet.id }}",
-                                id: 'id_profile_photos-' + index + '-id',
-                                name: 'profile_photos-' + index + '-id'
-                            }).appendTo('form')
-                        {% endif %}
+                        petCellDiv.appendChild(createHiddenInputElement(
+                            'id_profile_photos-' + index + '-order',
+                            'profile_photos-' + index + '-order',
+                            index + 1
+                        ));
+
+                        return petCellDiv;
                     });
 
+                    const oldPetCells = document.getElementsByClassName(PET_PROFILE_PHOTO_CLASS);
+                    while (oldPetCells.length > 0) {
+                        oldPetCells[0].remove();
+                    }
+
+                    let petsFormset = document.getElementById('pets-formset');
+                    petCells.forEach(div => petsFormset.insertAdjacentElement('beforeend', div));
+
+                    document.getElementById('id_profile_photos-TOTAL_FORMS').value = petCells.length;
+                    document.getElementById('id_profile_photos-INITIAL_FORMS').value = petCells.length;
                 },
                 sending: function (file, xhr, formData) {
                     let order = this.files.map(function (obj, index) {
@@ -134,6 +154,9 @@
                     }).filter(isFinite)[0];
 
                     formData.append("order", order);
+                    {% if pet %}
+                        formData.append("pet", {{ pet.id }});
+                    {% endif %}
                 },
                 parallelUploads: 1,
                 resizeHeight: 1024,
@@ -145,6 +168,7 @@
                 },
                 dictDefaultMessage: "{% trans 'Tempkite arba spauskite norėdami įkelti nuotraukas' %}",
                 dictRemoveFile: "{% trans 'Panaikinti' %}",
+                dictCancelUpload: "{% trans 'Atšaukti' %}",
             });
         });
     </script>

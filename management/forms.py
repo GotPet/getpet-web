@@ -6,11 +6,11 @@ from allauth.account.forms import BaseSignupForm, LoginForm as AllAuthLoginForm,
 from allauth.socialaccount.forms import SignupForm as AllAuthSocialSignupForm
 from crispy_forms.bootstrap import AppendedText as BaseAppendedText, PrependedText as BasePrependedText
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Button, Div, Field, HTML, Hidden, Layout, Submit
+from crispy_forms.layout import Div, Field, HTML, Layout, Submit
 from django import forms
 from django.forms import inlineformset_factory
 from django.forms.utils import ErrorList
-from django.forms.widgets import ClearableFileInput, FileInput, RadioSelect
+from django.forms.widgets import ClearableFileInput, RadioSelect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
@@ -190,12 +190,20 @@ class PetProfilePhotoForm(forms.ModelForm):
         self.helper.disable_csrf = True
         self.helper.form_tag = False
 
+        self.helper.layout = Layout(
+            Div(
+                'id',
+                'order',
+                css_class='pet-profile-photo'
+            )
+        )
+
     class Meta:
         model = PetProfilePhoto
-        fields = ['id']
+        fields = ['id', 'order',]
 
 
-PetProfilePhotoFormSet = inlineformset_factory(Pet, PetProfilePhoto, form=PetProfilePhotoForm)
+PetProfilePhotoFormSet = inlineformset_factory(Pet, PetProfilePhoto, form=PetProfilePhotoForm, extra=0)
 
 
 # TODO add recaptcha
