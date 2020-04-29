@@ -194,13 +194,15 @@ class PetProfilePhotoForm(forms.ModelForm):
             Div(
                 'id',
                 'order',
+                'pet',
+                'DELETE',
                 css_class='pet-profile-photo'
             )
         )
 
     class Meta:
         model = PetProfilePhoto
-        fields = ['id', 'order',]
+        fields = ['id', 'pet', 'order', ]
 
 
 PetProfilePhotoFormSet = inlineformset_factory(Pet, PetProfilePhoto, form=PetProfilePhotoForm, extra=0)

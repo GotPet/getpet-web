@@ -66,15 +66,74 @@
 
         Dropzone.autoDiscover = false;
 
+        let deletedFiles = [];
+
         function createHiddenInputElement(id, name, value) {
             let input = document.createElement("input");
 
-            input.setAttribute("type", "hidden");
+            input.setAttribute("type", 'hidden');
             input.setAttribute("id", id);
             input.setAttribute("name", name);
             input.setAttribute("value", value);
 
             return input;
+        }
+
+        function createCheckboxElement(id, name, checked) {
+            let input = document.createElement("input");
+
+            input.setAttribute("type", 'checkbox');
+            input.setAttribute("id", id);
+            input.setAttribute("name", name);
+            if (checked) {
+                input.setAttribute('checked', 'checked');
+            }
+
+            return input;
+        }
+
+        function regenerateDropzoneJSFiles(files) {
+            let petCells = files.concat(deletedFiles).map(function (currentFile, index) {
+                let petCellDiv = document.createElement("div");
+                petCellDiv.className = PET_PROFILE_PHOTO_CLASS;
+
+                petCellDiv.appendChild(createHiddenInputElement(
+                    'id_profile_photos-' + index + '-id',
+                    'profile_photos-' + index + '-id',
+                    currentFile.serverID
+                ));
+
+                petCellDiv.appendChild(createHiddenInputElement(
+                    'id_profile_photos-' + index + '-pet',
+                    'profile_photos-' + index + '-pet',
+                    ""
+                ));
+
+                petCellDiv.appendChild(createHiddenInputElement(
+                    'id_profile_photos-' + index + '-order',
+                    'profile_photos-' + index + '-order',
+                    index + 1
+                ));
+
+                petCellDiv.appendChild(createCheckboxElement(
+                    'id_profile_photos-' + index + '-DELETE',
+                    'profile_photos-' + index + '-DELETE',
+                    currentFile.deleted,
+                ));
+
+                return petCellDiv;
+            });
+
+            const oldPetCells = document.getElementsByClassName(PET_PROFILE_PHOTO_CLASS);
+            while (oldPetCells.length > 0) {
+                oldPetCells[0].remove();
+            }
+
+            let petsFormset = document.getElementById('pets-formset');
+            petCells.forEach(div => petsFormset.insertAdjacentElement('beforeend', div));
+
+            document.getElementById('id_profile_photos-TOTAL_FORMS').value = petCells.length;
+            document.getElementById('id_profile_photos-INITIAL_FORMS').value = petCells.length;
         }
 
         $(document).ready(function () {
@@ -99,6 +158,7 @@
                             url: photo.url,
                             order: photo.order,
                             serverID: photo.id,
+                            deleted: false,
                             accepted: true,
                         };
 
@@ -108,43 +168,19 @@
                         self.emit("complete", mockFile);
                         self.files.push(mockFile);
                     });
-
+                    regenerateDropzoneJSFiles(this.files);
                 },
                 success: function (file, response) {
                     if (response === undefined) {
                         return
                     }
                     file.serverID = response.id;
+                    file.order = response.order;
+                    file.name = response.url;
+                    file.url = response.url;
+                    file.deleted = false;
 
-                    let petCells = this.files.map(function (currentFile, index) {
-                        let petCellDiv = document.createElement("div");
-                        petCellDiv.className = PET_PROFILE_PHOTO_CLASS;
-
-                        petCellDiv.appendChild(createHiddenInputElement(
-                            'id_profile_photos-' + index + '-id',
-                            'profile_photos-' + index + '-id',
-                            currentFile.serverID
-                        ));
-
-                        petCellDiv.appendChild(createHiddenInputElement(
-                            'id_profile_photos-' + index + '-order',
-                            'profile_photos-' + index + '-order',
-                            index + 1
-                        ));
-
-                        return petCellDiv;
-                    });
-
-                    const oldPetCells = document.getElementsByClassName(PET_PROFILE_PHOTO_CLASS);
-                    while (oldPetCells.length > 0) {
-                        oldPetCells[0].remove();
-                    }
-
-                    let petsFormset = document.getElementById('pets-formset');
-                    petCells.forEach(div => petsFormset.insertAdjacentElement('beforeend', div));
-
-                    document.getElementById('id_profile_photos-TOTAL_FORMS').value = petCells.length;
-                    document.getElementById('id_profile_photos-INITIAL_FORMS').value = petCells.length;
+                    regenerateDropzoneJSFiles(this.files);
                 },
                 sending: function (file, xhr, formData) {
                     let order = this.files.map(function (obj, index) {
@@ -169,6 +205,15 @@
                 dictDefaultMessage: "{% trans 'Tempkite arba spauskite norėdami įkelti nuotraukas' %}",
                 dictRemoveFile: "{% trans 'Panaikinti' %}",
                 dictCancelUpload: "{% trans 'Atšaukti' %}",
+                removedfile: function (file) {
+                    file.deleted = true;
+                    deletedFiles.push(file);
+
+                    regenerateDropzoneJSFiles(this.files);
+
+                    let _ref = file.previewElement;
+                    return _ref != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+                }
             });
         });
     </script>
