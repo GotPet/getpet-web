@@ -272,12 +272,12 @@ class Pet(models.Model):
         blank=True,
         null=True
     )
-    age = models.IntegerField(
+    age = models.PositiveSmallIntegerField(
         verbose_name=_("Amžius"),
         blank=True,
         null=True
     )
-    weight = models.IntegerField(
+    weight = models.PositiveSmallIntegerField(
         verbose_name=_("Svoris"),
         blank=True,
         null=True
