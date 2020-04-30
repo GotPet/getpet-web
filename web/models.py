@@ -295,37 +295,11 @@ class Pet(models.Model):
         null=True,
         help_text=_("Pažymėkite jei gyvūnas yra kastruotas arba sterilizuotas")
     )
-    cat_friendly = models.BooleanField(
-        verbose_name=_("Draugiškas su katėmis"),
-        choices=NULLABLE_BOOLEAN_FIELD_CHOICES,
-        blank=True,
-        null=True,
-    )
-    dog_friendly = models.BooleanField(
-        verbose_name=_("Draugiškas su šunimis"),
-        choices=NULLABLE_BOOLEAN_FIELD_CHOICES,
-        blank=True,
-        null=True,
-    )
-    child_friendly = models.BooleanField(
-        verbose_name=_("Draugiškas su vaikais"),
-        choices=NULLABLE_BOOLEAN_FIELD_CHOICES,
-        blank=True,
-        null=True,
-    )
     is_vaccinated = models.BooleanField(
         verbose_name=_("Vakcinuotas"),
         choices=NULLABLE_BOOLEAN_FIELD_CHOICES,
         blank=True,
         null=True,
-    )
-    is_special_care_needed = models.BooleanField(
-        verbose_name=_("Reikalinga speciali pagalba"),
-        choices=NULLABLE_BOOLEAN_FIELD_CHOICES,
-        blank=True,
-        null=True,
-        help_text=_("Pasirinkite taip, jei gyvūnas yra traumuotas, jam reikalinga ypatinga pagalba ir  "
-                    "gali paimti tik žmogus turintis patirties.")
     )
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Sukūrimo data'))

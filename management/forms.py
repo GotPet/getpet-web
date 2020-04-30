@@ -190,19 +190,14 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
         """),
                     Div(
                         Div(
-                            Div('gender', css_class='col-md-6'),
-                            Div('desexed', css_class='col-md-6'),
-
+                            Div('gender', css_class='col-md-4'),
                             Div('size', css_class='col-md-4'),
                             Div('age', css_class='col-md-4'),
+
+                            Div('desexed', css_class='col-md-4'),
+                            Div('is_vaccinated', css_class='col-md-4'),
                             Div(AppendedText('weight', 'kg'), css_class='col-md-4'),
 
-                            Div('is_vaccinated', css_class='col-md-6'),
-                            Div('is_special_care_needed', css_class='col-md-6'),
-
-                            Div('cat_friendly', css_class='col-md-4'),
-                            Div('dog_friendly', css_class='col-md-4'),
-                            Div('child_friendly', css_class='col-md-4'),
                             css_class='row'
                         ),
                         css_class='card-body'
@@ -262,10 +257,6 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
             'weight',
             'desexed',
             'is_vaccinated',
-            'is_special_care_needed',
-            'cat_friendly',
-            'dog_friendly',
-            'child_friendly',
         ]
         widgets = {
             'photo': ClearableFileInput(attrs={
