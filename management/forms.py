@@ -266,7 +266,12 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
             }),
             'information_for_getpet_team': Textarea(
                 attrs={'rows': 2}
-            )
+            ),
+            'short_description': TextInput(
+                attrs={
+                    'data-provide': "maxlength"
+                }
+            ),
         }
         labels = {
             'photo': "",
