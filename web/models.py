@@ -259,6 +259,13 @@ class Pet(models.Model):
     description = models.TextField(verbose_name=_("Aprašymas"),
                                    help_text=_("Gyvūno aprašymas matomas įėjus į gyvūno profilį."))
 
+    information_for_getpet_team = models.TextField(
+        null=True, blank=True,
+        verbose_name=_("Informacija skirta GetPet komandai"),
+        help_text=_("Įrašykite informaciją skirtą GetPet komandai pvz: žmogaus kontaktinę informaciją "
+                    "dėl GetPet mentoriaus priskyrimo.")
+    )
+
     gender = models.IntegerField(
         verbose_name=_("Lytis"),
         choices=PetGender.choices,

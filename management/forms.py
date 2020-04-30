@@ -10,7 +10,7 @@ from crispy_forms.layout import Div, Field, HTML, Layout, Submit
 from django import forms
 from django.forms import inlineformset_factory
 from django.forms.utils import ErrorList
-from django.forms.widgets import ClearableFileInput, RadioSelect
+from django.forms.widgets import ClearableFileInput, RadioSelect, TextInput, Textarea
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
@@ -182,33 +182,12 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
                     ),
                     css_class='card'
                 ),
-                css_class='col-lg-8'
-            ),
-            Div(
                 Div(
                     HTML(f"""
-                    <h4 class="card-title">
-                        <strong>{_("Profilio")}</strong> {_("nuotrauka")}
-                    </h4>
-                    """),
-                    Div(
-                        Div(
-                            Div('photo', css_class='col-12'),
-                            css_class='row'
-                        ),
-                        css_class='card-body'
-                    ),
-                    css_class='card'
-                ),
-                css_class='col-lg-4'
-            ),
-            Div(
-                Div(
-                    HTML(f"""
-            <h4 class="card-title">
-                <strong>{_("Savybių")}</strong> {_("informacija")}
-            </h4>
-            """),
+        <h4 class="card-title">
+            <strong>{_("Savybių")}</strong> {_("informacija")}
+        </h4>
+        """),
                     Div(
                         Div(
                             Div('gender', css_class='col-md-6'),
@@ -232,6 +211,40 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
                 ),
                 css_class='col-lg-8'
             ),
+            Div(
+                Div(
+                    HTML(f"""
+            <h4 class="card-title">
+                <strong>{_("Gyvūno profilio nuotrauka")}</strong>
+            </h4>
+            """),
+                    Div('photo', css_class='card-body'),
+                    css_class='card'
+                ),
+                Div(
+                    HTML(f"""
+        <h4 class="card-title">
+            <strong>{_("GetPet komandai skirta ")}</strong> {_("informacija")}
+        </h4>
+        """),
+                    Div(
+                        'information_for_getpet_team',
+                        css_class='card-body'
+                    ),
+                    css_class='card'
+                ),
+                Div(
+                    Div(
+                        Submit(
+                            'submit', _("Išsaugoti"),
+                            css_class="btn btn-primary btn-bold btn-block btn-lg"
+                        ),
+                        css_class='card-body'
+                    ),
+                    css_class='card'
+                ),
+                css_class='col-lg-4'
+            ),
         )
 
     class Meta:
@@ -241,6 +254,7 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
             'status',
             'photo',
             'short_description',
+            'information_for_getpet_team',
             'description',
             'gender',
             'age',
@@ -259,6 +273,13 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
                 'data-show-remove': 'false',
                 'data-provide': "dropify",
             }),
+            'information_for_getpet_team': Textarea(
+                attrs={'rows': 2}
+            )
+        }
+        labels = {
+            'photo': "",
+            'information_for_getpet_team': ""
         }
 
 
