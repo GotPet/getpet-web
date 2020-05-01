@@ -11,46 +11,27 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div class="col-12">
-            <div class="card mb-3">
-                <div class="card-body p-3">
-                    <ol class="breadcrumb breadcrumb-arrow">
-                        <li class="breadcrumb-item">
-                            <a href="{% url 'management_pets_list' %}">
-                                <i class="fa fa-paw"></i>
-                                {% trans 'Prieglaudos gyvūnai' %}
-                            </a>
-                        </li>
-                        <li class="breadcrumb-item active">
-                            {% if pet %}
-                                {{ pet.name }}
-                            {% else %}
-                                {% trans 'Naujo prieglaudos gyvūno kūrimas' %}
-                            {% endif %}
-                        </li>
-                    </ol>
-                </div>
-            </div>
+    <div class="card mb-3">
+        <div class="card-body p-3">
+            <ol class="breadcrumb breadcrumb-arrow">
+                <li class="breadcrumb-item">
+                    <a href="{% url 'management_pets_list' %}">
+                        <i class="fa fa-paw"></i>
+                        {% trans 'Prieglaudos gyvūnai' %}
+                    </a>
+                </li>
+                <li class="breadcrumb-item active">
+                    {% if pet %}
+                        {{ pet.name }}
+                    {% else %}
+                        {% trans 'Naujo prieglaudos gyvūno kūrimas' %}
+                    {% endif %}
+                </li>
+            </ol>
         </div>
     </div>
+
     {% crispy form %}
-
-
-    <form method="POST" enctype="multipart/form-data" class="row">
-        {% csrf_token %}
-
-        <div class="col-12">
-            <div class="card">
-                <h4 class="card-title"><strong>{% trans 'Gyvūno nuotraukos' %}</strong></h4>
-                <div class="card-body">
-                    <div id="dropzone" class="dropzone"></div>
-                    {% trans 'Vilkite arba spauskite ir pridėkite gyvūno nuotraukas' %}
-                </div>
-            </div>
-        </div>
-
-    </form>
 {% endblock %}
 
 {% block script %}

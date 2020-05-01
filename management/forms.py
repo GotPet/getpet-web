@@ -170,6 +170,15 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
                     ),
                     css_class='card'
                 ),
+                Div(
+                    CardTitle(strong_text=_("Gyvūno nuotraukos")),
+                    Div(
+                        Div(css_id='dropzone', css_class='dropzone'),
+                        HTML(_('Vilkite arba spauskite ir pridėkite gyvūno nuotraukas')),
+                        css_class='card-body'
+                    ),
+                    css_class='card'
+                ),
                 css_class='col-lg-8'
             ),
             Div(
