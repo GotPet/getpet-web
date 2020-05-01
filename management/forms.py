@@ -4,7 +4,6 @@ from typing import Optional, Type
 from allauth.account.forms import BaseSignupForm, LoginForm as AllAuthLoginForm, \
     ResetPasswordForm as AllAuthResetPasswordForm, SignupForm as AllAuthSignupForm
 from allauth.socialaccount.forms import SignupForm as AllAuthSocialSignupForm
-from crispy_forms.bootstrap import AppendedText as BaseAppendedText, PrependedText as BasePrependedText
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Div, Field, HTML, Layout, Submit
 from django import forms
@@ -14,6 +13,7 @@ from django.forms.widgets import CheckboxSelectMultiple, ClearableFileInput, Rad
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
+from management.custom_layout_object import AppendedText, CardTitle, Formset, PrependedText
 from web.models import Pet, PetGender, PetProfilePhoto, PetQuerySet, PetStatus, Shelter
 
 _redirect_field_html = HTML("""
@@ -27,18 +27,6 @@ _redirect_field_html = HTML("""
 def _remove_autofocus_and_placeholders(form: Type[BaseSignupForm]):
     for field_name in form.fields:
         form.fields[field_name].widget.attrs.pop("placeholder", None)
-
-
-class PrependedText(BasePrependedText):
-    def __init__(self, field, text, *args, **kwargs):
-        kwargs['template'] = 'management/widget/prepended_appended_text.html'
-        super().__init__(field, text, *args, **kwargs)
-
-
-class AppendedText(BaseAppendedText):
-    def __init__(self, field, text, *args, **kwargs):
-        kwargs['template'] = 'management/widget/prepended_appended_text.html'
-        super().__init__(field, text, *args, **kwargs)
 
 
 class WebFormHelper(FormHelper):
@@ -85,11 +73,7 @@ class ShelterInfoUpdateForm(forms.ModelForm):
         self.helper.layout = Layout(
             Div(
                 Div(
-                    HTML(f"""
-                    <h4 class="card-title">
-                        <strong>{_("Prieglaudos informacija")}</strong>
-                    </h4>
-                    """),
+                    CardTitle(strong_text=_("Prieglaudos informacija")),
                     Div(
                         Div(
                             Div(
@@ -155,20 +139,16 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = WebFormHelper()
-        self.helper.disable_csrf = True
-        self.helper.form_tag = False
+        self.helper.form_class = 'row'
 
         if self.instance and self.instance.photo:
             self.fields['photo'].widget.attrs['data-default-file'] = self.instance.photo.url
 
         self.helper.layout = Layout(
             Div(
+                Div(Formset('pet_photo_form_set'), css_class="d-none", css_id='pets-formset'),
                 Div(
-                    HTML(f"""
-                    <h4 class="card-title">
-                        <strong>{_("Pagrindinė")}</strong> {_("informacija")}
-                    </h4>
-                    """),
+                    CardTitle(strong_text=_("Pagrindinė"), light_text=_("informacija")),
                     Div(
                         Div(
                             Div('name', css_class='col-md-6'),
@@ -183,11 +163,7 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
                     css_class='card'
                 ),
                 Div(
-                    HTML(f"""
-        <h4 class="card-title">
-            <strong>{_("Savybių")}</strong> {_("informacija")}
-        </h4>
-        """),
+                    CardTitle(strong_text=_("Savybių"), light_text=_("informacija")),
                     Div(
                         Div(
                             Div('gender', css_class='col-md-4'),
@@ -208,20 +184,12 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
             ),
             Div(
                 Div(
-                    HTML(f"""
-            <h4 class="card-title">
-                <strong>{_("Gyvūno profilio nuotrauka")}</strong>
-            </h4>
-            """),
+                    CardTitle(strong_text=_("Gyvūno profilio nuotrauka")),
                     Div('photo', css_class='card-body'),
                     css_class='card'
                 ),
                 Div(
-                    HTML(f"""
-        <h4 class="card-title">
-            <strong>{_("Gyvūno savybių ")}</strong> {_("informacija")}
-        </h4>
-        """),
+                    CardTitle(strong_text=_("Gyvūno savybių"), light_text=_("informacija")),
                     Div(
                         Div(Field('properties', css_class="custom-control custom-control-lg custom-checkbox"),
                             css_class="custom-controls-stacked"),
@@ -230,11 +198,7 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
                     css_class='card'
                 ),
                 Div(
-                    HTML(f"""
-        <h4 class="card-title">
-            <strong>{_("GetPet komandai skirta ")}</strong> {_("informacija")}
-        </h4>
-        """),
+                    CardTitle(strong_text=_("GetPet komandai skirta"), light_text=_("informacija")),
                     Div(
                         'information_for_getpet_team',
                         css_class='card-body'

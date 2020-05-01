@@ -34,13 +34,12 @@
             </div>
         </div>
     </div>
+    {% crispy form %}
+
+
     <form method="POST" enctype="multipart/form-data" class="row">
         {% csrf_token %}
 
-        {% crispy form %}
-        <div class="d-none" id="pets-formset">
-            {% crispy pet_photo_form_set pet_photo_form_set.form.helper %}
-        </div>
 
         <div class="col-12">
             <div class="card">
