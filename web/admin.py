@@ -69,6 +69,7 @@ class CountryAdmin(VersionAdmin):
 
 class PetProfilePhotoInline(SortableInlineAdminMixin, admin.TabularInline):
     model = PetProfilePhoto
+    raw_id_fields = ['created_by']
 
 
 class GetPetRequestInline(admin.TabularInline):
@@ -185,12 +186,11 @@ class UserPetChoiceAdmin(VersionAdmin):
 @admin.register(PetProfilePhoto)
 class PetProfilePhotoAdmin(VersionAdmin):
     list_display = ['pet', 'photo', 'order', ]
-    raw_id_fields = ['pet']
-    list_select_related = ['pet']
+    raw_id_fields = ['pet', 'created_by']
+    list_select_related = ['pet', 'created_by']
 
 
 @admin.register(PetProperty)
 class PetPropertyAdmin(VersionAdmin):
     list_display = ['name', ]
     filter_horizontal = ['pets']
-

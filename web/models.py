@@ -392,6 +392,18 @@ class PetProfilePhoto(models.Model):
     photo = models.ImageField(upload_to=_pet_photo_file, verbose_name=_('Gyvūno profilio nuotrauka'))
     order = models.PositiveIntegerField(default=0)
 
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='+',
+        verbose_name=_("Vartotojas")
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Sukūrimo data'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinimo data"))
+
     def large_photo(self) -> str:
         return image_url_with_size_params(self.photo.url, size=120)
 

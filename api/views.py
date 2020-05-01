@@ -113,6 +113,9 @@ class PetProfilePhotoView(CreateAPIView):
     permission_classes = (IsAuthenticated,)
     authentication_classes = [SessionAuthentication]
 
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user)
+
 
 @method_decorator(name='post', decorator=swagger_auto_schema(
     security=[],
