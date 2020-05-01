@@ -156,16 +156,7 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
 
                             Div('short_description', css_class='col-12'),
                             Div('description', css_class='col-12'),
-                            css_class='row'
-                        ),
-                        css_class='card-body'
-                    ),
-                    css_class='card'
-                ),
-                Div(
-                    CardTitle(strong_text=_("Savybių"), light_text=_("informacija")),
-                    Div(
-                        Div(
+
                             Div('gender', css_class='col-md-4'),
                             Div('size', css_class='col-md-4'),
                             Div('age', css_class='col-md-4'),
@@ -173,7 +164,6 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
                             Div('desexed', css_class='col-md-4'),
                             Div('is_vaccinated', css_class='col-md-4'),
                             Div(AppendedText('weight', 'kg'), css_class='col-md-4'),
-
                             css_class='row'
                         ),
                         css_class='card-body'
