@@ -40,7 +40,6 @@
     <form method="POST" enctype="multipart/form-data" class="row">
         {% csrf_token %}
 
-
         <div class="col-12">
             <div class="card">
                 <h4 class="card-title"><strong>{% trans 'Gyvūno nuotraukos' %}</strong></h4>
@@ -145,6 +144,7 @@
                                 "id": {{ photo.id }},
                                 "order": {{ photo.order }},
                                 "url": "{{ photo.large_photo|escapejs }}",
+                                "size": {{ photo.photo.size }},
                             },
                         {% endfor %}
                     ]
@@ -155,6 +155,7 @@
                             url: photo.url,
                             order: photo.order,
                             serverID: photo.id,
+                            size: photo.size,
                             deleted: false,
                             accepted: true,
                         };
