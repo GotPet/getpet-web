@@ -5,7 +5,7 @@ from django.db.models import Count, Q
 from django.utils.translation import gettext_lazy as _
 from reversion.admin import VersionAdmin
 
-from web.models import Country, GetPetRequest, Pet, PetProfilePhoto, Region, Shelter, User, UserPetChoice
+from web.models import Country, GetPetRequest, Pet, PetProfilePhoto, PetProperty, Region, Shelter, User, UserPetChoice
 
 admin.site.site_header = _('GetPet Administravimas')
 admin.site.site_title = admin.site.site_header
@@ -187,3 +187,10 @@ class PetProfilePhotoAdmin(VersionAdmin):
     list_display = ['pet', 'photo', 'order', ]
     raw_id_fields = ['pet']
     list_select_related = ['pet']
+
+
+@admin.register(PetProperty)
+class PetPropertyAdmin(VersionAdmin):
+    list_display = ['name', ]
+    filter_horizontal = ['pets']
+

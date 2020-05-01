@@ -10,7 +10,7 @@ from crispy_forms.layout import Div, Field, HTML, Layout, Submit
 from django import forms
 from django.forms import inlineformset_factory
 from django.forms.utils import ErrorList
-from django.forms.widgets import ClearableFileInput, RadioSelect, TextInput, Textarea
+from django.forms.widgets import CheckboxSelectMultiple, ClearableFileInput, RadioSelect, TextInput, Textarea
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
@@ -229,6 +229,19 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
                     css_class='card'
                 ),
                 Div(
+                    HTML(f"""
+        <h4 class="card-title">
+            <strong>{_("Gyvūno savybių ")}</strong> {_("informacija")}
+        </h4>
+        """),
+                    Div(
+                        Div(Field('properties', css_class="custom-control custom-control-lg custom-checkbox"),
+                            css_class="custom-controls-stacked"),
+                        css_class='card-body'
+                    ),
+                    css_class='card'
+                ),
+                Div(
                     Div(
                         Submit(
                             'submit', _("Išsaugoti"),
@@ -257,6 +270,7 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
             'weight',
             'desexed',
             'is_vaccinated',
+            'properties',
         ]
         widgets = {
             'photo': ClearableFileInput(attrs={
@@ -272,10 +286,12 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
                     'data-provide': "maxlength"
                 }
             ),
+            'properties': CheckboxSelectMultiple(),
         }
         labels = {
             'photo': "",
-            'information_for_getpet_team': ""
+            'information_for_getpet_team': "",
+            'properties': "",
         }
 
 

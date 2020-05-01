@@ -266,6 +266,9 @@ class Pet(models.Model):
                     "dėl GetPet mentoriaus priskyrimo.")
     )
 
+    properties = models.ManyToManyField("web.PetProperty", blank=True, related_name="+",
+                                        verbose_name=_("Gyvūno savybės"))
+
     gender = models.IntegerField(
         verbose_name=_("Lytis"),
         choices=PetGender.choices,
@@ -352,6 +355,26 @@ class Pet(models.Model):
         new_pets = queryset.exclude(pk__in=disliked_pet_ids).order_by('?')
 
         return new_pets
+
+
+class PetProperty(models.Model):
+    name = models.CharField(max_length=64, unique=True, verbose_name=_("Gyvūno savybė"))
+    pets = models.ManyToManyField(
+        Pet,
+        verbose_name=_("Gyvūnai"),
+        through=Pet.properties.through,
+        related_name="+",
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name = _("Gyvūno savybė")
+        verbose_name_plural = _("Gyvūno savybės")
+        default_related_name = "properties"
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
 
 
 class PetProfilePhoto(models.Model):
