@@ -272,7 +272,6 @@ class Pet(models.Model):
     gender = models.IntegerField(
         verbose_name=_("Lytis"),
         choices=PetGender.choices,
-        blank=True,
         null=True
     )
     age = models.PositiveSmallIntegerField(
@@ -288,7 +287,6 @@ class Pet(models.Model):
     size = models.IntegerField(
         verbose_name=_("Dydis"),
         choices=PetSize.choices,
-        blank=True,
         null=True
     )
     desexed = models.BooleanField(
