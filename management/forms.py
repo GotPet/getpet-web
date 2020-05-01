@@ -9,7 +9,7 @@ from crispy_forms.layout import Div, Field, HTML, Layout, Submit
 from django import forms
 from django.forms import inlineformset_factory
 from django.forms.utils import ErrorList
-from django.forms.widgets import CheckboxSelectMultiple, ClearableFileInput, RadioSelect, TextInput, Textarea
+from django.forms.widgets import CheckboxSelectMultiple, ClearableFileInput, FileInput, RadioSelect, TextInput, Textarea
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
@@ -236,7 +236,7 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
             'properties',
         ]
         widgets = {
-            'photo': ClearableFileInput(attrs={
+            'photo': FileInput(attrs={
                 'class': 'photo',
                 'data-show-remove': 'false',
                 'data-provide': "dropify",
