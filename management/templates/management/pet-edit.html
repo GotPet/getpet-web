@@ -22,7 +22,13 @@
                                 {% trans 'Prieglaudos gyvūnai' %}
                             </a>
                         </li>
-                        <li class="breadcrumb-item active">{{ pet.name }}</li>
+                        <li class="breadcrumb-item active">
+                            {% if pet %}
+                                {{ pet.name }}
+                            {% else %}
+                                {% trans 'Naujo prieglaudos gyvūno kūrimas' %}
+                            {% endif %}
+                        </li>
                     </ol>
                 </div>
             </div>
