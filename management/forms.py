@@ -250,8 +250,8 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
                 }
             ),
             'properties': CheckboxSelectMultiple(),
-            'size': RadioSelect(),
-            'gender': RadioSelect(),
+            # 'size': RadioSelect(),
+            # 'gender': RadioSelect(),
         }
         labels = {
             'photo': "",
