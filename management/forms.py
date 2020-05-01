@@ -219,11 +219,12 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
                 Div(
                     HTML(f"""
         <h4 class="card-title">
-            <strong>{_("GetPet komandai skirta ")}</strong> {_("informacija")}
+            <strong>{_("Gyvūno savybių ")}</strong> {_("informacija")}
         </h4>
         """),
                     Div(
-                        'information_for_getpet_team',
+                        Div(Field('properties', css_class="custom-control custom-control-lg custom-checkbox"),
+                            css_class="custom-controls-stacked"),
                         css_class='card-body'
                     ),
                     css_class='card'
@@ -231,12 +232,11 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
                 Div(
                     HTML(f"""
         <h4 class="card-title">
-            <strong>{_("Gyvūno savybių ")}</strong> {_("informacija")}
+            <strong>{_("GetPet komandai skirta ")}</strong> {_("informacija")}
         </h4>
         """),
                     Div(
-                        Div(Field('properties', css_class="custom-control custom-control-lg custom-checkbox"),
-                            css_class="custom-controls-stacked"),
+                        'information_for_getpet_team',
                         css_class='card-body'
                     ),
                     css_class='card'
