@@ -68,10 +68,6 @@ server {
         add_header Cache-Control "public";
     }
 
-    location ~ /(favicon.ico|apple-touch-icon.png)$ {
-        alias /srv/platform/static/img/favicon.ico;
-    }
-
     location = /robots.txt {
         add_header Content-Type text/plain;
         alias /srv/platform/static/robots.txt;
