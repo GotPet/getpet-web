@@ -81,10 +81,11 @@ class ShelterPetCreateView(UserWithAssociatedShelterMixin, CreateView):
             form.instance.shelter = Shelter.user_selected_shelter(self.request.user, request=self.request)
 
         with transaction.atomic():
-            obj = form.save()
+            pet = form.save()
+
+            pet_photo_form_set = PetProfilePhotoFormSet(data=self.request.POST)
             if pet_photo_form_set.is_valid():
-                pet_photo_form_set.instance = obj
-                pet_photo_form_set.save()
+                pet_photo_form_set.save_photos(pet)
 
         return super().form_valid(form)
 

@@ -7,9 +7,9 @@ from allauth.socialaccount.forms import SignupForm as AllAuthSocialSignupForm
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Div, Field, HTML, Layout, Submit
 from django import forms
-from django.forms import inlineformset_factory
+from django.forms import BaseInlineFormSet, inlineformset_factory
 from django.forms.utils import ErrorList
-from django.forms.widgets import CheckboxSelectMultiple, ClearableFileInput, FileInput, RadioSelect, TextInput, Textarea
+from django.forms.widgets import CheckboxSelectMultiple, ClearableFileInput, RadioSelect, TextInput, Textarea
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
@@ -282,7 +282,18 @@ class PetProfilePhotoForm(forms.ModelForm):
         fields = ['id', 'pet', 'order', ]
 
 
-PetProfilePhotoFormSet = inlineformset_factory(Pet, PetProfilePhoto, form=PetProfilePhotoForm, extra=0)
+class _BasePetProfilePhotoFormset(BaseInlineFormSet):
+    def save_photos(self, pet: Pet):
+        for pet_photo_form_data in self.cleaned_data:
+            pet_photo = pet_photo_form_data['id']
+
+            if pet_photo.pet is None:
+                pet_photo.pet = pet
+                pet_photo.save()
+
+
+PetProfilePhotoFormSet = inlineformset_factory(Pet, PetProfilePhoto, form=PetProfilePhotoForm,
+                                               formset=_BasePetProfilePhotoFormset, extra=0)
 
 
 # TODO add recaptcha
