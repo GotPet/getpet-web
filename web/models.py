@@ -276,12 +276,10 @@ class Pet(models.Model):
     )
     age = models.PositiveSmallIntegerField(
         verbose_name=_("Amžius"),
-        blank=True,
         null=True
     )
     weight = models.PositiveSmallIntegerField(
         verbose_name=_("Svoris"),
-        blank=True,
         null=True
     )
     size = models.IntegerField(
@@ -290,11 +288,9 @@ class Pet(models.Model):
         null=True
     )
     desexed = models.BooleanField(
-        verbose_name=_("Kastruotas ar sterilizuotas"),
+        verbose_name=_("Kastruotas / sterilizuotas"),
         choices=NULLABLE_BOOLEAN_FIELD_CHOICES,
-        blank=True,
         null=True,
-        help_text=_("Pažymėkite jei gyvūnas yra kastruotas arba sterilizuotas")
     )
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Sukūrimo data'))
