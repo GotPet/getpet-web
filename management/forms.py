@@ -309,8 +309,11 @@ class _BasePetProfilePhotoFormset(BaseInlineFormSet):
     def save_photos(self, pet: Pet):
         for pet_photo_form_data in self.cleaned_data:
             pet_photo = pet_photo_form_data['id']
+            delete_photo = pet_photo_form_data['DELETE']
 
-            if pet_photo.pet is None:
+            if delete_photo:
+                pet_photo.delete()
+            elif pet_photo.pet is None:
                 pet_photo.pet = pet
                 pet_photo.save()
 
