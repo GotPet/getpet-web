@@ -5,4 +5,7 @@
     {% if light_text %}
         {{ light_text }}
     {% endif %}
+    {% if html_after_text %}
+        {{ html_after_text|safe }}
+    {% endif %}
 </h4>

@@ -19,16 +19,17 @@ class Formset(LayoutObject):
 class CardTitle(LayoutObject):
     template = "crispy/card-title.html"
 
-    def __init__(self, strong_text=None, light_text=None):
+    def __init__(self, strong_text=None, light_text=None, html_after_text=None):
         self.strong_text = strong_text
         self.light_text = light_text
+        self.html_after_text = html_after_text
         self.fields = []
 
     def render(self, form, form_style, context, template_pack=TEMPLATE_PACK):
         return render_to_string(self.template, {
             'strong_text': self.strong_text,
             'light_text': self.light_text,
-
+            'html_after_text': self.html_after_text,
         })
 
 

@@ -191,7 +191,10 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
             ),
             Div(
                 Div(
-                    CardTitle(strong_text=_("Gyvūno profilio nuotrauka")),
+                    CardTitle(
+                        strong_text=_("Gyvūno profilio nuotrauka"),
+                        html_after_text="""<span class="text-danger">*</span>"""
+                    ),
                     Div('photo', css_class='card-body'),
                     css_class='card'
                 ),
