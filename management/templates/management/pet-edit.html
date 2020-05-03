@@ -130,9 +130,9 @@
                         {% endfor %}
                     ]
 
-                    images.forEach(function (photo, _) {
+                    images.forEach(function (photo, index) {
                         let mockFile = {
-                            name: photo.url,
+                            name: (index + 1).toString(),
                             url: photo.url,
                             order: photo.order,
                             serverID: photo.id,
@@ -155,7 +155,7 @@
                     }
                     file.serverID = response.id;
                     file.order = response.order;
-                    file.name = response.url;
+                    file.name = this.files.length.toString();
                     file.url = response.url;
                     file.deleted = false;
 
