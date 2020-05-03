@@ -14,6 +14,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from management.custom_layout_object import AppendedText, CardTitle, Formset, PrependedText
+from management.utils import find_first
 from web.models import Pet, PetGender, PetProfilePhoto, PetQuerySet, PetStatus, Shelter
 
 _redirect_field_html = HTML("""
@@ -144,6 +145,10 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
         if self.instance and self.instance.photo:
             self.fields['photo'].widget.attrs['data-default-file'] = self.instance.photo.url
 
+        field_names_to_remove_none_choice = ['gender', 'size', 'desexed']
+        for field_name in field_names_to_remove_none_choice:
+            self.remove_none_choice(field_name)
+
         self.helper.layout = Layout(
             Div(
                 Div(Formset('pet_photo_form_set'), css_class="d-none", css_id='pets-formset'),
@@ -157,12 +162,13 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
                             Div('short_description', css_class='col-12'),
                             Div('description', css_class='col-12'),
 
-                            Div('gender', css_class='col-md-4'),
-                            Div('size', css_class='col-md-4'),
-                            Div('age', css_class='col-md-4'),
+                            Div(AppendedText('age', 'm.'), css_class='col-md-6'),
+                            Div(AppendedText('weight', 'kg'), css_class='col-md-6'),
 
+                            Div('size', css_class='col-md-4'),
+                            Div('gender', css_class='col-md-4'),
                             Div('desexed', css_class='col-md-4'),
-                            Div(AppendedText('weight', 'kg'), css_class='col-md-4'),
+
                             css_class='row'
                         ),
                         css_class='card-body'
@@ -217,6 +223,18 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
             ),
         )
 
+    def remove_none_choice(self, field_name: str):
+        choices = list(self.fields[field_name].choices)
+
+        none_choice = find_first(choices, lambda x: x[0] is None)
+        if none_choice:
+            choices.remove(none_choice)
+        else:
+            raise LookupError(f"Unable to find none choices in field {field_name}")
+
+        self.fields[field_name].choices = choices
+        self.fields[field_name].widget.choices = choices
+
     class Meta:
         model = Pet
         fields = [
@@ -248,8 +266,9 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
                 }
             ),
             'properties': CheckboxSelectMultiple(),
-            # 'size': RadioSelect(),
-            # 'gender': RadioSelect(),
+            'size': RadioSelect(),
+            'gender': RadioSelect(),
+            'desexed': RadioSelect(),
         }
         labels = {
             'photo': "",

@@ -92,3 +92,7 @@ def add_url_params(url, params):
     ).geturl()
 
     return new_url
+
+
+def find_first(seq, predicate, default=None):
+    return next((x for x in seq if predicate(x)), default)
