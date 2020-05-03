@@ -75,10 +75,7 @@ class ShelterPetCreateView(UserWithAssociatedShelterMixin, CreateView):
         return Pet.pets_from_shelter(shelter)
 
     def form_valid(self, form):
-        context = self.get_context_data()
-        pet_photo_form_set = context['pet_photo_form_set']
-        if not hasattr(form.instance, 'shelter') or form.instance.shelter is None:
-            form.instance.shelter = Shelter.user_selected_shelter(self.request.user, request=self.request)
+        form.instance.shelter = Shelter.user_selected_shelter(self.request.user, request=self.request)
 
         with transaction.atomic():
             pet = form.save()
