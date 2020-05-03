@@ -296,12 +296,6 @@ class Pet(models.Model):
         null=True,
         help_text=_("Pažymėkite jei gyvūnas yra kastruotas arba sterilizuotas")
     )
-    is_vaccinated = models.BooleanField(
-        verbose_name=_("Vakcinuotas"),
-        choices=NULLABLE_BOOLEAN_FIELD_CHOICES,
-        blank=True,
-        null=True,
-    )
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Sukūrimo data'))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinimo data"))

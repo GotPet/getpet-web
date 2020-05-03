@@ -162,7 +162,6 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
                             Div('age', css_class='col-md-4'),
 
                             Div('desexed', css_class='col-md-4'),
-                            Div('is_vaccinated', css_class='col-md-4'),
                             Div(AppendedText('weight', 'kg'), css_class='col-md-4'),
                             css_class='row'
                         ),
@@ -232,7 +231,6 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
             'size',
             'weight',
             'desexed',
-            'is_vaccinated',
             'properties',
         ]
         widgets = {
