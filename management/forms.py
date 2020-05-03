@@ -143,7 +143,10 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
         self.helper.form_class = 'row'
 
         if self.instance and self.instance.photo:
-            self.fields['photo'].widget.attrs['data-default-file'] = self.instance.photo.url
+            photo_field = self.fields['photo']
+
+            photo_field.required = False
+            photo_field.widget.attrs['data-default-file'] = self.instance.photo.url
 
         field_names_to_remove_none_choice = ['gender', 'size', 'desexed']
         for field_name in field_names_to_remove_none_choice:
