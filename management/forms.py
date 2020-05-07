@@ -149,12 +149,14 @@ class PetCreateUpdateForm(forms.ModelForm):
 
             read_only_dates = {
                 _('Sukūrimo data'): self.instance.created_at,
-                _('Atnaujinimo data'): self.instance.updated_at,
+                _('Paskutinio atnaujinimo data'): self.instance.updated_at,
+                _('Gyvūno paėmimo data'): self.instance.taken_at,
             }
 
-            for label, field in read_only_dates.items():
-                div = Div(PlainTextFormField(label=label, value=field), css_class='col-md-4')
-                read_only_date_divs.append(div)
+            for label, value in read_only_dates.items():
+                if value is not None:
+                    div = Div(PlainTextFormField(label=label, value=value), css_class='col-md-4')
+                    read_only_date_divs.append(div)
 
             photo_field.required = False
             photo_field.widget.attrs['data-default-file'] = self.instance.photo.url

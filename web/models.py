@@ -15,7 +15,7 @@ from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
 from getpet import settings
-from management.utils import image_url_with_size_params
+from management.utils import django_now, image_url_with_size_params
 from web.utils import file_extension
 
 
@@ -293,6 +293,7 @@ class Pet(models.Model):
         null=True,
     )
 
+    taken_at = models.DateTimeField(blank=True, null=True, editable=False, verbose_name=_('Paėmimo data'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Sukūrimo data'))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinimo data"))
 
@@ -306,6 +307,19 @@ class Pet(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if self.pk is not None:
+            orig = Pet.objects.get(pk=self.pk)
+
+            if orig.status != self.status:
+                if orig.status == PetStatus.AVAILABLE:
+                    self.taken_at = django_now()
+                elif self.status == PetStatus.AVAILABLE:
+                    self.taken_at = None
+
+        super().save(force_insert, force_update, using, update_fields)
 
     def is_available(self) -> bool:
         return self.status == PetStatus.AVAILABLE
