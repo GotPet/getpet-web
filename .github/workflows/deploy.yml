@@ -9,8 +9,8 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
-      - name: Set short GIT commit
-        id: vars
+      - name: Set GIT commit and branch
+        id: git_vars
         run: |
           echo ::set-env name=GIT_COMMIT::$(git rev-parse --short HEAD)
           echo ::set-env name=GIT_BRANCH::$(git rev-parse --abbrev-ref HEAD)
