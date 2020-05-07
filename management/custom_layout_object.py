@@ -33,6 +33,21 @@ class CardTitle(LayoutObject):
         })
 
 
+class PlainTextFormField(LayoutObject):
+    template = "crispy/plain-text-form-field.html"
+
+    def __init__(self, label, value):
+        self.label = label
+        self.value = value
+        self.fields = []
+
+    def render(self, form, form_style, context, template_pack=TEMPLATE_PACK):
+        return render_to_string(self.template, {
+            'label': self.label,
+            'value': self.value,
+        })
+
+
 class PrependedText(BasePrependedText):
     def __init__(self, field, text, *args, **kwargs):
         kwargs['template'] = 'management/widget/prepended_appended_text.html'

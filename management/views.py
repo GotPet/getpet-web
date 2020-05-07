@@ -10,7 +10,7 @@ from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 
 from management.forms import PetListFiltersForm, PetProfilePhotoFormSet, ShelterInfoUpdateForm, \
-    ShelterPetCreateUpdateForm
+    PetCreateUpdateForm
 from management.mixins import UserWithAssociatedShelterMixin, ViewPaginatorMixin
 from management.utils import add_url_params
 from web.models import Pet, Shelter
@@ -52,7 +52,7 @@ class ShelterPetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, Li
 class ShelterPetCreateView(UserWithAssociatedShelterMixin, CreateView):
     model = Pet
     template_name = 'management/pet-create.html'
-    form_class = ShelterPetCreateUpdateForm
+    form_class = PetCreateUpdateForm
     context_object_name = 'pet'
 
     # https://dev.to/zxenia/django-inline-formsets-with-class-based-views-and-crispy-forms-14o6

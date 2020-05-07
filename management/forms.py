@@ -13,7 +13,7 @@ from django.forms.widgets import CheckboxSelectMultiple, ClearableFileInput, Fil
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
-from management.custom_layout_object import AppendedText, CardTitle, Formset, PrependedText
+from management.custom_layout_object import AppendedText, CardTitle, Formset, PlainTextFormField, PrependedText
 from management.utils import find_first
 from web.models import Pet, PetGender, PetProfilePhoto, PetQuerySet, PetStatus, Shelter
 
@@ -136,14 +136,25 @@ class ShelterInfoUpdateForm(forms.ModelForm):
         }
 
 
-class ShelterPetCreateUpdateForm(forms.ModelForm):
+class PetCreateUpdateForm(forms.ModelForm):
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.helper = WebFormHelper()
         self.helper.form_class = 'row'
 
+        read_only_date_divs = []
         if self.instance and self.instance.photo:
             photo_field = self.fields['photo']
+
+            read_only_dates = {
+                _('Sukūrimo data'): self.instance.created_at,
+                _('Atnaujinimo data'): self.instance.updated_at,
+            }
+
+            for label, field in read_only_dates.items():
+                div = Div(PlainTextFormField(label=label, value=field), css_class='col-md-4')
+                read_only_date_divs.append(div)
 
             photo_field.required = False
             photo_field.widget.attrs['data-default-file'] = self.instance.photo.url
@@ -171,6 +182,8 @@ class ShelterPetCreateUpdateForm(forms.ModelForm):
                             Div('size', css_class='col-md-4'),
                             Div('gender', css_class='col-md-4'),
                             Div('desexed', css_class='col-md-4'),
+
+                            *read_only_date_divs,
 
                             css_class='row'
                         ),
