@@ -3,13 +3,13 @@ version: "3.4"
 services:
 
   postgres:
-    image: postgres:11
+    image: postgres:12.2
     env_file:
     - .env
     networks:
     - database_network
     volumes:
-    - database_volume:/var/lib/postgresql/data
+    - database_volume_12:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD", "pg_isready"]
     labels:
@@ -85,7 +85,7 @@ networks:
     driver: overlay
 
 volumes:
-  database_volume:
+  database_volume_12:
   static_volume:
   media_volume:
   redis_volume:
