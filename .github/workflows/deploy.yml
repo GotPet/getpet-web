@@ -9,10 +9,14 @@ jobs:
     steps:
       - uses: actions/checkout@master
 
+      - name: Set short GIT commit
+        id: vars
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@master
         env:
-          GIT_COMMIT: ${{ github.sha }}
+          GIT_COMMIT: ${{ steps.vars.outputs.sha_short }}
           GIT_BRANCH: ${{ github.ref }}
         with:
           name: vycius/getpet-platform
