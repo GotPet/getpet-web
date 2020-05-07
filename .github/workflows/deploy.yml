@@ -8,23 +8,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@master
+        env:
+          GIT_COMMIT: ${{ git rev-parse --short HEAD }}
+          GIT_BRANCH: ${{ git rev-parse --abbrev-ref HEAD }}
         with:
           name: vycius/getpet-platform
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           cache: ${{ github.event_name != 'schedule' }}
+          buildargs: GIT_COMMIT,GIT_BRANCH
 
-#      - name: Create a Sentry.io release
-#        uses: tclindner/sentry-releases-action@v1.1.0
-#        env:
-#          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-#          SENTRY_ORG: getpet
-#          SENTRY_PROJECT: getpet-web
-#        with:
-#          tagName: ${{ GITHUB_SHA }}
-#          environment: production
+      #      - name: Create a Sentry.io release
+      #        uses: tclindner/sentry-releases-action@v1.1.0
+      #        env:
+      #          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      #          SENTRY_ORG: getpet
+      #          SENTRY_PROJECT: getpet-web
+      #        with:
+      #          tagName: ${{ GITHUB_SHA }}
+      #          environment: production
 
       - name: Deploy to production
         uses: appleboy/ssh-action@master
