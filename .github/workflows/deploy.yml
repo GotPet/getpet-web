@@ -12,8 +12,8 @@ jobs:
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@master
         env:
-          GIT_COMMIT: ${{ git rev-parse --short HEAD }}
-          GIT_BRANCH: ${{ git rev-parse --abbrev-ref HEAD }}
+          GIT_COMMIT: $(git rev-parse --short HEAD)
+          GIT_BRANCH: $(git rev-parse --abbrev-ref HEAD)
         with:
           name: vycius/getpet-platform
           username: ${{ secrets.DOCKER_USERNAME }}
