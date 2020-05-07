@@ -346,7 +346,7 @@ class Pet(models.Model):
 
 
 class PetProperty(models.Model):
-    name = models.CharField(max_length=64, unique=True, verbose_name=_("Gyvūno savybė"))
+    name = models.CharField(max_length=128, unique=True, verbose_name=_("Gyvūno savybė"))
     pets = models.ManyToManyField(
         Pet,
         verbose_name=_("Gyvūnai"),
