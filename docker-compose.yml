@@ -20,7 +20,7 @@ services:
         condition: on-failure
 
   redis:
-    image: redis:5.0.0
+    image: redis:6.0
     networks:
     - redis_network
     volumes:
