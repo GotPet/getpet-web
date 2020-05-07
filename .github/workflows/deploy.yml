@@ -13,12 +13,13 @@ jobs:
         uses: elgohr/Publish-Docker-Github-Action@master
         env:
           GIT_COMMIT: ${{ github.sha }}
+          GIT_BRANCH: ${{ github.ref }}
         with:
           name: vycius/getpet-platform
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           cache: ${{ github.event_name != 'schedule' }}
-          buildargs: GIT_COMMIT
+          buildargs: GIT_COMMIT,GIT_BRANCH
 
       #      - name: Create a Sentry.io release
       #        uses: tclindner/sentry-releases-action@v1.1.0
