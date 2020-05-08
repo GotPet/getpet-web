@@ -286,7 +286,7 @@ class PetCreateUpdateForm(forms.ModelForm):
                 attrs={'rows': 2}
             ),
             'special_information': Textarea(
-                attrs={'rows': 2}
+                attrs={'rows': 1}
             ),
             'short_description': TextInput(
                 attrs={
