@@ -1,9 +1,6 @@
 FROM python:3.8
 EXPOSE 8080
 
-ARG GIT_COMMIT
-ARG GIT_BRANCH
-
 ENV PYTHONUNBUFFERED 1
 
 RUN mkdir /srv/platform
@@ -13,6 +10,9 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
+
+ARG GIT_COMMIT
+ARG GIT_BRANCH
 
 LABEL branch=${GIT_BRANCH}
 LABEL commit=${GIT_COMMIT}
