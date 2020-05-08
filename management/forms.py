@@ -216,8 +216,11 @@ class PetCreateUpdateForm(forms.ModelForm):
                 Div(
                     CardTitle(strong_text=_("Gyvūno savybių"), light_text=_("informacija")),
                     Div(
-                        Div(Field('properties', css_class="custom-control custom-control-lg custom-checkbox"),
-                            css_class="custom-controls-stacked"),
+                        Div(
+                            Field('properties', css_class="custom-control custom-control-lg custom-checkbox"),
+                            css_class="custom-controls-stacked"
+                        ),
+                        Div('special_information'),
                         css_class='card-body'
                     ),
                     css_class='card'
@@ -271,6 +274,7 @@ class PetCreateUpdateForm(forms.ModelForm):
             'weight',
             'desexed',
             'properties',
+            'special_information',
         ]
         widgets = {
             'photo': FileInput(attrs={
@@ -279,6 +283,9 @@ class PetCreateUpdateForm(forms.ModelForm):
                 'data-provide': "dropify",
             }),
             'information_for_getpet_team': Textarea(
+                attrs={'rows': 2}
+            ),
+            'special_information': Textarea(
                 attrs={'rows': 2}
             ),
             'short_description': TextInput(
