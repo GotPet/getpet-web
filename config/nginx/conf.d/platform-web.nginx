@@ -6,7 +6,7 @@ upstream platform_web {
 
 server {
     listen 80;
-    server_name localhost;
+    server_name getpet.lt www.getpet.lt;
 
     gzip on;
 
