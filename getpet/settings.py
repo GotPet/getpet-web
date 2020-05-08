@@ -98,7 +98,7 @@ MIDDLEWARE = [
 AUTH_USER_MODEL = 'web.User'
 
 # Datadog
-tracer.configure(hostname='ddagent', port=8126, enabled=True)
+tracer.configure(hostname='ddagent', port=8126, enabled=not DEBUG)
 config.django['service_name'] = 'getpet-platform'
 config.django['instrument_databases'] = True
 config.django['instrument_caches'] = True
