@@ -78,6 +78,7 @@ class CountryWithRegionSerializer(serializers.ModelSerializer):
 class PetFlatListSerializer(serializers.ModelSerializer):
     shelter = ShelterSerializer()
     profile_photos = PetProfilePhotoSerializer(many=True)
+    description = serializers.CharField(source='description_including_all_information')
 
     class Meta:
         model = Pet

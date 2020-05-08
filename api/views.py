@@ -11,7 +11,7 @@ from rest_framework_tracking.mixins import LoggingMixin
 
 from api.filters import PetFilter
 from api.serializers import FirebaseSerializer, GeneratePetsRequestSerializer, PetFlatListSerializer, \
-    PetProfilePhotoSerializer, PetProfilePhotoUploadSerializer, ShelterPetSerializer, TokenSerializer, \
+    PetProfilePhotoUploadSerializer, ShelterPetSerializer, TokenSerializer, \
     UserPetChoiceSerializer, \
     CountryWithRegionSerializer
 from web.models import Pet, UserPetChoice, GetPetRequest, Country
@@ -33,7 +33,8 @@ class CountriesAndRegionsListView(ListAPIView):
     security=[]
 ))
 class PetListView(ListAPIView):
-    queryset = Pet.objects.prefetch_related('profile_photos').select_related_full_shelter().order_by('-pk')
+    queryset = Pet.objects.prefetch_related('profile_photos', 'properties').select_related_full_shelter().order_by(
+        '-pk')
     serializer_class = PetFlatListSerializer
     permission_classes = (AllowAny,)
 
