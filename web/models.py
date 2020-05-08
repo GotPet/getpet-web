@@ -3,7 +3,7 @@ from __future__ import annotations
 import uuid
 from _md5 import md5
 from os.path import join
-from typing import Optional
+from typing import List, Optional
 
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import AbstractUser
@@ -328,6 +328,52 @@ class Pet(models.Model):
 
         super().save(force_insert, force_update, using, update_fields)
 
+    def description_including_all_information(self) -> str:
+        description_parts = [self.description + "\n"]
+
+        if self.gender:
+            gender_part = f"{_('Lytis')}: {self.get_gender_display().lower()}"
+
+            desexed_text = None
+            if self.gender == PetGender.Male and self.desexed is True:
+                desexed_text = _("kastruotas")
+            elif self.gender == PetGender.Male and self.desexed is False:
+                desexed_text = _("nekastruotas")
+            elif self.gender == PetGender.Female and self.desexed is True:
+                desexed_text = _("sterilizuota")
+            elif self.gender == PetGender.Female and self.desexed is False:
+                desexed_text = _("nesterilizuota")
+
+            if desexed_text:
+                gender_part += f" ({desexed_text})"
+
+            description_parts.append(gender_part)
+
+        if self.age:
+            age_part = f"{_('Amžius')}: {_('apie')} {self.age} m."
+            description_parts.append(age_part)
+
+        if self.size:
+            size_part = f"{_('Dydis')}: {self.get_size_display().lower()}"
+            if self.weight:
+                size_part += f" ({_('apie')} {self.weight} kg)"
+
+            description_parts.append(size_part)
+
+        properties = self.properties_list()
+        if len(properties) > 0:
+            properties_part = f"{_('Pastabos')}: {', '.join(properties).lower()}"
+            description_parts.append(properties_part)
+
+        if special_information := self.special_information:
+            special_information_part = f"{_('Specialūs sveikatos poreikiai ir būklės')}:\n{special_information}"
+            description_parts.append(special_information_part)
+
+        return '\n'.join(description_parts).strip(' \n\t')
+
+    def properties_list(self) -> List[str]:
+        return list([p.name for p in self.properties.all()])
+
     def is_available(self) -> bool:
         return self.status == PetStatus.AVAILABLE
 
@@ -354,7 +400,7 @@ class Pet(models.Model):
 
     @staticmethod
     def generate_pets(liked_pet_ids, disliked_pet_ids, region):
-        queryset = Pet.available.prefetch_related('profile_photos') \
+        queryset = Pet.available.prefetch_related('profile_photos', 'properties') \
             .select_related_full_shelter() \
             .exclude(pk__in=liked_pet_ids).order_by()
 
