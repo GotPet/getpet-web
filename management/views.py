@@ -111,6 +111,6 @@ class ShelterInfoUpdateView(UserWithAssociatedShelterMixin, UpdateView):
         return context
 
 
-@login_required
+@login_required(redirect_field_name=None)
 def no_associated_shelter(request) -> HttpResponse:
     return render(request, 'management/no-associated-shelter.html')
