@@ -47,6 +47,7 @@ server {
 
         set $w "-";
         set $h "-";
+        set $q "85";
 
         if ( $arg_w ) {
             set $w $arg_w;
@@ -55,7 +56,12 @@ server {
             set $h $arg_h;
         }
 
+        if ( $arg_q ) {
+            set $q $arg_q;
+        }
+
         image_filter                crop $w $h;
+        image_filter_jpeg_quality   $q;
         image_filter_buffer         100M;
         image_filter_interlace      on;
     }
