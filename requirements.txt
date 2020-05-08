@@ -1,12 +1,15 @@
 Django~=3.0.6
 gunicorn~=20.0.4
 psycopg2-binary~=2.8.5
+ddtrace~=0.37.0
+
 
 django-extensions~=2.2.9
 
 Pillow~=7.1.2
 requests~=2.23.0
 django-allauth~=0.41.0
+
 
 # Admin
 django-admin-sortable2~=0.7.6
