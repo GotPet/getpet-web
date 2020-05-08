@@ -269,11 +269,11 @@ class Pet(models.Model):
     properties = models.ManyToManyField("web.PetProperty", blank=True, related_name="+",
                                         verbose_name=_("Gyvūno savybės"))
     special_information = models.TextField(
-        verbose_name=_("Svarbi informacija"),
+        verbose_name=_("Specialūs sveikatos poreikiai ir būklės"),
         blank=True,
         null=True,
         help_text=_(
-            "Pavyzdžiui: amputuota galūnė, reikalingi medikamentai, šlapimo nelaikymas, specialūs sveikatos poreikiai ir būklės")
+            "Pavyzdžiui: amputuota galūnė, šlapimo nelaikymas, reikalingi medikamentai ir kita.")
     )
 
     gender = models.IntegerField(
