@@ -8,4 +8,4 @@ echo "==> Django setup, executing: migrate"
 python manage.py migrate
 
 echo "==> Starting uWSGI ..."
-ddtrace-run gunicorn getpet.wsgi --bind 0.0.0.0:8080 --workers 5
+gunicorn getpet.wsgi --bind 0.0.0.0:8080 --workers 5

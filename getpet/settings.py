@@ -18,6 +18,8 @@ from django.urls import reverse_lazy
 from django.utils.log import DEFAULT_LOGGING
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
+from ddtrace import Pin, patch_all, config, tracer
+import django
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -94,6 +96,16 @@ MIDDLEWARE = [
 ]
 
 AUTH_USER_MODEL = 'web.User'
+
+# Datadog
+tracer.configure(hostname='ddagent', port=8126, enabled=True)
+config.django['service_name'] = 'getpet-platform'
+config.django['instrument_databases'] = True
+config.django['instrument_caches'] = True
+config.django['trace_query_string'] = True
+config.django['analytics_enabled'] = True
+config.django['analytics_sample_rate'] = 0.5
+tracer.set_tags({'env': 'production'})
 
 if DEBUG and ENABLE_DEBUG_DRAWER_IN_DEBUG:
     INSTALLED_APPS.append('debug_toolbar')
@@ -350,3 +362,7 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 
 ACCOUNT_ADAPTER = 'management.adapters.GetPetAccountAdapter'
 SOCIALACCOUNT_ADAPTER = 'management.adapters.GetPetSocialAccountAdapter'
+
+# Datadog finalization
+patch_all()
+Pin.override(Pin.get_from(django))
