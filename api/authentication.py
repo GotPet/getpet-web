@@ -1,5 +1,6 @@
 from logging import getLogger
 
+from django.contrib.auth.models import Group
 from rest_framework import authentication
 
 from api.firebase import Firebase
@@ -31,10 +32,17 @@ class FirebaseAuthentication(authentication.BaseAuthentication):
             return None
         email = firebase_user.email.lower() if firebase_user.email else None
 
-        user, is_created = User.objects.update_or_create(username=uid, defaults={
+        # E-mail is required, but sometimes Firebase doesn't return e-mail. Fix that by adding dummy e-mail
+        if not email:
+            email = f"{uid}@dummy-getpet.lt"
+
+        user, _ = User.objects.update_or_create(username=uid, defaults={
             'email': email,
             'first_name': firebase_user.display_name,
             'social_image_url': firebase_user.photo_url,
         })
+
+        api_group, _ = Group.objects.get_or_create(name='Api')
+        user.groups.add(api_group)
 
         return user, None
