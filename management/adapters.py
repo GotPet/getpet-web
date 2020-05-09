@@ -1,6 +1,7 @@
 from allauth.account.adapter import DefaultAccountAdapter
 from allauth.account.models import EmailAddress
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
+from django.contrib.auth import get_user_model
 
 
 class GetPetAccountAdapter(DefaultAccountAdapter):
@@ -33,16 +34,12 @@ class GetPetSocialAccountAdapter(DefaultSocialAccountAdapter):
         if 'email' not in sociallogin.account.extra_data:
             return
 
-        # check if given email address already exists.
-        # Note: __iexact is used to ignore cases
-        try:
-            email = sociallogin.account.extra_data['email'].lower()
-            email_address = EmailAddress.objects.get(email__iexact=email)
+        email = sociallogin.account.extra_data['email'].lower()
 
-        # if it does not, let allauth take care of this new social account
-        except EmailAddress.DoesNotExist:
-            return
+        user = get_user_model().objects.filter(email=email).first()
+        if user is None:
+            email_address = EmailAddress.objects.filter(email__iexact=email).first()
+            user = email_address.user
 
-        # if it does, connect this new social login to the existing user
-        user = email_address.user
-        sociallogin.connect(request, user)
+        if user:
+            sociallogin.connect(request, user)
