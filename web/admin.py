@@ -25,8 +25,8 @@ class UserAdmin(BaseUserAdmin):
         # noinspection PyUnresolvedReferences
         return super().get_queryset(request).annotate_with_app_statistics()
 
-    def full_name(self, obj):
-        return obj.get_full_name()
+    def full_name(self, obj) -> str:
+        return str(obj)
 
     full_name.short_description = _("Vardas")
 
