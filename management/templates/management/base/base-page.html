@@ -106,9 +106,11 @@
                         <li class="nav-item">
                             {% if user.is_superuser %}
                                 <a class="nav-link" href="{% url 'management_shelters_list' %}">
-                                    {% trans 'Prieglaudos' %}
+                                    {% trans 'Gyvūnų prieglaudos' %}
                                 </a>
                             {% endif %}
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{% static 'pdf/privatumo-politika.pdf' %}">
                                 {% trans 'Privatumo politika' %}
                             </a>
