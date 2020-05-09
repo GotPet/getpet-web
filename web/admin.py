@@ -1,14 +1,19 @@
 from adminsortable2.admin import SortableInlineAdminMixin
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Q
 from django.utils.translation import gettext_lazy as _
 from reversion.admin import VersionAdmin
 
+from getpet import settings
 from web.models import Country, GetPetRequest, Pet, PetProfilePhoto, PetProperty, Region, Shelter, User, UserPetChoice
 
 admin.site.site_header = _('GetPet Administravimas')
 admin.site.site_title = admin.site.site_header
+
+if not settings.DEBUG:
+    admin.site.login = login_required(admin.site.login)
 
 
 @admin.register(User)
