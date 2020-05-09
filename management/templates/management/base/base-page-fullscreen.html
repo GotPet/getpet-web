@@ -1,6 +1,4 @@
 {% extends 'management/base/base.html' %}
-{% load i18n %}
-
 
 {% block main_container %}
     <div class="row no-margin h-fullscreen" style="padding-top: 10%">
@@ -10,8 +8,9 @@
         </div>
 
         <footer class="col-12 align-self-end text-center fs-13">
-            <p>© 2020 GetPet. {% trans 'Visos teisės saugomos' %}.</p>
+            <p>
+                {% include 'management/elements/footer-text.html' %}
+            </p>
         </footer>
     </div>
-
 {% endblock %}
