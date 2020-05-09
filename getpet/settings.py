@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 import logging.config
+from datetime import timedelta
 
 from celery.schedules import crontab
 from django.core.exceptions import DisallowedHost
@@ -290,7 +291,7 @@ CELERY_TIMEZONE = 'UTC'
 CELERY_BEAT_SCHEDULE = {
     'connect_super_users_to_shelters': {
         'task': 'management.tasks.connect_super_users_to_shelters',
-        'schedule': crontab(hour='*')
+        'schedule': timedelta(hours=1)
     },
 }
 
