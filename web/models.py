@@ -21,9 +21,49 @@ from management.utils import django_now, image_url_with_size_params
 from web.utils import file_extension
 
 
+class UserQuerySet(models.QuerySet):
+    def annotate_with_app_statistics(self) -> QuerySet[User]:
+        pets_likes_count = User.objects.annotate(
+            pets_likes_count=models.Count(
+                'users_pet_choices',
+                filter=models.Q(users_pet_choices__is_favorite=True)
+            )
+        ).filter(pk=models.OuterRef('pk'))
+
+        pets_dislikes_count = User.objects.annotate(
+            pets_dislikes_count=models.Count(
+                'users_pet_choices',
+                filter=models.Q(users_pet_choices__is_favorite=False)
+            )
+        ).filter(pk=models.OuterRef('pk'))
+
+        pets_getpet_requests_count = User.objects.annotate(
+            pets_getpet_requests_count=models.Count(
+                'get_pet_requests',
+            )
+        ).filter(pk=models.OuterRef('pk'))
+
+        return self.annotate(
+            pets_likes_count=models.Subquery(
+                pets_likes_count.values('pets_likes_count'),
+                output_field=models.DateTimeField()
+            ),
+            pets_dislikes_count=models.Subquery(
+                pets_dislikes_count.values('pets_dislikes_count'),
+                output_field=models.IntegerField()
+            ),
+            pets_getpet_requests_count=models.Subquery(
+                pets_getpet_requests_count.values('pets_getpet_requests_count'),
+                output_field=models.IntegerField()
+            ),
+        )
+
+
 class User(AbstractUser):
     photo = models.ImageField(blank=True, null=True, upload_to='img/users/', verbose_name=_("Vartotojo nuotrauka"))
     social_image_url = models.URLField(blank=True, null=True)
+
+    objects = UserQuerySet.as_manager()
 
     def save(self, *args, **kwargs):
         if not self.username:

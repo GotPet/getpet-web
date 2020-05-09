@@ -18,19 +18,35 @@ if not settings.DEBUG:
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
-    def get_queryset(self, request):
-        return super().get_queryset(request).annotate(
-            total_getpet_requests=Count('get_pet_requests'),
-        )
-
     list_display = [
-        'username', 'email', 'first_name', 'last_name', 'total_getpet_requests', 'is_staff']
+        'full_name', 'email', 'pets_likes_count', 'pets_dislikes_count', 'pets_getpet_requests_count', 'is_staff']
 
-    def total_getpet_requests(self, obj):
-        return obj.total_getpet_requests
+    def get_queryset(self, request):
+        # noinspection PyUnresolvedReferences
+        return super().get_queryset(request).annotate_with_app_statistics()
 
-    total_getpet_requests.admin_order_field = "total_getpet_requests"
-    total_getpet_requests.short_description = _("GetPet paspaudimai")
+    def full_name(self, obj):
+        return obj.get_full_name()
+
+    full_name.short_description = _("Vardas")
+
+    def pets_likes_count(self, obj):
+        return obj.pets_likes_count
+
+    pets_likes_count.admin_order_field = "pets_likes_count"
+    pets_likes_count.short_description = _("Patinko")
+
+    def pets_dislikes_count(self, obj):
+        return obj.pets_dislikes_count
+
+    pets_dislikes_count.admin_order_field = "pets_dislikes_count"
+    pets_dislikes_count.short_description = _("Nepatiko")
+
+    def pets_getpet_requests_count(self, obj):
+        return obj.pets_getpet_requests_count
+
+    pets_getpet_requests_count.admin_order_field = "pets_getpet_requests_count"
+    pets_getpet_requests_count.short_description = _("GetPet paspaudimai")
 
 
 @admin.register(Shelter)
