@@ -50,6 +50,17 @@ class ShelterPetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, Li
         return context
 
 
+class SheltersListView(UserWithAssociatedShelterMixin, ListView):
+    template_name = 'management/shelters-list.html'
+    model = Shelter
+    context_object_name = 'shelters'
+    ordering = ["-pk"]
+    paginate_by = None
+
+    def get_queryset(self):
+        return Shelter.user_associated_shelters(self.request.user).annotate_with_statistics()
+
+
 class ShelterPetCreateView(UserWithAssociatedShelterMixin, CreateView):
     model = Pet
     template_name = 'management/pet-create.html'

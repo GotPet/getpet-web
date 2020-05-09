@@ -1,0 +1,52 @@
+{% load humanize %}
+{% load i18n %}
+
+<div class="card b-1 hover-shadow-2 mb-20">
+    <div class="media card-body">
+        {% with logo=shelter.square_logo_medium_url %}
+            {% if logo %}
+                <div class="media-left pr-12">
+                    <img class="rounded border"
+                         src="{{ logo }}"
+                         width="64"
+                         height="64"
+                         loading="lazy"
+                         alt="{{ shelter.name }}">
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <div class="media-body">
+            <div class="mb-2">
+                <span class="fs-20 pr-16 align-middle">{{ shelter.name }}</span>
+                <span class="badge {{ shelter.is_published|yesno:"badge-success,badge-warning" }} text-uppercase ls-1 opacity-75 align-middle">
+                    {% if shelter.is_published %}
+                        {% trans "Viešai matoma" %}
+                    {% else %}
+                        {% trans "Nepaskelbta" %}
+                    {% endif %}
+                </span>
+            </div>
+            <p class="fs-16 fw-300 ls-1 small text-truncate">{{ pet.description }}</p>
+        </div>
+        <div class="media-right text-right d-none d-md-block">
+            <p class="fs-14 text-fade mb-12"><i class="fa fa-map-marker pr-1"></i> {{ shelter.address }}</p>
+            <span class="text-fade fs-12">
+                <i class="fa fa-thumbs-o-up"></i> <strong>{{ shelter.pets_likes_count }}</strong>
+                <i class="fa fa-thumbs-o-down ml-2"></i> <strong>{{ shelter.pets_dislikes_count }}</strong>
+            </span>
+        </div>
+
+    </div>
+
+    <footer class="card-footer flexbox align-items-center">
+        <div>
+            <strong>{% trans 'Paskutinis gyvūnų atnaujinimas' %}:</strong>
+            <span>{{ shelter.updated_at_max|naturaltime }}</span>
+        </div>
+        <div>
+            <strong>{% trans 'Laukiantys gyvūnai' %}:</strong>
+            <span>{{ shelter.pets_available_count }} ({{ shelter.pets_all_count }})</span>
+        </div>
+    </footer>
+</div>

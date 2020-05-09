@@ -97,7 +97,56 @@ class Region(models.Model):
 
 
 class ShelterQuerySet(models.QuerySet):
-    pass
+    # https://stackoverflow.com/questions/56567841/django-count-and-sum-annotations-interfere-with-each-other
+    def annotate_with_statistics(self) -> QuerySet[Shelter]:
+        updated_at_max = Shelter.objects.annotate(
+            updated_at_max=models.Max('updated_at')
+        ).filter(pk=models.OuterRef('pk'))
+
+        pets_all_count = Shelter.objects.annotate(
+            pets_all_count=models.Count('pets')
+        ).filter(pk=models.OuterRef('pk'))
+
+        pets_available_count = Shelter.objects.annotate(
+            pets_available_count=models.Count('pets', filter=models.Q(pets__status=PetStatus.AVAILABLE))
+        ).filter(pk=models.OuterRef('pk'))
+
+        pets_likes_count = Shelter.objects.annotate(
+            pets_likes_count=models.Count(
+                'pets__users_pet_choices',
+                filter=models.Q(pets__users_pet_choices__is_favorite=True)
+            )
+        ).filter(pk=models.OuterRef('pk'))
+
+        pets_dislikes_count = Shelter.objects.annotate(
+            pets_dislikes_count=models.Count(
+                'pets__users_pet_choices',
+                filter=models.Q(pets__users_pet_choices__is_favorite=False)
+            )
+        ).filter(pk=models.OuterRef('pk'))
+
+        return self.annotate(
+            updated_at_max=models.Subquery(
+                updated_at_max.values('updated_at_max'),
+                output_field=models.DateTimeField()
+            ),
+            pets_all_count=models.Subquery(
+                pets_all_count.values('pets_all_count'),
+                output_field=models.IntegerField()
+            ),
+            pets_available_count=models.Subquery(
+                pets_available_count.values('pets_available_count'),
+                output_field=models.IntegerField()
+            ),
+            pets_likes_count=models.Subquery(
+                pets_likes_count.values('pets_likes_count'),
+                output_field=models.IntegerField()
+            ),
+            pets_dislikes_count=models.Subquery(
+                pets_dislikes_count.values('pets_dislikes_count'),
+                output_field=models.IntegerField()
+            ),
+        )
 
 
 class SheltersManager(models.Manager):
