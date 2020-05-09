@@ -11,7 +11,7 @@ def associated_shelter_required(function=None, login_url=None):
     """
 
     actual_decorator = user_passes_test(
-        lambda u: u.is_authenticated and Shelter.user_selected_shelter(u) is not None,
+        lambda u: u.is_authenticated and Shelter.user_selected_shelter(user=u, request=None) is not None,
         login_url=login_url,
         redirect_field_name='management_no_associated_shelter'
     )

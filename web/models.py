@@ -208,9 +208,11 @@ class Shelter(models.Model):
         return Shelter.objects.none()
 
     @staticmethod
-    def user_selected_shelter(user: AbstractBaseUser,
-                              shelter_id: int = None,
-                              request: HttpRequest = None) -> Optional[Shelter]:
+    def user_selected_shelter(
+            user: AbstractBaseUser,
+            request: Optional[HttpRequest],
+            shelter_id: Optional[int] = None
+    ) -> Optional[Shelter]:
         shelters = Shelter.user_associated_shelters(user) if user.is_authenticated else Shelter.objects.none()
 
         if shelter_id is None and request:
