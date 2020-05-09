@@ -24,7 +24,6 @@ urlpatterns = [
 
                   path('api/', include('api.urls')),
                   path('administravimas/', include('management.urls'), ),
-                  path('rukla/', include('rukla.urls')),
                   path('accounts/', include('allauth.urls')),
 
                   path('', include('web.urls')),

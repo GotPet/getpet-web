@@ -73,7 +73,6 @@ INSTALLED_APPS = [
 
     'web',
     'management',
-    'rukla',
 
     'allauth',
     'allauth.account',
