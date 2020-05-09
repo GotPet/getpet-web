@@ -77,6 +77,42 @@ services:
       restart_policy:
         condition: on-failure
 
+  celery_beat:
+    image: vycius/getpet-platform:latest
+    env_file:
+      - .env
+    volumes:
+      - static_volume:/srv/platform/static
+      - media_volume:/srv/platform/media
+      - /root/getpet-web/keyfiles:/srv/platform/keyfiles/
+    command: ddtrace-run celery -A getpet beat -l info --schedule=/srv/platform/celerybeat-schedule
+    networks:
+      - database_network
+      - redis_network
+      - datadog_network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  celery_default_worker:
+    image: vycius/getpet-platform:latest
+    env_file:
+      - .env
+    volumes:
+      - static_volume:/srv/platform/static
+      - media_volume:/srv/platform/media
+      - /root/getpet-web/keyfiles:/srv/platform/keyfiles/
+    command: ddtrace-run celery -A getpet worker -l info -E --concurrency=3
+    networks:
+      - database_network
+      - redis_network
+      - datadog_network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
   ddagent:
     image: datadog/agent:7
     environment:

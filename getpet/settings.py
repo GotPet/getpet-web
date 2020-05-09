@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 import os
 import logging.config
 
+from celery.schedules import crontab
 from django.core.exceptions import DisallowedHost
 from django.urls import reverse_lazy
 from django.utils.log import DEFAULT_LOGGING
@@ -275,6 +276,27 @@ FILE_UPLOAD_PERMISSIONS = 0o644
 FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o755
 
 REDIS_URL = 'redis://%s:6379/' % os.environ.get('REDIS_PORT_6379_TCP_ADDR', '172.17.0.1')
+
+CELERY_BROKER_URL = REDIS_URL + '2'
+CELERY_RESULT_BACKEND = 'django-db'
+
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+
+CELERY_BEAT_SCHEDULE = {
+    'fetch_politicians': {
+        'task': 'management.tasks.test_task',
+        'schedule': crontab(minute='*')
+    },
+}
+
+CELERYD_TASK_SOFT_TIME_LIMIT = 45 * 60
+CELERYD_SEND_EVENTS = True
+
+CELERY_TASK_SEND_SENT_EVENT = True
+CELERY_TRACK_STARTED = True
 
 if not DEBUG:
     CACHES = {
