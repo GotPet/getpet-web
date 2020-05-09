@@ -21,7 +21,7 @@ server {
     gzip_types text/plain text/css application/json application/x-javascript application/javascript text/xml application/xml application/rss+xml text/javascript image/svg+xml application/vnd.ms-fontobject application/x-font-ttf font/opentype application/x-font-woff application/font-woff;
 
     location /static {
-        alias /srv/platform/static/;
+        alias /srv/platform/static;
         autoindex off;
 
         expires 14d;
@@ -30,7 +30,7 @@ server {
     }
 
     location /media/img {
-        alias /srv/platform/media/img/;
+        alias /srv/platform/media/img;
         autoindex off;
 
         expires 14d;
@@ -67,7 +67,7 @@ server {
     }
 
     location /media {
-        alias /srv/platform/media/;
+        alias /srv/platform/media;
         autoindex off;
 
         expires 14d;
