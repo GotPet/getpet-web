@@ -46,7 +46,7 @@
     <footer class="card-footer flexbox align-items-center">
         <div>
             <strong>{% trans 'Paskutinis gyvūnų atnaujinimas' %}:</strong>
-            <span>{{ shelter.updated_at_max|naturaltime }}</span>
+            <span>{{ shelter.pets_updated_at_max|naturaltime|default_if_none:"-" }}</span>
         </div>
         <div>
             {% crispy shelter.shelter_switch_form %}

@@ -101,8 +101,8 @@ class Region(models.Model):
 class ShelterQuerySet(models.QuerySet):
     # https://stackoverflow.com/questions/56567841/django-count-and-sum-annotations-interfere-with-each-other
     def annotate_with_statistics(self) -> QuerySet[Shelter]:
-        updated_at_max = Shelter.objects.annotate(
-            updated_at_max=models.Max('updated_at')
+        pets_updated_at_max = Shelter.objects.annotate(
+            pets_updated_at_max=models.Max('pets__updated_at')
         ).filter(pk=models.OuterRef('pk'))
 
         pets_all_count = Shelter.objects.annotate(
@@ -128,8 +128,8 @@ class ShelterQuerySet(models.QuerySet):
         ).filter(pk=models.OuterRef('pk'))
 
         return self.annotate(
-            updated_at_max=models.Subquery(
-                updated_at_max.values('updated_at_max'),
+            pets_updated_at_max=models.Subquery(
+                pets_updated_at_max.values('pets_updated_at_max'),
                 output_field=models.DateTimeField()
             ),
             pets_all_count=models.Subquery(
