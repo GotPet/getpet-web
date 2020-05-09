@@ -1,0 +1,6 @@
+{% extends "management/status_codes/base-status-code.html" %}
+{% load i18n %}
+
+{% block status_code %}400{% endblock %}
+{% block status_title %}{% trans 'Neteisinga užklausa' %}{% endblock %}
+{% block status_description %}{% trans 'Serveris neatpažino užklausos, nes joje yra sintaksės klaidų.' %}{% endblock %}

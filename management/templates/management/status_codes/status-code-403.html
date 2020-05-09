@@ -1,0 +1,6 @@
+{% extends "management/status_codes/base-status-code.html" %}
+{% load i18n %}
+
+{% block status_code %}403{% endblock %}
+{% block status_title %}{% trans 'Uždrausta' %}{% endblock %}
+{% block status_description %}{% trans 'Serveris priėmė užklausą, tačiau atsisako ją vykdyti.' %}{% endblock %}

@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
+from sentry_sdk import last_event_id
 
 from management.forms import PetListFiltersForm, PetProfilePhotoFormSet, ShelterInfoUpdateForm, \
     PetCreateUpdateForm
@@ -114,3 +115,21 @@ class ShelterInfoUpdateView(UserWithAssociatedShelterMixin, UpdateView):
 @login_required(redirect_field_name=None)
 def no_associated_shelter(request) -> HttpResponse:
     return render(request, 'management/no-associated-shelter.html')
+
+
+def handler400(request, *args, **argv) -> HttpResponse:
+    return render(request, "management/status_codes/status-code-400.html", status=400)
+
+
+def handler403(request, *args, **argv) -> HttpResponse:
+    return render(request, "management/status_codes/status-code-403.html", status=403)
+
+
+def handler404(request, *args, **argv) -> HttpResponse:
+    return render(request, "management/status_codes/status-code-404.html", status=404)
+
+
+def handler500(request, *args, **argv):
+    return render(request, "management/status_codes/status-code-500.html", {
+        'sentry_event_id': last_event_id(),
+    }, status=500)

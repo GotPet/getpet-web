@@ -1,0 +1,17 @@
+{% extends 'management/base/base.html' %}
+{% load i18n %}
+
+
+{% block main_container %}
+    <div class="row no-margin h-fullscreen" style="padding-top: 10%">
+
+        <div class="col-12">
+            {% block fullscreen_content %}{% endblock %}
+        </div>
+
+        <footer class="col-12 align-self-end text-center fs-13">
+            <p>© 2020 GetPet. {% trans 'Visos teisės saugomos' %}.</p>
+        </footer>
+    </div>
+
+{% endblock %}

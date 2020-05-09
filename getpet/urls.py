@@ -36,3 +36,8 @@ if settings.DEBUG and settings.ENABLE_DEBUG_DRAWER_IN_DEBUG:
     urlpatterns = [
                       path('__debug__/', include(debug_toolbar.urls)),
                   ] + urlpatterns
+
+handler400 = 'management.views.handler400'
+handler403 = 'management.views.handler403'
+handler404 = 'management.views.handler404'
+handler500 = 'management.views.handler500'

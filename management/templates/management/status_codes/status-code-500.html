@@ -1,0 +1,21 @@
+{% extends "management/status_codes/base-status-code.html" %}
+{% load i18n %}
+
+{% block status_code %}500{% endblock %}
+{% block status_title %}{% trans 'Vidinė serverio klaida' %}{% endblock %}
+{% block status_description %}
+    {% trans 'Vykdant Jūsų užklausą įvyko vidinė serverio klaidą. Bandykite užklausą pakartoti šiek tiek vėliau arba susisiekti su administratoriais.' %}
+{% endblock %}
+
+{% block script %}
+    <script src="https://browser.sentry-cdn.com/5.15.5/bundle.min.js"
+            integrity="sha384-wF7Jc4ZlWVxe/L8Ji3hOIBeTgo/HwFuaeEfjGmS3EXAG7Y+7Kjjr91gJpJtr+PAT"
+            crossorigin="anonymous"></script>
+
+    {% if sentry_event_id %}
+        <script>
+            Sentry.init({dsn: 'https://d5b22207214140c793d50bedf3b5e796@o223644.ingest.sentry.io/1373034'});
+            Sentry.showReportDialog({eventId: '{{ sentry_event_id }}'})
+        </script>
+    {% endif %}
+{% endblock %}
