@@ -17,7 +17,8 @@
                 <li class="breadcrumb-item">
                     <a href="{% url 'management_pets_list' %}">
                         <i class="fa fa-paw"></i>
-                        {% trans 'Prieglaudos gyvūnai' %}
+                        {% trans 'Gyvūnai iš' %}
+                        {{ pet.shelter.name }}
                     </a>
                 </li>
                 <li class="breadcrumb-item active">
