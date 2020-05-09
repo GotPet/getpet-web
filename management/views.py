@@ -4,14 +4,14 @@ from django.contrib.auth.decorators import login_required
 from django.db import models, transaction
 from django.http import HttpResponse
 from django.http.request import HttpRequest
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 from sentry_sdk import last_event_id
 
-from management.forms import PetListFiltersForm, PetProfilePhotoFormSet, ShelterInfoUpdateForm, \
-    PetCreateUpdateForm
+from management.forms import PetCreateUpdateForm, PetListFiltersForm, PetProfilePhotoFormSet, ShelterInfoUpdateForm
 from management.mixins import UserWithAssociatedShelterMixin, ViewPaginatorMixin
 from management.utils import add_url_params
 from web.models import Pet, Shelter
@@ -59,6 +59,20 @@ class SheltersListView(UserWithAssociatedShelterMixin, ListView):
 
     def get_queryset(self):
         return Shelter.user_associated_shelters(self.request.user).annotate_with_statistics()
+
+
+class ShelterSwitchView(UserWithAssociatedShelterMixin, SingleObjectMixin):
+    model = Shelter
+
+    def post(self, request, *args, **kwargs):
+        # noinspection PyTypeChecker
+        selected_shelter: Shelter = self.get_object()
+        response = redirect("management_pets_list")
+
+        return selected_shelter.switch_shelter(response)
+
+    def get_queryset(self):
+        return Shelter.user_associated_shelters(self.request.user)
 
 
 class ShelterPetCreateView(UserWithAssociatedShelterMixin, CreateView):

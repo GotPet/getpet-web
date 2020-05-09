@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import uuid
 from _md5 import md5
+from datetime import timedelta
 from os.path import join
 from typing import List, Optional
 
@@ -9,12 +10,13 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.db.models import Count, QuerySet
-from django.http import HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 
 from getpet import settings
+from management.constants import Constants
 from management.utils import django_now, image_url_with_size_params
 from web.utils import file_extension
 
@@ -212,8 +214,7 @@ class Shelter(models.Model):
         shelters = Shelter.user_associated_shelters(user) if user.is_authenticated else Shelter.objects.none()
 
         if shelter_id is None and request:
-            from management.middleware import AssociateSheltersMiddleware
-            shelter_id = request.COOKIES.get(AssociateSheltersMiddleware.SELECTED_SHELTER_COOKIE_ID, None)
+            shelter_id = request.COOKIES.get(Constants.SELECTED_SHELTER_COOKIE_ID, None)
 
         if shelter_id:
             shelters = shelters.filter(id=shelter_id)
@@ -226,6 +227,24 @@ class Shelter(models.Model):
     def square_logo_medium_url(self) -> Optional[str]:
         if self.square_logo:
             return image_url_with_size_params(self.square_logo.url, size=64)
+
+    def shelter_switch_form(self):
+        from management.forms import ShelterSwitchForm
+        form_action = reverse('management_shelters_switch', kwargs={'pk': self.pk})
+
+        return ShelterSwitchForm(form_action=form_action)
+
+    def switch_shelter(self, response: HttpResponse) -> HttpResponse:
+        expires = django_now() + timedelta(seconds=Constants.SELECTED_SHELTER_COOKIE_MAX_AGE)
+
+        # noinspection PyTypeChecker
+        response.set_cookie(
+            Constants.SELECTED_SHELTER_COOKIE_ID,
+            str(self.id),
+            expires=expires.utctimetuple()
+        )
+
+        return response
 
     def __str__(self):
         return self.name

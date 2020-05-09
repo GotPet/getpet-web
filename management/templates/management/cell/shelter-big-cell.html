@@ -1,3 +1,4 @@
+{% load crispy_forms_tags %}
 {% load humanize %}
 {% load i18n %}
 
@@ -27,7 +28,10 @@
                     {% endif %}
                 </span>
             </div>
-            <p class="fs-16 fw-300 ls-1 small text-truncate">{{ pet.description }}</p>
+            <p class="fs-16 fw-300 ls-1 small text-truncate">
+                <strong>{{ shelter.pets_available_count }}</strong> {% trans 'gyvūnai laukiantys šeimininko' %}
+                <small>({% trans 'iš viso' %}: {{ shelter.pets_all_count }})</small>
+            </p>
         </div>
         <div class="media-right text-right d-none d-md-block">
             <p class="fs-14 text-fade mb-12"><i class="fa fa-map-marker pr-1"></i> {{ shelter.address }}</p>
@@ -45,8 +49,8 @@
             <span>{{ shelter.updated_at_max|naturaltime }}</span>
         </div>
         <div>
-            <strong>{% trans 'Laukiantys gyvūnai' %}:</strong>
-            <span>{{ shelter.pets_available_count }} ({{ shelter.pets_all_count }})</span>
+            {% crispy shelter.shelter_switch_form %}
         </div>
+
     </footer>
 </div>

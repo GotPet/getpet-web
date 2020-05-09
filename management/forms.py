@@ -136,6 +136,24 @@ class ShelterInfoUpdateForm(forms.ModelForm):
         }
 
 
+class ShelterSwitchForm(forms.ModelForm):
+    def __init__(self, form_action, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = WebFormHelper()
+        self.helper.form_action = form_action
+
+        self.helper.layout = Layout(
+            Submit("switch", _("Perjungti prieglaudą"), css_class="btn btn-xs fs-10 btn-bold btn-primary"),
+        )
+
+    class Meta:
+        model = Shelter
+
+        fields = [
+            'id',
+        ]
+
+
 class PetCreateUpdateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
