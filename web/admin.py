@@ -34,7 +34,7 @@ class UserAdmin(BaseUserAdmin):
         return obj.pets_likes_count
 
     pets_likes_count.admin_order_field = "pets_likes_count"
-    pets_likes_count.short_description = _("Patinko")
+    pets_likes_count.short_description = _("Patiko")
 
     def pets_dislikes_count(self, obj):
         return obj.pets_dislikes_count
