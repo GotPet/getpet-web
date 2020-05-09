@@ -32,7 +32,7 @@ class ShelterPetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, Li
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
-        shelter = Shelter.user_selected_shelter(self.request.user)
+        shelter = Shelter.user_selected_shelter(self.request.user, request=self.request)
 
         pets = Pet.pets_from_shelter(shelter, annotate_with_total_likes=True)
 
@@ -96,7 +96,7 @@ class ShelterPetCreateView(UserWithAssociatedShelterMixin, CreateView):
         return self.object.edit_pet_url()
 
     def get_queryset(self) -> models.query.QuerySet:
-        shelter = Shelter.user_selected_shelter(self.request.user)
+        shelter = Shelter.user_selected_shelter(self.request.user, request=self.request)
 
         return Pet.pets_from_shelter(shelter)
 
