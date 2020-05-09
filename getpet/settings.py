@@ -288,9 +288,9 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
 
 CELERY_BEAT_SCHEDULE = {
-    'fetch_politicians': {
-        'task': 'management.tasks.test_task',
-        'schedule': crontab(minute='*')
+    'connect_super_users_to_shelters': {
+        'task': 'management.tasks.connect_super_users_to_shelters',
+        'schedule': crontab(hour='*')
     },
 }
 

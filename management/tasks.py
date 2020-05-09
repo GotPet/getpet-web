@@ -9,11 +9,6 @@ logger = logging.getLogger(__name__)
 
 
 @shared_task(soft_time_limit=30)
-def test_task():
-    return "Hello celery"
-
-
-@shared_task(soft_time_limit=30)
 def connect_super_users_to_shelters():
     connected = 0
     for user in get_user_model().objects.filter(is_superuser=True):
