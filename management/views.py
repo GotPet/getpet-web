@@ -70,7 +70,7 @@ class SheltersListView(UserWithAssociatedShelterMixin, ListView):
     paginate_by = None
 
     def get_queryset(self):
-        return Shelter.user_associated_shelters(self.request.user).annotate_with_statistics()
+        return Shelter.user_associated_shelters(self.request.user).select_related('region').annotate_with_statistics()
 
 
 class ShelterSwitchView(UserWithAssociatedShelterMixin, SingleObjectMixin):
