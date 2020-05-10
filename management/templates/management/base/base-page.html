@@ -60,16 +60,19 @@
                     <!--suppress HtmlFormInputWithoutLabel -->
                     <input class="no-radius no-border" name="q" type="text" required
                            placeholder="{% trans 'Ieškokite gyvūnų pagal vardą, kodą ir kitus parametrus ...' %}">
+                    <button type="submit" class="btn btn-pure btn-secondary">
+                        <i class="fa fa-search"></i>
+                    </button>
                 </form>
 
             </div>
         </div>
         <div class="topbar-right">
-            <div>
+            <div class="topbar-btns">
                 <form method="post" action="{% url 'account_logout' %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-sm btn-outline btn-primary">
-                        {% trans 'Atsijungti' %}
+                    <button type="submit" class="btn btn-pure topbar-btn">
+                        <i class="fa fa-sign-out"></i>
                     </button>
                 </form>
             </div>
