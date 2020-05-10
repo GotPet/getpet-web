@@ -17,6 +17,18 @@ from management.utils import add_url_params
 from web.models import Pet, Shelter
 
 
+class IndexView(UserWithAssociatedShelterMixin):
+
+    # noinspection PyMethodMayBeStatic
+    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
+        associated_shelters = Shelter.user_associated_shelters(request.user)
+
+        if associated_shelters.count() > 1:
+            return redirect('management_shelters_list')
+
+        return redirect('management_pets_list')
+
+
 class ShelterPetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, ListView):
     template_name = 'management/pets-list.html'
     model = Pet
