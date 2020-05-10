@@ -58,6 +58,20 @@ class UserQuerySet(models.QuerySet):
             ),
         )
 
+    def annotate_with_shelters_count(self) -> QuerySet[User]:
+        shelters_count = User.objects.annotate(
+            shelters_count=models.Count(
+                'shelters',
+            )
+        ).filter(pk=models.OuterRef('pk'))
+
+        return self.annotate(
+            shelters_count=models.Subquery(
+                shelters_count.values('shelters_count'),
+                output_field=models.IntegerField()
+            ),
+        )
+
 
 class UserManager(BaseUserManager.from_queryset(UserQuerySet)):
     use_in_migrations = False
@@ -240,7 +254,8 @@ class Shelter(models.Model):
     class Meta:
         verbose_name = _("Gyvūnų prieglauda")
         verbose_name_plural = _("Gyvūnų prieglaudos")
-        ordering = ['-created_at', 'name']
+        default_related_name = "shelters"
+        ordering = ['-pk']
 
     @staticmethod
     def user_associated_shelters(user: AbstractBaseUser):

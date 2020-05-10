@@ -19,11 +19,12 @@ if not settings.DEBUG:
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
     list_display = [
-        'full_name', 'email', 'pets_likes_count', 'pets_dislikes_count', 'pets_getpet_requests_count', 'is_staff']
+        'full_name', 'email', 'shelters_count', 'pets_likes_count', 'pets_dislikes_count', 'pets_getpet_requests_count',
+        'is_active', 'is_staff', 'date_joined']
 
     def get_queryset(self, request):
         # noinspection PyUnresolvedReferences
-        return super().get_queryset(request).annotate_with_app_statistics()
+        return super().get_queryset(request).annotate_with_app_statistics().annotate_with_shelters_count()
 
     def full_name(self, obj) -> str:
         return str(obj)
@@ -47,6 +48,12 @@ class UserAdmin(BaseUserAdmin):
 
     pets_getpet_requests_count.admin_order_field = "pets_getpet_requests_count"
     pets_getpet_requests_count.short_description = _("GetPet paspaudimai")
+
+    def shelters_count(self, obj):
+        return obj.shelters_count
+
+    shelters_count.admin_order_field = "shelters_count"
+    shelters_count.short_description = _("Valdomos prieglaudos")
 
 
 @admin.register(Shelter)
