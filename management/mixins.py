@@ -6,14 +6,13 @@ from django.shortcuts import redirect
 from django.views import View
 from django.views.generic.list import BaseListView
 
-from management.constants import Constants
 from management.utils import PaginatorWithPageLink
 
 
 class UserWithAssociatedShelterMixin(UserPassesTestMixin, View):
-    # AssociateSheltersMiddleware deletes cookie if it's not valid, so it safe to check this value
     def test_func(self):
-        return Constants.SELECTED_SHELTER_COOKIE_ID in self.request.COOKIES
+        # noinspection PyUnresolvedReferences
+        return self.request.user_selected_shelter is not None
 
     def handle_no_permission(self):
         return redirect('management:shelters_no_associated_shelter')
