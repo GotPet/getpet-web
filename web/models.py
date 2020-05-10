@@ -85,9 +85,7 @@ class User(AbstractUser):
         return self.get_full_name().split(' ')[0]
 
     def __str__(self):
-        name = self.get_full_name()
-
-        return name if name else self.email
+        return self.get_full_name() or self.email or self.username
 
 
 class CountryQuerySet(models.QuerySet):
