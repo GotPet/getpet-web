@@ -301,7 +301,7 @@ class Shelter(models.Model):
 
         return ShelterSwitchForm(form_action=form_action)
 
-    def switch_shelter(self, response: HttpResponse):
+    def switch_shelter_cookie(self, response: HttpResponse):
         expires = django_now() + timedelta(seconds=Constants.SELECTED_SHELTER_COOKIE_MAX_AGE)
 
         # noinspection PyTypeChecker

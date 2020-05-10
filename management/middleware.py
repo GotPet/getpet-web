@@ -32,7 +32,7 @@ class AssociateSheltersMiddleware:
             )
 
         if user_selected_shelter:
-            user_selected_shelter.switch_shelter(response)
+            user_selected_shelter.switch_shelter_cookie(response)
         else:
             response.delete_cookie(Constants.SELECTED_SHELTER_COOKIE_ID)
 

@@ -77,12 +77,14 @@ class SheltersListView(UserWithAssociatedShelterMixin, ListView):
 class ShelterSwitchView(UserWithAssociatedShelterMixin, SingleObjectMixin):
     model = Shelter
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         # noinspection PyTypeChecker
         selected_shelter: Shelter = self.get_object()
         response = redirect("management:pets_list")
 
-        return selected_shelter.switch_shelter(response)
+        selected_shelter.switch_shelter_cookie(response)
+
+        return response
 
     def get_queryset(self):
         return Shelter.user_associated_shelters(self.request.user)
