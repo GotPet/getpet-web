@@ -40,6 +40,7 @@ class FirebaseAuthentication(authentication.BaseAuthentication):
             'email': email,
             'first_name': firebase_user.display_name,
             'social_image_url': firebase_user.photo_url,
+            'is_active': False,
         })
 
         api_group, _ = Group.objects.get_or_create(name='Api')
