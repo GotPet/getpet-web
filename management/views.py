@@ -44,7 +44,8 @@ class ShelterPetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, Li
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
-        shelter = Shelter.user_selected_shelter(user=self.request.user, request=self.request)
+        # noinspection PyUnresolvedReferences
+        shelter = self.request.user_selected_shelter
 
         pets = Pet.pets_from_shelter(shelter, annotate_with_likes_and_dislikes=True)
 
@@ -108,12 +109,12 @@ class ShelterPetCreateView(UserWithAssociatedShelterMixin, CreateView):
         return self.object.edit_pet_url()
 
     def get_queryset(self) -> models.query.QuerySet:
-        shelter = Shelter.user_selected_shelter(user=self.request.user, request=self.request)
-
-        return Pet.pets_from_shelter(shelter)
+        # noinspection PyUnresolvedReferences
+        return Pet.pets_from_shelter(self.request.user_selected_shelter)
 
     def form_valid(self, form):
-        form.instance.shelter = Shelter.user_selected_shelter(user=self.request.user, request=self.request)
+        # noinspection PyUnresolvedReferences
+        form.instance.shelter = self.request.user_selected_shelter
 
         with transaction.atomic():
             pet = form.save()

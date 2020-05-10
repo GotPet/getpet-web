@@ -34,3 +34,7 @@ django-resized~=0.3.11
 django-crispy-forms~=1.9.0
 python-dateutil~=2.8.1
 sentry-sdk==0.14.3
+
+# Required for tests
+Faker~=4.0.3
+factory_boy~=2.12.0

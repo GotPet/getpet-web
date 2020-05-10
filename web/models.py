@@ -263,26 +263,28 @@ class Shelter(models.Model):
         ordering = ['-pk']
 
     @staticmethod
-    def user_associated_shelters(user: AbstractBaseUser):
+    def user_associated_shelters(user: AbstractBaseUser) -> QuerySet[Shelter]:
         if user.is_authenticated:
             return Shelter.objects.filter(authenticated_users=user)
 
         return Shelter.objects.none()
 
     @staticmethod
+    def user_associated_shelter_by_id(user: AbstractBaseUser, shelter_id: int) -> Optional[Shelter]:
+        return Shelter.user_associated_shelters(user).filter(id=shelter_id).first()
+
+    @staticmethod
     def user_selected_shelter(
             user: AbstractBaseUser,
-            request: Optional[HttpRequest],
-            shelter_id: Optional[int] = None
+            request: HttpRequest,
     ) -> Optional[Shelter]:
         shelters = Shelter.user_associated_shelters(user)
 
-        if shelter_id is None and request:
-            if cookie_shelter_id := try_parse_int(request.COOKIES.get(Constants.SELECTED_SHELTER_COOKIE_ID, None)):
-                shelter_id = cookie_shelter_id
+        if cookie_shelter_id := try_parse_int(request.COOKIES.get(Constants.SELECTED_SHELTER_COOKIE_ID, None)):
+            shelter_from_cookie = shelters.filter(id=cookie_shelter_id).first()
 
-        if shelter_id:
-            shelters = shelters.filter(id=shelter_id)
+            if shelter_from_cookie:
+                return shelter_from_cookie
 
         return shelters.first()
 
@@ -299,7 +301,7 @@ class Shelter(models.Model):
 
         return ShelterSwitchForm(form_action=form_action)
 
-    def switch_shelter(self, response: HttpResponse) -> HttpResponse:
+    def switch_shelter(self, response: HttpResponse):
         expires = django_now() + timedelta(seconds=Constants.SELECTED_SHELTER_COOKIE_MAX_AGE)
 
         # noinspection PyTypeChecker
@@ -308,8 +310,6 @@ class Shelter(models.Model):
             str(self.id),
             expires=expires.utctimetuple()
         )
-
-        return response
 
     def __str__(self):
         return self.name

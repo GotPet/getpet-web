@@ -13,7 +13,7 @@ from management.utils import PaginatorWithPageLink
 class UserWithAssociatedShelterMixin(UserPassesTestMixin, View):
     # AssociateSheltersMiddleware deletes cookie if it's not valid, so it safe to check this value
     def test_func(self):
-        return self.request.COOKIES.get(Constants.SELECTED_SHELTER_COOKIE_ID)
+        return Constants.SELECTED_SHELTER_COOKIE_ID in self.request.COOKIES
 
     def handle_no_permission(self):
         return redirect('management:shelters_no_associated_shelter')

@@ -1,7 +1,6 @@
 from django.http import HttpRequest, HttpResponse
 
 from management.constants import Constants
-from management.utils import try_parse_int
 
 
 class AssociateSheltersMiddleware:
@@ -13,26 +12,27 @@ class AssociateSheltersMiddleware:
         from web.models import Shelter
 
         user = request.user
-        selected_shelter_id = try_parse_int(request.COOKIES.pop(Constants.SELECTED_SHELTER_COOKIE_ID, None))
-        selected_shelter = None
 
-        if user.is_authenticated:
-            selected_shelter = Shelter.user_selected_shelter(user=user, request=None, shelter_id=selected_shelter_id)
+        user_selected_shelter = Shelter.user_selected_shelter(user=user, request=request)
 
-            if selected_shelter_id and not selected_shelter:
-                selected_shelter = Shelter.user_selected_shelter(user=user, request=None)
+        if user_selected_shelter:
+            request.COOKIES[Constants.SELECTED_SHELTER_COOKIE_ID] = str(user_selected_shelter.id)
+        else:
+            request.COOKIES.pop(Constants.SELECTED_SHELTER_COOKIE_ID, None)
 
-            if selected_shelter:
-                request.COOKIES[Constants.SELECTED_SHELTER_COOKIE_ID] = str(selected_shelter.id)
+        request.user_selected_shelter = user_selected_shelter
 
         response: HttpResponse = self.get_response(request)
 
         # Cookie was changed in get_response
         if response_shelter_cookie := response.cookies.pop(Constants.SELECTED_SHELTER_COOKIE_ID, None):
-            selected_shelter = Shelter.user_selected_shelter(user=user, request=None, shelter_id=response_shelter_cookie.value)
+            user_selected_shelter = Shelter.user_associated_shelter_by_id(
+                user=user,
+                shelter_id=response_shelter_cookie.value
+            )
 
-        if selected_shelter:
-            response = selected_shelter.switch_shelter(response)
+        if user_selected_shelter:
+            user_selected_shelter.switch_shelter(response)
         else:
             response.delete_cookie(Constants.SELECTED_SHELTER_COOKIE_ID)
 
