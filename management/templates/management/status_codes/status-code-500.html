@@ -15,7 +15,15 @@
     {% if sentry_event_id %}
         <script>
             Sentry.init({dsn: 'https://d5b22207214140c793d50bedf3b5e796@o223644.ingest.sentry.io/1373034'});
-            Sentry.showReportDialog({eventId: '{{ sentry_event_id }}'})
+            Sentry.showReportDialog({
+                eventId: '{{ sentry_event_id }}',
+                {% if user.is_authenticated %}
+                    user: {
+                        name: '{{ user.get_full_name|escapejs }}',
+                        email: '{{ user.email|escapejs }}',
+                    }
+                {% endif %}
+            })
         </script>
     {% endif %}
 {% endblock %}
