@@ -20,10 +20,10 @@ from django.urls import path, include
 from getpet import settings
 
 urlpatterns = [
-                  path('admin/', admin.site.urls),
+                  path('administration/', admin.site.urls),
 
                   path('api/', include('api.urls')),
-                  path('administravimas/', include('management.urls', namespace='management')),
+                  path('admin/', include('management.urls', namespace='management')),
                   path('accounts/', include('allauth.urls')),
 
                   path('', include('web.urls')),
