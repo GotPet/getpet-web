@@ -4,7 +4,7 @@ import uuid
 from _md5 import md5
 from datetime import timedelta
 from os.path import join
-from typing import List, Optional
+from typing import List, Optional, Sequence, Union
 
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import AbstractUser, UserManager as BaseUserManager
@@ -261,6 +261,13 @@ class Shelter(models.Model):
         verbose_name_plural = _("Gyvūnų prieglaudos")
         default_related_name = "shelters"
         ordering = ['-pk']
+
+    def save(self, force_insert: bool = False, force_update: bool = False, using: Optional[str] = None,
+             update_fields: Optional[Union[Sequence[str], str]] = None) -> None:
+        super().save(force_insert, force_update, using, update_fields)
+
+        from web.tasks import connect_super_users_to_shelters
+        connect_super_users_to_shelters.delay()
 
     @staticmethod
     def user_associated_shelters(user: AbstractBaseUser):

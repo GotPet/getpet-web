@@ -278,7 +278,7 @@ CELERY_TIMEZONE = 'UTC'
 
 CELERY_BEAT_SCHEDULE = {
     'connect_super_users_to_shelters': {
-        'task': 'management.tasks.connect_super_users_to_shelters',
+        'task': 'web.tasks.connect_super_users_to_shelters',
         'schedule': timedelta(hours=1)
     },
 }
