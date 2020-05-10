@@ -20,6 +20,8 @@ from management.constants import Constants
 from management.utils import django_now, image_url_with_size_params
 from web.utils import file_extension
 
+_SHELTER_GROUP_NAME = "Shelter"
+
 
 class UserQuerySet(models.QuerySet):
     def annotate_with_app_statistics(self) -> QuerySet[User]:
@@ -240,10 +242,13 @@ class Shelter(models.Model):
     facebook = models.URLField(blank=True, null=True, verbose_name=_("Facebook"))
     instagram = models.URLField(blank=True, null=True, verbose_name=_("Instagram"))
 
-    authenticated_users = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True,
-                                                 verbose_name=_("Vartotojai tvarkantys prieglaudos informaciją"),
-                                                 help_text=_("Priskirti vartotojai gali matyti prieglaudos gyvūnus "
-                                                             "ir juos tvarkyti."))
+    authenticated_users = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        blank=True,
+        limit_choices_to=models.Q(groups__name=_SHELTER_GROUP_NAME),
+        verbose_name=_("Vartotojai tvarkantys prieglaudos informaciją"),
+        help_text=_("Priskirti vartotojai gali matyti prieglaudos gyvūnus ir juos tvarkyti.")
+    )
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Sukūrimo data'))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinimo data"))
