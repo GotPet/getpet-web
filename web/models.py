@@ -17,7 +17,7 @@ from django.utils.translation import gettext_lazy as _
 
 from getpet import settings
 from management.constants import Constants
-from management.utils import django_now, image_url_with_size_params
+from management.utils import django_now, image_url_with_size_params, try_parse_int
 from web.utils import file_extension
 
 _SHELTER_GROUP_NAME = "Shelter"
@@ -278,7 +278,8 @@ class Shelter(models.Model):
         shelters = Shelter.user_associated_shelters(user)
 
         if shelter_id is None and request:
-            shelter_id = request.COOKIES.get(Constants.SELECTED_SHELTER_COOKIE_ID, None)
+            if cookie_shelter_id := try_parse_int(request.COOKIES.get(Constants.SELECTED_SHELTER_COOKIE_ID, None)):
+                shelter_id = cookie_shelter_id
 
         if shelter_id:
             shelters = shelters.filter(id=shelter_id)
