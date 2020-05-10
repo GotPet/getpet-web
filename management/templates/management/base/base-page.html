@@ -105,6 +105,9 @@
                     <ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end">
                         <li class="nav-item">
                             {% if user.is_superuser %}
+                                <a class="nav-link" href="{% url 'admin:index' %}">
+                                    {% trans 'Super administravimas' %}
+                                </a>
                                 <a class="nav-link" href="{% url 'management_shelters_list' %}">
                                     {% trans 'Gyvūnų prieglaudos' %}
                                 </a>
