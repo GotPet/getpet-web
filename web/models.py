@@ -253,7 +253,7 @@ class Shelter(models.Model):
             request: Optional[HttpRequest],
             shelter_id: Optional[int] = None
     ) -> Optional[Shelter]:
-        shelters = Shelter.user_associated_shelters(user) if user.is_authenticated else Shelter.objects.none()
+        shelters = Shelter.user_associated_shelters(user)
 
         if shelter_id is None and request:
             shelter_id = request.COOKIES.get(Constants.SELECTED_SHELTER_COOKIE_ID, None)
