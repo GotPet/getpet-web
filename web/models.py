@@ -7,7 +7,7 @@ from os.path import join
 from typing import List, Optional
 
 from django.contrib.auth.base_user import AbstractBaseUser
-from django.contrib.auth.models import AbstractUser, UserManager
+from django.contrib.auth.models import AbstractUser, UserManager as BaseUserManager
 from django.db import models
 from django.db.models import Count, QuerySet
 from django.http import HttpRequest, HttpResponse
@@ -59,11 +59,15 @@ class UserQuerySet(models.QuerySet):
         )
 
 
+class UserManager(BaseUserManager.from_queryset(UserQuerySet)):
+    use_in_migrations = False
+
+
 class User(AbstractUser):
     photo = models.ImageField(blank=True, null=True, upload_to='img/users/', verbose_name=_("Vartotojo nuotrauka"))
     social_image_url = models.URLField(blank=True, null=True)
 
-    objects = UserManager.from_queryset(UserQuerySet)()
+    objects = UserManager()
 
     def save(self, *args, **kwargs):
         if not self.username:
