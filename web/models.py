@@ -267,7 +267,7 @@ class Shelter(models.Model):
         super().save(force_insert, force_update, using, update_fields)
 
         from web.tasks import connect_super_users_to_shelters
-        connect_super_users_to_shelters.delay()
+        connect_super_users_to_shelters.delay(shelter_pk=self.pk)
 
     @staticmethod
     def user_associated_shelters(user: AbstractBaseUser):
