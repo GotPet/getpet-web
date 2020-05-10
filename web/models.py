@@ -262,13 +262,6 @@ class Shelter(models.Model):
         default_related_name = "shelters"
         ordering = ['-pk']
 
-    def save(self, force_insert: bool = False, force_update: bool = False, using: Optional[str] = None,
-             update_fields: Optional[Union[Sequence[str], str]] = None) -> None:
-        super().save(force_insert, force_update, using, update_fields)
-
-        from web.tasks import connect_super_users_to_shelters
-        connect_super_users_to_shelters.delay(shelter_pk=self.pk)
-
     @staticmethod
     def user_associated_shelters(user: AbstractBaseUser):
         if user.is_authenticated:

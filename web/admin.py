@@ -1,10 +1,15 @@
+from typing import Any
+
 from adminsortable2.admin import SortableInlineAdminMixin
 from django.contrib import admin
+from django.contrib.admin.models import LogEntry
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Q
+from django.db.models.base import Model
+from django.http.request import HttpRequest
 from django.utils.translation import gettext_lazy as _
-from reversion.admin import VersionAdmin
+from web.tasks import connect_super_users_to_shelters
 
 from getpet import settings
 from web.models import Country, GetPetRequest, Pet, PetProfilePhoto, PetProperty, Region, Shelter, User, UserPetChoice
@@ -57,11 +62,21 @@ class UserAdmin(BaseUserAdmin):
 
 
 @admin.register(Shelter)
-class ShelterAdmin(VersionAdmin):
+class ShelterAdmin(admin.ModelAdmin):
     search_fields = ['name', 'email', ]
     list_display = ['name', 'email', 'phone', 'created_at', 'updated_at']
     filter_horizontal = ['authenticated_users']
     autocomplete_fields = ['region']
+
+    def log_change(self, request: HttpRequest, object: Model, message: Any) -> LogEntry:
+        connect_super_users_to_shelters.delay(shelter_pk=object.pk)
+
+        return super().log_change(request, object, message)
+
+    def log_addition(self, request: HttpRequest, object: Model, message: Any) -> LogEntry:
+        connect_super_users_to_shelters.delay(shelter_pk=object.pk)
+
+        return super().log_addition(request, object, message)
 
 
 class RegionInline(admin.StackedInline):
@@ -69,7 +84,7 @@ class RegionInline(admin.StackedInline):
 
 
 @admin.register(Region)
-class RegionAdmin(VersionAdmin):
+class RegionAdmin(admin.ModelAdmin):
     search_fields = ['name', 'code', ]
     list_display = ['name', 'code', 'country']
     list_select_related = ['country']
@@ -77,7 +92,7 @@ class RegionAdmin(VersionAdmin):
 
 
 @admin.register(Country)
-class CountryAdmin(VersionAdmin):
+class CountryAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         return super().get_queryset(request).annotate_with_pets_count()
 
@@ -119,7 +134,7 @@ class GetPetRequestInline(admin.TabularInline):
 
 
 @admin.register(Pet)
-class PetAdmin(VersionAdmin):
+class PetAdmin(admin.ModelAdmin):
     search_fields = ['name', ]
     list_display = [
         'name',
@@ -186,7 +201,7 @@ class PetAdmin(VersionAdmin):
 
 
 @admin.register(GetPetRequest)
-class GetPetRequestAdmin(VersionAdmin):
+class GetPetRequestAdmin(admin.ModelAdmin):
     list_display = ['user', 'pet', 'status', 'created_at']
     raw_id_fields = ['user', 'pet']
     list_select_related = ['user', 'pet', ]
@@ -203,7 +218,7 @@ class GetPetRequestAdmin(VersionAdmin):
 
 
 @admin.register(UserPetChoice)
-class UserPetChoiceAdmin(VersionAdmin):
+class UserPetChoiceAdmin(admin.ModelAdmin):
     list_display = ['user', 'pet', 'created_at', 'updated_at']
     date_hierarchy = 'created_at'
     raw_id_fields = ['user', 'pet']
@@ -212,13 +227,13 @@ class UserPetChoiceAdmin(VersionAdmin):
 
 
 @admin.register(PetProfilePhoto)
-class PetProfilePhotoAdmin(VersionAdmin):
+class PetProfilePhotoAdmin(admin.ModelAdmin):
     list_display = ['pet', 'photo', 'order', ]
     raw_id_fields = ['pet', 'created_by']
     list_select_related = ['pet', 'created_by']
 
 
 @admin.register(PetProperty)
-class PetPropertyAdmin(VersionAdmin):
+class PetPropertyAdmin(admin.ModelAdmin):
     list_display = ['name', ]
     filter_horizontal = ['pets']
