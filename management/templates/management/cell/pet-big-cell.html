@@ -23,7 +23,10 @@
 
         <div class="media-right text-right d-none d-md-block">
             <p class="fs-14 text-fade mb-12"><i class="fa fa-id-card-o pr-1"></i> {{ pet.pk }}</p>
-            <span class="text-fade fs-12">{% trans "Patinka" %}: <strong>{{ pet.total_likes }}</strong></span>
+            <span class="text-fade fs-12">
+                <i class="fa fa-thumbs-o-up"></i> <strong>{{ pet.likes_count }}</strong>
+                <i class="fa fa-thumbs-o-down ml-2"></i> <strong>{{ pet.dislikes_count }}</strong>
+            </span>
         </div>
     </a>
 </div>

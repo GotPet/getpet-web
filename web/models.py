@@ -318,12 +318,30 @@ class PetQuerySet(models.QuerySet):
     def select_related_full_shelter(self):
         return self.select_related('shelter', 'shelter__region', 'shelter__region__country')
 
-    def annotate_with_total_likes(self):
-        return self.annotate(
-            total_likes=Count(
+    def annotate_with_likes_and_dislikes(self):
+        likes_count = Pet.objects.annotate(
+            likes_count=models.Count(
                 'users_pet_choices',
                 filter=models.Q(users_pet_choices__is_favorite=True)
             )
+        ).filter(pk=models.OuterRef('pk'))
+
+        dislikes_count = Pet.objects.annotate(
+            dislikes_count=models.Count(
+                'users_pet_choices',
+                filter=models.Q(users_pet_choices__is_favorite=False)
+            )
+        ).filter(pk=models.OuterRef('pk'))
+
+        return self.annotate(
+            likes_count=models.Subquery(
+                likes_count.values('likes_count'),
+                output_field=models.IntegerField()
+            ),
+            dislikes_count=models.Subquery(
+                dislikes_count.values('dislikes_count'),
+                output_field=models.IntegerField()
+            ),
         )
 
     def filter_by_search_term(self, search_term: str):
@@ -494,11 +512,11 @@ class Pet(models.Model):
         return "badge-primary"
 
     @staticmethod
-    def pets_from_shelter(shelter: Shelter, annotate_with_total_likes=False) -> QuerySet[Pet]:
+    def pets_from_shelter(shelter: Shelter, annotate_with_likes_and_dislikes=False) -> QuerySet[Pet]:
         queryset = Pet.objects.filter(shelter=shelter).order_by('-pk')
 
-        if annotate_with_total_likes:
-            queryset = queryset.annotate_with_total_likes()
+        if annotate_with_likes_and_dislikes:
+            queryset = queryset.annotate_with_likes_and_dislikes()
 
         return queryset
 

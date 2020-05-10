@@ -46,7 +46,7 @@ class ShelterPetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, Li
     def get_queryset(self):
         shelter = Shelter.user_selected_shelter(user=self.request.user, request=self.request)
 
-        pets = Pet.pets_from_shelter(shelter, annotate_with_total_likes=True)
+        pets = Pet.pets_from_shelter(shelter, annotate_with_likes_and_dislikes=True)
 
         return self.petListFiltersForm.filter_queryset(pets)
 
