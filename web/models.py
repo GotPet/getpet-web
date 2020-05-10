@@ -264,7 +264,7 @@ class Shelter(models.Model):
         return shelters.first()
 
     def edit_shelter_url(self) -> str:
-        return reverse('management_shelter_info_update', kwargs={'pk': self.pk})
+        return reverse('management:shelters_update', kwargs={'pk': self.pk})
 
     def square_logo_medium_url(self) -> Optional[str]:
         if self.square_logo:
@@ -272,7 +272,7 @@ class Shelter(models.Model):
 
     def shelter_switch_form(self):
         from management.forms import ShelterSwitchForm
-        form_action = reverse('management_shelters_switch', kwargs={'pk': self.pk})
+        form_action = reverse('management:shelters_switch', kwargs={'pk': self.pk})
 
         return ShelterSwitchForm(form_action=form_action)
 
@@ -506,7 +506,7 @@ class Pet(models.Model):
         return image_url_with_size_params(self.photo.url, size=64)
 
     def edit_pet_url(self) -> str:
-        return reverse('management_pet_update', kwargs={'pk': self.pk})
+        return reverse('management:pets_update', kwargs={'pk': self.pk})
 
     @staticmethod
     def generate_pets(liked_pet_ids, disliked_pet_ids, region):

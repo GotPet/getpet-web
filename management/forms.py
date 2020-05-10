@@ -457,7 +457,7 @@ class PetListFiltersForm(BaseFiltersForm):
             HTML("<hr>"),
             Div(
                 HTML(
-                    f"""<a href="{reverse("management_pets_list")}" 
+                    f"""<a href="{reverse("management:pets_list")}" 
                            class="button btn btn-sm btn-secondary">{_("Atstatyti")}</a>"""),
                 Submit('', _("Filtruoti"), css_class='btn btn-sm btn-primary'),
                 css_class='flexbox'

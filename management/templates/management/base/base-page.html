@@ -5,7 +5,7 @@
 {% block sidebar %}
     <aside class="sidebar sidebar-expand-lg sidebar-iconic">
         <header class="sidebar-header">
-            <a href="{% url 'management_pets_list' %}">
+            <a href="{% url 'management:pets_list' %}">
                 <span class="logo">
                     <img src="{% static "img/logo/getpet-logo-small-white.png" %}" alt="GetPet">
                 </span>
@@ -30,14 +30,14 @@
             <ul class="menu">
 
                 <li class="menu-item{% if active_menu_item == 'pets_list' %} active{% endif %}">
-                    <a class="menu-link" href="{% url 'management_pets_list' %}">
+                    <a class="menu-link" href="{% url 'management:pets_list' %}">
                         <span class="icon fa fa-paw"></span>
                         <span class="title">{% trans "Gyvūnai" %}</span>
                     </a>
                 </li>
 
                 <li class="menu-item {% if active_menu_item == 'shelter' %} active{% endif %}">
-                    <a class="menu-link" href="{% url 'management_shelter_info_update' user_selected_shelter.pk %}">
+                    <a class="menu-link" href="{% url 'management:shelters_update' user_selected_shelter.pk %}">
                         <span class="icon fa fa-building-o"></span>
                         <span class="title">{% trans "Prieglauda" %}</span>
                     </a>
@@ -54,7 +54,7 @@
         <div class="topbar-left flex-grow">
             <span class="topbar-btn sidebar-toggler"><i>&#9776;</i></span>
             <div class="w-100">
-                <form class="lookup lookup-huge" method="get" action="{% url 'management_pets_list' %}">
+                <form class="lookup lookup-huge" method="get" action="{% url 'management:pets_list' %}">
                     <!--suppress HtmlFormInputWithoutLabel -->
                     <input class="no-radius no-border" name="q" type="text" required
                            placeholder="{% trans 'Ieškokite gyvūnų pagal vardą, kodą ir kitus parametrus ...' %}">
@@ -108,7 +108,7 @@
                                 <a class="nav-link" href="{% url 'admin:index' %}">
                                     {% trans 'Super administravimas' %}
                                 </a>
-                                <a class="nav-link" href="{% url 'management_shelters_list' %}">
+                                <a class="nav-link" href="{% url 'management:shelters_list' %}">
                                     {% trans 'Gyvūnų prieglaudos' %}
                                 </a>
                             {% endif %}

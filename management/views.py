@@ -24,9 +24,9 @@ class IndexView(UserWithAssociatedShelterMixin):
         associated_shelters = Shelter.user_associated_shelters(request.user)
 
         if associated_shelters.count() > 1:
-            return redirect('management_shelters_list')
+            return redirect('management:shelters_list')
 
-        return redirect('management_pets_list')
+        return redirect('management:pets_list')
 
 
 class ShelterPetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, ListView):
@@ -51,7 +51,7 @@ class ShelterPetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, Li
         return self.petListFiltersForm.filter_queryset(pets)
 
     def page_link(self, query_params, page):
-        return add_url_params(reverse('management_pets_list') + query_params, {'page': page})
+        return add_url_params(reverse('management:pets_list') + query_params, {'page': page})
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
@@ -79,7 +79,7 @@ class ShelterSwitchView(UserWithAssociatedShelterMixin, SingleObjectMixin):
     def post(self, request, *args, **kwargs):
         # noinspection PyTypeChecker
         selected_shelter: Shelter = self.get_object()
-        response = redirect("management_pets_list")
+        response = redirect("management:pets_list")
 
         return selected_shelter.switch_shelter(response)
 

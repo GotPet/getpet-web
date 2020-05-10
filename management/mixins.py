@@ -16,7 +16,7 @@ class UserWithAssociatedShelterMixin(UserPassesTestMixin, View):
         return self.request.COOKIES.get(Constants.SELECTED_SHELTER_COOKIE_ID)
 
     def handle_no_permission(self):
-        return redirect('no_associated_shelter')
+        return redirect('management:shelters_no_associated_shelter')
 
 
 class ViewPaginatorMixin(BaseListView, metaclass=ABCMeta):
