@@ -36,10 +36,10 @@ class GetPetSocialAccountAdapter(DefaultSocialAccountAdapter):
 
         email = sociallogin.account.extra_data['email'].lower()
 
-        user = get_user_model().objects.filter(email=email).first()
+        email_address = EmailAddress.objects.filter(email__iexact=email).first()
+        user = email_address.user
         if user is None:
-            email_address = EmailAddress.objects.filter(email__iexact=email).first()
-            user = email_address.user
+            user = get_user_model().objects.filter(email=email, is_active=True).first()
 
         if user:
             sociallogin.connect(request, user)
