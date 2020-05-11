@@ -13,9 +13,9 @@ class AssociateSheltersMiddleware:
 
         user = request.user
 
-        user_selected_shelter = Shelter.user_selected_shelter(user=user, request=request)
+        user_selected_shelter = Shelter.user_associated_shelter(request=request)
 
-        if user_selected_shelter:
+        if user_selected_shelter is not None:
             request.COOKIES[Constants.SELECTED_SHELTER_COOKIE_ID] = str(user_selected_shelter.id)
         else:
             request.COOKIES.pop(Constants.SELECTED_SHELTER_COOKIE_ID, None)
@@ -31,7 +31,7 @@ class AssociateSheltersMiddleware:
                 shelter_id=response_shelter_cookie.value
             )
 
-        if user_selected_shelter:
+        if user_selected_shelter is not None:
             user_selected_shelter.switch_shelter_cookie(response)
         else:
             response.delete_cookie(Constants.SELECTED_SHELTER_COOKIE_ID)

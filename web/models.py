@@ -274,11 +274,8 @@ class Shelter(models.Model):
         return Shelter.user_associated_shelters(user).filter(id=shelter_id).first()
 
     @staticmethod
-    def user_selected_shelter(
-            user: AbstractBaseUser,
-            request: HttpRequest,
-    ) -> Optional[Shelter]:
-        shelters = Shelter.user_associated_shelters(user)
+    def user_associated_shelter(request: HttpRequest) -> Optional[Shelter]:
+        shelters = Shelter.user_associated_shelters(request.user)
 
         if cookie_shelter_id := try_parse_int(request.COOKIES.get(Constants.SELECTED_SHELTER_COOKIE_ID, None)):
             shelter_from_cookie = shelters.filter(id=cookie_shelter_id).first()
