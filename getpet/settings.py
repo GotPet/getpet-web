@@ -332,6 +332,8 @@ BASE_DOMAIN = "https://www.getpet.lt/" if not DEBUG else "http://localhost:8000/
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 FIREBASE_KEY = os.path.join(BASE_DIR, 'keyfiles', 'firebase.json')
+if not DEBUG and not os.path.exists(FIREBASE_KEY):
+    raise RuntimeError("firebase.json file is missing. Make sure that it exists.")
 
 # E-Mail
 EMAIL_FROM = os.environ.get('EMAIL')
