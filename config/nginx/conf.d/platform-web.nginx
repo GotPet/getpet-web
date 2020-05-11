@@ -5,14 +5,12 @@ upstream platform_web {
 }
 
 server {
-    listen      80;
-    server_name _;
-    return      444;
-}
-
-server {
     listen 80 default_server;
-    server_name getpet.lt www.getpet.lt;
+    server_name www.getpet.lt;
+
+    if ($host != "www.getpet.lt") {
+        return 400;
+    }
 
     gzip on;
 
