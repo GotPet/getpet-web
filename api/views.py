@@ -7,21 +7,20 @@ from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView
 from rest_framework.mixins import ListModelMixin
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from rest_framework_tracking.mixins import LoggingMixin
 
 from api.filters import PetFilter
-from api.serializers import FirebaseSerializer, GeneratePetsRequestSerializer, PetFlatListSerializer, \
-    PetProfilePhotoUploadSerializer, ShelterPetSerializer, TokenSerializer, \
-    UserPetChoiceSerializer, \
-    CountryWithRegionSerializer
-from web.models import Pet, UserPetChoice, GetPetRequest, Country
+from api.mixins import ApiLoggingMixin
+from api.serializers import CountryWithRegionSerializer, FirebaseSerializer, GeneratePetsRequestSerializer, \
+    PetFlatListSerializer, PetProfilePhotoUploadSerializer, ShelterPetSerializer, TokenSerializer, \
+    UserPetChoiceSerializer
+from web.models import Country, GetPetRequest, Pet, UserPetChoice
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
     operation_description="Returns all countries and regions.",
     security=[]
 ))
-class CountriesAndRegionsListView(ListAPIView):
+class CountriesAndRegionsListView(ApiLoggingMixin, ListAPIView):
     queryset = Country.objects.prefetch_related('regions').order_by('name')
     serializer_class = CountryWithRegionSerializer
     permission_classes = (AllowAny,)
@@ -52,7 +51,7 @@ class PetListView(ListAPIView):
         )
     }
 ))
-class PetGenerateListView(LoggingMixin, CreateAPIView, ListModelMixin):
+class PetGenerateListView(ApiLoggingMixin, CreateAPIView, ListModelMixin):
     serializer_class = PetFlatListSerializer
     pagination_class = None
     permission_classes = (AllowAny,)
@@ -74,7 +73,7 @@ class PetGenerateListView(LoggingMixin, CreateAPIView, ListModelMixin):
 @method_decorator(name='put', decorator=swagger_auto_schema(
     operation_description="Saves pet choice on swipe.",
 ))
-class UserPetChoiceView(LoggingMixin, UpdateAPIView):
+class UserPetChoiceView(ApiLoggingMixin, UpdateAPIView):
     serializer_class = UserPetChoiceSerializer
     permission_classes = (IsAuthenticated,)
 
@@ -91,7 +90,7 @@ class UserPetChoiceView(LoggingMixin, UpdateAPIView):
 @method_decorator(name='put', decorator=swagger_auto_schema(
     operation_description="Saves shelter pet request.",
 ))
-class ShelterPetView(LoggingMixin, UpdateAPIView):
+class ShelterPetView(ApiLoggingMixin, UpdateAPIView):
     serializer_class = ShelterPetSerializer
     permission_classes = (IsAuthenticated,)
 
@@ -110,7 +109,6 @@ class ShelterPetView(LoggingMixin, UpdateAPIView):
 ))
 class PetProfilePhotoView(CreateAPIView):
     serializer_class = PetProfilePhotoUploadSerializer
-    # TODO Change to ShelterAuthenticated
     permission_classes = (IsAuthenticated,)
     authentication_classes = [SessionAuthentication]
 
@@ -128,7 +126,7 @@ class PetProfilePhotoView(CreateAPIView):
         )
     }
 ))
-class FirebaseConnect(CreateAPIView):
+class FirebaseConnect(ApiLoggingMixin, CreateAPIView):
     permission_classes = (AllowAny,)
     serializer_class = FirebaseSerializer
 
