@@ -4,8 +4,8 @@ on:
     branches:
       - master
 jobs:
-  name: Test GetPet WEB
   test:
+    name: Test GetPet WEB
     runs-on: ubuntu-latest
     env:
       POSTGRES_HOST: localhost
@@ -23,6 +23,7 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+
     steps:
       - uses: actions/checkout@master
 
