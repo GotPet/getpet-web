@@ -4,7 +4,7 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
 from api.firebase import Firebase
-from api.utils import first
+from api.utils import first_or_none
 from web.models import GetPetRequest, Pet, PetProfilePhoto, Shelter, User, UserPetChoice, Country, Region
 
 logger = getLogger()
@@ -127,7 +127,7 @@ class FirebaseSerializer(serializers.Serializer):
 
         email = firebase_user.email
         if not email:
-            provider_data = first(firebase_user.provider_data, lambda x: x.email)
+            provider_data = first_or_none(firebase_user.provider_data, lambda x: x.email)
             if provider_data:
                 email = provider_data.email
 
