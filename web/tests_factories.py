@@ -20,7 +20,7 @@ class UserFactory(factory.DjangoModelFactory):
 class CountryFactory(factory.DjangoModelFactory):
     class Meta:
         model = Country
-        django_get_or_create = ('country_code',)
+        django_get_or_create = ('code',)
 
     name = factory.Faker('country')
     code = factory.Faker('country_code')
