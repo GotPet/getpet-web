@@ -3,7 +3,6 @@ import logging.config
 from datetime import timedelta
 
 from celery.schedules import crontab
-from django.core.exceptions import DisallowedHost
 from django.urls import reverse_lazy
 from django.utils.log import DEFAULT_LOGGING
 import sentry_sdk
@@ -210,10 +209,7 @@ SENTRY_PROJECT_ID = os.environ.get("SENTRY_PROJECT_ID", None)
 if SENTRY_SECRET and SENTRY_PROJECT_ID:
     sentry_sdk.init(
         dsn=f"https://{SENTRY_SECRET}@sentry.io/{SENTRY_PROJECT_ID}",
-        integrations=[DjangoIntegration(), CeleryIntegration()],
-        ignore_errors=[
-            DisallowedHost,
-        ]
+        integrations=[DjangoIntegration(), CeleryIntegration()]
     )
 
 AUTHENTICATION_BACKENDS = (
