@@ -338,6 +338,20 @@ class PetQuerySet(models.QuerySet):
     def select_related_full_shelter(self):
         return self.select_related('shelter', 'shelter__region', 'shelter__region__country')
 
+    def annotate_with_getpet_requests_count(self):
+        getpet_requests_count = Pet.objects.annotate(
+            getpet_requests_count=models.Count(
+                'get_pet_requests',
+            )
+        ).filter(pk=models.OuterRef('pk'))
+
+        return self.annotate(
+            getpet_requests_count=models.Subquery(
+                getpet_requests_count.values('getpet_requests_count'),
+                output_field=models.IntegerField()
+            )
+        )
+
     def annotate_with_likes_and_dislikes(self):
         likes_count = Pet.objects.annotate(
             likes_count=models.Count(

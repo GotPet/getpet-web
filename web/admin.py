@@ -5,14 +5,13 @@ from django.contrib import admin
 from django.contrib.admin.models import LogEntry
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count, Q
 from django.db.models.base import Model
 from django.http.request import HttpRequest
 from django.utils.translation import gettext_lazy as _
-from web.tasks import connect_super_users_to_shelters
 
 from getpet import settings
 from web.models import Country, GetPetRequest, Pet, PetProfilePhoto, PetProperty, Region, Shelter, User, UserPetChoice
+from web.tasks import connect_super_users_to_shelters
 
 admin.site.site_header = _('GetPet Administravimas')
 admin.site.site_title = admin.site.site_header
@@ -142,9 +141,10 @@ class PetAdmin(admin.ModelAdmin):
         'photo',
         'shelter',
         'short_description',
-        'total_pet_likes',
-        'total_pet_dislikes',
+        'likes_count',
+        'dislikes_count',
         'likes_ratio',
+        'getpet_requests_count',
         'created_at',
         'updated_at',
     ]
@@ -158,28 +158,32 @@ class PetAdmin(admin.ModelAdmin):
     ]
 
     def get_queryset(self, request):
-        queryset = super().get_queryset(request).annotate(
-            total_pet_likes=Count('users_pet_choices', filter=Q(users_pet_choices__is_favorite=True)),
-            total_pet_dislikes=Count('users_pet_choices', filter=Q(users_pet_choices__is_favorite=False)),
-        )
+        # noinspection PyUnresolvedReferences
+        return super().get_queryset(request). \
+            annotate_with_likes_and_dislikes(). \
+            annotate_with_getpet_requests_count()
 
-        return queryset
+    def getpet_requests_count(self, obj):
+        return obj.getpet_requests_count
 
-    def total_pet_likes(self, obj):
-        return obj.total_pet_likes
+    getpet_requests_count.admin_order_field = "getpet_requests_count"
+    getpet_requests_count.short_description = _("Norai priglausti")
 
-    total_pet_likes.admin_order_field = "total_pet_likes"
-    total_pet_likes.short_description = _("Patinka skaičius")
+    def likes_count(self, obj):
+        return obj.likes_count
 
-    def total_pet_dislikes(self, obj):
-        return obj.total_pet_dislikes
+    likes_count.admin_order_field = "likes_count"
+    likes_count.short_description = _("Patinka skaičius")
 
-    total_pet_dislikes.admin_order_field = "total_pet_dislikes"
-    total_pet_dislikes.short_description = _("Nepatinka skaičius")
+    def dislikes_count(self, obj):
+        return obj.dislikes_count
+
+    dislikes_count.admin_order_field = "dislikes_count"
+    dislikes_count.short_description = _("Nepatinka skaičius")
 
     def likes_ratio(self, obj):
-        total_pet_likes = self.total_pet_likes(obj)
-        total = total_pet_likes + self.total_pet_dislikes(obj)
+        total_pet_likes = self.likes_count(obj)
+        total = total_pet_likes + self.dislikes_count(obj)
 
         return round(total_pet_likes * 100.0 / total, 2) if total else None
 
