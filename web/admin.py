@@ -163,11 +163,7 @@ class PetAdmin(admin.ModelAdmin):
             total_pet_dislikes=Count('users_pet_choices', filter=Q(users_pet_choices__is_favorite=False)),
         )
 
-        if request.user.is_superuser:
-            return queryset
-
-        shelters = Shelter.objects.filter(authenticated_users=request.user)
-        return queryset.filter(shelter__in=shelters)
+        return queryset
 
     def total_pet_likes(self, obj):
         return obj.total_pet_likes
@@ -206,15 +202,6 @@ class GetPetRequestAdmin(admin.ModelAdmin):
     raw_id_fields = ['user', 'pet']
     list_select_related = ['user', 'pet', ]
     list_filter = ['status', 'pet__shelter__name', ]
-
-    def get_queryset(self, request):
-        queryset = super().get_queryset(request)
-
-        if request.user.is_superuser:
-            return queryset
-
-        shelters = Shelter.objects.filter(authenticated_users=request.user)
-        return queryset.filter(pet__shelter__in=shelters)
 
 
 @admin.register(UserPetChoice)
