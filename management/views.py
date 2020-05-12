@@ -69,6 +69,7 @@ class PetCreateView(UserWithAssociatedShelterMixin, CreateView):
     template_name = 'management/pet-create.html'
     form_class = PetCreateUpdateForm
     context_object_name = 'pet'
+    action_type = 'create'
 
     # https://dev.to/zxenia/django-inline-formsets-with-class-based-views-and-crispy-forms-14o6
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
@@ -82,7 +83,7 @@ class PetCreateView(UserWithAssociatedShelterMixin, CreateView):
 
     def get_success_url(self) -> str:
         # noinspection PyUnresolvedReferences
-        return self.object.edit_pet_url()
+        return add_url_params(self.object.edit_pet_url(), {'success': self.action_type})
 
     def get_queryset(self) -> models.query.QuerySet:
         # noinspection PyUnresolvedReferences
@@ -104,6 +105,7 @@ class PetCreateView(UserWithAssociatedShelterMixin, CreateView):
 
 class PetUpdateView(PetCreateView, UpdateView):
     template_name = 'management/pet-edit.html'
+    action_type = 'update'
 
 
 # Shelters

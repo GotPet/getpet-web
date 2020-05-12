@@ -32,6 +32,16 @@
         </div>
     </div>
 
+    {% if request.GET.success %}
+        <div class="alert alert-success" role="alert">
+            {% if request.GET.success == 'create' %}
+                {% trans 'Gyvūno profilis buvo sukurtas!' %}
+            {% elif request.GET.success == 'update' %}
+                {% trans 'Gyvūno profilis buvo atnaujintas!' %}
+            {% endif %}
+        </div>
+    {% endif %}
+
     {% crispy form %}
 {% endblock %}
 
