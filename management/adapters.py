@@ -1,7 +1,6 @@
 from allauth.account.adapter import DefaultAccountAdapter
 from allauth.account.models import EmailAddress
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
-from django.contrib.auth import get_user_model
 
 
 class GetPetAccountAdapter(DefaultAccountAdapter):
@@ -34,13 +33,10 @@ class GetPetSocialAccountAdapter(DefaultSocialAccountAdapter):
         if 'email' not in sociallogin.account.extra_data:
             return
 
-        email = sociallogin.account.extra_data['email'].lower()
+        email = sociallogin.account.extra_data['email']
 
         email_address = EmailAddress.objects.filter(email__iexact=email).select_related('user').first()
-        if email_address:
-            user = email_address.user
-        else:
-            user = get_user_model().objects.filter(email=email, is_active=True).first()
+        user = email_address.user if email_address else None
 
         if user:
             sociallogin.connect(request, user)
