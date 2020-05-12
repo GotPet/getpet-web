@@ -408,7 +408,7 @@ class Pet(models.Model):
         default=PetStatus.AVAILABLE,
         db_index=True,
         verbose_name=_("Gyvūno statusas"),
-        help_text=_("Pažymėjus gyvūną, kaip laukiantį šeiminką jis bus rodomas programėlėje.")
+        help_text=_("Gyvūnai su statusu laukiantys šeimininko yra rodomi programėlėje.")
     )
     photo = models.ImageField(upload_to=_pet_photo_file, verbose_name=_("Gyvūno nuotrauka"))
 
