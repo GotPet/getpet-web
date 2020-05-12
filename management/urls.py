@@ -7,9 +7,9 @@ app_name = 'management'
 urlpatterns = [
     path('', views.IndexView.as_view(), name="index"),
 
-    path('pets/', views.ShelterPetsListView.as_view(), name="pets_list"),
-    path('pets/<int:pk>/', views.ShelterPetUpdateView.as_view(), name="pets_update"),
-    path('pets/create/', views.ShelterPetCreateView.as_view(), name="pets_create"),
+    path('pets/', views.PetsListView.as_view(), name="pets_list"),
+    path('pets/<int:pk>/', views.PetUpdateView.as_view(), name="pets_update"),
+    path('pets/create/', views.PetCreateView.as_view(), name="pets_create"),
 
     path('shelters/', views.SheltersListView.as_view(), name="shelters_list"),
     path('shelters/<int:pk>/', views.ShelterInfoUpdateView.as_view(), name="shelters_update"),

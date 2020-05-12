@@ -29,7 +29,8 @@ class IndexView(UserWithAssociatedShelterMixin):
         return redirect('management:pets_list')
 
 
-class ShelterPetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, ListView):
+# Pets
+class PetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, ListView):
     template_name = 'management/pets-list.html'
     model = Pet
     context_object_name = 'pets'
@@ -63,34 +64,7 @@ class ShelterPetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, Li
         return context
 
 
-class SheltersListView(UserWithAssociatedShelterMixin, ListView):
-    template_name = 'management/shelters-list.html'
-    model = Shelter
-    context_object_name = 'shelters'
-    ordering = ["-pk"]
-    paginate_by = None
-
-    def get_queryset(self):
-        return Shelter.user_associated_shelters(self.request.user).select_related('region').annotate_with_statistics()
-
-
-class ShelterSwitchView(UserWithAssociatedShelterMixin, SingleObjectMixin):
-    model = Shelter
-
-    def post(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
-        # noinspection PyTypeChecker
-        selected_shelter: Shelter = self.get_object()
-        response = redirect("management:pets_list")
-
-        selected_shelter.switch_shelter_cookie(response)
-
-        return response
-
-    def get_queryset(self):
-        return Shelter.user_associated_shelters(self.request.user)
-
-
-class ShelterPetCreateView(UserWithAssociatedShelterMixin, CreateView):
+class PetCreateView(UserWithAssociatedShelterMixin, CreateView):
     model = Pet
     template_name = 'management/pet-create.html'
     form_class = PetCreateUpdateForm
@@ -128,8 +102,36 @@ class ShelterPetCreateView(UserWithAssociatedShelterMixin, CreateView):
         return super().form_valid(form)
 
 
-class ShelterPetUpdateView(ShelterPetCreateView, UpdateView):
+class PetUpdateView(PetCreateView, UpdateView):
     template_name = 'management/pet-edit.html'
+
+
+# Shelters
+class SheltersListView(UserWithAssociatedShelterMixin, ListView):
+    template_name = 'management/shelters-list.html'
+    model = Shelter
+    context_object_name = 'shelters'
+    ordering = ["-pk"]
+    paginate_by = None
+
+    def get_queryset(self):
+        return Shelter.user_associated_shelters(self.request.user).select_related('region').annotate_with_statistics()
+
+
+class ShelterSwitchView(UserWithAssociatedShelterMixin, SingleObjectMixin):
+    model = Shelter
+
+    def post(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
+        # noinspection PyTypeChecker
+        selected_shelter: Shelter = self.get_object()
+        response = redirect("management:pets_list")
+
+        selected_shelter.switch_shelter_cookie(response)
+
+        return response
+
+    def get_queryset(self):
+        return Shelter.user_associated_shelters(self.request.user)
 
 
 class ShelterInfoUpdateView(UserWithAssociatedShelterMixin, UpdateView):
