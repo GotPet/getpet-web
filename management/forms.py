@@ -303,6 +303,9 @@ class PetCreateUpdateForm(forms.ModelForm):
             'information_for_getpet_team': Textarea(
                 attrs={'rows': 2}
             ),
+            'description': Textarea(
+                attrs={'rows': 6}
+            ),
             'special_information': Textarea(
                 attrs={'rows': 2}
             ),
