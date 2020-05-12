@@ -189,16 +189,6 @@ class PetAdmin(admin.ModelAdmin):
 
     likes_ratio.short_description = _("% patinka")
 
-    def save_model(self, request, obj, form, change):
-        old_pet = Pet.objects.filter(pk=obj.pk).first() if change else None
-
-        super().save_model(request, obj, form, change)
-
-        if change and 'status' in form.changed_data:
-            from web.tasks import send_email_about_pet_status_update
-
-            send_email_about_pet_status_update(obj.pk, old_pet.status)
-
 
 @admin.register(GetPetRequest)
 class GetPetRequestAdmin(admin.ModelAdmin):

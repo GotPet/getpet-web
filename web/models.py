@@ -479,6 +479,7 @@ class Pet(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
+        orig: Optional[Pet] = None
         if self.pk is not None:
             orig = Pet.objects.get(pk=self.pk)
 
@@ -489,6 +490,17 @@ class Pet(models.Model):
                     self.taken_at = None
 
         super().save(force_insert, force_update, using, update_fields)
+
+        self._send_pet_status_updated_email_if_needed(orig)
+
+    _pet_status_to_send_email = (PetStatus.TAKEN_TEMPORARY, PetStatus.TAKEN_PERMANENTLY)
+
+    def _send_pet_status_updated_email_if_needed(self, old_pet: Optional[Pet]):
+        if old_pet and old_pet.status != self.status and self.status in self._pet_status_to_send_email:
+            from web.tasks import send_email_about_pet_status_update
+
+            # noinspection PyUnresolvedReferences
+            send_email_about_pet_status_update.delay(pet_pk=self.pk, old_pet_status_str=orig.get_status_display())
 
     def description_including_all_information(self) -> str:
         description_parts = [self.description + "\n"]

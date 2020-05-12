@@ -31,14 +31,16 @@ def connect_super_users_to_shelters(shelter_pk=None):
     }
 
 
-def send_email_about_pet_status_update(pet_id, old_pet_status):
-    pet = Pet.objects.get(pk=pet_id)
+@shared_task(soft_time_limit=30)
+def send_email_about_pet_status_update(pet_pk, old_pet_status_str):
+    pet = Pet.objects.get(pk=pet_pk)
 
     send_mail(
-        f'{pet} gyvūno statusas pakeistas',
-        f"{pet} gyvūno iš prieglaudos {pet.shelter} statusas \"{old_pet_status.label}\" "
-        f"pakeistas į \"{pet.status.label}\".",
+        f'{pet} statusas pakeistas į {pet.get_status_display()}',
+        f"""
+{pet} gyvūno iš prieglaudos {pet.shelter} statusas {old_pet_status_str} pakeistas į {pet.get_status_display()}. \n
+{pet.information_for_getpet_team}
+        """.strip(),
         settings.EMAIL_FROM,
         settings.EMAIL_TO,
-        fail_silently=True
     )
