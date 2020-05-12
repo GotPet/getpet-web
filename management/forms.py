@@ -442,6 +442,13 @@ class PetListFiltersForm(BaseFiltersForm):
         widget=RadioSelect
     )
 
+    missing_information = forms.ChoiceField(
+        label=_("Trūksta informacijos"),
+        choices=all_choice + [("yes", _("Taip"))],
+        required=False,
+        widget=RadioSelect
+    )
+
     q = forms.CharField(widget=forms.HiddenInput(), required=False)
 
     def __init__(self, data=None, files=None, auto_id='id_%s', prefix=None, initial=None, error_class=ErrorList,
@@ -456,6 +463,7 @@ class PetListFiltersForm(BaseFiltersForm):
         self.helper.layout = Layout(
             'status',
             'gender',
+            'missing_information',
             'q',
             HTML("<hr>"),
             Div(
@@ -488,15 +496,18 @@ class PetListFiltersForm(BaseFiltersForm):
     def get_search_term(self) -> Optional[str]:
         return self.cleaned_data.get('q')
 
-    # noinspection PyMethodMayBeStatic
+    def is_missing_information(self) -> bool:
+        return bool(self.cleaned_data.get('missing_information'))
+
     def filter_pet_status(self, queryset: PetQuerySet, status: PetStatus) -> PetQuerySet:
         return queryset.filter(status=status)
 
-    # noinspection PyMethodMayBeStatic
     def filter_pet_gender(self, queryset: PetQuerySet, gender: PetGender) -> PetQuerySet:
         return queryset.filter(gender=gender)
 
-    # noinspection PyMethodMayBeStatic
+    def filter_missing_information(self, queryset: PetQuerySet) -> PetQuerySet:
+        return queryset.filter(gender__isnull=True)
+
     def filter_by_search_term(self, queryset: PetQuerySet, search_term: str) -> PetQuerySet:
         return queryset.filter_by_search_term(search_term)
 
@@ -509,5 +520,8 @@ class PetListFiltersForm(BaseFiltersForm):
 
         if search_term := self.get_search_term():
             queryset = self.filter_by_search_term(queryset, search_term)
+
+        if self.is_missing_information():
+            queryset = self.filter_missing_information(queryset)
 
         return queryset
