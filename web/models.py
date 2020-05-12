@@ -449,7 +449,8 @@ class Pet(models.Model):
     )
     weight = models.PositiveSmallIntegerField(
         verbose_name=_("Svoris"),
-        null=True
+        null=True,
+        blank=True,
     )
     size = models.IntegerField(
         verbose_name=_("Dydis"),
