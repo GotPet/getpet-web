@@ -501,7 +501,7 @@ class Pet(models.Model):
             from web.tasks import send_email_about_pet_status_update
 
             # noinspection PyUnresolvedReferences
-            send_email_about_pet_status_update.delay(pet_pk=self.pk, old_pet_status_str=orig.get_status_display())
+            send_email_about_pet_status_update.delay(pet_pk=self.pk, old_pet_status_str=old_pet.get_status_display())
 
     def description_including_all_information(self) -> str:
         description_parts = [self.description + "\n"]
