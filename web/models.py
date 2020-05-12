@@ -403,7 +403,7 @@ class Pet(models.Model):
         return join('img', 'web', 'pet', slug, filename)
 
     name = models.CharField(max_length=64, verbose_name=_("Gyvūno vardas"))
-    status = models.IntegerField(
+    status = models.SmallIntegerField(
         choices=PetStatus.choices,
         default=PetStatus.AVAILABLE,
         db_index=True,
@@ -438,7 +438,7 @@ class Pet(models.Model):
             "Pavyzdžiui: amputuota galūnė, šlapimo nelaikymas, reikalingi medikamentai ir kita.")
     )
 
-    gender = models.IntegerField(
+    gender = models.SmallIntegerField(
         verbose_name=_("Lytis"),
         choices=PetGender.choices,
         null=True
@@ -452,7 +452,7 @@ class Pet(models.Model):
         null=True,
         blank=True,
     )
-    size = models.IntegerField(
+    size = models.SmallIntegerField(
         verbose_name=_("Dydis"),
         choices=PetSize.choices,
         null=True
