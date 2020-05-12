@@ -44,3 +44,5 @@ def send_email_about_pet_status_update(pet_pk, old_pet_status_str):
         settings.EMAIL_FROM,
         settings.EMAIL_TO,
     )
+
+    return 1
