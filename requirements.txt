@@ -1,13 +1,13 @@
 Django~=3.0.6
 gunicorn~=20.0.4
+
+# Storage and caching
 psycopg2-binary~=2.8.5
-ddtrace~=0.37.0
+django-redis~=4.11.0
 
-django-extensions~=2.2.9
-
-Pillow~=7.1.2
-requests~=2.23.0
+# Authentication
 django-allauth~=0.41.0
+firebase-admin~=4.2.0
 
 # Celery
 celery[redis]~=4.4.2
@@ -15,25 +15,28 @@ django-celery-results~=1.2.1
 
 # Admin
 django-admin-sortable2~=0.7.6
-django-reversion~=3.0.7
 
-ipdb~=0.13.2
+# Logging and monitoring
+ddtrace~=0.37.0
+sentry-sdk~=0.14.3
 
-# Django rest
+# Django rest framework
 djangorestframework~=3.11.0
 django-filter~=2.2.0
 flex~=6.14.1
 drf-yasg~=1.17.1
 drf-api-tracking~=1.6.0
-firebase-admin~=4.2.0
 
-django-redis~=4.11.0
+# Additional functionality
+Pillow~=7.1.2
+requests~=2.23.0
 django-ipware~=2.1.0
-
 django-resized~=0.3.11
 django-crispy-forms~=1.9.0
-python-dateutil~=2.8.1
-sentry-sdk==0.14.3
+
+# Debugging
+ipdb~=0.13.2
+django-extensions~=2.2.9
 
 # Required for tests
 Faker~=4.0.3
