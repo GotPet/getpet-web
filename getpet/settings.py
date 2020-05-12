@@ -59,7 +59,6 @@ INSTALLED_APPS = [
 
     'crispy_forms',
     'adminsortable2',
-    'reversion',
     'django_celery_results',
 
     'web',
