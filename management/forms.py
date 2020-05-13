@@ -212,7 +212,7 @@ class PetCreateUpdateForm(forms.ModelForm):
                     css_class='card'
                 ),
                 Div(
-                    CardTitle(strong_text=_("Gyvūno nuotraukos")),
+                    CardTitle(strong_text=_("Papildomos gyvūno nuotraukos")),
                     Div(
                         Div(css_id='dropzone', css_class='dropzone'),
                         HTML(_('Vilkite arba spauskite ir pridėkite gyvūno nuotraukas')),
