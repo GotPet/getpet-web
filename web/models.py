@@ -4,7 +4,7 @@ import uuid
 from _md5 import md5
 from datetime import timedelta
 from os.path import join
-from typing import List, Optional, Sequence, Union
+from typing import List, Optional
 
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import AbstractUser, UserManager as BaseUserManager
@@ -317,6 +317,7 @@ class PetStatus(models.IntegerChoices):
     TAKEN_TEMPORARY = 2, _('Laikinai paimtas per GetPet')
     TAKEN_PERMANENTLY = 3, _('Paimtas visam laikui per GetPet')
     TAKEN_NOT_VIA_GETPET = 4, _('Paimtas ne per GetPet')
+    TEMPORARY_NOT_LOOKING_FOR_HOME = 5, _('Laikinai neieško namų')
 
 
 class PetGender(models.IntegerChoices):
