@@ -49,7 +49,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.min.js"
             integrity="sha256-OG/103wXh6XINV06JTPspzNgKNa/jnP1LjPP5Y3XQDY=" crossorigin="anonymous"></script>
 
-    <script>
+    <script data-provide="dropify">
         const PET_PROFILE_PHOTO_CLASS = 'pet-profile-photo';
 
         Dropzone.autoDiscover = false;
@@ -124,13 +124,22 @@
             document.getElementById('id_profile_photos-INITIAL_FORMS').value = petCells.length;
         }
 
-        $(document).ready(function () {
+        app.ready(function () {
             // https://stackoverflow.com/questions/454202/creating-a-textarea-with-auto-resize
             $('textarea').each(function () {
                 this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
             }).on('input', function () {
                 this.style.height = 'auto';
                 this.style.height = (this.scrollHeight) + 'px';
+            });
+
+            $('#id_photo').dropify({
+                messages: {
+                    'default': '{% trans "Įkelkite profilio nuotrauką paspausdami arba nutempdami ją čia." %}',
+                    'replace': '{% trans "Pakeisti profilio nuotrauką paspausdami arba nutempdami ją čia." %}',
+                    'remove': '{% trans 'Panaikinti' %}',
+                    'error': '{% trans "Apgailestaujame, tačiau nutiko klaida. Bandykite dar kartą." %}'
+                }
             });
 
             new Dropzone("div#dropzone", {

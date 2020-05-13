@@ -296,9 +296,7 @@ class PetCreateUpdateForm(forms.ModelForm):
         ]
         widgets = {
             'photo': FileInput(attrs={
-                'class': 'photo',
                 'data-show-remove': 'false',
-                'data-provide': "dropify",
             }),
             'information_for_getpet_team': Textarea(
                 attrs={'rows': 2}
