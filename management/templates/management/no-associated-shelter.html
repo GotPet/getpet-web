@@ -1,7 +1,9 @@
 {% extends 'management/base/base-page-fullscreen.html' %}
+{% load setting_tags %}
 {% load i18n %}
 
 {% block title %}{% trans "Vartotojas nesusietas su prieglauda" %}{% endblock %}
+{% settings_value 'EMAIL_FROM' as contact_email %}
 
 {% block fullscreen_content %}
     <div class="card card-transparent center-h text-center">
@@ -12,7 +14,7 @@
         <p class="lead">
             {% trans 'Jūsų el. paštas: ' %} {{ user.email }}.<br>
             {% trans 'Jei manote, kad tai klaida, susisiekite su GetPet administracija' %}
-            {{ "info@getpet.lt"|urlize }}.
+            {{ contact_email|urlize }}.
         </p>
         <div class="text-center">
             <a href="{% url 'management:pets_list' %}"
