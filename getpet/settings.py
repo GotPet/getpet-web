@@ -93,7 +93,6 @@ config.django['instrument_databases'] = True
 config.django['instrument_caches'] = True
 config.django['trace_query_string'] = True
 config.django['analytics_enabled'] = True
-config.django['analytics_sample_rate'] = 0.5
 tracer.set_tags({'env': 'production'})
 
 if DEBUG and ENABLE_DEBUG_DRAWER_IN_DEBUG:
