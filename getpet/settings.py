@@ -1,15 +1,15 @@
-import os
 import logging.config
+import os
 from datetime import timedelta
 
+import django
+import sentry_sdk
 from celery.schedules import crontab
+from ddtrace import Pin, config, patch_all, tracer
 from django.urls import reverse_lazy
 from django.utils.log import DEFAULT_LOGGING
-import sentry_sdk
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
-from ddtrace import Pin, patch_all, config, tracer
-import django
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -207,7 +207,8 @@ SENTRY_PROJECT_ID = os.environ.get("SENTRY_PROJECT_ID", None)
 if SENTRY_SECRET and SENTRY_PROJECT_ID:
     sentry_sdk.init(
         dsn=f"https://{SENTRY_SECRET}@sentry.io/{SENTRY_PROJECT_ID}",
-        integrations=[DjangoIntegration(), CeleryIntegration()]
+        integrations=[DjangoIntegration(), CeleryIntegration()],
+        release=f"getpet-web@{GIT_COMMIT}"
     )
 
 AUTHENTICATION_BACKENDS = (
