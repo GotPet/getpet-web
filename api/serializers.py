@@ -1,11 +1,12 @@
 from logging import getLogger
 
+from django.contrib.auth.models import Group
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
 from api.firebase import Firebase
 from api.utils import first_or_none
-from web.models import GetPetRequest, Pet, PetProfilePhoto, Shelter, User, UserPetChoice, Country, Region
+from web.models import Country, GetPetRequest, Pet, PetProfilePhoto, Region, Shelter, User, UserPetChoice
 
 logger = getLogger()
 
@@ -131,21 +132,20 @@ class FirebaseSerializer(serializers.Serializer):
             if provider_data:
                 email = provider_data.email
 
-        if email:
-            email = email.lower()
+        # E-mail is required, but sometimes Firebase doesn't return e-mail. Fix that by adding dummy e-mail
+        if not email:
+            email = f"{uid}@dummy-getpet.lt"
 
-        user = User.objects.filter(username=firebase_user.uid).first()
-        if user is None:
-            user = User.objects.filter(email=email).first()
+        email = email.lower()
 
-        if user:
-            user.last_name = firebase_user.display_name
-            user.save()
-        else:
-            user, _ = User.objects.update_or_create(username=firebase_user.uid, defaults={
-                'email': email,
-                'last_name': firebase_user.display_name
-            })
+        user, is_created = User.objects.update_or_create(username=firebase_user.uid, defaults={
+            'email': email,
+            'last_name': firebase_user.display_name
+        })
+
+        if is_created:
+            api_group, _ = Group.objects.get_or_create(name='Api')
+            user.groups.add(api_group)
 
         token = Token.objects.filter(user=user).first()
         if token is None:
