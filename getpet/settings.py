@@ -10,6 +10,7 @@ from django.urls import reverse_lazy
 from django.utils.log import DEFAULT_LOGGING
 from sentry_sdk.integrations.celery import CeleryIntegration
 from sentry_sdk.integrations.django import DjangoIntegration
+from sentry_sdk.integrations.redis import RedisIntegration
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -208,7 +209,7 @@ if SENTRY_SECRET and SENTRY_PROJECT_ID:
     sentry_sdk.init(
         dsn=f"https://{SENTRY_SECRET}@sentry.io/{SENTRY_PROJECT_ID}",
         release=f"getpet-web@{GIT_COMMIT}",
-        integrations=[DjangoIntegration(), CeleryIntegration()],
+        integrations=[DjangoIntegration(), CeleryIntegration(), RedisIntegration()],
         send_default_pii=True,
     )
 
