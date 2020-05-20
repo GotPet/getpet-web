@@ -35,6 +35,19 @@ server {
         add_header Cache-Control "public";
     }
 
+    location ~ ^/media-([0-9]+)(?:/(.*))?$ {
+        alias /srv/platform/media/$2;
+
+        proxy_cache       resized;
+        proxy_cache_valid 180m;
+        add_header X-Proxy-Cache $upstream_cache_status;
+
+        image_filter                resize $1 -;
+        image_filter_jpeg_quality   85;
+        image_filter_buffer         10M;
+        image_filter_interlace      on;
+    }
+
     location /media/img {
         alias /srv/platform/media/img;
         autoindex off;
