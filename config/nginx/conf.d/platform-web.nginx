@@ -35,7 +35,7 @@ server {
         add_header Cache-Control "public";
     }
 
-    location ~ "^/w-([1-9]|[1-9][0-9]{1,2}|1[0-9]{3}|2000)/media/(?:/(.*))?$" {
+    location ~ "^/w-([1-9]|[1-9][0-9]{1,2}|1[0-9]{3}|2000)/media(?:/(.*))?$" {
         alias /srv/platform/media/$2;
 
         proxy_cache       resized;
