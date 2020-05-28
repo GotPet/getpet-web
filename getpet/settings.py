@@ -195,6 +195,16 @@ logging.config.dictConfig({
             'handlers': LOGGER_HANDLERS,
             'propagate': False,
         },
+        'api': {
+            'level': 'INFO' if DEBUG else 'WARNING',
+            'handlers': LOGGER_HANDLERS,
+            'propagate': False,
+        },
+        'management': {
+            'level': 'INFO' if DEBUG else 'WARNING',
+            'handlers': LOGGER_HANDLERS,
+            'propagate': False,
+        },
         # Default runserver request logging
         'django.server': DEFAULT_LOGGING['loggers']['django.server'],
     },
