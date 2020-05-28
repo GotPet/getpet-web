@@ -1,4 +1,5 @@
 from abc import abstractmethod
+from logging import getLogger
 from typing import Optional, Type
 
 from allauth.account.forms import BaseSignupForm, LoginForm as AllAuthLoginForm, \
@@ -16,6 +17,8 @@ from django.utils.translation import gettext_lazy as _
 from management.custom_layout_object import AppendedText, CardTitle, Formset, PlainTextFormField, PrependedText
 from management.utils import find_first
 from web.models import Pet, PetGender, PetProfilePhoto, PetQuerySet, PetStatus, Shelter
+
+logger = getLogger(__name__)
 
 _redirect_field_html = HTML("""
                   {% if redirect_field_value %}
@@ -349,7 +352,17 @@ class PetProfilePhotoForm(forms.ModelForm):
 class _BasePetProfilePhotoFormset(BaseInlineFormSet):
     def save_photos(self, pet: Pet):
         for pet_photo_form_data in self.cleaned_data:
-            pet_photo = pet_photo_form_data['id']
+            # None check is related to issue https://sentry.io/organizations/getpet/issues/1695417855/?project=1373034
+            # Try to investigate why it happens with additional information
+            pet_photo = pet_photo_form_data.get('id', None)
+            if pet_photo is None:
+                logger.warning(
+                    "Pet photo is None",
+                    exc_info=True,
+                    extra={'data': self.data}
+                )
+                continue
+
             delete_photo = pet_photo_form_data['DELETE']
 
             if delete_photo:
