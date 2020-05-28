@@ -551,7 +551,7 @@ class Pet(models.Model):
         return list([p.name for p in self.properties.all()])
 
     def is_available(self) -> bool:
-        return self.status == PetStatus.AVAILABLE
+        return self.status == PetStatus.AVAILABLE and self.shelter.is_published
 
     def pet_status_badge_color_class(self) -> str:
         if self.status == PetStatus.AVAILABLE:
