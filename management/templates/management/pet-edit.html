@@ -9,6 +9,14 @@
 {% block head %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.0/dropzone.min.css"
           integrity="sha256-NkyhTCRnLQ7iMv7F3TQWjVq25kLnjhbKEVPqGJBcCUg=" crossorigin="anonymous"/>
+
+    <style>
+        .dropzone .dz-preview .dz-image {
+            max-width: 320px;
+            width: auto;
+            height: auto;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
@@ -150,7 +158,7 @@
                     let self = this;
                     let images = [
                         {% for photo in pet.profile_photos.all %}
-                            {% resized_image photo.photo width=120 as pet_photo %}
+                            {% resized_image photo.photo width=320 as pet_photo %}
 
                             {
                                 "id": {{ photo.id }},
@@ -163,7 +171,7 @@
 
                     images.forEach(function (photo, index) {
                         let mockFile = {
-                            name: (index + 1).toString(),
+                            name: (index + 1).toString() + " {% trans 'nuotrauka' %}",
                             url: photo.url,
                             order: photo.order,
                             serverID: photo.id,
@@ -186,7 +194,7 @@
                     }
                     file.serverID = response.id;
                     file.order = response.order;
-                    file.name = this.files.length.toString();
+                    file.name = this.files.length.toString() + " {% trans 'nuotrauka' %}";
                     file.url = response.url;
                     file.deleted = false;
 
