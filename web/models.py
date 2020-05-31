@@ -17,7 +17,7 @@ from django.utils.translation import gettext_lazy as _
 
 from getpet import settings
 from management.constants import Constants
-from management.utils import django_now, image_url_with_size_params, try_parse_int
+from management.utils import django_now, try_parse_int
 from web.utils import file_extension
 
 _SHELTER_GROUP_NAME = "Shelter"
@@ -287,10 +287,6 @@ class Shelter(models.Model):
 
     def edit_shelter_url(self) -> str:
         return reverse('management:shelters_update', kwargs={'pk': self.pk})
-
-    def square_logo_medium_url(self) -> Optional[str]:
-        if self.square_logo:
-            return image_url_with_size_params(self.square_logo.url, size=64)
 
     def shelter_switch_form(self):
         from management.forms import ShelterSwitchForm
@@ -568,9 +564,6 @@ class Pet(models.Model):
 
         return queryset
 
-    def main_profile_medium(self) -> str:
-        return image_url_with_size_params(self.photo.url, size=64)
-
     def edit_pet_url(self) -> str:
         return reverse('management:pets_update', kwargs={'pk': self.pk})
 
@@ -636,9 +629,6 @@ class PetProfilePhoto(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Sukūrimo data'))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinimo data"))
-
-    def large_photo(self) -> str:
-        return image_url_with_size_params(self.photo.url, size=120)
 
     class Meta:
         verbose_name = _("Gyvūno profilio nuotrauka")

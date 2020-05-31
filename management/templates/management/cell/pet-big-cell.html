@@ -1,10 +1,11 @@
+{% load image_tags %}
 {% load i18n %}
 
 <div class="card b-1 hover-shadow-2 mb-20">
     <a class="media card-body" href="{{ pet.edit_pet_url }}">
         <div class="media-left pr-12">
             <img class="rounded border"
-                 src="{{ pet.main_profile_medium }}"
+                 src="{% resized_image pet.photo width=64 height=64 %}"
                  width="64"
                  height="64"
                  loading="lazy"
