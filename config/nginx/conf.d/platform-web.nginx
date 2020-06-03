@@ -47,7 +47,7 @@ server {
         add_header X-Proxy-Cache $upstream_cache_status;
 
         image_filter                resize $1 -;
-        image_filter_jpeg_quality   95;
+        image_filter_jpeg_quality   85;
         image_filter_buffer         10M;
         image_filter_interlace      on;
     }
@@ -64,7 +64,7 @@ server {
         add_header X-Proxy-Cache $upstream_cache_status;
 
         image_filter                crop $1 $2;
-        image_filter_jpeg_quality   95;
+        image_filter_jpeg_quality   85;
         image_filter_buffer         10M;
         image_filter_interlace      on;
     }
