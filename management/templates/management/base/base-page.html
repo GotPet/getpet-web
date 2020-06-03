@@ -1,4 +1,5 @@
 {% extends "management/base/base.html" %}
+{% load image_tags %}
 {% load i18n %}
 {% load static %}
 
@@ -13,22 +14,18 @@
         </header>
 
         <nav class="sidebar-navigation">
-            {% with square_logo_medium_url=user_selected_shelter.square_logo_medium_url %}
-                {% if square_logo_medium_url %}
-                    <div class="sidebar-profile"
-                         data-provide="tooltip"
-                         data-placement="right"
-                         title="{{ user_selected_shelter.name }}">
-                        <a href="{% url 'management:index' %}">
-                            <img class="rounded border"
-                                 src="{{ square_logo_medium_url }}"
-                                 alt="{{ user_selected_shelter.name }}"
-                                 width="64"
-                                 height="64">
-                        </a>
-                    </div>
-                {% endif %}
-            {% endwith %}
+            <div class="sidebar-profile"
+                 data-provide="tooltip"
+                 data-placement="right"
+                 title="{{ user_selected_shelter.name }}">
+                <a href="{% url 'management:index' %}">
+                    <img class="rounded border"
+                         src="{% resized_image user_selected_shelter.square_logo width=64 height=64 %}"
+                         alt="{{ user_selected_shelter.name }}"
+                         width="64"
+                         height="64">
+                </a>
+            </div>
             <ul class="menu">
 
                 <li class="menu-item{% if active_menu_item == 'pets_list' %} active{% endif %}">
