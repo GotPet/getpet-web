@@ -71,7 +71,8 @@ class ShelterInfoUpdateForm(forms.ModelForm):
         self.helper = WebFormHelper()
         self.helper.form_class = 'row'
 
-        if self.instance and self.instance.square_logo:
+        if self.instance:
+            self.fields['square_logo'].required = False
             self.fields['square_logo'].widget.attrs['data-default-file'] = self.instance.square_logo.url
 
         self.helper.layout = Layout(

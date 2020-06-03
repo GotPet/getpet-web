@@ -228,8 +228,7 @@ class Shelter(models.Model):
     is_published = models.BooleanField(default=True, db_index=True, verbose_name=_("Paskelbta"),
                                        help_text=_("Pažymėjus prieglauda matoma viešai"))
 
-    square_logo = models.ImageField(upload_to=_shelter_square_logo_file, null=True, blank=True,
-                                    verbose_name=_("Kvadratinis logotipas"))
+    square_logo = models.ImageField(upload_to=_shelter_square_logo_file, verbose_name=_("Kvadratinis logotipas"))
 
     region = models.ForeignKey(Region, on_delete=models.PROTECT, related_name="shelters", verbose_name=_("Regionas"))
 
