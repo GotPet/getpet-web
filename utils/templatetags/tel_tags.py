@@ -10,5 +10,6 @@ register = Library()
 @register.filter(is_safe=True)
 @stringfilter
 def urltel(phone):
-    escaped_phone = escape(phone)
+    phone = phone.replace(' ', '-')
+    escaped_phone = escape(phone, quote=True)
     return mark_safe(f'<a href="tel:{escaped_phone}">{escaped_phone}</a>')

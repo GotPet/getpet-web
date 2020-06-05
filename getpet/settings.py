@@ -346,6 +346,9 @@ FIREBASE_KEY = os.path.join(BASE_DIR, 'keyfiles', 'firebase.json')
 if not DEBUG and not os.path.exists(FIREBASE_KEY):
     raise RuntimeError("firebase.json file is missing. Make sure that it exists.")
 
+# Phone
+CONTACT_PHONE = os.environ.get('CONTACT_PHONE')
+
 # E-Mail
 EMAIL_FROM = os.environ.get('EMAIL')
 EMAIL_TO = [EMAIL_FROM, ]

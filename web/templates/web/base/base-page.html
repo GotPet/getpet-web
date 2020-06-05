@@ -1,4 +1,6 @@
 {% extends 'web/base/base.html' %}
+{% load setting_tags %}
+{% load tel_tags %}
 {% load static %}
 
 {% block topbar %}
@@ -72,13 +74,12 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <div class="nav nav-bold nav-uppercase nav-trim justify-content-lg-center">
-                        <a class="nav-link" href="../uikit/index.html">Elements</a>
-                        <a class="nav-link" href="../block/index.html">Blocks</a>
-                        <a class="nav-link" href="../page/about-1.html">About</a>
-                        <a class="nav-link" href="../blog/grid.html">Blog</a>
-                        <a class="nav-link" href="../page/contact-1.html">Contact</a>
-                    </div>
+                    <p class="text-center">
+                        {% settings_value 'EMAIL_FROM' as contact_email %}
+                        {% settings_value 'CONTACT_PHONE' as contact_phone %}
+                        © VšĮ Augink mane. Visos teisės saugomos {{ contact_phone|urltel }} |
+                        {{ contact_email|urlize }}
+                    </p>
                 </div>
 
             </div>

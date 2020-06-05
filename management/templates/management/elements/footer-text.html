@@ -1,9 +1,10 @@
+{% load tel_tags %}
 {% load setting_tags %}
 {% load i18n %}
 
 {% settings_value 'EMAIL_FROM' as contact_email %}
+{% settings_value 'CONTACT_PHONE' as contact_phone %}
 
 © VšĮ Augink mane. {% trans 'Visos teisės saugomos' %}.
 {% trans 'Susisiekite' %}:
-<a href="tel:+370-674-09648">+370 674 09648</a> |
-{{ contact_email|urlize }}
+{{ contact_phone|urltel }} | {{ contact_email|urlize }}
