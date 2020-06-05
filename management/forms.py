@@ -15,7 +15,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from management.custom_layout_object import AppendedText, CardTitle, Formset, PlainTextFormField, PrependedText
-from management.utils import find_first
+from utils.utils import find_first
 from web.models import Pet, PetGender, PetProfilePhoto, PetQuerySet, PetStatus, Shelter
 
 logger = getLogger(__name__)

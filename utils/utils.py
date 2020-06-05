@@ -92,3 +92,7 @@ def add_url_params(url, params):
 
 def find_first(seq, predicate, default=None):
     return next((x for x in seq if predicate(x)), default)
+
+
+def file_extension(file_name) -> str:
+    return file_name.split('.')[-1]

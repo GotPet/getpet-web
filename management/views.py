@@ -13,7 +13,7 @@ from sentry_sdk import last_event_id
 
 from management.forms import PetCreateUpdateForm, PetListFiltersForm, PetProfilePhotoFormSet, ShelterInfoUpdateForm
 from management.mixins import UserWithAssociatedShelterMixin, ViewPaginatorMixin
-from management.utils import add_url_params
+from utils.utils import add_url_params
 from web.models import Pet, Shelter
 
 

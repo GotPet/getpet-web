@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'adminsortable2',
     'django_celery_results',
 
+    'utils',
     'web',
     'management',
 

@@ -17,8 +17,7 @@ from django.utils.translation import gettext_lazy as _
 
 from getpet import settings
 from management.constants import Constants
-from management.utils import django_now, try_parse_int
-from web.utils import file_extension
+from utils.utils import django_now, file_extension, try_parse_int
 
 _SHELTER_GROUP_NAME = "Shelter"
 

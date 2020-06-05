@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 from django.views import View
 from django.views.generic.list import BaseListView
 
-from management.utils import PaginatorWithPageLink
+from utils.utils import PaginatorWithPageLink
 
 
 class UserWithAssociatedShelterMixin(UserPassesTestMixin, View):
