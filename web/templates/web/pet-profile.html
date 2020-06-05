@@ -76,15 +76,13 @@
 
             <div class="row">
                 <div class="col-12">
-                    <div data-provide="photoswipe" data-photoswipe-selector="pet-photo">
+                    <div data-provide="photoswipe">
                         <div data-provide="slider" data-dots="true" data-slides-to-show="2">
                             {% for photo in pet.all_photo_urls %}
-                                <div class="p-2">
-                                    <a class="pet-photo" href="{{ photo }}">
-                                        <img src="{% resized_image photo width=800 height=600 %}"
-                                             alt="{{ pet.name }} {% trans 'nuotrauka' %} {{ forloop.counter }}">
-                                    </a>
-                                </div>
+                                <a class="gallery-item mw-100" href="{{ photo }}">
+                                    <img src="{% resized_image photo width=600 height=500 %}"
+                                         alt="{{ pet.name }} {% trans 'nuotrauka' %} {{ forloop.counter }}">
+                                </a>
                             {% endfor %}
                         </div>
                     </div>
@@ -151,18 +149,6 @@
 
             {% with shelter=pet.shelter %}
                 <div class="row no-gutters">
-
-                    <div class="col-md-6">
-                        <div class="h-100"
-                             data-provide="map"
-                             data-lat="{{ shelter.latitude.normalize|unlocalize }}"
-                             data-lng="{{ shelter.longitude|unlocalize }}"
-                             data-marker-lat="{{ shelter.latitude|unlocalize }}"
-                             data-marker-lng="{{ shelter.longitude|unlocalize }}"
-                             data-info="{{ shelter.address }}"
-                             data-style="light"
-                             style="min-height: 350px"></div>
-                    </div>
 
 
                     <div class="col-10 col-md-4 mx-auto align-self-center py-8">
