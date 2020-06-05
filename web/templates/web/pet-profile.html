@@ -30,7 +30,7 @@
         <div class="navbar-left">
             <button class="navbar-toggler" type="button"><span class="navbar-toggler-icon"></span></button>
             <a class="navbar-brand" href="/">
-                <img class="logo-dark" src="{% static 'web/img/getpet-logo-small.png' %}" height="30" alt="GetPet logo">
+                <img class="logo-dark" src="{% static 'web/img/getpet-logo-small.png' %}" alt="GetPet logo">
             </a>
         </div>
 
@@ -134,6 +134,50 @@
         </div>
     </section>
 
+    <section class="section py-0">
+
+        <header class="section-header">
+            <h2>{% trans 'Pasiruošęs pasimatymui ?' %}</h2>
+            <hr>
+            <p>
+                {% trans 'Susisiek su prieglaudos atstovu. Paminėk, kad kreipiesi per GetPet ir susitark dėl pasimatymo!' %}
+            </p>
+            <p>
+                {% trans 'Kai gyvūną priglausi į savo šeimą, GetPet paskirs tau asmeninį mentorių sklandžiai draugystės pradžiai!' %}
+            </p>
+        </header>
+
+        {% with shelter=pet.shelter %}
+            <div class="row no-gutters">
+
+                <div class="col-md-6">
+                    <div class="h-100" data-provide="map"
+                         data-lat="44.540"
+                         data-lng="-78.556"
+                         data-marker-lat="44.540"
+                         data-marker-lng="-78.556"
+                         data-info="{{ shelter.address }}"
+                         data-style="light"
+                         style="min-height: 350px"></div>
+                </div>
+
+
+                <div class="col-10 col-md-4 mx-auto align-self-center py-8">
+                    <p class="text-uppercase small opacity-50 fw-600 ls-1">{% trans 'Glboos įstaiga' %}</p>
+                    <h5>{{ shelter.name }}</h5>
+                    <br>
+                    <p>{{ shelter.address }}</p>
+                    <p>
+                        {% trans 'Telefonas' %} {{ shelter.phone }}
+                        <br>
+                        {% trans 'El. paštas' %}: {{ shelter.email|urlize }}
+                    </p>
+                </div>
+
+            </div>
+        {% endwith %}
+    </section>
+
 
 </main><!-- /.main-content -->
 
@@ -170,59 +214,6 @@
         </div>
     </div>
 </footer><!-- /.footer -->
-
-
-<!-- Modal - Portfolio -->
-<div class="modal fade" id="modal-portfolio" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-
-            <div class="modal-body p-0">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-
-                <div class="row no-gutters">
-                    <div class="col-6 col-md-5 mx-auto py-7">
-                        <h5>Paper cup mockup</h5>
-
-                        <p>Key letters, explain which writing we he carpeting or fame, the itch expand medical amped
-                            through constructing time. And scarfs, gain, get showed accounts decades.</p>
-
-                        <ul class="project-detail mt-7">
-                            <li>
-                                <strong>Client</strong>
-                                <span>Envato Inc.</span>
-                            </li>
-
-                            <li>
-                                <strong>Date</strong>
-                                <span>June 27, 2020</span>
-                            </li>
-
-                            <li>
-                                <strong>Skills</strong>
-                                <span>Design, HTML, CSS, Javascript</span>
-                            </li>
-
-                            <li>
-                                <strong>Address</strong>
-                                <a href="http://thetheme.io/thesaas">thetheme.io/thesaas</a>
-                            </li>
-                        </ul>
-                    </div>
-
-
-                    <div class="col-5 col-md-6 position-relative" style="min-height: 400px;">
-                        <img class="fill-parent fit-cover rounded-right" src="../assets/img/portfolio/4.jpg"
-                             alt="project image">
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
 
 
 <!-- Scripts -->
