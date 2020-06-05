@@ -1,10 +1,12 @@
 {% extends 'web/base/base.html' %}
+{% load i18n %}
 {% load setting_tags %}
 {% load tel_tags %}
 {% load static %}
 
 {% block topbar %}
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-stick-dark" data-navbar="sticky">
+    <nav class="navbar navbar-expand-lg {% block navbar_class %}navbar-dark navbar-stick-dark{% endblock %}"
+         data-navbar="sticky">
         <div class="container">
 
             <div class="navbar-left">
@@ -20,28 +22,28 @@
 
                 <ul class="nav nav-navbar">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Demos <span class="arrow"></span></a>
-                        <ul class="nav">
-
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">SaaS <span class="arrow"></span></a>
-                                <nav class="nav">
-                                    <a class="nav-link" href="/">SaaS 1</a>
-                                </nav>
-                            </li>
-                        </ul>
+                        <a class="nav-link" href="{% url 'web:index' %}">{% trans 'Pradžia' %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'web:index' %}">{% trans 'Svajonių augintiniai' %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'web:index' %}">{% trans 'Prieglaudos' %}</a>
                     </li>
 
                 </ul>
             </section>
 
-            <a class="btn btn-xs btn-round btn-success"
-               href="https://themeforest.net/item/thesaas-responsive-bootstrap-saas-software-webapp-template/19778599?license=regular&open_purchase_for_item_id=19778599&purchasable=source&ref=thethemeio">Buy
-                Now</a>
+            <a class="btn btn-xs btn-round btn-success text-uppercase"
+               href="{% url 'management:index' %}">{% trans 'Prisijungti' %}</a>
 
         </div>
     </nav>
+
+    {% block header %}
+    {% endblock %}
 {% endblock %}
+
 
 
 {% block main_container %}

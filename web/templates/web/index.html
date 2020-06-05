@@ -1,72 +1,320 @@
+{% extends 'web/base/base-page.html' %}
+{% load l10n %}
+{% load i18n %}
+{% load site_tags %}
+{% load image_tags %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="lt">
-<head>
-    <meta charset="UTF-8">
-    <title>GetPet - Čia prasideda draugystė :)</title>
-    <meta name="description"
-          content="GetPet - programėlė, kurioje sutiksi šuniukus iš Vilniaus gyvūnų prieglaudų. Tai lyg tinderis šuniukams.
-          Atsidarai GetPet - į tave spokso kudlius. Jei sužavėjo, brauki pirštu į dešinę, jei ne - brauki į kairę ir
-          randi kito šuniuko anketą. Anketoje rasi ne tik nuotraukų, bet ir gyvūnėlio istoriją.">
-    <meta name="google-site-verification" content="4YGTXbqijQGv8IicBc4u1R2soKTulPejlRldLrgetCI" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+{% load tel_tags %}
 
-    <style>
-        body {
-            background-color: #fa6171;
-        }
-    </style>
-</head>
-<body>
-<div id="fb-root"></div>
-<script>(function (d, s, id) {
-    var js, fjs = d.getElementsByTagName(s)[0];
-    if (d.getElementById(id)) return;
-    js = d.createElement(s);
-    js.id = id;
-    js.src = 'https://connect.facebook.net/lt_LT/sdk.js#xfbml=1&version=v3.2&appId=1043794185794352&autoLogAppEvents=1';
-    fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-<div>
-    <img src="{% static 'logo/getpet-logo-v2.png' %}" style="max-width: 1000px;" class="d-block mx-auto" alt="GetPet">
-    <div class="text-center">
-        <a href="https://play.google.com/store/apps/details?id=lt.getpet.getpet&utm_source=web&utm_campaign=web">
-            <img alt="Gauti iš Google Play"
-                 style="max-width: 300px;"
-                 class="m-2"
-                 src="https://play.google.com/intl/en_us/badges/images/generic/lt_badge_web_generic.png"/>
-        </a>
-        <a href="https://itunes.apple.com/us/app/getpet/id1450751703?ls=1&mt=8">
-            <img alt="Atsisiųsti iš App Store"
-                 style="max-width: 240px;"
-                 class="m-2"
-                 src="{% static 'badge/ios-app-store.png' %}"/>
-        </a>
-    </div>
+{% block title %}GetPet - Čia prasideda draugystė :){% endblock %}
+{% block navbar_class %}navbar-light navbar-stick-dark{% endblock %}
 
-    <div class="d-block mx-auto m-2 text-center">
+{% block header %}
+    <header class="header text-white h-fullscreen" style="background-image: url({% static 'img/intro-bg.jpg' %})">
+        <div class="bg-primary overlay opacity-80"></div>
 
-        <div class="fb-page border" data-href="https://www.facebook.com/getpet.lt/" data-tabs="timeline"
-             data-small-header="false"
-             data-width="555"
-             data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
-            <blockquote cite="https://www.facebook.com/getpet.lt/" class="fb-xfbml-parse-ignore"><a
-                    href="https://www.facebook.com/getpet.lt/">GetPet</a></blockquote>
+        <div class="container text-center">
+
+            <div class="row h-100">
+                <div class="col-lg-8 mx-auto align-self-center">
+
+                    <h1 class="display-4 my-6"><strong>GetPet</strong></h1>
+                    <p class="lead-3">The <b>most popular</b> HTML, CSS, and JS <b>framework</b> in the world for
+                        building responsive, mobile-first projects <b>on the web</b>.</p>
+
+                    <hr class="w-80px">
+
+                    <p>
+                        <a class="btn btn-xl btn-round btn-outline-light w-250" href="#">Download Now</a>
+                        <br>
+                        <span class="opacity-60 small-3">Currently v4.2.1</span>
+                    </p>
+
+                </div>
+            </div>
+
         </div>
-    </div>
+    </header>
 
-</div>
+{% endblock %}
 
-</body>
-</html>
+{% block content %}
+    <!-- GetPet steps -->
+    <section class="section">
+        <div class="container">
+            <header class="section-header mb-6">
+                <h2>{% trans 'Surask - Pažink - Augink' %}</h2>
+                <p class="lead">{% trans 'Vos trys paprasti žingsniai' %}</p>
+            </header>
+            <div class="row gap-y align-items-center py-7">
+                <div class="col-md-6 text-center">
+                    <img src="https://thetheme.io/thesaas/assets/img/vector/1.png" alt="...">
+                </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-        crossorigin="anonymous"></script>
+                <div class="col-md-5 ml-auto text-center text-md-left">
+                    <p class="lead-9 fw-900 lh-1 opacity-10">01</p>
+                    <h3 class="h2">{% trans 'Surask' %}</h3>
+                    <p>Think the or organization same proposal to affected heard reclined in be it reassuring are
+                        attained opinion, by he neighbours even again. Is and by value and that like can could from
+                        world takes of great copy and delicacy compared he such that the in and with himself a the
+                        man.</p>
+                </div>
+            </div>
+
+
+            <div class="row gap-y align-items-center py-7">
+                <div class="col-md-5 mr-auto text-center text-md-left">
+                    <p class="lead-9 fw-900 lh-1 opacity-10">02</p>
+                    <h3 class="h2">{% trans 'Pažink' %}</h3>
+                    <p>Think the or organization same proposal to affected heard reclined in be it reassuring are
+                        attained opinion, by he neighbours even again. Is and by value and that like can could from
+                        world takes of great copy and delicacy compared he such that the in and with himself a the
+                        man.</p>
+                </div>
+
+                <div class="col-md-6 text-center order-first order-md-last">
+                    <img src="https://thetheme.io/thesaas/assets/img/vector/2.png" alt="...">
+                </div>
+            </div>
+
+
+            <div class="row gap-y align-items-center py-7">
+                <div class="col-md-6 text-center">
+                    <img src="https://thetheme.io/thesaas/assets/img/vector/3.png" alt="...">
+                </div>
+
+                <div class="col-md-5 ml-auto text-center text-md-left">
+                    <p class="lead-9 fw-900 lh-1 opacity-10">03</p>
+                    <h3 class="h2">{% trans 'Augink' %}</h3>
+                    <p>Think the or organization same proposal to affected heard reclined in be it reassuring are
+                        attained opinion, by he neighbours even again. Is and by value and that like can could from
+                        world takes of great copy and delicacy compared he such that the in and with himself a the
+                        man.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End of GetPet steps -->
+
+    <!-- Pets -->
+    <section class="section bg-gray">
+        <div class="container">
+            <header class="section-header">
+                <h2>{% trans 'Tik keli gyvūnai' %}</h2>
+                <hr>
+                <p class="lead">You can find several product design by our professional team in this section.</p>
+            </header>
+
+
+            <div class="row gap-y">
+                {% for pet in pets %}
+                    {% include 'web/element/pet-card.html' with pet=pet %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- End of Pets -->
+
+    <!-- GetPet history -->
+    <section id="section-mission" class="section">
+        <div class="container">
+            <header class="section-header">
+                <h2>About us</h2>
+                <hr>
+                <p class="lead">Our company was founded in 2013 with a mission to create pretty templates for
+                    great startups. We can combine beautiful, modern designs with clean, functional and
+                    high-performance code to produce stunning websites. And best of all, we are super passionate
+                    about our work. Thought does cognitive into follow and rationale annoyed.</p>
+            </header>
+        </div>
+    </section>
+    <!-- End of GetPet history -->
+
+
+    <!-- GetPet history photos -->
+    <section class="section p-0">
+        <div data-provide="slider" data-autoplay="true" data-slides-to-show="2" data-css-ease="linear"
+             data-speed="12000" data-autoplay-speed="0" data-pause-on-hover="false">
+            <div class="p-2">
+                <div class="rounded bg-img h-400"
+                     style="background-image: url(https://thetheme.io/thesaas/assets/img/thumb/14.jpg)"></div>
+            </div>
+
+            <div class="p-2">
+                <div class="rounded bg-img h-400"
+                     style="background-image: url(https://thetheme.io/thesaas/assets/img/thumb/15.jpg)"></div>
+            </div>
+
+            <div class="p-2">
+                <div class="rounded bg-img h-400"
+                     style="background-image: url(https://thetheme.io/thesaas/assets/img/thumb/12.jpg)"></div>
+            </div>
+
+            <div class="p-2">
+                <div class="rounded bg-img h-400"
+                     style="background-image: url(https://thetheme.io/thesaas/assets/img/thumb/13.jpg)"></div>
+            </div>
+        </div>
+    </section>
+    <!-- End of GetPet history photos -->
+
+    <!-- Section Team -->
+    <section class="section bg-gray">
+        <div class="container">
+            <header class="section-header">
+                <h2>Executive Team</h2>
+                <hr>
+                <p class="lead">Meet our small team that make those great products.</p>
+            </header>
+
+
+            <div class="row gap-y">
+                <div class="col-md-6 col-lg-3 team-1">
+                    <a href="#">
+                        <img src="https://thetheme.io/thesaas/assets/img/avatar/5.jpg" alt="...">
+                    </a>
+                    <h6>Morgan Guadis</h6>
+                    <small>Co-Founder & CEO</small>
+                    <div class="social">
+                        <a class="social-twitter" href="#"><i class="fab fa-twitter"></i></a>
+                        <a class="social-facebook" href="#"><i class="fab fa-facebook"></i></a>
+                        <a class="social-instagram" href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6 col-lg-3 team-1">
+                    <a href="#">
+                        <img src="https://thetheme.io/thesaas/assets/img/avatar/6.jpg" alt="...">
+                    </a>
+                    <h6>John Senating</h6>
+                    <small>Co-Founder & CTO</small>
+                    <div class="social">
+                        <a class="social-facebook" href="#"><i class="fab fa-facebook"></i></a>
+                        <a class="social-twitter" href="#"><i class="fab fa-twitter"></i></a>
+                        <a class="social-instagram" href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6 col-lg-3 team-1">
+                    <a href="#">
+                        <img src="https://thetheme.io/thesaas/assets/img/avatar/7.jpg" alt="...">
+                    </a>
+                    <h6>Sandi Hormez</h6>
+                    <small>Lead Developer</small>
+                    <div class="social">
+                        <a class="social-facebook" href="#"><i class="fab fa-facebook"></i></a>
+                        <a class="social-twitter" href="#"><i class="fab fa-twitter"></i></a>
+                        <a class="social-instagram" href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6 col-lg-3 team-1">
+                    <a href="#">
+                        <img src="https://thetheme.io/thesaas/assets/img/avatar/8.jpg" alt="...">
+                    </a>
+                    <h6>Animor Tiruse</h6>
+                    <small>Designer</small>
+                    <div class="social">
+                        <a class="social-facebook" href="#"><i class="fab fa-facebook"></i></a>
+                        <a class="social-twitter" href="#"><i class="fab fa-twitter"></i></a>
+                        <a class="social-instagram" href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- End of Section Team -->
+
+    <!-- Section FAQ -->
+    <section class="section">
+        <div class="container">
+            <header class="section-header">
+                <small>FAQ</small>
+                <h2>Frequently Asked Questions</h2>
+                <hr>
+                <p>Got a question? We've got answers. If you have some other questions, contact us using email.</p>
+            </header>
+
+
+            <div class="row gap-y">
+                <div class="col-md-6 col-xl-4">
+                    <h5>Is this a secure site for purchases?</h5>
+                    <p>Absolutely! We work with top payment companies which guarantees your safety and security. All
+                        billing information is stored on our payment processing partner which has the most stringent
+                        level of certification available in the payments industry.</p>
+                </div>
+
+
+                <div class="col-md-6 col-xl-4">
+                    <h5>Can I cancel my subscription?</h5>
+                    <p>You can cancel your subscription anytime in your account. Once the subscription is cancelled, you
+                        will not be charged next month. You will continue to have access to your account until your
+                        current subscription expires.</p>
+                </div>
+
+
+                <div class="col-md-6 col-xl-4">
+                    <h5>How long are your contracts?</h5>
+                    <p>Currently, we only offer monthly subscription. You can upgrade or cancel your monthly account at
+                        any time with no further obligation.</p>
+                </div>
+
+
+                <div class="col-md-6 col-xl-4">
+                    <h5>Can I update my card details?</h5>
+                    <p>Yes. Go to the billing section of your dashboard and update your payment information.</p>
+                </div>
+
+
+                <div class="col-md-6 col-xl-4">
+                    <h5>Can I request refund?</h5>
+                    <p>Unfortunately, not. We do not issue full or partial refunds for any reason.</p>
+                </div>
+
+
+                <div class="col-md-6 col-xl-4">
+                    <h5>Can I try your service for free?</h5>
+                    <p>Of course! We’re happy to offer a free plan to anyone who wants to try our service.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- End of Section FAQ -->
+
+
+    <!-- Section download app-->
+    <section class="section bg-gray" id="download">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-6 align-self-center pb-6 pb-md-8">
+                    <h2 class="mb-5">Available on iOS and Android</h2>
+                    <p>As absolute is by amounted repeated entirely ye returned. These ready timed enjoy might sir yet
+                        one since. Years drift never if could forty being no. On estimable dependent as suffering on
+                        my.</p>
+
+                    <div class="gap-xy-2 my-6">
+                        <a href="#"><img src="https://thetheme.io/thesaas/assets/img/app/badge-apple.png"
+                                         alt="download on app store"></a>
+                        <a href="#"><img src="https://thetheme.io/thesaas/assets/img/app/badge-google.png"
+                                         alt="download on google play"></a>
+                    </div>
+                </div>
+
+                <div class="col-md-6 align-self-end text-center">
+                    <img src="https://thetheme.io/thesaas/assets/img/vector/26.png" alt="...">
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- End of Section download app-->
+
+
+{% endblock %}

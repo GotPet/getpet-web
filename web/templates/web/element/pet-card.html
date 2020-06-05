@@ -1,0 +1,15 @@
+{% load image_tags %}
+<div class="col-md-6 col-xl-4">
+    <div class="product-3">
+        <a href="{% url 'web:pet_profile' pet.pk %}">
+            <div class="product-media">
+                <img src="{% resized_image pet.photo width=350 height=250 %}" alt="{{ pet.name }}">
+            </div>
+
+            <div class="product-detail">
+                <h6>{{ pet.name }}</h6>
+                <div class="product-price text-body">{{ pet.short_description }}</div>
+            </div>
+        </a>
+    </div>
+</div>
