@@ -1,0 +1,64 @@
+{% load static %}
+{% load capture_tags %}
+{% load setting_tags %}
+{% load i18n %}
+
+{% settings_value "GIT_COMMIT" as GIT_COMMIT %}
+
+{% capture as meta_title silent %}{% block title %}{% endblock %}{% endcapture %}
+{% capture as meta_description silent %}{% block description %}{% endblock %}{% endcapture %}
+{% capture as meta_keywords silent %}{% block keywords %}{% endblock %}{% endcapture %}
+{% capture as image silent %}{% block image %}{% endblock %}{% endcapture %}
+
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description"
+          content="{{ meta_description.strip }}">
+    {% if meta_keywords %}
+        <meta name="keywords" content="{{ meta_keywords.strip }}">
+    {% endif %}
+
+    <title>{% blocktrans trimmed %}{{ meta_title }} | GetPet{% endblocktrans %}</title>
+
+    <!-- Styles -->
+    <link href="{% static 'web/css/page.min.css' %}?v={{ GIT_COMMIT }}" rel="stylesheet">
+
+    <!-- OG -->
+    <meta name="og:title" content="{{ meta_title.strip }}">
+    <meta name="og:site_name" content="GetPet">
+    <meta name="og:description" content="{{ meta_description.strip }}">
+    {% if image %}
+        <meta name="og:image" content="{{ image.strip }}">
+    {% else %}
+        <meta name="og:image" content="{% static 'img/logo/getpet-logo-square-big.png' %}">
+    {% endif %}
+    <meta name="og:type" content="website">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="{% static 'web/img/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" href="{% static 'web/img/favicon/favicon.ico' %}">
+
+    {% block head %}{% endblock %}
+</head>
+
+<body>
+{% block extra_body_start %}
+{% endblock %}
+
+{% block topbar %}
+{% endblock %}
+
+{% block main_container %}
+{% endblock %}
+
+<!-- Scripts -->
+<!-- IE-11 Support -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.4.4/polyfill.min.js"></script>
+<script src="{% static 'web/js/page.min.js' %}?v={{ GIT_COMMIT }}"></script>
+
+{% block script %}{% endblock %}
+</body>
+</html>
