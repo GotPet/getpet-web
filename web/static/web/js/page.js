@@ -36188,7 +36188,7 @@ $(function() {
     |
     */
 
-    googleApiKey: '',
+    googleApiKey: 'AIzaSyARBK4crJl0rz2mr0hAu7-GTFYz_VdRtOA',
 
     /*
     |--------------------------------------------------------------------------
@@ -36200,7 +36200,7 @@ $(function() {
     |
     */
 
-    googleAnalyticsId: '',
+    googleAnalyticsId: 'G-02003ESDJF',
 
     /*
     |--------------------------------------------------------------------------
