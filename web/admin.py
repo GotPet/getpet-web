@@ -1,6 +1,6 @@
 from typing import Any
 
-from adminsortable2.admin import SortableInlineAdminMixin
+from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin
 from django.contrib import admin
 from django.contrib.admin.models import LogEntry
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
@@ -10,7 +10,8 @@ from django.http.request import HttpRequest
 from django.utils.translation import gettext_lazy as _
 
 from getpet import settings
-from web.models import Country, GetPetRequest, Pet, PetProfilePhoto, PetProperty, Region, Shelter, User, UserPetChoice
+from web.models import Country, GetPetRequest, Pet, PetProfilePhoto, PetProperty, Region, Shelter, TeamMember, User, \
+    UserPetChoice
 from web.tasks import connect_super_users_to_shelters
 
 admin.site.site_header = _('GetPet Administravimas')
@@ -218,3 +219,8 @@ class PetProfilePhotoAdmin(admin.ModelAdmin):
 class PetPropertyAdmin(admin.ModelAdmin):
     list_display = ['name', ]
     filter_horizontal = ['pets']
+
+
+@admin.register(TeamMember)
+class TeamMemberAdmin(SortableAdminMixin, admin.ModelAdmin):
+    list_display = ['name', 'role', 'photo', 'email', ]

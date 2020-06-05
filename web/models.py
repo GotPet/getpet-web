@@ -692,3 +692,36 @@ class UserPetChoice(models.Model):
         unique_together = ('user', 'pet')
         default_related_name = "users_pet_choices"
         ordering = ['-id']
+
+
+class TeamMember(models.Model):
+    def _team_member_photo_file(self, filename):
+        ext = file_extension(filename)
+
+        slug = slugify(self.name)
+
+        filename = f"{slug}-photo.{ext}"
+        return join('img', 'web', 'team', filename)
+
+    name = models.CharField(max_length=128, verbose_name=_("Vardas"))
+    photo = models.ImageField(upload_to=_team_member_photo_file, verbose_name=_('Nuotrauka'))
+
+    role = models.CharField(max_length=128, verbose_name=_("Rolė"))
+
+    email = models.EmailField(verbose_name=_("El. paštas"))
+    facebook = models.URLField(verbose_name=_("Facebook"))
+    instagram = models.URLField(verbose_name=_("Instagram"), null=True, blank=True)
+    linkedin = models.URLField(verbose_name=_("LinkedIn"), null=True, blank=True)
+
+    order = models.PositiveIntegerField(default=0)
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Sukūrimo data'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinimo data"))
+
+    class Meta:
+        verbose_name = _("Komandos narys")
+        verbose_name_plural = _("Komandos nariai")
+        ordering = ['order']
+
+    def __str__(self):
+        return self.name
