@@ -2,7 +2,7 @@
 <div class="col-md-6 col-lg-3 team-1">
     <img src="{% resized_image team_member.photo width=400 height=400 %}" alt="{{ team_member.name }}">
     <h6>{{ team_member.name }}</h6>
-    <small>{{ team_member.role }}</small>
+    <small class="text-uppercase">{{ team_member.role }}</small>
     <div class="social">
         <a class="social-skype" href="mailto:{{ team_member.email }}">
             <i class="fas fa-envelope"></i>
