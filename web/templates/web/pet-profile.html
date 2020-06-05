@@ -151,11 +151,12 @@
             <div class="row no-gutters">
 
                 <div class="col-md-6">
-                    <div class="h-100" data-provide="map"
-                         data-lat="44.540"
-                         data-lng="-78.556"
-                         data-marker-lat="44.540"
-                         data-marker-lng="-78.556"
+                    <div class="h-100"
+                         data-provide="map"
+                         data-lat="{{ shelter.latitude }}"
+                         data-lng="{{ shelter.longitude }}"
+                         data-marker-lat="{{ shelter.latitude }}"
+                         data-marker-lng="{{ shelter.longitude }}"
                          data-info="{{ shelter.address }}"
                          data-style="light"
                          style="min-height: 350px"></div>
