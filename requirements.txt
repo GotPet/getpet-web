@@ -1,31 +1,31 @@
-Django~=3.0.6
+Django~=3.0.7
 gunicorn~=20.0.4
 
 # Storage and caching
 psycopg2-binary~=2.8.5
-django-redis~=4.11.0
+django-redis~=4.12.1
 
 # Authentication
-django-allauth~=0.41.0
+django-allauth~=0.42.0
 firebase-admin~=4.3.0
 
 # Celery
-celery[redis]~=4.4.2
+celery[redis]~=4.4.4
 django-celery-results~=1.2.1
 
 # Admin
 django-admin-sortable2~=0.7.6
 
 # Logging and monitoring
-ddtrace~=0.37.1
+ddtrace~=0.38.1
 sentry-sdk~=0.14.4
 
 # Django rest framework
 djangorestframework~=3.11.0
-django-filter~=2.2.0
+django-filter~=2.3.0
 flex~=6.14.1
 drf-yasg~=1.17.1
-drf-api-tracking~=1.6.0
+drf-api-tracking~=1.7.3
 
 # Additional functionality
 Pillow~=7.1.2
