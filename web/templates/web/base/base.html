@@ -1,7 +1,7 @@
 {% load static %}
+{% load site_tags %}
 {% load capture_tags %}
 {% load setting_tags %}
-{% load i18n %}
 
 {% settings_value "GIT_COMMIT" as GIT_COMMIT %}
 
@@ -21,7 +21,7 @@
         <meta name="keywords" content="{{ meta_keywords.strip }}">
     {% endif %}
 
-    <title>{% blocktrans trimmed %}{{ meta_title }} | GetPet{% endblocktrans %}</title>
+    <title>{{ meta_title.strip }} | GetPet</title>
 
     <!-- Styles -->
     <link href="{% static 'web/css/page.min.css' %}?v={{ GIT_COMMIT }}" rel="stylesheet">
@@ -33,7 +33,7 @@
     {% if image %}
         <meta name="og:image" content="{{ image.strip }}">
     {% else %}
-        <meta name="og:image" content="{% static 'img/logo/getpet-logo-square-big.png' %}">
+        <meta name="og:image" content="{% static_full 'img/logo/getpet-logo-square-big.png' %}">
     {% endif %}
     <meta name="og:type" content="website">
 
