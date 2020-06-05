@@ -6,8 +6,10 @@ from web.models import Pet
 
 
 def index(request):
+    if request.user.is_authenticated:
+        return render(request, 'web/index.html')
+
     return redirect('https://www.facebook.com/getpet.lt/')
-    # return render(request, 'web/index.html')
 
 
 class PetProfileView(DetailView):

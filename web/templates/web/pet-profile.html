@@ -1,3 +1,4 @@
+{% load l10n %}
 {% load i18n %}
 {% load image_tags %}
 {% load static %}
@@ -153,10 +154,10 @@
                 <div class="col-md-6">
                     <div class="h-100"
                          data-provide="map"
-                         data-lat="{{ shelter.latitude }}"
-                         data-lng="{{ shelter.longitude }}"
-                         data-marker-lat="{{ shelter.latitude }}"
-                         data-marker-lng="{{ shelter.longitude }}"
+                         data-lat="{{ shelter.latitude.normalize|unlocalize }}"
+                         data-lng="{{ shelter.longitude|unlocalize }}"
+                         data-marker-lat="{{ shelter.latitude|unlocalize }}"
+                         data-marker-lng="{{ shelter.longitude|unlocalize }}"
                          data-info="{{ shelter.address }}"
                          data-style="light"
                          style="min-height: 350px"></div>
