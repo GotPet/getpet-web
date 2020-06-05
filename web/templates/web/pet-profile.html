@@ -135,49 +135,50 @@
         </div>
     </section>
 
-    <section class="section py-0">
+    <section class="section py-8 bg-gray">
+        <div class="container">
+            <header class="section-header">
+                <h2>{% trans 'Pasiruošęs pasimatymui ?' %}</h2>
+                <hr>
+                <p>
+                    {% trans 'Susisiek su prieglaudos atstovu. Paminėk, kad kreipiesi per GetPet ir susitark dėl pasimatymo!' %}
+                </p>
+                <p>
+                    {% trans 'Kai gyvūną priglausi į savo šeimą, GetPet paskirs tau asmeninį mentorių sklandžiai draugystės pradžiai!' %}
+                </p>
+            </header>
 
-        <header class="section-header">
-            <h2>{% trans 'Pasiruošęs pasimatymui ?' %}</h2>
-            <hr>
-            <p>
-                {% trans 'Susisiek su prieglaudos atstovu. Paminėk, kad kreipiesi per GetPet ir susitark dėl pasimatymo!' %}
-            </p>
-            <p>
-                {% trans 'Kai gyvūną priglausi į savo šeimą, GetPet paskirs tau asmeninį mentorių sklandžiai draugystės pradžiai!' %}
-            </p>
-        </header>
+            {% with shelter=pet.shelter %}
+                <div class="row no-gutters">
 
-        {% with shelter=pet.shelter %}
-            <div class="row no-gutters">
-
-                <div class="col-md-6">
-                    <div class="h-100"
-                         data-provide="map"
-                         data-lat="{{ shelter.latitude.normalize|unlocalize }}"
-                         data-lng="{{ shelter.longitude|unlocalize }}"
-                         data-marker-lat="{{ shelter.latitude|unlocalize }}"
-                         data-marker-lng="{{ shelter.longitude|unlocalize }}"
-                         data-info="{{ shelter.address }}"
-                         data-style="light"
-                         style="min-height: 350px"></div>
-                </div>
+                    <div class="col-md-6">
+                        <div class="h-100"
+                             data-provide="map"
+                             data-lat="{{ shelter.latitude.normalize|unlocalize }}"
+                             data-lng="{{ shelter.longitude|unlocalize }}"
+                             data-marker-lat="{{ shelter.latitude|unlocalize }}"
+                             data-marker-lng="{{ shelter.longitude|unlocalize }}"
+                             data-info="{{ shelter.address }}"
+                             data-style="light"
+                             style="min-height: 350px"></div>
+                    </div>
 
 
-                <div class="col-10 col-md-4 mx-auto align-self-center py-8">
-                    <p class="text-uppercase small opacity-50 fw-600 ls-1">{% trans 'Glboos įstaiga' %}</p>
-                    <h5>{{ shelter.name }}</h5>
-                    <br>
-                    <p>{{ shelter.address }}</p>
-                    <p>
-                        {% trans 'Telefonas' %} {{ shelter.phone }}
+                    <div class="col-10 col-md-4 mx-auto align-self-center py-8">
+                        <p class="text-uppercase small opacity-50 fw-600 ls-1">{% trans 'Glboos įstaiga' %}</p>
+                        <h5>{{ shelter.name }}</h5>
                         <br>
-                        {% trans 'El. paštas' %}: {{ shelter.email|urlize }}
-                    </p>
-                </div>
+                        <p>{{ shelter.address }}</p>
+                        <p>
+                            {% trans 'Telefonas' %} {{ shelter.phone }}
+                            <br>
+                            {% trans 'El. paštas' %}: {{ shelter.email|urlize }}
+                        </p>
+                    </div>
 
-            </div>
-        {% endwith %}
+                </div>
+            {% endwith %}
+        </div>
     </section>
 
 
