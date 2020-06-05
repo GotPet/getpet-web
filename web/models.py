@@ -499,23 +499,25 @@ class Pet(models.Model):
             # noinspection PyUnresolvedReferences
             send_email_about_pet_status_update.delay(pet_pk=self.pk, old_pet_status_str=old_pet.get_status_display())
 
+    def desexed_status_text(self) -> Optional[str]:
+        if self.gender == PetGender.Male and self.desexed is True:
+            return _("kastruotas")
+        elif self.gender == PetGender.Male and self.desexed is False:
+            return _("nekastruotas")
+        elif self.gender == PetGender.Female and self.desexed is True:
+            return _("sterilizuota")
+        elif self.gender == PetGender.Female and self.desexed is False:
+            return _("nesterilizuota")
+
+        return None
+
     def description_including_all_information(self) -> str:
         description_parts = [self.description + "\n"]
 
         if self.gender:
             gender_part = f"{_('Lytis')}: {self.get_gender_display().lower()}"
 
-            desexed_text = None
-            if self.gender == PetGender.Male and self.desexed is True:
-                desexed_text = _("kastruotas")
-            elif self.gender == PetGender.Male and self.desexed is False:
-                desexed_text = _("nekastruotas")
-            elif self.gender == PetGender.Female and self.desexed is True:
-                desexed_text = _("sterilizuota")
-            elif self.gender == PetGender.Female and self.desexed is False:
-                desexed_text = _("nesterilizuota")
-
-            if desexed_text:
+            if desexed_text := self.desexed_status_text():
                 gender_part += f" ({desexed_text})"
 
             description_parts.append(gender_part)
@@ -541,6 +543,14 @@ class Pet(models.Model):
             description_parts.append(special_information_part)
 
         return '\n'.join(description_parts).strip(' \n\t')
+
+    def all_photo_urls(self) -> List[str]:
+        photo_urls = [self.photo.url]
+
+        for photo in self.profile_photos.all():
+            photo_urls.append(photo.photo.url)
+
+        return photo_urls
 
     def properties_list(self) -> List[str]:
         return list([p.name for p in self.properties.all()])

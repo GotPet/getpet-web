@@ -1,0 +1,234 @@
+{% load i18n %}
+{% load image_tags %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description"
+          content="Several examples of how you can demonstrate your portfolio and projects with filterable results.">
+
+    <title>{{ pet.name }} — {{ pet.short_description }}</title>
+
+    <!-- Styles -->
+    <link href="{% static 'web/css/page.min.css' %}" rel="stylesheet">
+
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="{% static 'web/img/favicon/apple-touch-icon.png' %}">
+    <link rel="icon" href="{% static 'web/img/favicon/favicon.ico' %}">
+</head>
+
+<body class="demo-section">
+
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-stick-dark" data-navbar="sticky">
+    <div class="container">
+
+        <div class="navbar-left">
+            <button class="navbar-toggler" type="button"><span class="navbar-toggler-icon"></span></button>
+            <a class="navbar-brand" href="/">
+                <img class="logo-dark" src="{% static 'web/img/getpet-logo-small.png' %}" height="30" alt="GetPet logo">
+            </a>
+        </div>
+
+        <section class="navbar-mobile">
+            <span class="navbar-divider d-mobile-none"></span>
+
+            <ul class="nav nav-navbar">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Demos <span class="arrow"></span></a>
+                    <ul class="nav">
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">SaaS <span class="arrow"></span></a>
+                            <nav class="nav">
+                                <a class="nav-link" href="/">SaaS 1</a>
+                            </nav>
+                        </li>
+                    </ul>
+                </li>
+
+            </ul>
+        </section>
+
+        <a class="btn btn-xs btn-round btn-success"
+           href="https://themeforest.net/item/thesaas-responsive-bootstrap-saas-software-webapp-template/19778599?license=regular&open_purchase_for_item_id=19778599&purchasable=source&ref=thethemeio">Buy
+            Now</a>
+
+    </div>
+</nav><!-- /.navbar -->
+
+
+<!-- Main Content -->
+<main class="main-content">
+    <section class="section">
+        <div class="container">
+            <header class="section-header">
+                <h2>{{ pet.name }}</h2>
+                <p class="lead">{{ pet.short_description }}</p>
+            </header>
+
+
+            <div class="row">
+                <div class="col-12">
+                    <div data-provide="photoswipe">
+                        <div data-provide="slider" data-dots="true" data-slides-to-show="2">
+                            {% for photo in pet.all_photo_urls %}
+                                <div class="p-2">
+                                    <a class="gallery-item" href="{{ photo }}">
+                                        <img src="{% resized_image photo width=800 height=600 %}"
+                                             alt="{{ pet.name }} {% trans 'nuotrauka' %} {{ forloop.counter }}">
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-12">
+                    <h5 class="mt-7">{% trans 'Svajonių augintinio aprašymas' %}</h5>
+                </div>
+
+                <div class="col-md-7">
+                    {{ pet.description|linebreaks }}
+                </div>
+
+                <div class="col-md-4 ml-auto">
+                    <ul class="project-detail">
+                        <li>
+                            <strong>{% trans 'Lytis' %}</strong>
+                            <span>{{ pet.get_gender_display }} ({{ pet.desexed_status_text }})</span>
+                        </li>
+
+                        <li>
+                            <strong>{% trans 'Amžius' %}</strong>
+                            <span>{% trans 'Apie' %} {{ pet.age }} {% trans 'metus' %}</span>
+                        </li>
+
+                        <li>
+                            <strong>{% trans 'Dydis' %}</strong>
+                            <span>{{ pet.get_size_display }}
+                                {% if pet.weight %}
+                                    ({% trans 'apie' %} {{ pet.weight }} kg)
+                                {% endif %}
+                            </span>
+                        </li>
+                        <li>
+                            <strong>{% trans 'Pastabos' %}</strong>
+                            <span>{{ pet.properties_list|join:", "|lower|default:"-" }}</span>
+                        </li>
+
+                        <li>
+                            <strong>{% trans 'Specialūs sveikatos poreikiai ir būklės' %}</strong>
+                            <span>{{ pet.special_information|default:"-" }}</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+</main><!-- /.main-content -->
+
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row gap-y align-items-center">
+
+            <div class="col-6 col-lg-3">
+                <a href="../index.html"><img src="../assets/img/logo-dark.png" alt="logo"></a>
+            </div>
+
+            <div class="col-6 col-lg-3 text-right order-lg-last">
+                <div class="social">
+                    <a class="social-facebook" href="https://www.facebook.com/thethemeio"><i class="fa fa-facebook"></i></a>
+                    <a class="social-twitter" href="https://twitter.com/thethemeio"><i class="fa fa-twitter"></i></a>
+                    <a class="social-instagram" href="https://www.instagram.com/thethemeio/"><i
+                            class="fa fa-instagram"></i></a>
+                    <a class="social-dribbble" href="https://dribbble.com/thethemeio"><i class="fa fa-dribbble"></i></a>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="nav nav-bold nav-uppercase nav-trim justify-content-lg-center">
+                    <a class="nav-link" href="../uikit/index.html">Elements</a>
+                    <a class="nav-link" href="../block/index.html">Blocks</a>
+                    <a class="nav-link" href="../page/about-1.html">About</a>
+                    <a class="nav-link" href="../blog/grid.html">Blog</a>
+                    <a class="nav-link" href="../page/contact-1.html">Contact</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</footer><!-- /.footer -->
+
+
+<!-- Modal - Portfolio -->
+<div class="modal fade" id="modal-portfolio" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body p-0">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+
+                <div class="row no-gutters">
+                    <div class="col-6 col-md-5 mx-auto py-7">
+                        <h5>Paper cup mockup</h5>
+
+                        <p>Key letters, explain which writing we he carpeting or fame, the itch expand medical amped
+                            through constructing time. And scarfs, gain, get showed accounts decades.</p>
+
+                        <ul class="project-detail mt-7">
+                            <li>
+                                <strong>Client</strong>
+                                <span>Envato Inc.</span>
+                            </li>
+
+                            <li>
+                                <strong>Date</strong>
+                                <span>June 27, 2020</span>
+                            </li>
+
+                            <li>
+                                <strong>Skills</strong>
+                                <span>Design, HTML, CSS, Javascript</span>
+                            </li>
+
+                            <li>
+                                <strong>Address</strong>
+                                <a href="http://thetheme.io/thesaas">thetheme.io/thesaas</a>
+                            </li>
+                        </ul>
+                    </div>
+
+
+                    <div class="col-5 col-md-6 position-relative" style="min-height: 400px;">
+                        <img class="fill-parent fit-cover rounded-right" src="../assets/img/portfolio/4.jpg"
+                             alt="project image">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-- Scripts -->
+<!-- IE-11 Support -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.4.4/polyfill.min.js"></script>
+<script src="{% static 'web/js/page.min.js' %}"></script>
+
+</body>
+</html>
