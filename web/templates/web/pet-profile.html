@@ -75,11 +75,11 @@
 
             <div class="row">
                 <div class="col-12">
-                    <div data-provide="photoswipe">
+                    <div data-provide="photoswipe" data-photoswipe-selector="pet-photo">
                         <div data-provide="slider" data-dots="true" data-slides-to-show="2">
                             {% for photo in pet.all_photo_urls %}
                                 <div class="p-2">
-                                    <a class="gallery-item" href="{{ photo }}">
+                                    <a class="pet-photo" href="{{ photo }}">
                                         <img src="{% resized_image photo width=800 height=600 %}"
                                              alt="{{ pet.name }} {% trans 'nuotrauka' %} {{ forloop.counter }}">
                                     </a>
