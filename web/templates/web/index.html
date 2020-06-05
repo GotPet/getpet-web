@@ -170,60 +170,9 @@
 
 
             <div class="row gap-y">
-                <div class="col-md-6 col-lg-3 team-1">
-                    <a href="#">
-                        <img src="https://thetheme.io/thesaas/assets/img/avatar/5.jpg" alt="...">
-                    </a>
-                    <h6>Morgan Guadis</h6>
-                    <small>Co-Founder & CEO</small>
-                    <div class="social">
-                        <a class="social-twitter" href="#"><i class="fab fa-twitter"></i></a>
-                        <a class="social-facebook" href="#"><i class="fab fa-facebook"></i></a>
-                        <a class="social-instagram" href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-
-
-                <div class="col-md-6 col-lg-3 team-1">
-                    <a href="#">
-                        <img src="https://thetheme.io/thesaas/assets/img/avatar/6.jpg" alt="...">
-                    </a>
-                    <h6>John Senating</h6>
-                    <small>Co-Founder & CTO</small>
-                    <div class="social">
-                        <a class="social-facebook" href="#"><i class="fab fa-facebook"></i></a>
-                        <a class="social-twitter" href="#"><i class="fab fa-twitter"></i></a>
-                        <a class="social-instagram" href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-
-
-                <div class="col-md-6 col-lg-3 team-1">
-                    <a href="#">
-                        <img src="https://thetheme.io/thesaas/assets/img/avatar/7.jpg" alt="...">
-                    </a>
-                    <h6>Sandi Hormez</h6>
-                    <small>Lead Developer</small>
-                    <div class="social">
-                        <a class="social-facebook" href="#"><i class="fab fa-facebook"></i></a>
-                        <a class="social-twitter" href="#"><i class="fab fa-twitter"></i></a>
-                        <a class="social-instagram" href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-
-
-                <div class="col-md-6 col-lg-3 team-1">
-                    <a href="#">
-                        <img src="https://thetheme.io/thesaas/assets/img/avatar/8.jpg" alt="...">
-                    </a>
-                    <h6>Animor Tiruse</h6>
-                    <small>Designer</small>
-                    <div class="social">
-                        <a class="social-facebook" href="#"><i class="fab fa-facebook"></i></a>
-                        <a class="social-twitter" href="#"><i class="fab fa-twitter"></i></a>
-                        <a class="social-instagram" href="#"><i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
+                {% for team_member in team_members %}
+                    {% include 'web/element/team-member.html' with team_member=team_member %}
+                {% endfor %}
             </div>
 
         </div>

@@ -1,8 +1,10 @@
+from typing import Any, Dict
+
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.views.generic import DetailView, ListView
 
-from web.models import Pet, Shelter
+from web.models import Pet, Shelter, TeamMember
 
 
 def index(request):
@@ -26,6 +28,13 @@ class IndexView(ListView):
             pets = pets.filter(shelter=shelter)
 
         return pets[:6]
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+
+        context['team_members'] = TeamMember.objects.all()
+
+        return context
 
 
 class PetProfileView(DetailView):
