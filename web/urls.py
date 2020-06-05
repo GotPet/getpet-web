@@ -3,6 +3,8 @@ from django.views.generic import RedirectView
 
 from web.views import PetProfileView, health_check, index
 
+app_name = 'web'
+
 urlpatterns = [
     path('', index, name="index"),
     path('pet/<int:pk>/', PetProfileView.as_view(), name="pet_profile"),

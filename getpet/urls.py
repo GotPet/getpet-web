@@ -26,7 +26,7 @@ urlpatterns = [
                   path('admin/', include('management.urls', namespace='management')),
                   path('accounts/', include('allauth.urls')),
 
-                  path('', include('web.urls')),
+                  path('', include('web.urls', namespace='web')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG and settings.ENABLE_DEBUG_DRAWER_IN_DEBUG:
