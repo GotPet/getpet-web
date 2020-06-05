@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load image_tags %}
 {% load static %}
+{% load tel_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +22,7 @@
     <link rel="icon" href="{% static 'web/img/favicon/favicon.ico' %}">
 </head>
 
-<body class="demo-section">
+<body>
 
 
 <!-- Navbar -->
@@ -30,8 +31,9 @@
 
         <div class="navbar-left">
             <button class="navbar-toggler" type="button"><span class="navbar-toggler-icon"></span></button>
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand" href="{% url 'web:index' %}">
                 <img class="logo-dark" src="{% static 'web/img/getpet-logo-small.png' %}" alt="GetPet logo">
+                <img class="logo-light" src="{% static 'web/img/getpet-logo-small-white.png' %}" alt="GetPet logo">
             </a>
         </div>
 
@@ -67,11 +69,10 @@
 <main class="main-content">
     <section class="section">
         <div class="container">
-            <header class="section-header">
-                <h2>{{ pet.name }}</h2>
+            <header class="section-header mb-6">
+                <h1>{{ pet.name }}</h1>
                 <p class="lead">{{ pet.short_description }}</p>
             </header>
-
 
             <div class="row">
                 <div class="col-12">
@@ -170,10 +171,30 @@
                         <br>
                         <p>{{ shelter.address }}</p>
                         <p>
-                            {% trans 'Telefonas' %} {{ shelter.phone }}
+                            {% trans 'Telefonas' %} {{ shelter.phone|urltel }}
                             <br>
                             {% trans 'El. paštas' %}: {{ shelter.email|urlize }}
                         </p>
+                        <div class="social social-lg social-inline">
+                            {% if shelter.website %}
+                                <a class="social-skype" href="{{ shelter.website }}" rel="nofollow" target="_blank">
+                                    <i class="fas fa-globe"></i>
+                                </a>
+                            {% endif %}
+
+                            {% if shelter.facebook %}
+                                <a class="social-facebook" href="{{ shelter.facebook }}" rel="nofollow" target="_blank">
+                                    <i class="fab fa-facebook"></i>
+                                </a>
+                            {% endif %}
+
+                            {% if shelter.instagram %}
+                                <a class="social-instagram" href="{{ shelter.instagram }}" rel="nofollow"
+                                   target="_blank">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                            {% endif %}
+                        </div>
                     </div>
 
                 </div>
