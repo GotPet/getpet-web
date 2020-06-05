@@ -4,13 +4,20 @@
     <h6>{{ team_member.name }}</h6>
     <small>{{ team_member.role }}</small>
     <div class="social">
-        <a class="social-skype" href="{{ team_member.facebook }}"><i class="fas fa-envelope"></i></a>
-        <a class="social-facebook" href="{{ team_member.facebook }}"><i class="fab fa-facebook"></i></a>
+        <a class="social-skype" href="mailto:{{ team_member.email }}">
+            <i class="fas fa-envelope"></i>
+        </a>
+        <a class="social-facebook" rel="nofollow" target="_blank" href="{{ team_member.facebook }}">
+            <i class="fab fa-facebook"></i></a>
         {% if team_member.linkedin %}
-            <a class="social-linkedin" href="{{ team_member.linkedin }}"><i class="fab fa-linkedin"></i></a>
+            <a class="social-linkedin" rel="nofollow" target="_blank" href="{{ team_member.linkedin }}">
+                <i class="fab fa-linkedin"></i>
+            </a>
         {% endif %}
         {% if team_member.instagram %}
-            <a class="social-instagram" href="{{ team_member.instagram }}"><i class="fab fa-instagram"></i></a>
+            <a class="social-instagram" rel="nofollow" target="_blank" href="{{ team_member.instagram }}">
+                <i class="fab fa-instagram"></i>
+            </a>
         {% endif %}
     </div>
 </div>
