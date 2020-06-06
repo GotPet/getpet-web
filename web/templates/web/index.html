@@ -110,6 +110,12 @@
                 {% for pet in pets %}
                     {% include 'web/element/pet-card.html' with pet=pet %}
                 {% endfor %}
+
+                <div class="col-12 text-center">
+                    <br>
+                    <a class="btn btn-xl btn-round btn-primary"
+                       href="#">{% trans 'Daugiau svajonių augintinių' %}</a>
+                </div>
             </div>
         </div>
     </section>
