@@ -43,6 +43,9 @@ class ShelterFactory(factory.DjangoModelFactory):
     name = factory.Faker('company')
     phone = factory.Faker('phone_number')
     email = factory.Faker('email')
+    address = factory.Faker('address')
+    latitude = factory.Faker('latitude')
+    longitude = factory.Faker('longitude')
     region = factory.SubFactory(RegionFactory)
 
     @factory.post_generation
