@@ -6,7 +6,7 @@
 {% load static %}
 {% load tel_tags %}
 
-{% block title %}{% trans 'Svajonių augintiniai' %}{% endblock %}
+{% block title %}{{ shelter.name }}{% endblock %}
 {% block navbar_class %}navbar-light navbar-stick-dark{% endblock %}
 
 {% block header %}
@@ -15,7 +15,7 @@
 
             <div class="row">
                 <div class="col-md-8 mx-auto">
-                    <h1 class="display-4">{% trans 'Svajonių augintiniai' %}</h1>
+                    <h1 class="display-4">{{ shelter.name }}</h1>
                     <p class="lead-2 opacity-90 mt-6">TODO: You can find a list of our product in this page. We'll
                         deliver
                         your order in less than two days. Try it yourself!</p>
@@ -28,8 +28,7 @@
 {% endblock %}
 
 {% block content %}
-
-    <section class="section">
+    <section class="section bg-gray">
         <div class="container">
             <div class="row gap-y">
                 {% for pet in pets %}
@@ -42,5 +41,9 @@
         </div>
     </section>
 
-    {% include 'web/sections/app-section.html' with section_class='bg-gray' %}
+    <section class="section">
+        <div class="container">
+            {% include 'web/element/shelter-info-content.html' with shelter=shelter %}
+        </div>
+    </section>
 {% endblock %}

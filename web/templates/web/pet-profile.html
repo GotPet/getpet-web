@@ -102,53 +102,7 @@
             </header>
 
             {% with shelter=pet.shelter %}
-                <div class="row no-gutters">
-                    <div class="col-md-6">
-                        <div class="h-100"
-                             data-provide="map"
-                             data-lat="{{ shelter.latitude.normalize|unlocalize }}"
-                             data-lng="{{ shelter.longitude|unlocalize }}"
-                             data-marker-lat="{{ shelter.latitude|unlocalize }}"
-                             data-marker-lng="{{ shelter.longitude|unlocalize }}"
-                             data-info="{{ shelter.address }}"
-                             data-style="light"
-                             style="min-height: 350px"></div>
-                    </div>
-
-                    <div class="col-10 col-md-4 mx-auto align-self-center py-8">
-                        <p class="text-uppercase small opacity-50 fw-600 ls-1">{% trans 'Glboos įstaiga' %}</p>
-                        <h5>{{ shelter.name }}</h5>
-                        <br>
-                        <p>{{ shelter.address }}</p>
-                        <p>
-                            {% trans 'Telefonas' %} {{ shelter.phone|urltel }}
-                            <br>
-                            {% trans 'El. paštas' %}: {{ shelter.email|urlize }}
-                        </p>
-                        <div class="social social-lg social-inline">
-                            {% if shelter.website %}
-                                <a class="social-skype" href="{{ shelter.website }}" rel="nofollow" target="_blank">
-                                    <i class="fas fa-globe"></i>
-                                </a>
-                            {% endif %}
-
-                            {% if shelter.facebook %}
-                                <a class="social-facebook" href="{{ shelter.facebook }}" rel="nofollow"
-                                   target="_blank">
-                                    <i class="fab fa-facebook"></i>
-                                </a>
-                            {% endif %}
-
-                            {% if shelter.instagram %}
-                                <a class="social-instagram" href="{{ shelter.instagram }}" rel="nofollow"
-                                   target="_blank">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                            {% endif %}
-                        </div>
-                    </div>
-
-                </div>
+                {% include 'web/element/shelter-info-content.html' with shelter=shelter %}
             {% endwith %}
         </div>
     </section>

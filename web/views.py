@@ -1,13 +1,15 @@
 from typing import Any, Dict
 
 from django.http import HttpResponse
+from django.http.response import Http404
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils.functional import cached_property
 from django.views.generic import DetailView, ListView
 
 from utils.mixins import ViewPaginatorMixin
 from utils.utils import add_url_params
-from web.models import Pet, PetQuerySet, Shelter, TeamMember
+from web.models import Pet, Shelter, TeamMember
 
 
 def index(request):
@@ -65,15 +67,39 @@ class AllSheltersListView(ViewPaginatorMixin, ListView):
 
 
 class ShelterPetsListView(ViewPaginatorMixin, ListView):
-    template_name = 'web/all-pets.html'
+    template_name = 'web/shelter-pets.html'
     model = Pet
     context_object_name = 'pets'
     paginate_by = 18
-    queryset = Pet.available.all()
-    ordering = '?'
+    allow_empty = False
+
+    def get_queryset(self):
+        return Pet.available.filter(shelter=self.selected_shelter).all()
 
     def page_link(self, query_params, page):
-        return add_url_params(reverse('web:all_pets') + query_params, {'page': page})
+        return add_url_params(
+            reverse('web:shelter_profile', kwargs={'slug': self.selected_shelter.slug}) + query_params,
+            {'page': page})
+
+    @cached_property
+    def selected_shelter(self) -> Shelter:
+        slug = self.kwargs.get('slug', None)
+        if slug is None:
+            raise ValueError("No slug argument given")
+
+        shelter = Shelter.available.filter(slug=slug).first()
+
+        if shelter is None:
+            raise Http404(f"Unable to find shelter")
+
+        return shelter
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context_data = super().get_context_data(**kwargs)
+
+        context_data['shelter'] = self.selected_shelter
+
+        return context_data
 
 
 class PetProfileView(DetailView):
