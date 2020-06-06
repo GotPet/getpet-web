@@ -270,6 +270,9 @@ class Shelter(models.Model):
         self.slug = slugify(self.name)
         super().save(force_insert, force_update, using, update_fields)
 
+    def profile_url(self) -> str:
+        return reverse('web:shelter_profile', kwargs={'slug': self.slug})
+
     @staticmethod
     def user_associated_shelters(user: AbstractBaseUser) -> QuerySet[Shelter]:
         if user.is_authenticated:
@@ -342,6 +345,14 @@ class PetSize(models.IntegerChoices):
 class PetQuerySet(models.QuerySet):
     def select_related_full_shelter(self):
         return self.select_related('shelter', 'shelter__region', 'shelter__region__country')
+
+    def available_or_owned_by_user(self, user: AbstractUser) -> PetQuerySet:
+        available_filter = models.Q(status=PetStatus.AVAILABLE, shelter__is_published=True)
+
+        if user.is_authenticated:
+            return self.filter(available_filter | models.Q(shelter__authenticated_users=user))
+
+        return self.filter(available_filter)
 
     def annotate_with_getpet_requests_count(self):
         getpet_requests_count = Pet.objects.annotate(
@@ -584,6 +595,9 @@ class Pet(models.Model):
             queryset = queryset.annotate_with_likes_and_dislikes()
 
         return queryset
+
+    def pet_profile_url(self) -> str:
+        return reverse('web:pet_profile', kwargs={'pk': self.pk, 'slug': self.slug})
 
     def edit_pet_url(self) -> str:
         return reverse('management:pets_update', kwargs={'pk': self.pk})

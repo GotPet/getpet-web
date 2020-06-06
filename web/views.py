@@ -7,7 +7,7 @@ from django.views.generic import DetailView, ListView
 
 from utils.mixins import ViewPaginatorMixin
 from utils.utils import add_url_params
-from web.models import Pet, Shelter, TeamMember
+from web.models import Pet, PetQuerySet, Shelter, TeamMember
 
 
 def index(request):
@@ -52,10 +52,38 @@ class AllPetsListView(ViewPaginatorMixin, ListView):
         return add_url_params(reverse('web:all_pets') + query_params, {'page': page})
 
 
+class AllSheltersListView(ViewPaginatorMixin, ListView):
+    template_name = 'web/all-shelters.html'
+    model = Shelter
+    context_object_name = 'shelters'
+    paginate_by = 18
+    queryset = Shelter.available.all()
+    ordering = '-id'
+
+    def page_link(self, query_params, page):
+        return add_url_params(reverse('web:all_shelters') + query_params, {'page': page})
+
+
+class ShelterPetsListView(ViewPaginatorMixin, ListView):
+    template_name = 'web/all-pets.html'
+    model = Pet
+    context_object_name = 'pets'
+    paginate_by = 18
+    queryset = Pet.available.all()
+    ordering = '?'
+
+    def page_link(self, query_params, page):
+        return add_url_params(reverse('web:all_pets') + query_params, {'page': page})
+
+
 class PetProfileView(DetailView):
     model = Pet
     context_object_name = 'pet'
     template_name = 'web/pet-profile.html'
+    query_pk_and_slug = True
+
+    def get_queryset(self) -> PetQuerySet:
+        return Pet.objects.available_or_owned_by_user(self.request.user).all()
 
 
 def health_check(request):

@@ -1,0 +1,46 @@
+{% extends 'web/base/base-page.html' %}
+{% load l10n %}
+{% load i18n %}
+{% load site_tags %}
+{% load image_tags %}
+{% load static %}
+{% load tel_tags %}
+
+{% block title %}{% trans 'Svajonių augintiniai' %}{% endblock %}
+{% block navbar_class %}navbar-light navbar-stick-dark{% endblock %}
+
+{% block header %}
+    <header class="header text-center text-white bg-primary">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <h1 class="display-4">{% trans 'Svajonių augintiniai' %}</h1>
+                    <p class="lead-2 opacity-90 mt-6">TODO: You can find a list of our product in this page. We'll
+                        deliver
+                        your order in less than two days. Try it yourself!</p>
+
+                </div>
+            </div>
+
+        </div>
+    </header>
+{% endblock %}
+
+{% block content %}
+
+    <section class="section">
+        <div class="container">
+            <div class="row gap-y">
+                {% for pet in pets %}
+                    {% include 'web/element/pet-card.html' with pet=pet %}
+                {% endfor %}
+                <div class="col-12">
+                    {% include 'web/miscellaneous/pagination.html' with paginator_page=page_obj %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {% include 'web/sections/app-section.html' with section_class='bg-gray' %}
+{% endblock %}
