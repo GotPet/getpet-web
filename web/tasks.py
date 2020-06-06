@@ -46,3 +46,31 @@ def send_email_about_pet_status_update(pet_pk, old_pet_status_str):
     )
 
     return 1
+
+
+@shared_task(soft_time_limit=30)
+def connect_super_users_to_shelters(shelter_pk=None):
+    connected = 0
+
+    for user in get_user_model().objects.filter(is_superuser=True):
+        shelters = Shelter.objects.exclude(authenticated_users=user)
+        if shelter_pk:
+            shelters = shelters.filter(pk=shelter_pk)
+
+        for shelter in shelters:
+            shelter.authenticated_users.add(user)
+
+            connected += 1
+
+    return {
+        'users_connected': connected
+    }
+
+
+@shared_task(soft_time_limit=60)
+def generate_slugs_for_pets_and_shelters():
+    for pet in Pet.objects.all():
+        pet.save()
+
+    for shelter in Shelter.objects.all():
+        shelter.save()

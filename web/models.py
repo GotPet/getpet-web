@@ -221,7 +221,8 @@ class Shelter(models.Model):
         filename = f"{slug}-square-logo.{ext}"
         return join('img', 'web', 'shelter', slug, filename)
 
-    name = models.CharField(max_length=128, verbose_name=_("Prieglaudos pavadinimas"))
+    name = models.CharField(max_length=50, verbose_name=_("Prieglaudos pavadinimas"))
+    slug = models.SlugField(unique=True, null=True, editable=False)
     legal_name = models.CharField(max_length=256, null=True, verbose_name=_("Įstaigos pavadinimas"))
 
     is_published = models.BooleanField(default=True, db_index=True, verbose_name=_("Paskelbta"),
@@ -263,6 +264,11 @@ class Shelter(models.Model):
         verbose_name_plural = _("Gyvūnų prieglaudos")
         default_related_name = "shelters"
         ordering = ['-pk']
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        self.slug = slugify(self.name)
+        super().save(force_insert, force_update, using, update_fields)
 
     @staticmethod
     def user_associated_shelters(user: AbstractBaseUser) -> QuerySet[Shelter]:
@@ -401,7 +407,9 @@ class Pet(models.Model):
         filename = f"{slug}-photo.{ext}"
         return join('img', 'web', 'pet', slug, filename)
 
-    name = models.CharField(max_length=64, verbose_name=_("Gyvūno vardas"))
+    name = models.CharField(max_length=50, verbose_name=_("Gyvūno vardas"))
+    slug = models.SlugField(null=True, editable=False)
+
     status = models.SmallIntegerField(
         choices=PetStatus.choices,
         default=PetStatus.AVAILABLE,
@@ -489,6 +497,7 @@ class Pet(models.Model):
                 elif self.status == PetStatus.AVAILABLE:
                     self.taken_at = None
 
+        self.slug = slugify(self.name)
         super().save(force_insert, force_update, using, update_fields)
 
         self._send_pet_status_updated_email_if_needed(orig)
