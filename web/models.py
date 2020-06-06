@@ -222,7 +222,7 @@ class Shelter(models.Model):
         return join('img', 'web', 'shelter', slug, filename)
 
     name = models.CharField(max_length=50, verbose_name=_("Prieglaudos pavadinimas"))
-    slug = models.SlugField(unique=True, null=True, editable=False)
+    slug = models.SlugField(unique=True, editable=False)
     legal_name = models.CharField(max_length=256, null=True, verbose_name=_("Įstaigos pavadinimas"))
 
     is_published = models.BooleanField(default=True, db_index=True, verbose_name=_("Paskelbta"),
@@ -408,7 +408,7 @@ class Pet(models.Model):
         return join('img', 'web', 'pet', slug, filename)
 
     name = models.CharField(max_length=50, verbose_name=_("Gyvūno vardas"))
-    slug = models.SlugField(null=True, editable=False)
+    slug = models.SlugField(editable=False)
 
     status = models.SmallIntegerField(
         choices=PetStatus.choices,
