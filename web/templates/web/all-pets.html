@@ -29,7 +29,7 @@
 
 {% block content %}
 
-    <section class="section">
+    <section class="section bg-gray">
         <div class="container">
             <div class="row gap-y">
                 {% for pet in pets %}
@@ -42,5 +42,5 @@
         </div>
     </section>
 
-    {% include 'web/sections/app-section.html' with section_class='bg-gray' %}
+    {% include 'web/sections/app-section.html' %}
 {% endblock %}
