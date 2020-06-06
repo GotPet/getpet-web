@@ -268,9 +268,6 @@ class Shelter(models.Model):
         self.slug = slugify(self.name)
         super().save(force_insert, force_update, using, update_fields)
 
-    def profile_url(self) -> str:
-        return reverse('web:shelter_profile', kwargs={'slug': self.slug})
-
     @staticmethod
     def user_associated_shelters(user: AbstractBaseUser) -> QuerySet[Shelter]:
         if user.is_authenticated:
@@ -293,6 +290,9 @@ class Shelter(models.Model):
                 return shelter_from_cookie
 
         return shelters.first()
+
+    def get_absolute_url(self) -> str:
+        return reverse('web:shelter_profile', kwargs={'slug': self.slug})
 
     def edit_shelter_url(self) -> str:
         return reverse('management:shelters_update', kwargs={'pk': self.pk})
@@ -595,7 +595,7 @@ class Pet(models.Model):
 
         return queryset
 
-    def pet_profile_url(self) -> str:
+    def get_absolute_url(self) -> str:
         return reverse('web:pet_profile', kwargs={'pk': self.pk, 'slug': self.slug})
 
     def edit_pet_url(self) -> str:
