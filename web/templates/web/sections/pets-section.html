@@ -1,0 +1,24 @@
+{% load i18n %}
+<section class="section {{ section_css_class }}" id="section-pets">
+    <div class="container">
+        <header class="section-header">
+            <h2>{% trans 'Tik keli gyvūnai' %}</h2>
+            <hr>
+            <p class="lead">You can find several product design by our professional team in this section.</p>
+        </header>
+
+
+        <div class="row gap-y">
+            {% for pet in pets %}
+                {% include 'web/element/pet-card.html' with pet=pet %}
+            {% endfor %}
+
+            <div class="col-12 text-center">
+                <br>
+                <a class="btn btn-xl btn-round btn-primary"
+                   href="{% url 'web:all_pets' %}">{% trans 'Daugiau svajonių augintinių' %}</a>
+            </div>
+        </div>
+    </div>
+</section>
+

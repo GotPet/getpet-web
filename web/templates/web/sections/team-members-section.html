@@ -1,0 +1,18 @@
+{% load i18n %}
+<section class="section {{ section_css_class }}" id="section-team-members">
+    <div class="container">
+        <header class="section-header">
+            <h2>Executive Team</h2>
+            <hr>
+            <p class="lead">Meet our small team that make those great products.</p>
+        </header>
+
+
+        <div class="row gap-y">
+            {% for team_member in team_members %}
+                {% include 'web/element/team-member.html' with team_member=team_member %}
+            {% endfor %}
+        </div>
+
+    </div>
+</section>
