@@ -8,15 +8,26 @@
 
 {% block title %}{{ pet.name }} - {{ pet.short_description }}{% endblock %}
 {% block image %}{% full_path pet.photo.url %}{% endblock %}
+{% block navbar_class %}navbar-light navbar-stick-dark{% endblock %}
+
+{% block header %}
+    <header class="header text-center text-white bg-primary">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <h1 class="display-4">{{ pet.name }}</h1>
+                    <p class="lead-2 opacity-90 mt-6">{{ pet.short_description }}</p>
+                </div>
+            </div>
+
+        </div>
+    </header>
+{% endblock %}
 
 {% block content %}
     <section class="section">
         <div class="container">
-            <header class="section-header mb-6">
-                <h1>{{ pet.name }}</h1>
-                <p class="lead">{{ pet.short_description }}</p>
-            </header>
-
             <div class="row">
                 <div class="col-12">
                     <div data-provide="photoswipe">
