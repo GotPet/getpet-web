@@ -232,11 +232,9 @@ class Shelter(models.Model):
 
     region = models.ForeignKey(Region, on_delete=models.PROTECT, related_name="shelters", verbose_name=_("Regionas"))
 
-    address = models.CharField(max_length=256, null=True, verbose_name=_("Adresas"))
-    latitude = models.DecimalField(max_digits=9, decimal_places=6, verbose_name=_("Vietos platuma"), blank=True,
-                                   null=True)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6, verbose_name=_("Vietos ilguma"), blank=True,
-                                    null=True)
+    address = models.CharField(max_length=256, verbose_name=_("Prieglaudos adresas"))
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, verbose_name=_("Vietos platuma"))
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, verbose_name=_("Vietos ilguma"))
 
     email = models.EmailField(verbose_name=_("Elektroninis paštas"))
     phone = models.CharField(max_length=24, verbose_name=_("Telefono numeris"))
