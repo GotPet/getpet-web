@@ -248,7 +248,7 @@ class Shelter(models.Model):
     authenticated_users = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
         blank=True,
-        limit_choices_to=models.Q(groups__name=_SHELTER_GROUP_NAME, is_staff=True, connector=models.Q.OR),
+        limit_choices_to=models.Q(groups__name=_SHELTER_GROUP_NAME, is_staff=True, _connector=models.Q.OR),
         verbose_name=_("Vartotojai tvarkantys prieglaudos informaciją"),
         help_text=_("Priskirti vartotojai gali matyti prieglaudos gyvūnus ir juos tvarkyti.")
     )
