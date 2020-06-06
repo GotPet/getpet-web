@@ -1,0 +1,38 @@
+{% load static %}
+{% load tel_tags %}
+{% load setting_tags %}
+{% load i18n %}
+<section class="section {{ section_css_class }}" id="section-contact-us">
+    <div class="container">
+        <header class="section-header">
+            <h2>{% trans 'Susisiekime' %}</h2>
+        </header>
+        <div class="row gap-y align-items-center">
+            <div class="col-md-7">
+                <div class="rounded bg-img h-400 border"
+                     style="background-image: url({% static 'web/img/history/getpet-team-with-dogs-sos-gyvunai.jpg' %})"></div>
+            </div>
+
+            <div class="col-lg-4 ml-auto text-center text-lg-left">
+                {% settings_value 'EMAIL_FROM' as contact_email %}
+                {% settings_value 'CONTACT_PHONE' as contact_phone %}
+
+                <h5>Augink mane, VšĮ</h5>
+                <br>
+                <p>{% trans 'Įmonės kodas' %}: 305187884</p>
+                <p>
+                    {% trans 'El. paštas' %}: {{ contact_email|urlize }}<br>
+                    {% trans 'Telefonas' %}: {{ contact_phone|urltel }}
+                </p>
+                <br>
+                <h6>{% trans 'Sekite mus' %}</h6>
+                <div class="social social-lg social-inline">
+                    <a class="social-facebook" href="https://www.facebook.com/getpet.lt" rel="me">
+                        <i class="fab fa-facebook"></i></a>
+                    <a class="social-instagram" href="https://www.instagram.com/getpet.lt/" rel="me">
+                        <i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

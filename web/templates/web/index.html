@@ -18,16 +18,9 @@
                 <div class="col-lg-8 mx-auto align-self-center">
 
                     <h1 class="display-4 my-6"><strong>GetPet</strong></h1>
-                    <p class="lead-3">The <b>most popular</b> HTML, CSS, and JS <b>framework</b> in the world for
+                    <p class="lead-3">TODO: The <b>most popular</b> HTML, CSS, and JS <b>framework</b> in the world for
                         building responsive, mobile-first projects <b>on the web</b>.</p>
 
-                    <hr class="w-80px">
-
-                    <p>
-                        <a class="btn btn-xl btn-round btn-outline-light w-250" href="#">Download Now</a>
-                        <br>
-                        <span class="opacity-60 small-3">Currently v4.2.1</span>
-                    </p>
 
                 </div>
             </div>
@@ -62,8 +55,20 @@
     {% include 'web/sections/team-members-section.html' with section_css_class='bg-gray' %}
     <!-- End of Section Team -->
 
+    <!-- Benefits for shelter -->
+    {% include 'web/sections/benefits-for-shelters-section.html' %}
+    <!-- End of Benefits for shelter -->
+
+    <!-- More info for shelter -->
+    {% include 'web/sections/more-info-for-shelter-section.html' %}
+    <!-- End of More info for shelter -->
+
     <!-- Section FAQ -->
-    {% include 'web/sections/faq-section.html' %}
+    {% include 'web/sections/faq-section.html' with section_css_class='bg-gray' %}
     <!-- End of Section FAQ -->
 
+
+    <!-- Section Contact us -->
+    {% include 'web/sections/contact-us-section.html' %}
+    <!-- End of Section Contact us -->
 {% endblock %}
