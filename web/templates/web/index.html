@@ -114,7 +114,7 @@
                 <div class="col-12 text-center">
                     <br>
                     <a class="btn btn-xl btn-round btn-primary"
-                       href="#">{% trans 'Daugiau svajonių augintinių' %}</a>
+                       href="{% url 'web:all_pets' %}">{% trans 'Daugiau svajonių augintinių' %}</a>
                 </div>
             </div>
         </div>
@@ -242,34 +242,8 @@
     </section>
     <!-- End of Section FAQ -->
 
-
     <!-- Section download app-->
-    <section class="section bg-gray" id="download">
-        <div class="container">
-            <div class="row">
-
-                <div class="col-md-6 align-self-center pb-6 pb-md-8">
-                    <h2 class="mb-5">Available on iOS and Android</h2>
-                    <p>As absolute is by amounted repeated entirely ye returned. These ready timed enjoy might sir yet
-                        one since. Years drift never if could forty being no. On estimable dependent as suffering on
-                        my.</p>
-
-                    <div class="gap-xy-2 my-6">
-                        <a href="#"><img src="https://thetheme.io/thesaas/assets/img/app/badge-apple.png"
-                                         alt="download on app store"></a>
-                        <a href="#"><img src="https://thetheme.io/thesaas/assets/img/app/badge-google.png"
-                                         alt="download on google play"></a>
-                    </div>
-                </div>
-
-                <div class="col-md-6 align-self-end text-center">
-                    <img src="https://thetheme.io/thesaas/assets/img/vector/26.png" alt="...">
-                </div>
-
-            </div>
-        </div>
-    </section>
+    {% include 'web/sections/app-section.html' with section_class='bg-gray' %}
     <!-- End of Section download app-->
-
 
 {% endblock %}

@@ -1,0 +1,74 @@
+{% load i18n %}
+{% load pagination %}
+
+<ul class="pagination justify-content-center">
+    {% if paginator_page.has_previous %}
+        <li class="page-item">
+            <a class="page-link"
+               href="{{ paginator_page.previous_page_url }}">
+                <span class="fas fa-angle-left"></span>
+            </a>
+        </li>
+    {% else %}
+        <li class="page-item disabled">
+            <a class="page-link"
+               href="#">
+                <span class="fas fa-angle-left"></span>
+            </a>
+        </li>
+    {% endif %}
+
+    <li class="page-item {% if paginator_page.number == 1 %}active{% endif %}">
+        <a class="page-link" href="{% get_page_link paginator_page 1 %}">1</a>
+    </li>
+
+    {% if  paginator_page.number|add:"-2" > 2 %}
+        <li class="page-item disabled">
+            <div class="page-link">...</div>
+        </li>
+    {% endif %}
+
+    {% for page in paginator_page.paginator.page_range %}
+        {% if page != 1 and page != paginator_page.paginator.num_pages %}
+            {% if paginator_page.number|add:"-2" <= page and paginator_page.number|add:"2" >= page %}
+                <li class="page-item {% if page == paginator_page.number %}active{% endif %}">
+                    <a class="page-link"
+                       href="{% get_page_link paginator_page page %}">{{ page }}</a>
+                </li>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+
+    {% if  paginator_page.number|add:"3" < paginator_page.paginator.num_pages %}
+        <li class="page-item disabled">
+            <div class="page-link">...</div>
+        </li>
+    {% endif %}
+
+    {% with last_page_num=paginator_page.paginator.num_pages %}
+        {% if last_page_num > 1 %}
+            <li class="page-item {% if last_page_num == paginator_page.number %}active{% endif %}">
+                <a class="page-link"
+                   href="{% get_page_link paginator_page last_page_num %}">
+                    {{ last_page_num }}
+                </a>
+            </li>
+        {% endif %}
+    {% endwith %}
+
+    {% if paginator_page.has_next %}
+        <li class="page-item">
+            <a class="page-link"
+               href="{{ paginator_page.next_page_link }}">
+                <span class="fas fa-angle-right"></span>
+            </a>
+        </li>
+    {% else %}
+        <li class="page-item disabled">
+            <a class="page-link"
+               href="#">
+                <span class="fas fa-angle-right"></span>
+            </a>
+        </li>
+    {% endif %}
+</ul>

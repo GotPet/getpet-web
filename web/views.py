@@ -2,8 +2,11 @@ from typing import Any, Dict
 
 from django.http import HttpResponse
 from django.shortcuts import redirect
+from django.urls import reverse
 from django.views.generic import DetailView, ListView
 
+from utils.mixins import ViewPaginatorMixin
+from utils.utils import add_url_params
 from web.models import Pet, Shelter, TeamMember
 
 
@@ -35,6 +38,18 @@ class IndexView(ListView):
         context['team_members'] = TeamMember.objects.all()
 
         return context
+
+
+class AllPetsListView(ViewPaginatorMixin, ListView):
+    template_name = 'web/all-pets.html'
+    model = Pet
+    context_object_name = 'pets'
+    paginate_by = 18
+    queryset = Pet.available.all()
+    ordering = '?'
+
+    def page_link(self, query_params, page):
+        return add_url_params(reverse('web:all_pets') + query_params, {'page': page})
 
 
 class PetProfileView(DetailView):
