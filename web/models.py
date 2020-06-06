@@ -346,6 +346,7 @@ class PetQuerySet(models.QuerySet):
     def select_related_full_shelter(self):
         return self.select_related('shelter', 'shelter__region', 'shelter__region__country')
 
+    # Bug https://sentry.io/organizations/getpet/issues/1712664617/?project=1373034&query=is%3Aunresolved
     def available_or_owned_by_user(self, user: AbstractUser) -> PetQuerySet:
         available_filter = models.Q(status=PetStatus.AVAILABLE, shelter__is_published=True)
 

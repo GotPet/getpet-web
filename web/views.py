@@ -78,12 +78,10 @@ class ShelterPetsListView(ViewPaginatorMixin, ListView):
 
 class PetProfileView(DetailView):
     model = Pet
+    queryset = Pet.available.all()
     context_object_name = 'pet'
     template_name = 'web/pet-profile.html'
     query_pk_and_slug = True
-
-    def get_queryset(self) -> PetQuerySet:
-        return Pet.objects.available_or_owned_by_user(self.request.user).all()
 
 
 def health_check(request):
