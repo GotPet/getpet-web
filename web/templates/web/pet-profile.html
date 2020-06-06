@@ -72,7 +72,7 @@
                         </li>
                         <li>
                             <strong>{% trans 'Pastabos' %}</strong>
-                            <span>{{ pet.properties_list|join:", "|lower|default:"-" }}</span>
+                            <span>{{ pet.properties_list|join:", "|lower|capfirst|default:"-" }}</span>
                         </li>
 
                         <li>
