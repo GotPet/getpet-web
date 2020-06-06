@@ -3,6 +3,7 @@
     <a class="card shadow-1 hover-shadow-6" href="{{ shelter.profile_url }}">
         <img class="card-img-top" src="{% resized_image shelter.square_logo width=300 height=300 %}"
              alt="{{ shelter.name }}"
+             loading="lazy"
              width="300"
              height="300">
         <div class="card-body text-center">
