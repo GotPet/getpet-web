@@ -64,9 +64,11 @@ class UserAdmin(BaseUserAdmin):
 @admin.register(Shelter)
 class ShelterAdmin(admin.ModelAdmin):
     search_fields = ['name', 'email', ]
-    list_display = ['name', 'email', 'phone', 'created_at', 'updated_at']
+    list_display = ['name', 'email', 'phone', 'region', 'address', 'created_at', 'updated_at']
     filter_horizontal = ['authenticated_users']
     autocomplete_fields = ['region']
+    list_select_related = ['region']
+    list_filter = ['region']
 
     def log_change(self, request: HttpRequest, object: Model, message: Any) -> LogEntry:
         connect_super_users_to_shelters.delay(shelter_pk=object.pk)
