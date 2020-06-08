@@ -136,7 +136,9 @@ class Country(models.Model):
 
 
 class Region(models.Model):
-    name = models.CharField(max_length=128, verbose_name=_("Regiono pavadinimas"))
+    name = models.CharField(max_length=50, verbose_name=_("Regiono pavadinimas"))
+    full_name = models.CharField(max_length=100, verbose_name=_("Pilnas regiono pavadinimas"),
+                                 help_text=_("Pavyzdžiui: Vilniaus regionas"))
     code = models.CharField(verbose_name=_("Regiono kodas"), max_length=32, unique=True,
                             help_text=_("Unikalus regiono kodas pvz: ankara"))
     country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name="regions", verbose_name=_("Šalis"))

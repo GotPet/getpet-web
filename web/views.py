@@ -59,7 +59,7 @@ class AllSheltersListView(ViewPaginatorMixin, ListView):
     model = Shelter
     context_object_name = 'shelters'
     paginate_by = 18
-    queryset = Shelter.available.all()
+    queryset = Shelter.available.select_related('region').all()
     ordering = '-id'
 
     def page_link(self, query_params, page):
