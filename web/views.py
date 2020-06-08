@@ -12,7 +12,7 @@ from utils.utils import add_url_params
 from web.models import Pet, Shelter, TeamMember
 
 
-def index(request):
+def index(request) -> HttpResponse:
     if request.user.is_authenticated:
         return redirect('web:demo')
 
@@ -110,5 +110,9 @@ class PetProfileView(DetailView):
     query_pk_and_slug = True
 
 
-def health_check(request):
+def privacy_policy(request) -> HttpResponse:
+    return redirect('https://drive.google.com/file/d/14zVkvxMJv5Egr8KruDWZWNBLLsWGAIuy/view')
+
+
+def health_check(request) -> HttpResponse:
     return HttpResponse("OK")
