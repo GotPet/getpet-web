@@ -429,7 +429,8 @@ class Pet(models.Model):
         verbose_name=_("Gyvūno statusas"),
         help_text=_("Gyvūnai su statusu laukiantys šeimininko yra rodomi programėlėje.")
     )
-    photo = models.ImageField(upload_to=_pet_photo_file, verbose_name=_("Gyvūno nuotrauka"))
+    photo = models.ImageField(upload_to=_pet_photo_file, verbose_name=_("Vertikali gyvūno profilio nuotrauka"),
+                              help_text=_("Rekomenduojamas profilio nuotraukos kraštinių santykis 3:4"))
 
     shelter = models.ForeignKey(Shelter, on_delete=models.CASCADE, related_name='pets', verbose_name=_("Prieglauda"),
                                 help_text=_("Prieglauda, kurioje šiuo metu randasi gyvūnas"))

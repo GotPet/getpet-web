@@ -229,7 +229,7 @@ class PetCreateUpdateForm(forms.ModelForm):
             Div(
                 Div(
                     CardTitle(
-                        strong_text=_("Gyvūno profilio nuotrauka"),
+                        strong_text=_("Vertikali profilio nuotrauka"),
                         html_after_text="""<span class="text-danger">*</span>"""
                     ),
                     Div('photo', css_class='card-body'),
