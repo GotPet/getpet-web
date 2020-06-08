@@ -7,12 +7,12 @@
             <p class="lead">You can find several product design by our professional team in this section.</p>
         </header>
 
-
         <div class="row equal-height gap-y">
             {% for pet in pets %}
                 {% include 'web/element/pet-card.html' with pet=pet %}
             {% endfor %}
-
+        </div>
+        <div class="row gap-y">
             <div class="col-12 text-center">
                 <br>
                 <a class="btn btn-xl btn-round btn-primary"
