@@ -5,7 +5,6 @@ from django.db import models, transaction
 from django.http import HttpResponse
 from django.http.request import HttpRequest
 from django.shortcuts import redirect, render
-from django.urls import reverse
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
@@ -52,9 +51,6 @@ class PetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, ListView)
         pets = Pet.pets_from_shelter(shelter, annotate_with_likes_and_dislikes=True)
 
         return self.petListFiltersForm.filter_queryset(pets)
-
-    def page_link(self, query_params, page):
-        return add_url_params(reverse('management:pets_list') + query_params, {'page': page})
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)

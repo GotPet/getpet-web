@@ -3,12 +3,10 @@ from typing import Any, Dict
 from django.http import HttpResponse
 from django.http.response import Http404
 from django.shortcuts import redirect
-from django.urls import reverse
 from django.utils.functional import cached_property
 from django.views.generic import DetailView, ListView
 
 from utils.mixins import ViewPaginatorMixin
-from utils.utils import add_url_params
 from web.models import Pet, Shelter, TeamMember
 
 
@@ -50,9 +48,6 @@ class AllPetsListView(ViewPaginatorMixin, ListView):
     queryset = Pet.available.all()
     ordering = '-pk'
 
-    def page_link(self, query_params, page):
-        return add_url_params(reverse('web:all_pets') + query_params, {'page': page})
-
 
 class AllSheltersListView(ViewPaginatorMixin, ListView):
     template_name = 'web/all-shelters.html'
@@ -61,9 +56,6 @@ class AllSheltersListView(ViewPaginatorMixin, ListView):
     paginate_by = 18
     queryset = Shelter.available.select_related('region').all()
     ordering = '-id'
-
-    def page_link(self, query_params, page):
-        return add_url_params(reverse('web:all_shelters') + query_params, {'page': page})
 
 
 class ShelterPetsListView(ViewPaginatorMixin, ListView):
@@ -76,11 +68,6 @@ class ShelterPetsListView(ViewPaginatorMixin, ListView):
 
     def get_queryset(self):
         return Pet.available.filter(shelter=self.selected_shelter).all()
-
-    def page_link(self, query_params, page):
-        return add_url_params(
-            reverse('web:shelter_profile', kwargs={'slug': self.selected_shelter.slug}) + query_params,
-            {'page': page})
 
     @cached_property
     def selected_shelter(self) -> Shelter:
