@@ -48,7 +48,7 @@ class AllPetsListView(ViewPaginatorMixin, ListView):
     context_object_name = 'pets'
     paginate_by = 18
     queryset = Pet.available.all()
-    ordering = '?'
+    ordering = '-pk'
 
     def page_link(self, query_params, page):
         return add_url_params(reverse('web:all_pets') + query_params, {'page': page})
@@ -71,6 +71,7 @@ class ShelterPetsListView(ViewPaginatorMixin, ListView):
     model = Pet
     context_object_name = 'pets'
     paginate_by = 18
+    ordering = '-pk'
     allow_empty = False
 
     def get_queryset(self):
