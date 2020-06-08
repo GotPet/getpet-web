@@ -9,7 +9,7 @@
 {% block title %}GetPet - Čia prasideda draugystė :){% endblock %}
 
 {% block header %}
-    <header class="header text-white h-fullscreen" style="background-image: url({% static 'img/intro-bg.jpg' %})">
+    <header class="header text-white" style="background-image: url({% static 'img/intro-bg.jpg' %})">
         <div class="bg-primary overlay opacity-80"></div>
 
         <div class="container text-center">
@@ -20,7 +20,10 @@
                     <h1 class="display-4 my-6"><strong>GetPet</strong></h1>
                     <p class="lead-3">TODO: The <b>most popular</b> HTML, CSS, and JS <b>framework</b> in the world for
                         building responsive, mobile-first projects <b>on the web</b>.</p>
-
+                    <hr class="w-80px">
+                    <div>
+                        <a class="btn btn-xl btn-round btn-outline-light" href="{% url 'web:all_pets' %}">{% trans 'Svajonių augintiniai' %}</a>
+                    </div>
 
                 </div>
             </div>
