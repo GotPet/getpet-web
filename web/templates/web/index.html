@@ -59,23 +59,25 @@
     {% include 'web/sections/team-members-section.html' with section_css_class='bg-gray' %}
     <!-- End of Team -->
 
+    <!-- Media -->
+    {% include 'web/sections/media-section.html' %}
+    <!-- End of Media -->
+
     <!-- Benefits for shelter -->
-    {% include 'web/sections/benefits-for-shelters-section.html' %}
+    {% include 'web/sections/benefits-for-shelters-section.html' with section_css_class='bg-gray' %}
     <!-- End of Benefits for shelter -->
 
     <!-- More info for shelter -->
-    {% include 'web/sections/more-info-for-shelter-section.html' with section_css_class='bg-gray' %}
+    {% include 'web/sections/more-info-for-shelter-section.html' %}
     <!-- End of More info for shelter -->
 
     {#    <!-- FAQ -->#}
     {#    {% include 'web/sections/faq-section.html' %}#}
     {#    <!-- End of FAQ -->#}
 
-    <!-- Media -->
-    {% include 'web/sections/media-section.html' with section_css_class='bg-gray' %}
-    <!-- End of Media -->
+
 
     <!-- Section Contact us -->
-    {% include 'web/sections/contact-us-section.html' %}
+    {% include 'web/sections/contact-us-section.html' with section_css_class='bg-gray' %}
     <!-- End of Section Contact us -->
 {% endblock %}
