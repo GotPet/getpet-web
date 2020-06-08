@@ -114,5 +114,9 @@ def privacy_policy(request) -> HttpResponse:
     return redirect('https://drive.google.com/file/d/14zVkvxMJv5Egr8KruDWZWNBLLsWGAIuy/view')
 
 
+def about_getpet(request) -> HttpResponse:
+    return redirect('https://drive.google.com/file/d/10rbMmDMjoeJHT6L8opQbZyzA75PrH1SK/view')
+
+
 def health_check(request) -> HttpResponse:
     return HttpResponse("OK")

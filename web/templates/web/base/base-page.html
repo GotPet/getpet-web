@@ -51,36 +51,35 @@
     <!-- /.main-content -->
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row gap-y align-items-center">
-
-                <div class="col-6 col-lg-3">
-                    <a href="{% url 'web:index' %}">
-                        <img src="{% static 'web/img/getpet-logo-small.png' %}"
-                             alt="GetPet logo">
-                    </a>
-                </div>
-
-                <div class="col-6 col-lg-3 text-right order-lg-last">
-                    <div class="social social-lg">
-                        <a class="social-facebook" href="https://www.facebook.com/getpet.lt" rel="me">
-                            <i class="fab fa-facebook"></i></a>
-                        <a class="social-instagram" href="https://www.instagram.com/getpet.lt/" rel="me">
-                            <i class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-
-                <div class="col-lg-6">
-                    <p class="text-center">
-                        {% settings_value 'EMAIL_FROM' as contact_email %}
-                        {% settings_value 'CONTACT_PHONE' as contact_phone %}
-                        © VšĮ Augink mane. Visos teisės saugomos {{ contact_phone|urltel }} |
-                        {{ contact_email|urlize }}
-                    </p>
-                </div>
-
+    <footer class="footer py-7">
+        <div class="container text-center">
+            <div class="social social-lg social-hover-bg-brand">
+                <a class="social-facebook" href="https://www.facebook.com/getpet.lt" rel="me" target="_blank">
+                    <i class="fab fa-facebook"></i></a>
+                <a class="social-instagram" href="https://www.instagram.com/getpet.lt/" rel="me" target="_blank">
+                    <i class="fab fa-instagram"></i></a>
             </div>
+
+            <br>
+
+            <div class="nav nav-bolder nav-uppercase nav-center">
+                <a class="nav-link" href="{% url 'web:about_getpet' %}" rel="nofollow" target="_blank">
+                    {% trans 'Kas yra GetPet?' %}
+                </a>
+                <a class="nav-link" href="{% url 'web:privacy_policy' %}" rel="nofollow" target="_blank">
+                    {% trans 'Privatumo politika' %}
+                </a>
+            </div>
+
+            <br>
+            {% settings_value 'EMAIL_FROM' as contact_email %}
+            {% settings_value 'CONTACT_PHONE' as contact_phone %}
+
+            <small>
+                © VšĮ Augink mane. Visos teisės saugomos {{ contact_phone|urltel }} |
+                {{ contact_email|urlize }}
+            </small>
+
         </div>
     </footer>
     <!-- /.footer -->

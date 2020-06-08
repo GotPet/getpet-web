@@ -15,6 +15,11 @@ urlpatterns = [
     path('istaigos/<slug:slug>/', views.ShelterPetsListView.as_view(), name="shelter_profile"),
 
     path('favicon.ico/', RedirectView.as_view(url='/static/favicon/favicon.ico', permanent=False)),
+
+    # Documents
     path('privatumo-politika/', views.privacy_policy, name="privacy_policy"),
+    path('apie-getpet/', views.about_getpet, name="about_getpet"),
+
+    # Health check
     path('health/', views.health_check, name="health_check"),
 ]
