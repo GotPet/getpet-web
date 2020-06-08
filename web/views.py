@@ -32,7 +32,7 @@ class IndexView(ListView):
         if shelter is not None:
             pets = pets.filter(shelter=shelter)
 
-        return pets[:6]
+        return pets[:3]
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)

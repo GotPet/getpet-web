@@ -2,14 +2,14 @@
 <section class="section {{ section_css_class }}" id="section-pets">
     <div class="container">
         <header class="section-header">
-            <h2>{% trans 'Tik keli gyvūnai' %}</h2>
+            <h2>{% trans 'Svajonių augintiniai laukia tavęs!' %}</h2>
             <hr>
             <p class="lead">You can find several product design by our professional team in this section.</p>
         </header>
 
         <div class="row equal-height gap-y">
             {% for pet in pets %}
-                {% include 'web/element/pet-card.html' with pet=pet %}
+                {% include 'web/element/pet-card.html' with pet=pet col_css_class=forloop.last|yesno:"d-md-none d-lg-block," %}
             {% endfor %}
         </div>
         <div class="row gap-y">
