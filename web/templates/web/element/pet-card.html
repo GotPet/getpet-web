@@ -1,6 +1,6 @@
 {% load image_tags %}
 <div class="col-md-6 col-xl-4">
-    <div class="product-3">
+    <div class="product-3 flex-grow">
         <a href="{{ pet.get_absolute_url }}">
             <div class="product-media">
                 <img src="{% resized_image pet.photo width=350 height=450 %}"
@@ -12,7 +12,9 @@
 
             <div class="product-detail">
                 <h4>{{ pet.name }}</h4>
-                <div class="product-price text-body">{{ pet.short_description }}</div>
+                <div class="product-price text-body">
+                    {{ pet.short_description }}
+                </div>
             </div>
         </a>
     </div>

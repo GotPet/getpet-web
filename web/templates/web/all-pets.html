@@ -30,7 +30,7 @@
 
     <section class="section bg-gray">
         <div class="container">
-            <div class="row gap-y">
+            <div class="row equal-height gap-y">
                 {% for pet in pets %}
                     {% include 'web/element/pet-card.html' with pet=pet %}
                 {% endfor %}

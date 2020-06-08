@@ -23204,4 +23204,12 @@ a.text-lightest:hover, a.text-lightest:focus {
   .text-white .close {
     color: rgba(255, 255, 255, 0.85); }
 
+.row.equal-height {
+  display: flex;
+  flex-wrap: wrap; }
+
+.row.equal-height > [class*='col-'] {
+  display: flex;
+  flex-direction: column; }
+
 /*# sourceMappingURL=page.css.map */
