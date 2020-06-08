@@ -18,9 +18,16 @@
         </li>
     {% endif %}
 
-    <li class="page-item {% if paginator_page.number == 1 %}active{% endif %}">
-        <a class="page-link" href="{% get_page_link paginator_page 1 %}">1</a>
-    </li>
+    {% if paginator_page.number == 1 %}
+        <li class="page-item active">
+            <span class="page-link">1</span>
+        </li>
+    {% else %}
+        <li class="page-item">
+            <a class="page-link" href="{% get_page_link paginator_page 1 %}">1</a>
+        </li>
+    {% endif %}
+
 
     {% if  paginator_page.number|add:"-2" > 2 %}
         <li class="page-item disabled">
@@ -31,10 +38,17 @@
     {% for page in paginator_page.paginator.page_range %}
         {% if page != 1 and page != paginator_page.paginator.num_pages %}
             {% if paginator_page.number|add:"-2" <= page and paginator_page.number|add:"2" >= page %}
-                <li class="page-item {% if page == paginator_page.number %}active{% endif %}">
-                    <a class="page-link"
-                       href="{% get_page_link paginator_page page %}">{{ page }}</a>
-                </li>
+
+                {% if page == paginator_page.number %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ page }}</span>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="{% get_page_link paginator_page page %}">{{ page }}</a>
+                    </li>
+                {% endif %}
+
             {% endif %}
         {% endif %}
     {% endfor %}
@@ -47,12 +61,15 @@
 
     {% with last_page_num=paginator_page.paginator.num_pages %}
         {% if last_page_num > 1 %}
-            <li class="page-item {% if last_page_num == paginator_page.number %}active{% endif %}">
-                <a class="page-link"
-                   href="{% get_page_link paginator_page last_page_num %}">
-                    {{ last_page_num }}
-                </a>
-            </li>
+            {% if last_page_num == paginator_page.number %}
+                <li class="page-item active">
+                    <span class="page-link">{{ last_page_num }}</span>
+                </li>
+            {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="{% get_page_link paginator_page last_page_num %}">{{ last_page_num }}</a>
+                </li>
+            {% endif %}
         {% endif %}
     {% endwith %}
 
