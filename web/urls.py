@@ -18,6 +18,7 @@ urlpatterns = [
 
     # Documents
     path('privatumo-politika/', views.privacy_policy, name="privacy_policy"),
+    path('saziningo-naudojimosi-taisykles/', views.fair_use_rules, name="fair_use_rules"),
     path('apie-getpet/', views.about_getpet, name="about_getpet"),
 
     # Health check

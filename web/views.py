@@ -106,5 +106,9 @@ def about_getpet(request) -> HttpResponse:
     return redirect('https://drive.google.com/file/d/10rbMmDMjoeJHT6L8opQbZyzA75PrH1SK/view')
 
 
+def fair_use_rules(request) -> HttpResponse:
+    return redirect('https://drive.google.com/file/d/1IZ0jFolYgCasnxUpE6tVIeuobgdkX3wp/view')
+
+
 def health_check(request) -> HttpResponse:
     return HttpResponse("OK")
