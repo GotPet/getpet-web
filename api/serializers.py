@@ -84,7 +84,7 @@ class PetFlatListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Pet
         fields = ['id', 'name', 'is_available', 'photo', 'shelter', 'short_description', 'description',
-                  'profile_photos']
+                  'profile_photos', 'updated_at', ]
 
 
 class UserPetChoiceSerializer(serializers.ModelSerializer):
