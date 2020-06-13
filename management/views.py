@@ -34,7 +34,7 @@ class PetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, ListView)
     template_name = 'management/pets-list.html'
     model = Pet
     context_object_name = 'pets'
-    ordering = ["-pk"]
+    ordering = ["status", "-pk"]
     paginate_by = 30
     petListFiltersForm = None
 
