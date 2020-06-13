@@ -473,7 +473,7 @@ class Pet(models.Model):
 
     taken_at = models.DateTimeField(blank=True, null=True, editable=False, verbose_name=_('Paėmimo data'))
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Sukūrimo data'))
-    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinimo data"))
+    updated_at = models.DateTimeField(auto_now=True, db_index=True, verbose_name=_("Atnaujinimo data"))
 
     objects = PetQuerySet.as_manager()
     available = AvailablePetsManager()
