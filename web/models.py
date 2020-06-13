@@ -404,13 +404,6 @@ class AvailablePetsManager(models.Manager):
         return PetQuerySet(self.model, using=self._db).filter(status=PetStatus.AVAILABLE, shelter__is_published=True)
 
 
-NULLABLE_BOOLEAN_FIELD_CHOICES = (
-    (True, _("Taip")),
-    (False, _("Ne")),
-    (None, _("Nepatikslinta")),
-)
-
-
 class Pet(models.Model):
     def _pet_photo_file(self, filename):
         ext = file_extension(filename)
@@ -461,11 +454,9 @@ class Pet(models.Model):
     gender = models.SmallIntegerField(
         verbose_name=_("Lytis"),
         choices=PetGender.choices,
-        null=True
     )
     age = models.PositiveSmallIntegerField(
         verbose_name=_("Amžius"),
-        null=True
     )
     weight = models.PositiveSmallIntegerField(
         verbose_name=_("Svoris"),
@@ -475,12 +466,9 @@ class Pet(models.Model):
     size = models.SmallIntegerField(
         verbose_name=_("Dydis"),
         choices=PetSize.choices,
-        null=True
     )
     desexed = models.BooleanField(
         verbose_name=_("Kastruotas / sterilizuotas"),
-        choices=NULLABLE_BOOLEAN_FIELD_CHOICES,
-        null=True,
     )
 
     taken_at = models.DateTimeField(blank=True, null=True, editable=False, verbose_name=_('Paėmimo data'))
