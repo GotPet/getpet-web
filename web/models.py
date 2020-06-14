@@ -10,6 +10,7 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import AbstractUser, UserManager as BaseUserManager
 from django.db import models
 from django.db.models import Count, QuerySet
+from django.db.models.fields.files import ImageFieldFile
 from django.http import HttpRequest, HttpResponse
 from django.urls import reverse
 from django.utils.text import slugify
@@ -557,13 +558,13 @@ class Pet(models.Model):
 
         return '\n'.join(description_parts).strip(' \n\t')
 
-    def all_photo_urls(self) -> List[str]:
-        photo_urls = [self.photo.url]
+    def all_photos(self) -> List[ImageFieldFile]:
+        photos = [self.photo]
 
         for photo in self.profile_photos.all():
-            photo_urls.append(photo.photo.url)
+            photos.append(photo.photo)
 
-        return photo_urls
+        return photos
 
     def properties_list(self) -> List[str]:
         return list([p.name for p in self.properties.all()])
