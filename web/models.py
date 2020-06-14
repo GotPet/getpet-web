@@ -344,8 +344,11 @@ class PetSize(models.IntegerChoices):
 
 
 class PetQuerySet(models.QuerySet):
-    def select_related_full_shelter(self):
+    def select_related_full_shelter(self) -> PetQuerySet:
         return self.select_related('shelter', 'shelter__region', 'shelter__region__country')
+
+    def prefetch_related_photos_and_properties(self) -> PetQuerySet:
+        return self.prefetch_related('profile_photos', 'properties')
 
     # Bug https://sentry.io/organizations/getpet/issues/1712664617/?project=1373034&query=is%3Aunresolved
     def available_or_owned_by_user(self, user: AbstractUser) -> PetQuerySet:
@@ -512,6 +515,9 @@ class Pet(models.Model):
 
             # noinspection PyUnresolvedReferences
             send_email_about_pet_status_update.delay(pet_pk=self.pk, old_pet_status_str=old_pet.get_status_display())
+
+    def similar_pets_from_same_shelter(self):
+        return Pet.available.filter(shelter=self.shelter).exclude(pk=self.pk).order_by('?')[:3]
 
     def desexed_status_text(self) -> Optional[str]:
         if self.gender == PetGender.Male and self.desexed is True:

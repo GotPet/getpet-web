@@ -108,4 +108,6 @@
             {% endwith %}
         </div>
     </section>
+
+    {% include 'web/sections/pet-profile/more-shelter-pets-section.html' with shelter=pet.shelter pets=similar_pets %}
 {% endblock %}

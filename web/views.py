@@ -92,10 +92,17 @@ class ShelterPetsListView(ViewPaginatorMixin, ListView):
 
 class PetProfileView(DetailView):
     model = Pet
-    queryset = Pet.available.all()
+    queryset = Pet.available.all().select_related_full_shelter().prefetch_related_photos_and_properties()
     context_object_name = 'pet'
     template_name = 'web/pet-profile.html'
     query_pk_and_slug = True
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context_data = super().get_context_data(**kwargs)
+
+        context_data['similar_pets'] = self.object.similar_pets_from_same_shelter()
+
+        return context_data
 
 
 def privacy_policy(request) -> HttpResponse:

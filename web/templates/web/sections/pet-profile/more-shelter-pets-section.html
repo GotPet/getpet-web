@@ -1,0 +1,23 @@
+{% load i18n %}
+<section class="section {{ section_css_class }}" id="section-similar-pets">
+    <div class="container">
+        <header class="section-header">
+            <h2>{% trans 'Daugiau svajonių augintinių laukia tavęs!' %}</h2>
+            <hr>
+            <p class="lead">{% trans 'Daugiau nepakartojamų ' %} {{ shelter.name }} {% trans 'svajonių augintinių laukia tavęs!' %}</p>
+        </header>
+
+        <div class="row justify-content-center equal-height gap-y">
+            {% for pet in pets %}
+                {% include 'web/element/pet-card.html' with pet=pet col_css_class=forloop.last|yesno:"d-md-none d-lg-block," %}
+            {% endfor %}
+        </div>
+        <div class="row gap-y">
+            <div class="col-12 text-center">
+                <br>
+                <a class="btn btn-xl btn-round btn-primary"
+                   href="{% url 'web:shelter_profile' shelter.slug %}">{% trans 'Daugiau svajonių augintinių' %}</a>
+            </div>
+        </div>
+    </div>
+</section>
