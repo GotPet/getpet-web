@@ -8,8 +8,8 @@ app_name = 'web'
 urlpatterns = [
     path('', views.index, name="index"),
     path('demo/', views.IndexView.as_view(), name="demo"),
-    path('gyvunai/', views.AllPetsListView.as_view(), name="all_pets"),
-    path('gyvunai/<int:pk>-<slug:slug>/', views.PetProfileView.as_view(), name="pet_profile"),
+    path('sunys/', views.AllDogsListView.as_view(), name="all_dogs"),
+    path('sunys/<int:pk>-<slug:slug>/', views.DogProfileView.as_view(), name="dog_profile"),
 
     path('istaigos/', views.AllSheltersListView.as_view(), name="all_shelters"),
     path('istaigos/<slug:slug>/', views.ShelterPetsListView.as_view(), name="shelter_profile"),

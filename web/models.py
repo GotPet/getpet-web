@@ -594,7 +594,7 @@ class Pet(models.Model):
         return queryset
 
     def get_absolute_url(self) -> str:
-        return reverse('web:pet_profile', kwargs={'pk': self.pk, 'slug': self.slug})
+        return reverse('web:dog_profile', kwargs={'pk': self.pk, 'slug': self.slug})
 
     def edit_pet_url(self) -> str:
         return reverse('management:pets_update', kwargs={'pk': self.pk})

@@ -40,8 +40,8 @@ class IndexView(ListView):
         return context
 
 
-class AllPetsListView(ViewPaginatorMixin, ListView):
-    template_name = 'web/all-pets.html'
+class AllDogsListView(ViewPaginatorMixin, ListView):
+    template_name = 'web/all-dogs.html'
     model = Pet
     context_object_name = 'pets'
     paginate_by = 18
@@ -90,11 +90,11 @@ class ShelterPetsListView(ViewPaginatorMixin, ListView):
         return context_data
 
 
-class PetProfileView(DetailView):
+class DogProfileView(DetailView):
     model = Pet
     queryset = Pet.available.all().select_related_full_shelter().prefetch_related_photos_and_properties()
     context_object_name = 'pet'
-    template_name = 'web/pet-profile.html'
+    template_name = 'web/dog-profile.html'
     query_pk_and_slug = True
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
