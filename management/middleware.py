@@ -9,6 +9,9 @@ class AssociateSheltersMiddleware:
         self.get_response = get_response
 
     def __call__(self, request: HttpRequest) -> HttpResponse:
+        if '/admin/' not in request.get_full_path_info():
+            return self.get_response(request)
+
         from web.models import Shelter
 
         user = request.user

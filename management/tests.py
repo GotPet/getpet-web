@@ -21,9 +21,10 @@ class AssociateSheltersMiddlewareTest(TestCase):
         self.shelter1 = ShelterFactory.create(authenticated_users=[self.user_associated_to_shelter1])
         self.shelter2 = ShelterFactory.create()
 
-    def _make_request(self, user, cookies_dict) -> HttpRequest:
+    def _make_request(self, user, cookies_dict, path=None) -> HttpRequest:
+        path = path or '/admin/test/'
         self.request_factory.cookies = SimpleCookie(cookies_dict)
-        request = self.request_factory.get('/test/')
+        request = self.request_factory.get(path)
         request.user = user
 
         return request
@@ -34,6 +35,18 @@ class AssociateSheltersMiddlewareTest(TestCase):
         get_response = lambda r: response
 
         return get_response
+
+    def test_non_admin_endpoint(self):
+        request = self._make_request(
+            user=AnonymousUser(),
+            cookies_dict={},
+            path='/test/'
+        )
+        get_response = self._make_get_response_func()
+
+        response = AssociateSheltersMiddleware(get_response)(request)
+
+        self.assertIsNone(response.cookies.get(self.SELECTED_SHELTER_COOKIE_ID, None))
 
     def test_anonymous_user(self):
         request = self._make_request(
