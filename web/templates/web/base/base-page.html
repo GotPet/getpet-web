@@ -88,5 +88,22 @@
         </div>
     </footer>
     <!-- /.footer -->
+
+    <!-- Once -->
+    <div id="popup-once" class="popup col-9 py-4" data-position="bottom-center" data-animation="slide-up"
+         data-once="gdpr-agreed" data-autoshow="500">
+        <div class="row gap-y align-items-center">
+            <div class="col-md">
+                {% trans 'Šioje svetainėje naudojame slapukus (angl. „cookies“), kurie padeda užtikrinti geriausią patirtį. Plačiau apie tai:' %}
+                <a href="{% url 'web:privacy_policy' %}" target="_blank"
+                   rel="nofollow">{% trans 'privatumo politikoje' %}</a>.
+            </div>
+
+            <div class="col-md-auto">
+                <button class="btn btn-sm btn-primary" data-dismiss="popup" data-once-button="true">Sutinku</button>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}
 
