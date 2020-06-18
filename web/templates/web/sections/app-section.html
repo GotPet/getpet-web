@@ -1,3 +1,4 @@
+{% load static %}
 {% load i18n %}
 <section class="section {{ section_css_class }}" id="section-app">
     <div class="container">
@@ -16,18 +17,22 @@
                     <a href="https://apps.apple.com/lt/app/getpet/id1450751703"
                        target="_blank"
                        rel="me">
-                        <img src="https://thetheme.io/thesaas/assets/img/app/badge-apple.png"
-                             alt="{% trans 'Atsisiųsti iš Google play' %}"></a>
+                        <img src="{% static 'web/img/app/ios-appstore-download-badge.png' %}"
+                             alt="{% trans 'Atsisiųsti iš Apple App Store' %}">
+                    </a>
+
                     <a href="https://play.google.com/store/apps/details?id=lt.getpet.getpet&hl=lt&pcampaignid=web"
                        target="_blank"
                        rel="me">
-                        <img src="https://thetheme.io/thesaas/assets/img/app/badge-google.png"
-                             alt="{% trans 'Atsisiųsti iš Apple App Store' %}"></a>
+                        <img src="{% static 'web/img/app/google-play-download-badge.png' %}"
+                             alt="{% trans 'Atsisiųsti iš Google play' %}">
+                    </a>
                 </div>
             </div>
 
             <div class="col-md-6 align-self-end text-center">
-                <img src="https://thetheme.io/thesaas/assets/img/vector/26.png" alt="...">
+                <img src="{% static 'web/img/illustrations/getpet-mobile-app-illustration.png' %}"
+                     alt="{% trans 'GetPet mobilioji programėlė' %}">
             </div>
 
         </div>
