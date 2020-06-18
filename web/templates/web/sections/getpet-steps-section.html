@@ -1,3 +1,4 @@
+{% load static %}
 {% load i18n %}
 <section class="section {{ section_css_class }}" id="section-getpet-steps">
     <div class="container">
@@ -8,7 +9,7 @@
         </header>
         <div class="row gap-y align-items-center py-7">
             <div class="col-md-6 text-center">
-                <img src="https://thetheme.io/thesaas/assets/img/vector/1.png" alt="...">
+                <img src="{% static 'web/img/spa/getpet-spa-surask.png' %}" alt="Surask">
             </div>
 
             <div class="col-md-5 ml-auto text-center text-md-left">
@@ -33,14 +34,14 @@
             </div>
 
             <div class="col-md-6 text-center order-first order-md-last">
-                <img src="https://thetheme.io/thesaas/assets/img/vector/2.png" alt="...">
+                <img src="{% static 'web/img/spa/getpet-spa-pazink.png' %}" alt="{% trans 'Pažink' %}">
             </div>
         </div>
 
 
         <div class="row gap-y align-items-center py-7">
             <div class="col-md-6 text-center">
-                <img src="https://thetheme.io/thesaas/assets/img/vector/3.png" alt="...">
+                <img src="{% static 'web/img/spa/getpet-spa-augink.png' %}" alt="{% trans 'Augink' %}">
             </div>
 
             <div class="col-md-5 ml-auto text-center text-md-left">

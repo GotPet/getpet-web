@@ -1,3 +1,4 @@
+{% load static %}
 {% load i18n %}
 <section class="section {{ section_css_class }}" id="section-benefits-for-shelters">
     <div class="container">
@@ -12,7 +13,7 @@
 
         <div class="row gap-y align-items-center">
             <div class="col-md-6 ml-auto">
-                <h4>{% trans 'Nemokami GetPet mentoriai Jūsų gyvūnams' %}</h4>
+                <h4>{% trans 'GetPet mentoriai Jūsų gyvūnams' %}</h4>
                 <p>Less an illustration, and more a literal proxy. These show up when the feature's introduced.
                     Monotonectally leverage existing standards compliant ideas with distributed data. Efficiently
                     simplify cross-unit systems whereas adaptive testing. Monotonectally leverage existing standards
@@ -21,8 +22,9 @@
             </div>
 
             <div class="col-md-5 order-md-first">
-                <img class="rounded shadow-2" src="https://thetheme.io/thesaas/assets/img/preview/dribbble-8.png"
-                     alt="...">
+                <img class="rounded shadow-2"
+                     src="{% static 'web/img/benefits/getpet-menthors.png' %}"
+                     alt="{% trans 'GetPet mentoriai' %}">
             </div>
         </div>
 
@@ -38,8 +40,9 @@
             </div>
 
             <div class="col-md-5">
-                <img class="rounded shadow-2" src="https://thetheme.io/thesaas/assets/img/preview/dribbble-6.png"
-                     alt="...">
+                <img class="rounded shadow-2"
+                     src="{% static 'web/img/benefits/getpet-applications.png' %}"
+                     alt="{% trans 'Žaismingos GetPet Android ir iOS programėles' %}">
             </div>
         </div>
 
@@ -56,8 +59,9 @@
             </div>
 
             <div class="col-md-5 order-md-first">
-                <img class="rounded shadow-2" src="https://thetheme.io/thesaas/assets/img/preview/dribbble-8.png"
-                     alt="...">
+                <img class="rounded shadow-2"
+                     src="{% static 'web/img/benefits/getpet-shelter-administration-platform.png' %}"
+                     alt="{% trans 'Gyvūnų administravimo platforma' %}">
             </div>
         </div>
 
@@ -73,8 +77,9 @@
             </div>
 
             <div class="col-md-5">
-                <img class="rounded shadow-2" src="https://thetheme.io/thesaas/assets/img/preview/dribbble-7.png"
-                     alt="...">
+                <img class="rounded shadow-2"
+                     src="{% static 'web/img/benefits/getpet-website.png' %}"
+                     alt="{% trans 'Visi prieglaudos gyvūnai internetinėje svetainėje' %}">
             </div>
         </div>
     </div>
