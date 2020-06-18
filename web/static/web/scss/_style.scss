@@ -1,5 +1,9 @@
+.row.equal-height {
+    display: flex;
+    flex-wrap: wrap;
+}
 
-// Write your custom style. Feel free to split your code to several files
-body {
-  //color: blue;
+.row.equal-height > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
 }
