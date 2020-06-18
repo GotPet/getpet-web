@@ -1,12 +1,63 @@
 {% extends 'web/base/base-page.html' %}
-{% load l10n %}
 {% load i18n %}
-{% load site_tags %}
-{% load image_tags %}
 {% load static %}
-{% load tel_tags %}
+{% load site_tags %}
+{% load setting_tags %}
 
 {% block title %}GetPet - Čia prasideda draugystė :){% endblock %}
+
+{% block head %}
+    <script type="application/ld+json">
+   "@context":"https://schema.org",
+   "@type":"Organization",
+   "name":"GetPet",
+   "legalName":"Augink mane, VšĮ",
+   "url":"https://www.getpet.lt/",
+   "logo":"{% static_full 'img/logo/getpet-logo-square-big.png' %}",
+   "foundingDate":"2018",
+   "founders":[
+      {
+         "@type":"Person",
+         "name":"Karolis Vyčius"
+      },
+      {
+         "@type":"Person",
+         "name":"Rūta Langaitė"
+      },
+      {
+         "@type":"Person",
+         "name":"Vaidas Gecevičius"
+      },
+      {
+         "@type":"Person",
+         "name":"Asta Zaiceva Stalmakova"
+      }
+   ],
+   "contactPoint":{
+      "@type":"ContactPoint",
+      "telephone":"{% settings_value 'CONTACT_PHONE' %}",
+      "email":"{% settings_value 'EMAIL_FROM' as contact_email %}",
+      "availableLanguage":[
+         {
+            "@type":"Language",
+            "name":"Lithuanian"
+         },
+         {
+            "@type":"Language",
+            "name":"English"
+         }
+      ]
+   },
+   "sameAs":[
+      "https://www.facebook.com/getpet.lt",
+      "https://www.instagram.com/getpet.lt/",
+      "https://www.linkedin.com/company/getpet/",
+      "https://apps.apple.com/lt/app/getpet/id1450751703",
+      "https://play.google.com/store/apps/details?id=lt.getpet.getpet&hl=lt&pcampaignid=web"
+   ]
+}
+    </script>
+{% endblock %}
 
 {% block header %}
     <header class="header text-white" style="background-image: url({% static 'img/intro-bg.jpg' %})">
