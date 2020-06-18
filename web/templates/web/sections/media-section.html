@@ -1,3 +1,4 @@
+{% load static %}
 {% load i18n %}
 <section class="section {{ section_css_class }}" id="section-media">
     <div class="container">
@@ -8,12 +9,14 @@
         </header>
 
         <div class="partner">
-            <img src="https://thetheme.io/thesaas/assets/img/partner/1.png" alt="partner 1">
-            <img src="https://thetheme.io/thesaas/assets/img/partner/2.png" alt="partner 2">
-            <img src="https://thetheme.io/thesaas/assets/img/partner/3.png" alt="partner 3">
-            <img src="https://thetheme.io/thesaas/assets/img/partner/4.png" alt="partner 4">
-            <img src="https://thetheme.io/thesaas/assets/img/partner/5.png" alt="partner 5">
-        </div>
+            <img src="{% static 'web/img/news/getpet-in-fortune.png' %}" alt="{% trans 'GetPet Fortune' %}">
+            <img src="{% static 'web/img/news/getpet-in-the-washington-post.png' %}"
+                 alt="{% trans 'GetPet The Washington Post' %}">
+            <img src="{% static 'web/img/news/getpet-in-rtl.png' %}" alt="{% trans 'GetPet RTL' %}">
+            <img src="{% static 'web/img/news/getpet-in-cnn.png' %}" alt="{% trans 'GetPet CNN' %}">
+            <img src="{% static 'web/img/news/getpet-in-dailymail.png' %}" alt="{% trans 'GetPet DailyMail' %}">
+            <img src="{% static 'web/img/news/getpet-in-new-york-post.png' %}" alt="{% trans 'GetPet New York Post' %}">
 
+        </div>
     </div>
 </section>
