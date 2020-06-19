@@ -8,7 +8,7 @@
         <header class="sidebar-header">
             <a href="{% url 'management:pets_list' %}">
                 <span class="logo">
-                    <img src="{% static "img/logo/getpet-logo-small-white.png" %}" alt="GetPet">
+                    <img src="{% static "web/img/logo/getpet-logo-small-white.png" %}" alt="GetPet">
                 </span>
             </a>
         </header>
@@ -113,7 +113,7 @@
                             {% endif %}
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% static 'pdf/privatumo-politika.pdf' %}">
+                            <a class="nav-link" target="_blank" href="{% url 'web:privacy_policy' %}">
                                 {% trans 'Privatumo politika' %}
                             </a>
                         </li>
