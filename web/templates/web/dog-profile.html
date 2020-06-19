@@ -110,4 +110,7 @@
     </section>
 
     {% include 'web/sections/pet-profile/more-shelter-pets-section.html' with shelter=pet.shelter pets=similar_pets %}
+
+    {% include 'web/sections/app-section.html' with section_css_class='bg-gray' %}
+
 {% endblock %}
