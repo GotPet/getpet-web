@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.http.response import Http404
 from django.shortcuts import redirect
 from django.utils.functional import cached_property
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView, ListView, TemplateView
 
 from utils.mixins import ViewPaginatorMixin
 from web.models import Pet, Shelter, TeamMember
@@ -17,17 +17,13 @@ def index(request) -> HttpResponse:
     return redirect('https://www.facebook.com/getpet.lt/')
 
 
-class IndexView(ListView):
+class IndexView(TemplateView):
     template_name = 'web/index.html'
-    model = Pet
-    context_object_name = 'pets'
-
-    def get_queryset(self):
-        return Pet.available.order_by('?')[:3]
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
 
+        context['pets'] = Pet.available.order_by('?')[:3]
         context['team_members'] = TeamMember.objects.all()
 
         return context
