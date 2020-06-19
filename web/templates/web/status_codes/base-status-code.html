@@ -1,0 +1,24 @@
+{% extends "web/base/base.html" %}
+{% load i18n %}
+
+{% block main_container %}
+    <main class="main-content text-center bg-gray d-flex align-items-center">
+        <div class="container">
+            <h1 class="text-secondary lh-1" style="font-size: 200px">
+                {% block status_code %}{% endblock %}
+            </h1>
+
+            <h2 class="display-1 text-muted mb-7">
+                {% block title %}
+                    {% block status_title %}{% endblock %}
+                {% endblock %}
+            </h2>
+            <p class="lead">{% block status_description %}{% endblock %}</p>
+            <br>
+            <button class="btn btn-secondary w-250 mr-2" type="button" onclick="window.history.back();">
+                {% trans 'Grįžti atgal' %}
+            </button>
+            <a class="btn btn-primary w-250" href="{% url 'web:index' %}">{% trans 'Grįžti į pradžią' %}</a>
+        </div>
+    </main>
+{% endblock %}

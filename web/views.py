@@ -1,10 +1,11 @@
 from typing import Any, Dict
 
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 from django.http.response import Http404
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.utils.functional import cached_property
 from django.views.generic import DetailView, ListView, TemplateView
+from sentry_sdk import last_event_id
 
 from utils.mixins import ViewPaginatorMixin
 from web.models import Pet, Shelter, TeamMember
@@ -94,6 +95,7 @@ class DogProfileView(DetailView):
         return context_data
 
 
+# Documents
 def privacy_policy(request) -> HttpResponse:
     return redirect('https://drive.google.com/file/d/14zVkvxMJv5Egr8KruDWZWNBLLsWGAIuy/view')
 
@@ -106,5 +108,25 @@ def fair_use_rules(request) -> HttpResponse:
     return redirect('https://drive.google.com/file/d/1IZ0jFolYgCasnxUpE6tVIeuobgdkX3wp/view')
 
 
+# Status codes
+def handler400(request: HttpRequest, *args, **argv) -> HttpResponse:
+    return render(request, "web/status_codes/status-code-400.html", status=400)
+
+
+def handler403(request: HttpRequest, *args, **argv) -> HttpResponse:
+    return render(request, "web/status_codes/status-code-403.html", status=403)
+
+
+def handler404(request: HttpRequest, *args, **argv) -> HttpResponse:
+    return render(request, "web/status_codes/status-code-404.html", status=404)
+
+
+def handler500(request: HttpRequest, *args, **argv) -> HttpResponse:
+    return render(request, "web/status_codes/status-code-500.html", {
+        'sentry_event_id': last_event_id(),
+    }, status=500)
+
+
+# Health check
 def health_check(request) -> HttpResponse:
     return HttpResponse("OK")
