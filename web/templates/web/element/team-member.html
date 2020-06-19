@@ -5,19 +5,19 @@
     <small class="text-uppercase">{{ team_member.role }}</small>
     <div class="social">
         <a class="social-skype" href="mailto:{{ team_member.email }}">
-            <i class="fas fa-envelope"></i>
+            <i class="icon-envelope"></i>
         </a>
         <a class="social-facebook" rel="nofollow" target="_blank" href="{{ team_member.facebook }}">
-            <i class="fab fa-facebook"></i>
+            <i class="icon-facebook-official"></i>
         </a>
         {% if team_member.linkedin %}
             <a class="social-linkedin" rel="nofollow" target="_blank" href="{{ team_member.linkedin }}">
-                <i class="fab fa-linkedin"></i>
+                <i class="icon-linkedin-square"></i>
             </a>
         {% endif %}
         {% if team_member.instagram %}
             <a class="social-instagram" rel="nofollow" target="_blank" href="{{ team_member.instagram }}">
-                <i class="fab fa-instagram"></i>
+                <i class="icon-instagram"></i>
             </a>
         {% endif %}
     </div>
