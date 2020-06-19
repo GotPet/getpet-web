@@ -24,21 +24,20 @@ server {
     gzip_vary on;
     gzip_types text/plain text/css application/json application/x-javascript application/javascript text/xml application/xml application/rss+xml text/javascript image/svg+xml application/vnd.ms-fontobject application/x-font-ttf font/opentype application/x-font-woff application/font-woff;
 
-    location /static {
-        alias /srv/platform/static;
-        autoindex off;
+    location /media {
+        root /srv/platform;
 
         expires 14d;
         add_header Pragma public;
         add_header Cache-Control "public";
     }
 
-    location = /favicon.ico {
-        alias static/web/img/favicon/favicon.ico;
-    }
+    location /static {
+        root /srv/platform;
 
-    location = /apple-touch-icon.png {
-        alias static/web/img/favicon/apple-touch-icon.png;
+        expires 14d;
+        add_header Pragma public;
+        add_header Cache-Control "public";
     }
 
     location ~ "^/w-([1-9]|[1-9][0-9]{1,2}|1[0-9]{3}|2000)/media(?:/(.*))?$" {
@@ -67,19 +66,6 @@ server {
         image_filter_interlace      on;
     }
 
-    location /media {
-        alias /srv/platform/media;
-
-        expires 14d;
-        add_header Pragma public;
-        add_header Cache-Control "public";
-    }
-
-    location = /robots.txt {
-        add_header Content-Type text/plain;
-        alias /srv/platform/static/robots.txt;
-    }
-
     location / {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $host;
@@ -87,5 +73,13 @@ server {
         proxy_set_header X-Forwarded-Proto https;
 
         proxy_pass http://platform_web;
+    }
+
+    location = /favicon.ico {
+        root /srv/platform/static/web/img/favicon;
+    }
+
+    location = /apple-touch-icon.png {
+        root /srv/platform/static/web/img/favicon;
     }
 }
