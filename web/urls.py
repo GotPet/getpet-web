@@ -1,5 +1,4 @@
 from django.urls import path
-from django.views.generic import RedirectView
 
 from web import views
 
@@ -13,8 +12,6 @@ urlpatterns = [
 
     path('istaigos/', views.AllSheltersListView.as_view(), name="all_shelters"),
     path('istaigos/<slug:slug>/', views.ShelterPetsListView.as_view(), name="shelter_profile"),
-
-    path('favicon.ico/', RedirectView.as_view(url='/static/favicon/favicon.ico', permanent=False)),
 
     # Documents
     path('privatumo-politika/', views.privacy_policy, name="privacy_policy"),

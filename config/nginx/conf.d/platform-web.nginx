@@ -33,6 +33,14 @@ server {
         add_header Cache-Control "public";
     }
 
+    location = /favicon.ico {
+        alias static/web/img/favicon/favicon.ico;
+    }
+
+    location = /apple-touch-icon.png {
+        alias static/web/img/favicon/apple-touch-icon.png;
+    }
+
     location ~ "^/w-([1-9]|[1-9][0-9]{1,2}|1[0-9]{3}|2000)/media(?:/(.*))?$" {
         alias /srv/platform/media/$2;
 
