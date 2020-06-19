@@ -23,14 +23,7 @@ class IndexView(ListView):
     context_object_name = 'pets'
 
     def get_queryset(self):
-        shelter = Shelter.objects.filter(name='Linksmosios pėdutės').first()
-
-        pets = Pet.available.order_by('?')
-
-        if shelter is not None:
-            pets = pets.filter(shelter=shelter)
-
-        return pets[:3]
+        return Pet.available.order_by('?')[:3]
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
