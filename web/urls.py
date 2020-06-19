@@ -1,6 +1,8 @@
+from django.http import HttpResponse
 from django.urls import path
+from django.contrib.sitemaps.views import sitemap as SitemapView
 
-from web import views
+from web import sitemap, views
 
 app_name = 'web'
 
@@ -17,6 +19,29 @@ urlpatterns = [
     path('privatumo-politika/', views.privacy_policy, name="privacy_policy"),
     path('saziningo-naudojimosi-taisykles/', views.fair_use_rules, name="fair_use_rules"),
     path('apie-getpet/', views.about_getpet, name="about_getpet"),
+
+    # Sitemaps
+    path(
+        'sitemap.xml/',
+        SitemapView,
+        {
+            'sitemaps': {
+                'static': sitemap.StaticSitemap,
+                'pets': sitemap.PetSitemap,
+                'shelter': sitemap.ShelterSitemap,
+            }
+        },
+        name='django.contrib.sitemaps.views.sitemap'
+    ),
+
+    path(
+        'robots.txt/',
+        lambda x: HttpResponse(
+            "User-Agent: *\nSitemap: https://www.getpet.lt/sitemap.xml/",
+            content_type="text/plain"
+        ),
+        name="robots_file"
+    ),
 
     # Health check
     path('health/', views.health_check, name="health_check"),
