@@ -4,7 +4,7 @@ from django.http import HttpRequest, HttpResponse
 from django.http.response import Http404
 from django.shortcuts import redirect, render
 from django.utils.functional import cached_property
-from django.views.generic import DetailView, ListView, TemplateView
+from django.views.generic import DetailView, ListView, RedirectView, TemplateView
 from sentry_sdk import last_event_id
 
 from utils.mixins import ViewPaginatorMixin
@@ -96,16 +96,16 @@ class DogProfileView(DetailView):
 
 
 # Documents
-def privacy_policy(request) -> HttpResponse:
-    return redirect('https://drive.google.com/file/d/14zVkvxMJv5Egr8KruDWZWNBLLsWGAIuy/view')
+class PrivacyPolicyDocumentView(RedirectView):
+    url = 'https://drive.google.com/file/d/14zVkvxMJv5Egr8KruDWZWNBLLsWGAIuy/view'
 
 
-def about_getpet(request) -> HttpResponse:
-    return redirect('https://drive.google.com/file/d/10rbMmDMjoeJHT6L8opQbZyzA75PrH1SK/view')
+class AboutGetPetDocumentView(RedirectView):
+    url = 'https://drive.google.com/file/d/10rbMmDMjoeJHT6L8opQbZyzA75PrH1SK/view'
 
 
-def fair_use_rules(request) -> HttpResponse:
-    return redirect('https://drive.google.com/file/d/1IZ0jFolYgCasnxUpE6tVIeuobgdkX3wp/view')
+class FairUseRulesDocumentView(RedirectView):
+    url = 'https://drive.google.com/file/d/1IZ0jFolYgCasnxUpE6tVIeuobgdkX3wp/view'
 
 
 # Status codes

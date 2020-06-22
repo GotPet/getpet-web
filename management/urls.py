@@ -15,4 +15,6 @@ urlpatterns = [
     path('shelters/<int:pk>/', views.ShelterInfoUpdateView.as_view(), name="shelters_update"),
     path('shelters/<int:pk>/switch/', views.ShelterSwitchView.as_view(), name="shelters_switch"),
     path('shelters/no-associated-shelter/', views.no_associated_shelter, name="shelters_no_associated_shelter"),
+
+    path('instruction/', views.PlatformInstructionsDocumentView.as_view(), name="instruction"),
 ]

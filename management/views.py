@@ -5,6 +5,7 @@ from django.db import models, transaction
 from django.http import HttpResponse
 from django.http.request import HttpRequest
 from django.shortcuts import redirect, render
+from django.views.generic import RedirectView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
@@ -151,6 +152,10 @@ class ShelterInfoUpdateView(UserWithAssociatedShelterMixin, UpdateView):
         context['active_menu_item'] = 'shelter'
 
         return context
+
+
+class PlatformInstructionsDocumentView(RedirectView):
+    url = 'https://drive.google.com/file/d/15LFi_Ci1PYhSCunp9Iz6dhcqCcGcpReN/view?usp=sharing'
 
 
 @login_required(redirect_field_name=None)

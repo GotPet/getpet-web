@@ -16,9 +16,9 @@ urlpatterns = [
     path('istaigos/<slug:slug>/', views.ShelterPetsListView.as_view(), name="shelter_profile"),
 
     # Documents
-    path('privatumo-politika/', views.privacy_policy, name="privacy_policy"),
-    path('saziningo-naudojimosi-taisykles/', views.fair_use_rules, name="fair_use_rules"),
-    path('apie-getpet/', views.about_getpet, name="about_getpet"),
+    path('privatumo-politika/', views.PrivacyPolicyDocumentView.as_view(), name="privacy_policy"),
+    path('saziningo-naudojimosi-taisykles/', views.FairUseRulesDocumentView.as_view(), name="fair_use_rules"),
+    path('apie-getpet/', views.AboutGetPetDocumentView.as_view(), name="about_getpet"),
 
     # Sitemaps
     path(
