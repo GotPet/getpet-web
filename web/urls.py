@@ -37,7 +37,7 @@ urlpatterns = [
     path(
         'robots.txt/',
         lambda x: HttpResponse(
-            "User-Agent: *\nSitemap: https://www.getpet.lt/sitemap.xml/",
+            "User-Agent: *\nDisallow: /\nSitemap: https://www.getpet.lt/sitemap.xml/",
             content_type="text/plain"
         ),
         name="robots_file"
