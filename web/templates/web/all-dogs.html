@@ -6,18 +6,18 @@
 {% load static %}
 {% load tel_tags %}
 
-{% block title %}{% trans 'Svajonių šunys' %}{% endblock %}
-
 {% block header %}
     <header class="header text-center text-white bg-primary">
         <div class="container">
 
             <div class="row">
                 <div class="col-md-8 mx-auto">
-                    <h1 class="display-4">{% trans 'Svajonių šunys' %}</h1>
-                    <p class="lead-2 opacity-90 mt-6">TODO: You can find a list of our product in this page. We'll
-                        deliver
-                        your order in less than two days. Try it yourself!</p>
+                    <h1 class="display-4">
+                        {% block title %}{% trans 'Svajonių šunys' %}{% endblock %}
+                    </h1>
+                    <p class="lead-2 opacity-90 mt-6">
+                        {% block description %}{% trans 'Gyvūnai, išsiilgę namų' %}{% endblock %}
+                    </p>
 
                 </div>
             </div>

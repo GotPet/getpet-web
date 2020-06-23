@@ -32,7 +32,8 @@
                         <a class="nav-link" href="{% url 'web:all_dogs' %}">{% trans 'Svajonių šunys' %}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'web:all_shelters' %}">{% trans 'Gyvūnų globos įstaigos' %}</a>
+                        <a class="nav-link"
+                           href="{% url 'web:all_shelters' %}">{% trans 'Gyvūnų globos organizacijos' %}</a>
                     </li>
                 </ul>
             </section>
@@ -69,17 +70,17 @@
             <br>
 
             <div class="nav nav-bolder nav-uppercase nav-center">
-                <a class="nav-link" href="{% url 'web:about_getpet' %}" rel="nofollow" target="_blank">
+                <a class="nav-link" href="{% url 'web:document_about_getpet' %}" rel="nofollow" target="_blank">
                     {% trans 'Kas yra GetPet?' %}
                 </a>
-                <a class="nav-link" href="{% url 'web:fair_use_rules' %}" rel="nofollow" target="_blank">
+                <a class="nav-link" href="{% url 'web:document_fair_use_rules' %}" rel="nofollow" target="_blank">
                     {% trans 'Sąžiningo naudojimosi taisyklės' %}
                 </a>
-                <a class="nav-link" href="{% url 'web:privacy_policy' %}" rel="nofollow" target="_blank">
+                <a class="nav-link" href="{% url 'web:document_privacy_policy' %}" rel="nofollow" target="_blank">
                     {% trans 'Privatumo politika' %}
                 </a>
                 <a class="nav-link" href="{% url 'management:index' %}" rel="nofollow" target="_blank">
-                    {% trans 'Gyvūnų administravimo sistema' %}
+                    {% trans 'Gyvūnų administravimo platforma' %}
                 </a>
             </div>
 
@@ -102,7 +103,7 @@
         <div class="row gap-y align-items-center">
             <div class="col-md">
                 {% trans 'Šioje svetainėje naudojame slapukus (angl. „cookies“), kurie padeda užtikrinti geriausią patirtį. Plačiau apie tai' %}
-                <a href="{% url 'web:privacy_policy' %}" target="_blank"
+                <a href="{% url 'web:document_privacy_policy' %}" target="_blank"
                    rel="nofollow">{% trans 'privatumo politikoje' %}</a>.
             </div>
 

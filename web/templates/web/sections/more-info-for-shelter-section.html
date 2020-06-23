@@ -4,7 +4,7 @@
         <div class="row gap-y align-items-center">
             <div class="col-md-9">
                 <h4 class="mb-0 text-white text-center text-md-left">
-                    {% trans 'Reikia daugiau informacijos priimti sprendimui?' %}
+                    {% trans 'Reikia daugiau informacijos apie GetPet teikiamas naudas?' %}
                 </h4>
             </div>
 
@@ -12,7 +12,7 @@
                 <a class="btn btn-lg btn-round btn-light"
                    rel="nofollow"
                    target="_blank"
-                   href="https://drive.google.com/file/d/10rbMmDMjoeJHT6L8opQbZyzA75PrH1SK/view">
+                   href="{% url 'web:document_about_getpet' %}">
                     {% trans 'Platesnė informacija' %}
                 </a>
             </div>

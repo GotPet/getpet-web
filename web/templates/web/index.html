@@ -4,7 +4,7 @@
 {% load site_tags %}
 {% load setting_tags %}
 
-{% block title %}GetPet - Čia prasideda draugystė :){% endblock %}
+{% block title %}GetPet - čia prasideda draugystė{% endblock %}
 
 {% block head %}
     <script type="application/ld+json">
@@ -70,8 +70,11 @@
                 <div class="col-lg-8 mx-auto align-self-center">
 
                     <h1 class="display-4 my-6"><strong>GetPet</strong> - čia prasideda draugystė</h1>
-                    <p class="lead-3">TODO: The <b>most popular</b> HTML, CSS, and JS <b>framework</b> in the world for
-                        building responsive, mobile-first projects <b>on the web</b>.</p>
+                    <p class="lead-3">
+                        {% block description %}
+                            {% trans 'GetPet - tai iniciatyva, jungianti žmones ir beglobius gyvūnus. Lietuvos gyvūnų globos įstaigos ir jų prižiūrimi gyvūnai - vienoje, patogioje skaitmeninėje erdvėje.' %}
+                        {% endblock %}
+                    </p>
                     <hr class="w-80px">
                     <div>
                         <a class="btn btn-xl btn-round btn-outline-light"

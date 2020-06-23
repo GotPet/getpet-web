@@ -6,7 +6,6 @@
 {% load static %}
 {% load tel_tags %}
 
-{% block title %}{{ shelter.name }}{% endblock %}
 
 {% block header %}
     <header class="header text-center text-white bg-primary">
@@ -14,11 +13,12 @@
 
             <div class="row">
                 <div class="col-md-8 mx-auto">
-                    <h1 class="display-4">{{ shelter.name }}</h1>
-                    <p class="lead-2 opacity-90 mt-6">TODO: You can find a list of our product in this page. We'll
-                        deliver
-                        your order in less than two days. Try it yourself!</p>
-
+                    <h1 class="display-4">
+                        {% block title %}{{ shelter.name }}{% endblock %}
+                    </h1>
+                    <p class="lead-2 opacity-90 mt-6">
+                        {{ shelter.name }} - gyvūnų globos organizacija, kuriai rūpi gyvūnų likimas
+                    </p>
                 </div>
             </div>
 
