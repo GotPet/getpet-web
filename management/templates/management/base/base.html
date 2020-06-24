@@ -1,3 +1,4 @@
+{% load site_tags %}
 {% load static %}
 {% load capture_tags %}
 {% load setting_tags %}
@@ -40,7 +41,7 @@
     {% if image %}
         <meta name="og:image" content="{% blocktrans trimmed %}{{ image }}{% endblocktrans %}">
     {% else %}
-        <meta name="og:image" content="https://www.getpet.lt/static/img/logo/getpet-logo-square-big.png">
+        <meta name="og:image" content="{% static_full 'web/img/logo/getpet-logo-square-big' %}">
     {% endif %}
     {% if video %}
         <meta property="og:video" content="{{ video }}">
