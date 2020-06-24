@@ -18,7 +18,7 @@ urlpatterns = [
     # Documents
     path('privatumo-politika/', views.PrivacyPolicyDocumentView.as_view(), name="document_privacy_policy"),
     path('saziningo-naudojimosi-taisykles/', views.FairUseRulesDocumentView.as_view(), name="document_fair_use_rules"),
-    path('apie-getpet/', views.AboutGetPetDocumentView.as_view(), name="document_about_getpet"),
+    path('kas-yra-getpet/', views.AboutGetPetDocumentView.as_view(), name="document_about_getpet"),
 
     # Sitemaps
     path(
