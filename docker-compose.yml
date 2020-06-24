@@ -76,7 +76,6 @@ services:
     labels:
       - "lt.getpet.nginx"
     deploy:
-      replicas: 1
       restart_policy:
         condition: on-failure
 
