@@ -9,14 +9,7 @@ server {
 }
 
 server {
-    listen 443 ssl http2;
-    listen [::]:443 ssl http2;
-
-    ssl_certificate         /etc/ssl/certs/cert.pem;
-    ssl_certificate_key     /etc/ssl/private/key.pem;
-    ssl_client_certificate /etc/ssl/certs/cloudflare.crt;
-    ssl_verify_client on;
-
+    listen 80;
     server_name www.getpet.lt;
 
     gzip on;
