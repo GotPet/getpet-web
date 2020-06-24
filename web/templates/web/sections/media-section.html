@@ -3,28 +3,57 @@
 <section class="section {{ section_css_class }}" id="section-media">
     <div class="container">
         <header class="section-header">
-            <h2>{% trans 'Ape GetPet kalba' %}</h2>
+            <h2>{% trans 'Apie GetPet kalba' %}</h2>
+            <hr>
+            <p class="lead">
+                {% trans 'Žinia apie GetPet yra pasklidusi po visą pasaulį.' %}
+            </p>
         </header>
 
         <div class="partner">
-            <img src="{% static 'web/img/landing/news/getpet-in-fortune.png' %}"
-                 class="mr-4"
-                 alt="{% trans 'GetPet Fortune' %}">
+            <a href="https://fortune.com/2019/02/05/getpet-app-dog-adoption/"
+               target="_blank"
+               rel="nofollow">
+                <img src="{% static 'web/img/landing/news/getpet-in-fortune.png' %}"
+                     class="mr-4"
+                     alt="{% trans 'GetPet Fortune' %}">
+            </a>
+
             <img src="{% static 'web/img/landing/news/getpet-in-the-washington-post.png' %}"
                  class="mr-4 ml-4"
                  alt="{% trans 'GetPet The Washington Post' %}">
-            <img src="{% static 'web/img/landing/news/getpet-in-rtl.png' %}"
-                 class="mr-4 ml-4"
-                 alt="{% trans 'GetPet RTL' %}">
-            <img src="{% static 'web/img/landing/news/getpet-in-dailymail.png' %}"
-                 class="mr-4 ml-4"
-                 alt="{% trans 'GetPet DailyMail' %}">
-            <img src="{% static 'web/img/landing/news/getpet-in-new-york-post.png' %}"
-                 class="ml-4 mr-4"
-                 alt="{% trans 'GetPet New York Post' %}">
-            <img src="{% static 'web/img/landing/news/getpet-in-cnn.png' %}"
-                 class="ml-4"
-                 alt="{% trans 'GetPet CNN' %}">
+
+            <a href="https://www.rtl.de/cms/wie-tinder-nur-fuer-hunde-app-getpet-sucht-fuer-streuner-in-litauen-ein-zuhause-4289494.html"
+               target="_blank"
+               rel="nofollow">
+                <img src="{% static 'web/img/landing/news/getpet-in-rtl.png' %}"
+                     class="mr-4 ml-4"
+                     alt="{% trans 'GetPet RTL' %}">
+            </a>
+
+            <a href="https://www.dailymail.co.uk/sciencetech/article-6668861/New-app-lets-dog-lovers-swipe-right-perfect-pet-match.html"
+               target="_blank"
+               rel="nofollow">
+                <img src="{% static 'web/img/landing/news/getpet-in-dailymail.png' %}"
+                     class="mr-4 ml-4"
+                     alt="{% trans 'GetPet DailyMail' %}">
+            </a>
+
+            <a href="https://nypost.com/2019/02/05/this-app-helps-aspiring-dog-owners-find-the-perfect-pooch/"
+               target="_blank"
+               rel="nofollow">
+                <img src="{% static 'web/img/landing/news/getpet-in-new-york-post.png' %}"
+                     class="ml-4 mr-4"
+                     alt="{% trans 'GetPet New York Post' %}">
+            </a>
+
+            <a href="https://cnnespanol.cnn.com/video/getpet-tinder-perros-mascotas-cafe-cnnee/"
+               target="_blank"
+               rel="nofollow">
+                <img src="{% static 'web/img/landing/news/getpet-in-cnn.png' %}"
+                     class="ml-4"
+                     alt="{% trans 'GetPet CNN' %}">
+            </a>
         </div>
     </div>
 </section>

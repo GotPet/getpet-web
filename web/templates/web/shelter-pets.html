@@ -1,11 +1,9 @@
 {% extends 'web/base/base-page.html' %}
-{% load l10n %}
 {% load i18n %}
-{% load site_tags %}
-{% load image_tags %}
-{% load static %}
-{% load tel_tags %}
 
+{% block description %}
+    Čia rasite visus {{ shelter.name }} beglobius gyvūnus, ieškančių kelio į naujus namus. Padėkite jiems jį surasti.
+{% endblock %}
 
 {% block header %}
     <header class="header text-center text-white bg-primary">
@@ -17,7 +15,7 @@
                         {% block title %}{{ shelter.name }}{% endblock %}
                     </h1>
                     <p class="lead-2 opacity-90 mt-6">
-                        {{ shelter.name }} - gyvūnų globos organizacija, kuriai rūpi gyvūnų likimas
+                        {% trans 'Gyvūnų globos organizacija, kuriai rūpi gyvūnų likimas' %}
                     </p>
                 </div>
             </div>

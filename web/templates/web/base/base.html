@@ -13,6 +13,8 @@
 <!DOCTYPE html>
 <html lang="lt">
 <head>
+    <title>{{ meta_title.strip }} | GetPet</title>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description"
@@ -20,11 +22,6 @@
     {% if meta_keywords %}
         <meta name="keywords" content="{{ meta_keywords.strip }}">
     {% endif %}
-
-    <title>{{ meta_title.strip }} | GetPet</title>
-
-    <!-- TODO: Remove after launch -->
-    <meta name="robots" content="noindex">
 
     <!-- Styles -->
     <link href="{% static 'web/css/page.min.css' %}?v={{ GIT_COMMIT }}" rel="stylesheet">

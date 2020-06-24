@@ -3,7 +3,7 @@
 <section class="section {{ section_css_class }}" id="section-benefits-for-shelters">
     <div class="container">
         <header class="section-header">
-            <h2>{% trans 'GetPet teikiamos naudos gyvūnų globos įstaigoms' %}</h2>
+            <h2>{% trans 'GetPet teikiamos naudos gyvūnų globos organizacijoms' %}</h2>
             <hr>
             <p class="lead">
                 {% trans 'GetPet kūrėjų tikslas - sukurti šiuolaikišką, nepriklausomą ir vieningą globos platformą gyvūnų globos įstaigose laikomiems gyvūnams. Užtikrinkite, kad Jūsų gyvūnus pamatytų visa Lietuva!' %}
@@ -13,9 +13,9 @@
 
         <div class="row gap-y align-items-center">
             <div class="col-md-6 ml-auto">
-                <h4>{% trans 'GetPet mentoriai Jūsų gyvūnams' %}</h4>
+                <h4>{% trans 'GetPet mentoriai' %}</h4>
                 <p>
-                    {% trans 'Daugelio patirtys rodo, kad beglobiui atvykus į naujus namus, dažnai prireikia pereinamojo etapo tiek augintiniui, tiek naujajam jo šeimininkui susiderinti tarpusavio bendravimo taisykles, pažinti vienas kito poreikius, bei išmokti sklandžiai “susikalbėti”. Šiame etape kyla nesusipratimų ir iššūkių, kuriuos spręsti gali padėti žmogus, turintis šioje srityje patirties. Būtent tokių žmonių, kurie nori ir gali kuruoti naujojo augintinio ir šeimininko santykius pirmosiomis jų bendro gyvenimo savaitėmis, pagalbą siūlome perGetPet įglobintiems augintininiams.' %}
+                    {% trans 'Patirtis rodo, kad beglobiui atvykus į naujus namus, dažnai prireikia pereinamojo etapo. Tiek augintiniui, tiek naujajam jo šeimininkui reikia rasti tarpusavio bendravimo taisykles, pažinti vienas kito poreikius, bei išmokti sklandžiai susikalbėti. Šiame etape gali kilti iššūkių, o juos spręsti padėtų žmogus, turintis patirties šioje srityje. Būtent tokių žmonių - mentorių, galinčių prižiūrėti naujojo šeimininko ir augintinio santykius pirmomis savaitėmis, - pagalbą siūlome per GetPet įglobintiems augintininiams.' %}
                 </p>
             </div>
 
@@ -30,17 +30,16 @@
 
         <div class="row gap-y align-items-center">
             <div class="col-md-6 mr-auto">
-                <h4>{% trans 'Žaismingos GetPet Android ir iOS programėles' %}</h4>
-                <p>Last week we shipped outdated comments...well, brought them back, actually. We used to show collapsed
-                    comments on outdated diffs as a single line, but removed that when we shipped code review recently.
-                    We brought that back last week with an improvement: you can now toggle open threads on outdated
-                    diffs in a review individually.</p>
+                <h4>{% trans 'Gyvūnų administravimo platforma' %}</h4>
+                <p>
+                    {% trans 'Gyvūnų globėjams sukūrėme specializuotą platformą, kurioje sukurti beglobio gyvūno ieškančio naujų namų anketą itin paprasta, o informacija apie jį automatiškai perkeliama į GetPet mobiliąsias programėles bei internetinį puslapį. Šioje platformoje galite patogiai matyti savo prieglaudos gyvūnų sąrašą, jį pildyti, stebėti kiekvieno augintinio anketos populiarumą ir gauti daugiau naudingų statistinių duomenų.' %}
+                </p>
             </div>
 
             <div class="col-md-5">
                 <img class="rounded shadow-2"
-                     src="{% static 'web/img/landing/benefits/getpet-applications.png' %}"
-                     alt="{% trans 'Žaismingos GetPet Android ir iOS programėles' %}">
+                     src="{% static 'web/img/landing/benefits/getpet-shelter-administration-platform.png' %}"
+                     alt="{% trans 'Gyvūnų administravimo platforma' %}">
             </div>
         </div>
 
@@ -50,11 +49,9 @@
             <div class="col-md-6 ml-auto">
                 <h4>{% trans 'Visi prieglaudos gyvūnai internetinėje svetainėje' %}</h4>
 
-                <p>Less an illustration, and more a literal proxy. These show up when the feature's introduced.
-                    Monotonectally leverage existing standards compliant ideas with distributed data. Efficiently
-                    simplify cross-unit systems whereas adaptive testing. Monotonectally leverage existing standards
-                    compliant ideas with distributed data. Efficiently simplify cross-unit systems whereas adaptive
-                    testing.</p>
+                <p>
+                    {% trans 'Jūsų beglobiai augintiniai automatiškai patenka ne tik į GetPet mobiliąsias programėles, bet ir GetPet internetinį puslapį, kuriame lygiai taip pat paprasta, greita ir smagu surasti augintinį visiems, ieškantiems naujo augintinio. Informacija apie Jūsų gyvūnus čia perkeliama automatiškai iš GetPet administravimo sistemos, Jums nereikia skirti papildomo laiko anketų redagavimui skirtinguose GetPet kanaluose.' %}
+                </p>
             </div>
 
             <div class="col-md-5 order-md-first">
@@ -69,17 +66,16 @@
 
         <div class="row gap-y align-items-center">
             <div class="col-md-6 mr-auto">
-                <h4>{% trans 'Gyvūnų administravimo platforma' %}</h4>
-                <p>Last week we shipped outdated comments...well, brought them back, actually. We used to show collapsed
-                    comments on outdated diffs as a single line, but removed that when we shipped code review recently.
-                    We brought that back last week with an improvement: you can now toggle open threads on outdated
-                    diffs in a review individually.</p>
+                <h4>{% trans 'Žaismingos GetPet Android ir iOS programėles' %}</h4>
+                <p>
+                    {% trans 'Gyvūno auginimas - svarbus ir džiaugsmingas etapas, kurio naujieji šeimininkai laukia tikėdamiesi gražių įspūdžių. Nepaisant to, ieškant naujojo šeimos nario dažnai susiduriama su daugeliu klausimų, atrasti savo išrinktąjį užtrunka daug laiko, dažnai šis procesas apsunksta dėl kanalų gausos ir informacijos stokos. GetPet programėlė padeda žmonėms rasti į naujus namus galinčius keliauti beglobius gyvūnus vienoje vietoje, gauti glaustą, tikslią ir pozityvią informaciją apie juos, o tai  pasirinkimo procesą padaro greitu, paprastu ir maloniu.' %}
+                </p>
             </div>
 
             <div class="col-md-5">
                 <img class="rounded shadow-2"
-                     src="{% static 'web/img/landing/benefits/getpet-shelter-administration-platform.png' %}"
-                     alt="{% trans 'Gyvūnų administravimo platforma' %}">
+                     src="{% static 'web/img/landing/benefits/getpet-applications.png' %}"
+                     alt="{% trans 'Žaismingos GetPet Android ir iOS programėles' %}">
             </div>
         </div>
     </div>
