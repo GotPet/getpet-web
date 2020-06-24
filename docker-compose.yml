@@ -73,6 +73,8 @@ services:
       - platform
     networks:
       - nginx_network
+    labels:
+      - "lt.getpet.nginx"
     deploy:
       replicas: 1
       restart_policy:
