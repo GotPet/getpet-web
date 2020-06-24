@@ -17,9 +17,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>{{ meta_title.strip }} | GetPet</title>
-    <meta name="description"
-          content="{{ meta_description.strip }}">
-    {% if meta_keywords %}
+    {% if meta_description.strip %}
+        <meta name="description" content="{{ meta_description.strip }}">
+    {% endif %}
+    {% if meta_keywords.strip %}
         <meta name="keywords" content="{{ meta_keywords.strip }}">
     {% endif %}
 

@@ -13,12 +13,16 @@
                     {% block status_title %}{% endblock %}
                 {% endblock %}
             </h2>
-            <p class="lead">{% block status_description %}{% endblock %}</p>
+            <p class="lead">
+                {% block description %}
+                    {% block status_description %}{% endblock %}
+                {% endblock %}
+            </p>
             <br>
-            <button class="btn btn-secondary w-250 mr-2" type="button" onclick="window.history.back();">
+            <button class="btn btn-secondary w-250 m-2" type="button" onclick="window.history.back();">
                 {% trans 'Grįžti atgal' %}
             </button>
-            <a class="btn btn-primary w-250" href="{% url 'web:index' %}">{% trans 'Grįžti į pradžią' %}</a>
+            <a class="btn btn-primary w-250 m-2" href="{% url 'web:index' %}">{% trans 'Grįžti į pradžią' %}</a>
         </div>
     </main>
 {% endblock %}
