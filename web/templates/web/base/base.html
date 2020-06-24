@@ -44,6 +44,19 @@
     <link rel="icon" href="{% static 'web/img/favicon/favicon.ico' %}">
 
     {% block head %}{% endblock %}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-TBCJE5549D"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-TBCJE5549D');
+    </script>
 </head>
 
 <body>
