@@ -7,8 +7,8 @@ from web import sitemap, views
 app_name = 'web'
 
 urlpatterns = [
-    path('', views.index, name="index"),
-    path('demo/', views.IndexView.as_view(), name="demo"),
+    path('', views.IndexView.as_view(), name="index"),
+
     path('sunys/', views.AllDogsListView.as_view(), name="all_dogs"),
     path('sunys/<int:pk>-<slug:slug>/', views.DogProfileView.as_view(), name="dog_profile"),
 

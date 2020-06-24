@@ -2,20 +2,13 @@ from typing import Any, Dict
 
 from django.http import HttpRequest, HttpResponse
 from django.http.response import Http404
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.utils.functional import cached_property
 from django.views.generic import DetailView, ListView, RedirectView, TemplateView
 from sentry_sdk import last_event_id
 
 from utils.mixins import ViewPaginatorMixin
 from web.models import Pet, Shelter, TeamMember
-
-
-def index(request) -> HttpResponse:
-    if request.user.is_authenticated:
-        return redirect('web:demo')
-
-    return redirect('https://www.facebook.com/getpet.lt/')
 
 
 class IndexView(TemplateView):
