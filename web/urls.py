@@ -1,8 +1,7 @@
 from django.http import HttpResponse
 from django.urls import path
-from django.contrib.sitemaps.views import sitemap as SitemapView
 
-from web import sitemap, views
+from web import views
 
 app_name = 'web'
 
@@ -19,20 +18,6 @@ urlpatterns = [
     path('privatumo-politika/', views.PrivacyPolicyDocumentView.as_view(), name="document_privacy_policy"),
     path('saziningo-naudojimosi-taisykles/', views.FairUseRulesDocumentView.as_view(), name="document_fair_use_rules"),
     path('kas-yra-getpet/', views.AboutGetPetDocumentView.as_view(), name="document_about_getpet"),
-
-    # Sitemaps
-    path(
-        'sitemap.xml/',
-        SitemapView,
-        {
-            'sitemaps': {
-                'static': sitemap.StaticSitemap,
-                'pets': sitemap.PetSitemap,
-                'shelter': sitemap.ShelterSitemap,
-            }
-        },
-        name='django.contrib.sitemaps.views.sitemap'
-    ),
 
     path(
         'robots.txt/',

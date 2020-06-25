@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 
 from getpet import settings
+from django.contrib.sitemaps.views import sitemap as SitemapView
+from web import sitemap
 
 urlpatterns = [
                   path('administration/', admin.site.urls),
@@ -27,6 +29,20 @@ urlpatterns = [
                   path('accounts/', include('allauth.urls')),
 
                   path('', include('web.urls', namespace='web')),
+
+                  # Sitemaps
+                  path(
+                      'sitemap.xml/',
+                      SitemapView,
+                      {
+                          'sitemaps': {
+                              'static': sitemap.StaticSitemap,
+                              'pets': sitemap.PetSitemap,
+                              'shelter': sitemap.ShelterSitemap,
+                          }
+                      },
+                      name='django.contrib.sitemaps.views.index'
+                  ),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG and settings.ENABLE_DEBUG_DRAWER_IN_DEBUG:

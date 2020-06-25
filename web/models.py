@@ -510,16 +510,12 @@ class Pet(models.Model):
         self.slug = slugify(self.name)
         super().save(force_insert, force_update, using, update_fields)
 
-        self._send_pet_status_updated_email_if_needed(orig)
+        from web.tasks import on_pet_created_or_updated
 
-    _pet_status_to_send_email = (PetStatus.TAKEN_TEMPORARY, PetStatus.TAKEN_PERMANENTLY)
+        orig_status = orig.status if orig else None
+        orig_status_text = orig.get_status_display() if orig else None
 
-    def _send_pet_status_updated_email_if_needed(self, old_pet: Optional[Pet]):
-        if old_pet and old_pet.status != self.status and self.status in self._pet_status_to_send_email:
-            from web.tasks import send_email_about_pet_status_update
-
-            # noinspection PyUnresolvedReferences
-            send_email_about_pet_status_update.delay(pet_pk=self.pk, old_pet_status_str=old_pet.get_status_display())
+        on_pet_created_or_updated.delay(self.pk, orig_status, orig_status_text)
 
     def similar_pets_from_same_shelter(self):
         return Pet.available.filter(shelter=self.shelter).exclude(pk=self.pk).order_by('?')[:3]

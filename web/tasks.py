@@ -1,3 +1,5 @@
+from typing import Optional
+
 from django.core.mail import send_mail
 
 from getpet import settings
@@ -6,8 +8,9 @@ import logging
 
 from celery import shared_task
 from django.contrib.auth import get_user_model
+from django.contrib.sitemaps import ping_google
 
-from web.models import Shelter, Pet
+from web.models import PetStatus, Shelter, Pet
 
 logger = logging.getLogger(__name__)
 
@@ -67,10 +70,17 @@ def connect_super_users_to_shelters(shelter_pk=None):
     }
 
 
-@shared_task(soft_time_limit=60)
-def generate_slugs_for_pets_and_shelters():
-    for pet in Pet.objects.all():
-        pet.save()
+@shared_task(soft_time_limit=10)
+def on_pet_created_or_updated(pet_pk: int, old_pet_status: Optional[PetStatus], old_pet_status_text: Optional[str]):
+    pet = Pet.objects.get(pk=pet_pk)
+    _pet_status_to_send_email = (PetStatus.TAKEN_TEMPORARY, PetStatus.TAKEN_PERMANENTLY)
 
-    for shelter in Shelter.objects.all():
-        shelter.save()
+    if old_pet_status and old_pet_status != pet.status and pet.status in _pet_status_to_send_email:
+        send_email_about_pet_status_update.delay(pet_pk=pet.pk, old_pet_status_str=old_pet_status_text)
+
+    ping_google_about_sitemap_update.delay()
+
+
+@shared_task(soft_time_limit=10, autoretry_for=(Exception,), retry_backoff=True)
+def ping_google_about_sitemap_update():
+    ping_google()
