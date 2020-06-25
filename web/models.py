@@ -473,6 +473,11 @@ class Pet(models.Model):
     )
     desexed = models.BooleanField(
         verbose_name=_("Kastruotas / sterilizuotas"),
+        choices=(
+            (None, _("Nepatikslinta")),
+            (True, _("Taip")),
+            (False, _("Ne")),
+        ),
     )
 
     taken_at = models.DateTimeField(blank=True, null=True, editable=False, verbose_name=_('Paėmimo data'))
