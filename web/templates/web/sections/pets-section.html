@@ -14,7 +14,7 @@
 
         <div class="row equal-height gap-y">
             {% for pet in pets %}
-                {% include 'web/element/pet-card.html' with pet=pet col_css_class=forloop.last|yesno:"d-md-none d-lg-block," %}
+                {% include 'web/element/pet-card.html' with pet=pet col_css_class=forloop.last|yesno:"d-none d-lg-block," %}
             {% endfor %}
         </div>
         <div class="row gap-y">
