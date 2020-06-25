@@ -3,6 +3,8 @@ from datetime import datetime
 from json import dumps
 from typing import Optional
 from urllib.parse import urlencode, unquote, urlparse, parse_qsl, ParseResult
+
+from django.contrib.sitemaps.views import sitemap, x_robots_tag
 from django.utils.timezone import now
 
 from django.core.paginator import Page, Paginator
@@ -96,3 +98,8 @@ def find_first(seq, predicate, default=None):
 
 def file_extension(file_name) -> str:
     return file_name.split('.')[-1]
+
+
+@x_robots_tag
+def sitemap_with_images(request, sitemaps, section=None, content_type='application/xml'):
+    return sitemap(request, sitemaps, section, 'sitemap/sitemap.xml', content_type)

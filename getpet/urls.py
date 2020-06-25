@@ -18,7 +18,8 @@ from django.contrib import admin
 from django.urls import path, include
 
 from getpet import settings
-from django.contrib.sitemaps.views import sitemap as SitemapView
+
+from utils.utils import sitemap_with_images
 from web import sitemap
 
 urlpatterns = [
@@ -33,7 +34,7 @@ urlpatterns = [
                   # Sitemaps
                   path(
                       'sitemap.xml/',
-                      SitemapView,
+                      sitemap_with_images,
                       {
                           'sitemaps': {
                               'static': sitemap.StaticSitemap,

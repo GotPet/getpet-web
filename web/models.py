@@ -18,6 +18,7 @@ from django.utils.translation import gettext_lazy as _
 
 from getpet import settings
 from management.constants import Constants
+from utils.models import SitemapImageEntry
 from utils.utils import django_now, file_extension, try_parse_int
 
 _SHELTER_GROUP_NAME = "Shelter"
@@ -564,6 +565,26 @@ class Pet(models.Model):
             description_parts.append(special_information_part)
 
         return '\n'.join(description_parts).strip(' \n\t')
+
+    def sitemap_image_entries(self) -> List[SitemapImageEntry]:
+        images = [
+            SitemapImageEntry(
+                relative_url=self.photo.url,
+                title=f"{_('Šuo')} {self.name} {_('profilio nuotrauka')}",
+                caption=f"{_('Šuo')} {self.name} {_('iš')} {self.shelter.name} {_('pagrindinė profilio nuotrauka')}",
+            )
+        ]
+
+        for photo in self.profile_photos.all():
+            images.append(
+                SitemapImageEntry(
+                    relative_url=photo.photo.url,
+                    title=f"{_('Šuo')} {self.name} {photo.order} {_('nuotrauka')}",
+                    caption=f"{_('Šuo')} {self.name} {_('iš')} {self.shelter.name} {_('nuotrauka')} {photo.order}",
+                )
+            )
+
+        return images
 
     def all_photos(self) -> List[ImageFieldFile]:
         photos = [self.photo]

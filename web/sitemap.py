@@ -35,7 +35,7 @@ class PetSitemap(Sitemap):
     priority = 0.7
 
     def items(self):
-        return Pet.available.order_by('-pk')
+        return Pet.available.select_related('shelter').prefetch_related('profile_photos').order_by('-pk')
 
     @staticmethod
     def lastmod(pet: Pet):
