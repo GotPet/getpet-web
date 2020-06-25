@@ -10,15 +10,15 @@ django-allauth~=0.42.0
 firebase-admin~=4.3.0
 
 # Celery
-celery[redis]~=4.4.4
+celery[redis]~=4.4.6
 django-celery-results~=1.2.1
 
 # Admin
 django-admin-sortable2~=0.7.6
 
 # Logging and monitoring
-ddtrace~=0.37.1
-sentry-sdk~=0.14.4
+ddtrace~=0.39.0
+sentry-sdk~=0.15.1
 # https://sentry.io/organizations/getpet/issues/1712675137/?project=1373034
 future~=0.18.2
 
@@ -27,19 +27,19 @@ djangorestframework~=3.11.0
 django-filter~=2.3.0
 flex~=6.14.1
 drf-yasg~=1.17.1
-drf-api-tracking~=1.7.3
+drf-api-tracking~=1.7.5
 
 # Additional functionality
 Pillow~=7.1.2
-requests~=2.23.0
+requests~=2.24.0
 django-ipware~=2.1.0
 django-resized~=0.3.11
 django-crispy-forms~=1.9.1
 
 # Debugging
-ipdb~=0.13.2
+ipdb~=0.13.3
 django-extensions~=2.2.9
 
 # Required for tests
-Faker~=4.1.0
+Faker~=4.1.1
 factory_boy~=2.12.0
