@@ -338,7 +338,8 @@ REST_FRAMEWORK = {
     'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%SZ",
 }
 
-BASE_DOMAIN = "https://www.getpet.lt/" if not DEBUG else "http://localhost:8000/"
+BASE_REAL_DOMAIN = "https://www.getpet.lt/"
+BASE_DOMAIN = BASE_REAL_DOMAIN if not DEBUG else "http://localhost:8000/"
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 

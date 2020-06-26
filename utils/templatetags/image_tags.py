@@ -1,16 +1,16 @@
 from typing import Optional
+from urllib.parse import urljoin
 
 from django.db.models.fields.files import ImageFieldFile
 from django.template import Library
 
-from getpet.settings import MEDIA_URL, DEBUG
+from getpet.settings import BASE_REAL_DOMAIN, DEBUG
 
 register = Library()
 
 
-# noinspection PyUnresolvedReferences
 @register.simple_tag
-def resized_image(image, width: int, height: Optional[int] = None):
+def resized_image(image, width: int, height: Optional[int] = None) -> Optional[str]:
     if image is None:
         return None
 
@@ -21,12 +21,14 @@ def resized_image(image, width: int, height: Optional[int] = None):
     else:
         raise TypeError(f"Unsupported type of image {type(image)}")
 
+    options = f'width={width},quality=85,fit=cover,f=auto,metadata=none'
+
+    if height:
+        options += f',height={height}'
+
+    optimized_url = f'/cdn-cgi/image/{options}{url}'
+
     if DEBUG:
-        return url
+        return urljoin(BASE_REAL_DOMAIN, optimized_url)
 
-    if width and height:
-        return url.replace(MEDIA_URL, f'/{width}x{height}{MEDIA_URL}')
-    elif width:
-        return url.replace(MEDIA_URL, f'/w-{width}{MEDIA_URL}')
-
-    return None
+    return optimized_url
