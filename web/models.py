@@ -753,12 +753,15 @@ class Mentor(models.Model):
     instagram = models.URLField(verbose_name=_("Instagram"), null=True, blank=True)
     linkedin = models.URLField(verbose_name=_("LinkedIn"), null=True, blank=True)
 
+    order = models.PositiveIntegerField(default=0)
+
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Sukūrimo data'))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinimo data"))
 
     class Meta:
         verbose_name = _("Mentorius")
         verbose_name_plural = _("Mentoriai")
+        ordering = ['order']
 
     def __str__(self):
         return self.name

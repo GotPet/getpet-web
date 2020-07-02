@@ -87,7 +87,6 @@ class MentorListView(ListView):
     context_object_name = 'mentors'
     paginate_by = None
     queryset = Mentor.objects.all()
-    ordering = '?'
 
 
 # Documents

@@ -230,5 +230,5 @@ class TeamMemberAdmin(SortableAdminMixin, admin.ModelAdmin):
 
 
 @admin.register(Mentor)
-class MentorAdmin(admin.ModelAdmin):
+class MentorAdmin(SortableAdminMixin, admin.ModelAdmin):
     list_display = ['name', 'photo', ]
