@@ -1,0 +1,35 @@
+{% load image_tags %}
+<div class="row gap-y">
+    <div class="col-md-5 text-center">
+        <img class="rounded-md"
+             src="{% resized_image mentor.photo width=500 %}"
+             alt="{{ mentor.name }}">
+        <hr class="d-md-none my-7">
+    </div>
+
+
+    <div class="col-md-6 align-self-center text-center text-md-left {{ even|yesno:",order-last order-md-first" }}">
+        <h2 class="fw-200">{{ mentor.name }}</h2>
+        <br>
+        {{ mentor.description|linebreaks }}
+        <br>
+        <div class="social social-inline social-gray">
+            {% if mentor.facebook %}
+                <a class="social-facebook" rel="nofollow" target="_blank" href="{{ mentor.facebook }}">
+                    <i class="icon-facebook-official"></i>
+                </a>
+            {% endif %}
+            {% if mentor.instagram %}
+                <a class="social-instagram" rel="nofollow" target="_blank" href="{{ mentor.instagram }}">
+                    <i class="icon-instagram"></i>
+                </a>
+            {% endif %}
+            {% if mentor.linkedin %}
+                <a class="social-linkedin" rel="nofollow" target="_blank" href="{{ mentor.linkedin }}">
+                    <i class="icon-linkedin-square"></i>
+                </a>
+            {% endif %}
+        </div>
+        <br>
+    </div>
+</div>

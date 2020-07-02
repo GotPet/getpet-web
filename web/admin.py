@@ -10,7 +10,8 @@ from django.http.request import HttpRequest
 from django.utils.translation import gettext_lazy as _
 
 from getpet import settings
-from web.models import Country, GetPetRequest, Pet, PetProfilePhoto, PetProperty, Region, Shelter, TeamMember, User, \
+from web.models import Country, GetPetRequest, Mentor, Pet, PetProfilePhoto, PetProperty, Region, Shelter, TeamMember, \
+    User, \
     UserPetChoice
 from web.tasks import connect_super_users_to_shelters
 
@@ -226,3 +227,8 @@ class PetPropertyAdmin(admin.ModelAdmin):
 @admin.register(TeamMember)
 class TeamMemberAdmin(SortableAdminMixin, admin.ModelAdmin):
     list_display = ['name', 'role', 'photo', 'email', ]
+
+
+@admin.register(Mentor)
+class MentorAdmin(admin.ModelAdmin):
+    list_display = ['name', 'photo', ]

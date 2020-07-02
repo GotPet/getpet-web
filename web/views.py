@@ -8,7 +8,7 @@ from django.views.generic import DetailView, ListView, RedirectView, TemplateVie
 from sentry_sdk import last_event_id
 
 from utils.mixins import ViewPaginatorMixin
-from web.models import Pet, Shelter, TeamMember
+from web.models import Mentor, Pet, Shelter, TeamMember
 
 
 class IndexView(TemplateView):
@@ -79,6 +79,15 @@ class DogProfileView(DetailView):
     context_object_name = 'pet'
     template_name = 'web/dog-profile.html'
     query_pk_and_slug = True
+
+
+class MentorListView(ListView):
+    template_name = 'web/mentors.html'
+    model = Mentor
+    context_object_name = 'mentors'
+    paginate_by = None
+    queryset = Mentor.objects.all()
+    ordering = '?'
 
 
 # Documents

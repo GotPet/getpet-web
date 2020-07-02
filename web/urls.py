@@ -14,6 +14,8 @@ urlpatterns = [
     path('globos-organizacijos/', views.AllSheltersListView.as_view(), name="all_shelters"),
     path('globos-organizacijos/<slug:slug>/', views.ShelterPetsListView.as_view(), name="shelter_profile"),
 
+    path('mentoriai/', views.MentorListView.as_view(), name="mentors"),
+
     # Documents
     path('privatumo-politika/', views.PrivacyPolicyDocumentView.as_view(), name="document_privacy_policy"),
     path('saziningo-naudojimosi-taisykles/', views.FairUseRulesDocumentView.as_view(), name="document_fair_use_rules"),

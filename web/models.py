@@ -736,6 +736,34 @@ class UserPetChoice(models.Model):
         ordering = ['-id']
 
 
+class Mentor(models.Model):
+    def _mentor_photo_file(self, filename):
+        ext = file_extension(filename)
+
+        slug = slugify(self.name)
+
+        filename = f"{slug}-photo.{ext}"
+        return join('img', 'web', 'menthor', filename)
+
+    name = models.CharField(max_length=128, verbose_name=_("Vardas"))
+    photo = models.ImageField(upload_to=_mentor_photo_file, verbose_name=_('Nuotrauka'))
+    description = models.TextField(verbose_name=_("Aprašymas"))
+
+    facebook = models.URLField(verbose_name=_("Facebook"), null=True, blank=True)
+    instagram = models.URLField(verbose_name=_("Instagram"), null=True, blank=True)
+    linkedin = models.URLField(verbose_name=_("LinkedIn"), null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Sukūrimo data'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Atnaujinimo data"))
+
+    class Meta:
+        verbose_name = _("Mentorius")
+        verbose_name_plural = _("Mentoriai")
+
+    def __str__(self):
+        return self.name
+
+
 class TeamMember(models.Model):
     def _team_member_photo_file(self, filename):
         ext = file_extension(filename)
