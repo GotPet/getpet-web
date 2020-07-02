@@ -288,6 +288,10 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'web.tasks.connect_super_users_to_shelters',
         'schedule': timedelta(hours=1)
     },
+    'sync_product_metrics': {
+        'task': 'web.tasks.sync_product_metrics',
+        'schedule': timedelta(minutes=15)
+    },
 }
 
 CELERYD_TASK_SOFT_TIME_LIMIT = 45 * 60
@@ -387,6 +391,12 @@ ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 
 ACCOUNT_ADAPTER = 'management.adapters.GetPetAccountAdapter'
 SOCIALACCOUNT_ADAPTER = 'management.adapters.GetPetSocialAccountAdapter'
+
+DATADOG_SETTINGS = {
+    'statsd_host':  os.environ.get('DATADOG_STATSD_HOST', None),
+    'api_key': os.environ.get('DATADOG_API_KEY', None),
+    'app_key': os.environ.get('DATADOG_APP_KEY', None),
+}
 
 # Datadog finalization
 patch_all()

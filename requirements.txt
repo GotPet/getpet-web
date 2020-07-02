@@ -18,7 +18,9 @@ django-admin-sortable2~=0.7.6
 
 # Logging and monitoring
 ddtrace~=0.39.0
+datadog~=0.38.0
 sentry-sdk~=0.15.1
+
 
 # Django rest framework
 djangorestframework~=3.11.0

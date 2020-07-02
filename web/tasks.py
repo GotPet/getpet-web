@@ -10,6 +10,7 @@ from celery import shared_task
 from django.contrib.auth import get_user_model
 from django.contrib.sitemaps import ping_google
 
+from utils.utils import DatadogStats
 from web.models import PetStatus, Shelter, Pet
 
 logger = logging.getLogger(__name__)
@@ -84,3 +85,11 @@ def on_pet_created_or_updated(pet_pk: int, old_pet_status: Optional[PetStatus], 
 @shared_task(soft_time_limit=10, autoretry_for=(Exception,), retry_backoff=True)
 def ping_google_about_sitemap_update():
     ping_google()
+
+
+@shared_task(soft_time_limit=60, autoretry_for=(Exception,), retry_backoff=True)
+def sync_product_metrics():
+    with DatadogStats() as stats:
+        for shelter in Shelter.available.all().annotate_with_statistics():
+            stats.gauge(f'product.shelter.{shelter.slug}.dogs.available', shelter.pets_available_count)
+            stats.gauge(f'product.shelter.{shelter.slug}.dogs.count', shelter.pets_all_count)

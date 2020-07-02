@@ -4,10 +4,14 @@ from json import dumps
 from typing import Optional
 from urllib.parse import urlencode, unquote, urlparse, parse_qsl, ParseResult
 
+import datadog
+from datadog import ThreadStats
 from django.contrib.sitemaps.views import sitemap, x_robots_tag
 from django.utils.timezone import now
 
 from django.core.paginator import Page, Paginator
+
+from getpet import settings
 
 logger = logging.getLogger(__name__)
 
@@ -103,3 +107,16 @@ def file_extension(file_name) -> str:
 @x_robots_tag
 def sitemap_with_images(request, sitemaps, section=None, content_type='application/xml'):
     return sitemap(request, sitemaps, section, 'sitemap/sitemap.xml', content_type)
+
+
+class DatadogStats:
+    def __enter__(self):
+        datadog.initialize(**settings.DATADOG_SETTINGS)
+        stats = ThreadStats()
+        stats.start(flush_in_thread=False)
+        self.stats = stats
+        return stats
+
+    def __exit__(self, type, value, traceback):
+        self.stats.flush()
+        self.stats.stop()
