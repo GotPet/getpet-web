@@ -509,6 +509,8 @@ class Pet(models.Model):
                     self.taken_at = None
 
         self.slug = slugify(self.name)
+        self.short_description = self.short_description.rstrip('.')
+
         super().save(force_insert, force_update, using, update_fields)
 
         from web.tasks import on_pet_created_or_updated
