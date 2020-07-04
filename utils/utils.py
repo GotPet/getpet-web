@@ -2,7 +2,7 @@ import logging
 from datetime import datetime
 from json import dumps
 from typing import Optional
-from urllib.parse import urlencode, unquote, urlparse, parse_qsl, ParseResult
+from urllib.parse import urlencode, unquote, urljoin, urlparse, parse_qsl, ParseResult
 
 import datadog
 from datadog import ThreadStats
@@ -100,8 +100,12 @@ def find_first(seq, predicate, default=None):
     return next((x for x in seq if predicate(x)), default)
 
 
-def file_extension(file_name) -> str:
+def file_extension(file_name: str) -> str:
     return file_name.split('.')[-1]
+
+
+def full_path(path: str) -> str:
+    return urljoin(settings.BASE_DOMAIN, path)
 
 
 @x_robots_tag

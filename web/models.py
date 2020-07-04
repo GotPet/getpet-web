@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import uuid
 from _md5 import md5
 from datetime import timedelta
@@ -19,7 +20,7 @@ from django.utils.translation import gettext_lazy as _
 from getpet import settings
 from management.constants import Constants
 from utils.models import SitemapImageEntry
-from utils.utils import django_now, file_extension, try_parse_int
+from utils.utils import django_now, file_extension, full_path, try_parse_int
 
 _SHELTER_GROUP_NAME = "Shelter"
 
@@ -317,8 +318,28 @@ class Shelter(models.Model):
             expires=expires.utctimetuple()
         )
 
-    def __str__(self):
-        return self.name
+    def json_ld(self) -> str:
+        social_networks = list([s for s in [self.facebook, self.instagram] if s])
+        json_ld_object = {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            "name": self.name,
+            'url': self.website,
+            "legalName": self.legal_name,
+            "logo": full_path(self.square_logo.url),
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": self.phone,
+                "email": self.email
+            },
+            "sameAs": social_networks
+        }
+
+        return json.dumps(json_ld_object, allow_nan=False)
+
+
+def __str__(self):
+    return self.name
 
 
 class PetStatus(models.IntegerChoices):

@@ -1,8 +1,15 @@
 {% extends 'web/base/base-page.html' %}
+{% load site_tags %}
 {% load i18n %}
 
 {% block description %}
     Čia rasite visus {{ shelter.name }} beglobius gyvūnus, ieškančių kelio į naujus namus. Padėkite jiems jį surasti.
+{% endblock %}
+
+{% block head %}
+    <script type="application/ld+json">
+        {{ shelter.json_ld|safe }}
+    </script>
 {% endblock %}
 
 {% block header %}
