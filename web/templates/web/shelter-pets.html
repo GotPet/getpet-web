@@ -6,6 +6,8 @@
     Čia rasite visus {{ shelter.name }} beglobius gyvūnus, ieškančių kelio į naujus namus. Padėkite jiems jį surasti.
 {% endblock %}
 
+{% block image %}{% full_path shelter.square_logo.url %}{% endblock %}
+
 {% block head %}
     <script type="application/ld+json">
         {{ shelter.json_ld|safe }}
