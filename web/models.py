@@ -327,6 +327,7 @@ class Shelter(models.Model):
             'url': self.website,
             "legalName": self.legal_name,
             "logo": full_path(self.square_logo.url),
+            "address": self.address,
             "contactPoint": {
                 "@type": "ContactPoint",
                 "telephone": self.phone,
