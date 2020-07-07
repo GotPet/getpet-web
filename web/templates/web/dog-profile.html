@@ -37,6 +37,7 @@
                             {% for photo in pet.all_photos %}
                                 <a class="gallery-item mw-100" href="{{ photo.url }}">
                                     <img src="{% resized_image photo width=600 height=500 %}"
+                                         class="border"
                                          data-original-src="{{ photo.url }}"
                                          data-original-src-width="{{ photo.width }}"
                                          data-original-src-height="{{ photo.height }}"
