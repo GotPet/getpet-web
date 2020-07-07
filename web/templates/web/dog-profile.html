@@ -8,14 +8,18 @@
 {% block description %}{{ pet.description|truncatechars:"160" }}{% endblock %}
 {% block image %}{% full_path pet.photo.url %}{% endblock %}
 
-{% block header %}
-    <header class="header text-center text-white bg-primary">
-        <div class="container">
+{% block navbar_class %}navbar-dark navbar-stick-dark{% endblock %}
 
+{% block header %}
+    <header class="header text-center pb-6 pt-9">
+        <div class="container">
             <div class="row">
                 <div class="col-md-8 mx-auto">
-                    <h1 class="display-4">{{ pet.name }}</h1>
-                    <p class="lead-2 opacity-90 mt-6">{{ pet.short_description }}</p>
+                    <small class="fs-10 text-uppercase mb-2">
+                        <a href="{% url 'web:shelter_profile' pet.shelter.slug %}">{{ pet.shelter.name }}</a>
+                    </small>
+                    <h1 class="display-2">{{ pet.name }}</h1>
+                    <p class="lead-3 opacity-90">{{ pet.short_description }}</p>
                 </div>
             </div>
 
@@ -24,7 +28,7 @@
 {% endblock %}
 
 {% block content %}
-    <section class="section">
+    <section class="section pt-2">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -45,7 +49,7 @@
 
 
                 <div class="col-12">
-                    <h5 class="mt-7">{% trans 'Svajonių augintinio aprašymas' %}</h5>
+                    <h4 class="mt-7">{% trans 'Svajonių augintinio aprašymas' %}</h4>
                 </div>
 
                 <div class="col-md-7">
