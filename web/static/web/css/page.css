@@ -16971,4 +16971,7 @@ a.text-lightest:hover, a.text-lightest:focus {
 .icon-chevron-left:before {
   content: "\e901"; }
 
+.background-getpet-header {
+  background-image: url("/static/web/img/intro-bg.jpg"); }
+
 /*# sourceMappingURL=page.css.map */
