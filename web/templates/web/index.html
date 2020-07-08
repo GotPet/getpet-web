@@ -11,7 +11,7 @@
 
 {% block head %}
     {% comment %}<!-- @formatter:off -->{% endcomment %}
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"GetPet","legalName":"Augink mane, VšĮ","url":"https://www.getpet.lt/","logo":"{% static_full 'web/img/logo/getpet-logo-square-big.png' %}","foundingDate":"2018","founders":[{"@type":"Person","name":"Karolis Vyčius"},{"@type":"Person","name":"Rūta Langaitė"},{"@type":"Person","name":"Vaidas Gecevičius"},{"@type":"Person","name":"Asta Zaiceva Stalmakova"}],"contactPoint":{"@type":"ContactPoint","telephone":"{% settings_value 'CONTACT_PHONE' %}","email":"{% settings_value 'EMAIL_FROM' %}","availableLanguage":[{"@type":"Language","name":"Lithuanian"},{"@type":"Language","name":"English"}]},"sameAs":["https://www.facebook.com/getpet.lt","https://www.instagram.com/getpet.lt/","https://www.linkedin.com/company/getpet/","https://apps.apple.com/lt/app/getpet/id1450751703","https://play.google.com/store/apps/details?id=lt.getpet.getpet&hl=lt&pcampaignid=web"]}</script>
+    <script type="application/ld+json">{{ organization_json_ld|safe }}</script>
     {% comment %}<!-- @formatter:on -->{% endcomment %}
 {% endblock %}
 
@@ -20,7 +20,6 @@
         <div class="bg-primary overlay opacity-80"></div>
 
         <div class="container text-center">
-
             <div class="row h-100">
                 <div class="col-lg-8 mx-auto align-self-center">
 

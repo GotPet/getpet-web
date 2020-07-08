@@ -8,6 +8,7 @@ from django.views.generic import DetailView, ListView, RedirectView, TemplateVie
 from sentry_sdk import last_event_id
 
 from utils.mixins import ViewPaginatorMixin
+from web.constants import Constants
 from web.models import Mentor, Pet, Shelter, TeamMember
 
 
@@ -17,6 +18,7 @@ class IndexView(TemplateView):
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         context = super().get_context_data(**kwargs)
 
+        context['organization_json_ld'] = Constants.GETPET_ORGANIZATION_JSON_LD
         context['pets'] = Pet.available.order_by('?')[:3]
         context['team_members'] = TeamMember.objects.all()
 
