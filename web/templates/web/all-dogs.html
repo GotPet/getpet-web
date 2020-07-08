@@ -1,30 +1,12 @@
 {% extends 'web/base/base-page.html' %}
 {% load i18n %}
 
-{% block header %}
-    <header class="header text-center text-white bg-primary">
-        <div class="container">
-
-            <div class="row">
-                <div class="col-md-8 mx-auto">
-                    <h1 class="display-4">
-                        {% block title %}{% trans 'Svajonių šunys' %}{% endblock %}
-                    </h1>
-                    <p class="lead-2 opacity-90 mt-6">
-                        {% block description %}
-                            {% trans 'Čia rasite visus GetPet beglobius gyvūnus, ieškančių kelio į naujus namus. Padėkite jiems jį surasti.' %}
-                        {% endblock %}
-                    </p>
-
-                </div>
-            </div>
-
-        </div>
-    </header>
+{% block title %}{% trans 'Svajonių šunys' %}{% endblock %}
+{% block description %}
+    {% trans 'Čia rasite visus GetPet beglobius gyvūnus, ieškančių kelio į naujus namus. Padėkite jiems jį surasti.' %}
 {% endblock %}
 
 {% block content %}
-
     <section class="section bg-gray">
         <div class="container">
             <div class="row equal-height gap-y">

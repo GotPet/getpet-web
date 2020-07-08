@@ -2,8 +2,13 @@
 {% load site_tags %}
 {% load i18n %}
 
+{% block title %}{{ shelter.name }}{% endblock %}
 {% block description %}
     Čia rasite visus {{ shelter.name }} beglobius gyvūnus, ieškančių kelio į naujus namus. Padėkite jiems jį surasti.
+{% endblock %}
+
+{% block header_description %}
+    {% trans 'Gyvūnų globos organizacija, kuriai rūpi gyvūnų likimas' %}
 {% endblock %}
 
 {% block image %}{% full_path shelter.square_logo.url %}{% endblock %}
@@ -12,25 +17,6 @@
     <script type="application/ld+json">
         {{ shelter.json_ld|safe }}
     </script>
-{% endblock %}
-
-{% block header %}
-    <header class="header text-center text-white bg-primary">
-        <div class="container">
-
-            <div class="row">
-                <div class="col-md-8 mx-auto">
-                    <h1 class="display-4">
-                        {% block title %}{{ shelter.name }}{% endblock %}
-                    </h1>
-                    <p class="lead-2 opacity-90 mt-6">
-                        {% trans 'Gyvūnų globos organizacija, kuriai rūpi gyvūnų likimas' %}
-                    </p>
-                </div>
-            </div>
-
-        </div>
-    </header>
 {% endblock %}
 
 {% block content %}

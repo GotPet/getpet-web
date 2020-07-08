@@ -1,29 +1,11 @@
 {% extends 'web/base/base-page.html' %}
 {% load i18n %}
-
-{% block header %}
-    <header class="header text-center text-white bg-primary">
-        <div class="container">
-
-            <div class="row">
-                <div class="col-md-8 mx-auto">
-                    <h1 class="display-4">
-                        {% block title %}{% trans 'Gyvūnų globos organizacijos' %}{% endblock %}
-                    </h1>
-                    <p class="lead-2 opacity-90 mt-6">
-                        {% block description %}
-                            {% trans 'Nuolat augantis prie GetPet prisijungusių Lietuvos gyvūnų globos organizacijų sąrašas' %}
-                        {% endblock %}
-                    </p>
-                </div>
-            </div>
-
-        </div>
-    </header>
+{% block title %}{% trans 'Gyvūnų globos organizacijos' %}{% endblock %}
+{% block description %}
+    {% trans 'Nuolat augantis prie GetPet prisijungusių Lietuvos gyvūnų globos organizacijų sąrašas' %}
 {% endblock %}
 
 {% block content %}
-
     <section class="section bg-gray">
         <div class="container">
             <div class="row equal-height gap-y">
@@ -36,5 +18,4 @@
             </div>
         </div>
     </section>
-
 {% endblock %}

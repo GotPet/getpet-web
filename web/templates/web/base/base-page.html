@@ -1,4 +1,5 @@
 {% extends 'web/base/base.html' %}
+{% load capture_tags %}
 {% load i18n %}
 {% load setting_tags %}
 {% load tel_tags %}
@@ -47,6 +48,24 @@
     </nav>
 
     {% block header %}
+        {% capture as meta_title silent %}{% block title %}{% endblock %}{% endcapture %}
+        {% capture as meta_description silent %}{% block description %}{% endblock %}{% endcapture %}
+
+        <header class="header text-center text-white background-getpet-header">
+            <div class="bg-primary overlay opacity-80"></div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 mx-auto">
+                        <h1 class="display-4">
+                            {% block header_title %}{{ meta_title }}{% endblock %}
+                        </h1>
+                        <p class="lead-2 opacity-90 mt-6">
+                            {% block header_description %}{{ meta_description }}{% endblock %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </header>
     {% endblock %}
 {% endblock %}
 
