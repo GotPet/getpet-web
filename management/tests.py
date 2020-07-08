@@ -6,7 +6,7 @@ from django.test import RequestFactory, TestCase
 
 from management.constants import Constants
 from management.middleware import AssociateSheltersMiddleware
-from web.tests_factories import ShelterFactory, UserFactory
+from web.tests.factories import ShelterFactory, UserFactory
 
 
 class AssociateSheltersMiddlewareTest(TestCase):

@@ -137,3 +137,5 @@ Amputuota galūnė ir šlapimo nelaikymas.
         pet = self._create_pet(description=description, gender=PetGender.Female, desexed=False)
 
         self.assertEqual(pet.description_including_all_information(), expected_description)
+
+
