@@ -393,7 +393,7 @@ ACCOUNT_ADAPTER = 'management.adapters.GetPetAccountAdapter'
 SOCIALACCOUNT_ADAPTER = 'management.adapters.GetPetSocialAccountAdapter'
 
 DATADOG_SETTINGS = {
-    'hostname':  os.environ.get('DATADOG_HOSTNAME', None),
+    'host_name':  os.environ.get('DATADOG_HOSTNAME', None),
     'api_key': os.environ.get('DATADOG_API_KEY', None),
     'app_key': os.environ.get('DATADOG_APP_KEY', None),
 }

@@ -2,15 +2,13 @@ import logging
 import time
 from datetime import datetime
 from json import dumps
-from typing import Optional, Union
-from urllib.parse import urlencode, unquote, urljoin, urlparse, parse_qsl, ParseResult
+from typing import List, Optional, Union
+from urllib.parse import ParseResult, parse_qsl, unquote, urlencode, urljoin, urlparse
 
 import datadog
-from datadog import ThreadStats
 from django.contrib.sitemaps.views import sitemap, x_robots_tag
-from django.utils.timezone import now
-
 from django.core.paginator import Page, Paginator
+from django.utils.timezone import now
 
 from getpet import settings
 
@@ -128,6 +126,6 @@ class Datadog:
     def __getattr__(self, name):
         return getattr(self.instance, name)
 
-    def gauge(self, metric_name: str, value: Union[int, float]):
+    def gauge(self, metric_name: str, value: Union[int, float], tags: List[str]):
         metrics = [{'metric': metric_name, 'type': 'gauge', 'points': [(int(time.time()), value)]}]
-        return datadog.api.Metric.send(metrics=metrics)
+        return datadog.api.Metric.send(metrics=metrics, tags=tags)
