@@ -4,7 +4,7 @@
 {% load site_tags %}
 {% load image_tags %}
 
-{% block title %}{{ pet.name }} - {{ pet.short_description|lower_first }}{% endblock %}
+{% block title %}{% trans 'Šuo' %} {{ pet.name }} - {{ pet.short_description|lower_first }}{% endblock %}
 {% block description %}{{ pet.description|truncatechars:"160" }}{% endblock %}
 {% block image %}{% full_path pet.photo.url %}{% endblock %}
 
