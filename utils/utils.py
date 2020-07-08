@@ -1,7 +1,8 @@
 import logging
+import time
 from datetime import datetime
 from json import dumps
-from typing import Optional
+from typing import Optional, Union
 from urllib.parse import urlencode, unquote, urljoin, urlparse, parse_qsl, ParseResult
 
 import datadog
@@ -113,14 +114,20 @@ def sitemap_with_images(request, sitemaps, section=None, content_type='applicati
     return sitemap(request, sitemaps, section, 'sitemap/sitemap.xml', content_type)
 
 
-class DatadogStats:
-    def __enter__(self):
-        datadog.initialize(**settings.DATADOG_SETTINGS)
-        stats = ThreadStats()
-        stats.start(flush_in_thread=False)
-        self.stats = stats
-        return stats
+class Datadog:
+    class __DatadogSingleton:
+        def __init__(self):
+            datadog.initialize(**settings.DATADOG_SETTINGS)
 
-    def __exit__(self, type, value, traceback):
-        self.stats.flush()
-        self.stats.stop()
+    instance = None
+
+    def __init__(self):
+        if not Datadog.instance:
+            Datadog.instance = Datadog.__DatadogSingleton()
+
+    def __getattr__(self, name):
+        return getattr(self.instance, name)
+
+    def gauge(self, metric_name: str, value: Union[int, float]):
+        metrics = [{'metric': metric_name, 'type': 'gauge', 'points': [(int(time.time()), value)]}]
+        return datadog.api.Metric.send(metrics=metrics)
