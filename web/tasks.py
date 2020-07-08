@@ -92,5 +92,7 @@ def sync_product_metrics():
     for shelter in Shelter.available.all().annotate_with_statistics():
         Datadog().gauge(f'product.dogs.available', shelter.pets_available_count,
                         tags=[f'shelter:{shelter.slug}'])
+
+    for shelter in Shelter.objects.all().annotate_with_statistics():
         Datadog().gauge(f'product.dogs.count', shelter.pets_all_count,
                         tags=[f'shelter:{shelter.slug}'])
