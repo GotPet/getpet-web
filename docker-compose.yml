@@ -66,7 +66,6 @@ services:
     volumes:
       - ./config/nginx/conf.d:/etc/nginx/conf.d
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
-      - /etc/ssl:/etc/ssl
       - static_volume:/srv/platform/static
       - media_volume:/srv/platform/media
     depends_on:
