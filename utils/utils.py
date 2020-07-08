@@ -127,5 +127,5 @@ class Datadog:
         return getattr(self.instance, name)
 
     def gauge(self, metric_name: str, value: Union[int, float], tags: List[str]):
-        metrics = [{'metric': metric_name, 'type': 'gauge', 'points': [(int(time.time()), value)]}]
-        return datadog.api.Metric.send(metrics=metrics, tags=tags)
+        return datadog.api.Metric.send(metric=metric_name, points=[(int(time.time()), value)],
+                                       type='gauge', tags=tags)

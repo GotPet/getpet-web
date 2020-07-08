@@ -90,7 +90,7 @@ def ping_google_about_sitemap_update():
 @shared_task(soft_time_limit=60, autoretry_for=(Exception,), retry_backoff=True)
 def sync_product_metrics():
     for shelter in Shelter.available.all().annotate_with_statistics():
-        Datadog().gauge(f'product.shelter.dogs.available', shelter.pets_available_count,
+        Datadog().gauge(f'product.dogs.available', shelter.pets_available_count,
                         tags=[f'shelter:{shelter.slug}'])
-        Datadog().gauge(f'product.shelter.dogs.count', shelter.pets_all_count,
+        Datadog().gauge(f'product.dogs.count', shelter.pets_all_count,
                         tags=[f'shelter:{shelter.slug}'])
