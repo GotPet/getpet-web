@@ -134,6 +134,6 @@ class Datadog:
         }
 
         if tags:
-            options['tags'] = options
+            options['tags'] = tags
 
         return datadog.api.Metric.send(**options)
