@@ -51,7 +51,7 @@
     <!-- End of GetPet steps -->
 
     <!-- Pets -->
-    {% include 'web/sections/pets-section.html' with section_css_class='bg-gray' %}
+    {% include 'web/sections/pets-section.html' with section_css_class='bg-gray' only %}
     <!-- End of Pets -->
 
     <!-- Section download app-->
@@ -59,15 +59,15 @@
     <!-- End of Section download app-->
 
     <!-- GetPet history -->
-    {% include 'web/sections/history-section.html' with section_css_class='bg-gray' %}
+    {% include 'web/sections/history-section.html' with section_css_class='bg-gray' only %}
     <!-- End of GetPet history -->
 
     <!-- GetPet history photos -->
-    {% include 'web/sections/history-photos-section.html' with section_css_class='p-0' %}
+    {% include 'web/sections/history-photos-section.html' with section_css_class='p-0' only %}
     <!-- End of GetPet history photos -->
 
     <!-- Team -->
-    {% include 'web/sections/team-members-section.html' with section_css_class='bg-gray' %}
+    {% include 'web/sections/team-members-section.html' with section_css_class='bg-gray' only %}
     <!-- End of Team -->
 
     <!-- Media -->
@@ -75,7 +75,7 @@
     <!-- End of Media -->
 
     <!-- Benefits for shelter -->
-    {% include 'web/sections/benefits-for-shelters-section.html' with section_css_class='bg-gray' %}
+    {% include 'web/sections/benefits-for-shelters-section.html' with section_css_class='bg-gray' only %}
     <!-- End of Benefits for shelter -->
 
     <!-- More info for shelter -->
@@ -83,6 +83,6 @@
     <!-- End of More info for shelter -->
 
     <!-- Section Contact us -->
-    {% include 'web/sections/contact-us-section.html' with section_css_class='bg-gray' %}
+    {% include 'web/sections/contact-us-section.html' with section_css_class='bg-gray' only %}
     <!-- End of Section Contact us -->
 {% endblock %}
