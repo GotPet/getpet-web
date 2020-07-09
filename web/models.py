@@ -345,9 +345,8 @@ class Shelter(models.Model):
 
         return json.dumps(json_ld_object, allow_nan=False)
 
-
-def __str__(self):
-    return self.name
+    def __str__(self) -> str:
+        return self.name
 
 
 class PetStatus(models.IntegerChoices):
