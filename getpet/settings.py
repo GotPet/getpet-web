@@ -292,6 +292,10 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'web.tasks.sync_product_metrics',
         'schedule': timedelta(minutes=15)
     },
+    'randomize_pets_order': {
+        'task': 'web.tasks.randomize_pets_order',
+        'schedule': crontab(hour='4')
+    },
 }
 
 CELERYD_TASK_SOFT_TIME_LIMIT = 45 * 60
@@ -393,7 +397,7 @@ ACCOUNT_ADAPTER = 'management.adapters.GetPetAccountAdapter'
 SOCIALACCOUNT_ADAPTER = 'management.adapters.GetPetSocialAccountAdapter'
 
 DATADOG_SETTINGS = {
-    'host_name':  os.environ.get('DATADOG_HOSTNAME', None),
+    'host_name': os.environ.get('DATADOG_HOSTNAME', None),
     'api_key': os.environ.get('DATADOG_API_KEY', None),
     'app_key': os.environ.get('DATADOG_APP_KEY', None),
 }

@@ -443,6 +443,7 @@ class Pet(models.Model):
 
     name = models.CharField(max_length=50, verbose_name=_("Gyvūno vardas"))
     slug = models.SlugField(editable=False)
+    order = models.IntegerField(default=0, editable=False)
 
     status = models.SmallIntegerField(
         choices=PetStatus.choices,
@@ -515,7 +516,10 @@ class Pet(models.Model):
     class Meta:
         verbose_name = _("Gyvūnas")
         verbose_name_plural = _("Gyvūnai")
-        ordering = ['-created_at', 'name']
+        ordering = ("order", "id")
+        index_together = [
+            ("order", "id"),
+        ]
 
     def __str__(self):
         return self.name

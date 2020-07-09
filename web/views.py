@@ -31,7 +31,7 @@ class AllDogsListView(ViewPaginatorMixin, ListView):
     context_object_name = 'pets'
     paginate_by = 18
     queryset = Pet.available.all()
-    ordering = '-pk'
+    ordering = ("order", "id")
 
 
 class AllSheltersListView(ViewPaginatorMixin, ListView):
@@ -48,7 +48,7 @@ class ShelterPetsListView(ViewPaginatorMixin, ListView):
     model = Pet
     context_object_name = 'pets'
     paginate_by = 18
-    ordering = '-pk'
+    ordering = ("order", "id")
     allow_empty = False
 
     def get_queryset(self):

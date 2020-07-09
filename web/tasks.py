@@ -99,3 +99,12 @@ def sync_product_metrics():
     for shelter in Shelter.objects.all().annotate_with_statistics():
         Datadog().gauge('product.dogs.count', shelter.pets_all_count,
                         tags=[f'shelter:{shelter.slug}'])
+
+
+@shared_task(soft_time_limit=60, autoretry_for=(Exception,), retry_backoff=True)
+def randomize_pets_order():
+    for i, pet in enumerate(Pet.objects.order_by('?'), start=1):
+        pet.order = i
+        pet.save(update_fields=('order',))
+
+    return True
