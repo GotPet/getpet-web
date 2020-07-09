@@ -23,12 +23,18 @@
     <section class="section bg-gray">
         <div class="container">
             <div class="row equal-height gap-y">
-                {% for pet in pets %}
-                    {% include 'web/element/pet-card.html' with pet=pet %}
-                {% endfor %}
-                <div class="col-12">
-                    {% include 'web/miscellaneous/pagination.html' with paginator_page=page_obj %}
-                </div>
+                {% if pets %}
+                    {% for pet in pets %}
+                        {% include 'web/element/pet-card.html' with pet=pet %}
+                    {% endfor %}
+                    <div class="col-12">
+                        {% include 'web/miscellaneous/pagination.html' with paginator_page=page_obj %}
+                    </div>
+                {% else %}
+                    <div class="col-12 text-center">
+                        {% trans 'Šiuo metu svajonių augintinių gyvūnų globos organizacijoje nėra.' %}
+                    </div>
+                {% endif %}
             </div>
         </div>
     </section>

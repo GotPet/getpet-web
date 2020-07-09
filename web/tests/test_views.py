@@ -85,7 +85,7 @@ class ShelterPetsListViewTest(TestCase):
         shelter = ShelterFactory()
         response = self.client.get(f'/globos-organizacijos/{shelter.slug}/')
 
-        self.assertEquals(response.status_code, 404)
+        self.assertEquals(response.status_code, 200)
 
     def test_shelter_pets_list_no_shelter(self):
         response = self.client.get('/globos-organizacijos/does-not-exist/')

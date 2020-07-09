@@ -49,7 +49,6 @@ class ShelterPetsListView(ViewPaginatorMixin, ListView):
     context_object_name = 'pets'
     paginate_by = 18
     ordering = ("order", "id")
-    allow_empty = False
 
     def get_queryset(self):
         return Pet.available.filter(shelter=self.selected_shelter).all()
