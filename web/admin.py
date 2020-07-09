@@ -67,12 +67,12 @@ class UserAdmin(BaseUserAdmin):
 @admin.register(Shelter)
 class ShelterAdmin(admin.ModelAdmin):
     search_fields = ['name', 'email', ]
-    list_display = ['name', 'email', 'phone', 'region', 'address', 'created_at', 'updated_at']
+    list_display = ['name', 'is_published', 'email', 'phone', 'region', 'address', 'created_at', 'updated_at']
     ordering = ['-created_at', 'pk']
     filter_horizontal = ['authenticated_users']
     autocomplete_fields = ['region']
     list_select_related = ['region']
-    list_filter = ['region']
+    list_filter = ['is_published', 'region', ]
 
     formfield_overrides = {
         PointField: {"widget": GooglePointFieldWidget()}
