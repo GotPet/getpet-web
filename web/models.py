@@ -604,16 +604,16 @@ class Pet(models.Model):
         images = [
             SitemapImageEntry(
                 relative_url=self.photo.url,
-                title=f"{_('Šuo')} {self.name} {_('profilio nuotrauka')}",
+                title=f"{_('Šuns')} {self.name} {_('profilio nuotrauka')}",
                 caption=f"{_('Šuo')} {self.name} {_('iš')} {self.shelter.name} {_('pagrindinė profilio nuotrauka')}",
             )
         ]
 
-        for photo in self.profile_photos.all():
+        for i, photo in enumerate(self.profile_photos.all(), start=1):
             images.append(
                 SitemapImageEntry(
                     relative_url=photo.photo.url,
-                    title=f"{_('Šuo')} {self.name} {photo.order} {_('nuotrauka')}",
+                    title=f"{_('Šuns')} {self.name} {i} {_('nuotrauka')}",
                     caption=f"{_('Šuo')} {self.name} {_('iš')} {self.shelter.name} {_('nuotrauka')} {photo.order}",
                 )
             )
