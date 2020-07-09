@@ -2,23 +2,6 @@ version: "3.4"
 
 services:
 
-  postgres:
-    image: postgres:12.3
-    env_file:
-      - .env
-    networks:
-      - database_network
-    volumes:
-      - postgres_volume:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD", "pg_isready"]
-    labels:
-      - "lt.getpet.postgres"
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: on-failure
-
   postgis:
     image: kartoza/postgis:12.1
     env_file:
