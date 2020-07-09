@@ -1,10 +1,20 @@
 from django.contrib.auth import get_user_model
+from django.contrib.gis.geos import Point
 from faker import Factory
 import factory
+from faker.providers import BaseProvider
 
 from web.models import Country, Mentor, Pet, PetGender, PetSize, PetStatus, Region, Shelter, TeamMember
 
 faker = Factory.create()
+
+
+class DjangoGeoPointProvider(BaseProvider):
+
+    def geo_point(self, **kwargs):
+        kwargs['coords_only'] = True
+        coords = factory.Faker('local_latlng', **kwargs).generate()
+        return Point(x=float(coords[1]), y=float(coords[0]))
 
 
 class UserFactory(factory.DjangoModelFactory):
@@ -37,6 +47,8 @@ class RegionFactory(factory.DjangoModelFactory):
 
 
 class ShelterFactory(factory.DjangoModelFactory):
+    factory.Faker.add_provider(DjangoGeoPointProvider)
+
     class Meta:
         model = Shelter
 
@@ -46,8 +58,7 @@ class ShelterFactory(factory.DjangoModelFactory):
     phone = factory.Faker('phone_number')
     email = factory.Faker('email')
     address = factory.Faker('address')
-    latitude = factory.Faker('latitude')
-    longitude = factory.Faker('longitude')
+    location = factory.Faker('geo_point', country_code='LT')
     region = factory.SubFactory(RegionFactory)
 
     @factory.post_generation
