@@ -9,6 +9,7 @@ from typing import List, Optional
 
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import AbstractUser, UserManager as BaseUserManager
+from django.contrib.gis.db.models import PointField
 from django.db import models
 from django.db.models import Count, QuerySet
 from django.db.models.fields.files import ImageFieldFile
@@ -240,6 +241,7 @@ class Shelter(models.Model):
     region = models.ForeignKey(Region, on_delete=models.PROTECT, related_name="shelters", verbose_name=_("Regionas"))
 
     address = models.CharField(max_length=256, verbose_name=_("Prieglaudos adresas"))
+    location = PointField(null=True, blank=True, verbose_name=_("Vieta"))
     latitude = models.DecimalField(max_digits=9, decimal_places=6, verbose_name=_("Vietos platuma"))
     longitude = models.DecimalField(max_digits=9, decimal_places=6, verbose_name=_("Vietos ilguma"))
 

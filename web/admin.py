@@ -5,9 +5,11 @@ from django.contrib import admin
 from django.contrib.admin.models import LogEntry
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.decorators import login_required
+from django.contrib.gis.db.models import PointField
 from django.db.models.base import Model
 from django.http.request import HttpRequest
 from django.utils.translation import gettext_lazy as _
+from mapwidgets import GooglePointFieldWidget
 
 from getpet import settings
 from web.models import Country, GetPetRequest, Mentor, Pet, PetProfilePhoto, PetProperty, Region, Shelter, TeamMember, \
@@ -71,6 +73,10 @@ class ShelterAdmin(admin.ModelAdmin):
     autocomplete_fields = ['region']
     list_select_related = ['region']
     list_filter = ['region']
+
+    formfield_overrides = {
+        PointField: {"widget": GooglePointFieldWidget()}
+    }
 
     def log_change(self, request: HttpRequest, object: Model, message: Any) -> LogEntry:
         connect_super_users_to_shelters.delay(shelter_pk=object.pk)

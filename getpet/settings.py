@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'django.contrib.sites',
     'django.contrib.postgres',
+    'django.contrib.gis',
 
     'rest_framework',
     'rest_framework.authtoken',
@@ -72,6 +73,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
 
     'django_extensions',
+    'mapwidgets',
 ]
 
 MIDDLEWARE = [
@@ -150,7 +152,7 @@ if DEBUG and not IS_POSTGRES_AVAILABLE:
 else:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'ENGINE': 'django.contrib.gis.db.backends.postgis',
             'NAME': os.environ.get('POSTGRES_DB'),
             'USER': os.environ.get('POSTGRES_USER'),
             'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
@@ -404,6 +406,16 @@ DATADOG_SETTINGS = {
     'host_name': os.environ.get('DATADOG_HOSTNAME', None),
     'api_key': os.environ.get('DATADOG_API_KEY', None),
     'app_key': os.environ.get('DATADOG_APP_KEY', None),
+}
+
+MAP_WIDGETS = {
+    "GooglePointFieldWidget": (
+        ("zoom", 15),
+        ("mapCenterLocation", [54.687157, 25.279652]),
+        ("GooglePlaceAutocompleteOptions", {'componentRestrictions': {'country': 'lt'}}),
+        ("markerFitZoom", 12),
+    ),
+    "GOOGLE_MAP_API_KEY": os.environ.get("GOOGLE_MAP_API_KEY")
 }
 
 # Datadog finalization
