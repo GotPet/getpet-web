@@ -9,7 +9,6 @@ from django.views.generic import RedirectView
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
-from sentry_sdk import last_event_id
 
 from management.forms import PetCreateUpdateForm, PetListFiltersForm, PetProfilePhotoFormSet, ShelterInfoUpdateForm
 from management.mixins import UserWithAssociatedShelterMixin
