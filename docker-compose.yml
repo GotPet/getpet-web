@@ -19,6 +19,22 @@ services:
       restart_policy:
         condition: on-failure
 
+  postgis:
+    image: kartoza/postgis:12.1
+    env_file:
+      - .env
+    networks:
+      - database_network
+    volumes:
+      - postgis_volume:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+    labels:
+      - "lt.getpet.postgres"
+    deploy:
+      restart_policy:
+        condition: on-failure
+
   redis:
     image: redis:6.0
     networks:
@@ -141,6 +157,7 @@ networks:
 
 volumes:
   postgres_volume:
+  postgis_volume:
   static_volume:
   media_volume:
   redis_volume:
