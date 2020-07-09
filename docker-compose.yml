@@ -2,7 +2,7 @@ version: "3.4"
 
 services:
 
-  postgres-old:
+  postgres:
     image: postgres:12.3
     env_file:
       - .env
@@ -19,7 +19,7 @@ services:
       restart_policy:
         condition: on-failure
 
-  postgres:
+  postgis:
     image: kartoza/postgis:12.1
     env_file:
       - .env
