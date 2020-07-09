@@ -8,7 +8,9 @@ WORKDIR /srv/platform
 
 RUN apt-get update && \
   apt-get install -y --no-install-recommends \
-  libgeos-dev \
+    gdal-bin \
+    python3-gdal \
+    libpq-dev \
   && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
