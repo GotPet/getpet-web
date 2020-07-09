@@ -16,13 +16,13 @@ jobs:
 
     services:
       postgres:
-        image: postgres:12.2
+        image: kartoza/postgis:12.1
         ports: ['5432:5432']
         env:
           POSTGRES_HOST: ${{ env.POSTGRES_HOST }}
           POSTGRES_USER: ${{ env.POSTGRES_USER }}
-          POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-          POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          POSTGRES_PASS: ${{ env.POSTGRES_PASSWORD }}
+          POSTGRES_DBNAME: ${{ env.POSTGRES_DB }}
         options: >-
           --health-cmd pg_isready
           --health-interval 5s
