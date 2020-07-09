@@ -37,6 +37,12 @@ jobs:
         with:
           python-version: 3.8
 
+      - name: Run tests
+        run: apt-get update && \
+          apt-get install -y --no-install-recommends \
+          geos \
+          && rm -rf /var/lib/apt/lists/*
+
       - uses: actions/cache@v1
         with:
           path: ~/.cache/pip

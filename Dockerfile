@@ -6,6 +6,11 @@ ENV PYTHONUNBUFFERED 1
 RUN mkdir /srv/platform
 WORKDIR /srv/platform
 
+RUN apt-get update && \
+  apt-get install -y --no-install-recommends \
+  geos \
+  && rm -rf /var/lib/apt/lists/*
+
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
