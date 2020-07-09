@@ -296,6 +296,10 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'web.tasks.randomize_pets_order',
         'schedule': crontab(hour='4')
     },
+    'randomize_shelters_order': {
+        'task': 'web.tasks.randomize_shelters_order',
+        'schedule': crontab(hour='4')
+    },
 }
 
 CELERYD_TASK_SOFT_TIME_LIMIT = 45 * 60

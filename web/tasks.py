@@ -108,3 +108,12 @@ def randomize_pets_order():
         pet.save(update_fields=('order',))
 
     return True
+
+
+@shared_task(soft_time_limit=60, autoretry_for=(Exception,), retry_backoff=True)
+def randomize_shelters_order():
+    for i, shelter in enumerate(Shelter.objects.order_by('?'), start=1):
+        shelter.order = i
+        shelter.save(update_fields=('order',))
+
+    return True

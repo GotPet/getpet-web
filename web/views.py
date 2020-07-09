@@ -40,7 +40,7 @@ class AllSheltersListView(ViewPaginatorMixin, ListView):
     context_object_name = 'shelters'
     paginate_by = 18
     queryset = Shelter.available.select_related('region').all()
-    ordering = '-id'
+    ordering = ("order", "id")
 
 
 class ShelterPetsListView(ViewPaginatorMixin, ListView):

@@ -66,6 +66,7 @@ class UserAdmin(BaseUserAdmin):
 class ShelterAdmin(admin.ModelAdmin):
     search_fields = ['name', 'email', ]
     list_display = ['name', 'email', 'phone', 'region', 'address', 'created_at', 'updated_at']
+    ordering = ['-created_at', 'pk']
     filter_horizontal = ['authenticated_users']
     autocomplete_fields = ['region']
     list_select_related = ['region']
@@ -155,6 +156,7 @@ class PetAdmin(admin.ModelAdmin):
 
     list_select_related = ['shelter']
     list_filter = ['status', 'shelter__name', ]
+    ordering = ['-created_at', 'pk']
 
     inlines = [
         PetProfilePhotoInline,

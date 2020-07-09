@@ -228,6 +228,8 @@ class Shelter(models.Model):
 
     name = models.CharField(max_length=50, verbose_name=_("Prieglaudos pavadinimas"))
     slug = models.SlugField(unique=True, editable=False)
+    order = models.IntegerField(default=0, editable=False)
+
     legal_name = models.CharField(max_length=256, null=True, verbose_name=_("Įstaigos pavadinimas"))
 
     is_published = models.BooleanField(default=True, db_index=True, verbose_name=_("Paskelbta"),
@@ -266,7 +268,10 @@ class Shelter(models.Model):
         verbose_name = _("Gyvūnų prieglauda")
         verbose_name_plural = _("Gyvūnų prieglaudos")
         default_related_name = "shelters"
-        ordering = ['-pk']
+        ordering = ("order", "id")
+        index_together = [
+            ("order", "id"),
+        ]
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
