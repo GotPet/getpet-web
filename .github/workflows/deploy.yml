@@ -38,7 +38,7 @@ jobs:
           python-version: 3.8
 
       - name: Run tests
-        run: apt-get update && \
+        run: sudo apt-get update && \
           apt-get install -y --no-install-recommends \
           geos
 
