@@ -34,7 +34,6 @@ class PetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, ListView)
     template_name = 'management/pets-list.html'
     model = Pet
     context_object_name = 'pets'
-    ordering = ["status", "-pk"]
     paginate_by = 30
     petListFiltersForm = None
 
@@ -48,7 +47,7 @@ class PetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, ListView)
         # noinspection PyUnresolvedReferences
         shelter = self.request.user_selected_shelter
 
-        pets = Pet.pets_from_shelter(shelter)
+        pets = Pet.pets_from_shelter(shelter).order_by("status", "-pk")
 
         return self.petListFiltersForm.filter_queryset(pets)
 
