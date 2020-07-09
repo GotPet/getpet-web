@@ -642,7 +642,7 @@ class Pet(models.Model):
 
     @staticmethod
     def pets_from_shelter(shelter: Shelter, annotate_with_likes_and_dislikes=False) -> QuerySet[Pet]:
-        queryset = Pet.objects.filter(shelter=shelter).order_by('-pk')
+        queryset = Pet.objects.filter(shelter=shelter)
 
         if annotate_with_likes_and_dislikes:
             queryset = queryset.annotate_with_likes_and_dislikes()

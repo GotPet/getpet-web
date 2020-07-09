@@ -48,7 +48,7 @@ class PetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, ListView)
         # noinspection PyUnresolvedReferences
         shelter = self.request.user_selected_shelter
 
-        pets = Pet.pets_from_shelter(shelter, annotate_with_likes_and_dislikes=True)
+        pets = Pet.pets_from_shelter(shelter)
 
         return self.petListFiltersForm.filter_queryset(pets)
 
