@@ -5,9 +5,7 @@
 {% load setting_tags %}
 
 {% block title %}{% trans 'GetPet - čia prasideda draugystė' %}{% endblock %}
-{% block description %}
-    {% trans 'Pasaulyje pripažintas priemonių rinkinys padedantis beglobiams gyvūnams surasti naujus namus, o žmonėms - atrasti tinkamiausią augintinį ir užmegzti naują draugystę.' %}
-{% endblock %}
+
 
 {% block head %}
     {% comment %}<!-- @formatter:off -->{% endcomment %}
@@ -25,7 +23,9 @@
 
                     <h1 class="display-4 my-6"><strong>GetPet</strong> - čia prasideda draugystė</h1>
                     <p class="lead-3">
-                        {% trans 'Pasaulyje pripažintas priemonių rinkinys padedantis beglobiams gyvūnams surasti naujus namus, o žmonėms - atrasti tinkamiausią augintinį ir užmegzti naują draugystę' %}
+                        {% block description %}
+                            {% trans 'Pasaulyje pripažintas priemonių rinkinys padedantis beglobiams gyvūnams surasti naujus namus, o žmonėms - rasti tinkamiausią augintinį ir užmegzti naują draugystę' %}
+                        {% endblock %}
                     </p>
                     <hr class="w-80px">
                     <div>
