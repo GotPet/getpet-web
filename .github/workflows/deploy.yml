@@ -37,7 +37,7 @@ jobs:
         with:
           python-version: 3.8
 
-      - name: Run tests
+      - name: Install apt dependencies
         run: sudo apt-get update && \
           apt-get install -y --no-install-recommends \
           geos
