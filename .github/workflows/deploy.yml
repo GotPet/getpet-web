@@ -40,8 +40,7 @@ jobs:
       - name: Run tests
         run: apt-get update && \
           apt-get install -y --no-install-recommends \
-          geos \
-          && rm -rf /var/lib/apt/lists/*
+          geos
 
       - uses: actions/cache@v1
         with:
