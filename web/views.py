@@ -51,7 +51,7 @@ class ShelterPetsListView(ViewPaginatorMixin, ListView):
     ordering = ("order", "id")
 
     def get_queryset(self):
-        return Pet.available.filter(shelter=self.selected_shelter).all()
+        return Dog.available.filter(shelter=self.selected_shelter).all()
 
     @cached_property
     def selected_shelter(self) -> Shelter:
