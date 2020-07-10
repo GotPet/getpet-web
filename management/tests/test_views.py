@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from web.tests.factories import GroupFactory, PetFactory, ShelterFactory, UserFactory
+from web.tests.factories import DogFactory, GroupFactory, PetFactory, ShelterFactory, UserFactory
 
 
 class PetsListViewTest(TestCase):
@@ -14,9 +14,9 @@ class PetsListViewTest(TestCase):
         shelter1 = ShelterFactory(authenticated_users=[user_associated_to_shelter1])
         shelter2 = ShelterFactory()
 
-        shelter1pet1 = PetFactory(shelter=shelter1)
-        shelter1pet2 = PetFactory(shelter=shelter1)
-        shelter2pet1 = PetFactory(shelter=shelter2)
+        shelter1pet1 = DogFactory(shelter=shelter1)
+        shelter1pet2 = DogFactory(shelter=shelter1)
+        shelter2pet1 = DogFactory(shelter=shelter2)
 
         self.client.force_login(user_associated_to_shelter1)
 

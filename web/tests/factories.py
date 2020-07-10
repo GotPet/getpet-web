@@ -5,7 +5,7 @@ from faker import Factory
 import factory
 from faker.providers import BaseProvider
 
-from web.models import Country, Mentor, Pet, PetGender, PetSize, PetStatus, Region, Shelter, TeamMember
+from web.models import Country, Dog, Mentor, Pet, PetGender, PetSize, PetStatus, Region, Shelter, TeamMember
 
 faker = Factory.create()
 
@@ -106,6 +106,13 @@ class PetFactory(factory.DjangoModelFactory):
     weight = factory.Faker('pyint')
     size = PetSize.Medium
     desexed = factory.Faker('boolean')
+
+
+class DogFactory(PetFactory):
+    class Meta:
+        model = Dog
+
+    dog_size = PetSize.Medium
 
 
 class TeamMemberFactory(factory.DjangoModelFactory):

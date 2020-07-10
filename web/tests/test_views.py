@@ -2,7 +2,7 @@ from django.core.cache import cache
 from django.test import TestCase
 
 from web.models import PetStatus
-from web.tests.factories import MentorFactory, PetFactory, ShelterFactory, TeamMemberFactory
+from web.tests.factories import DogFactory, MentorFactory, PetFactory, ShelterFactory, TeamMemberFactory
 
 
 class IndexViewTest(TestCase):
@@ -37,8 +37,8 @@ class IndexViewTest(TestCase):
 
 class AllDogsListViewTest(TestCase):
     def test_all_dogs_list_view(self):
-        pet1 = PetFactory()
-        pet2 = PetFactory()
+        pet1 = DogFactory()
+        pet2 = DogFactory()
 
         response = self.client.get('/sunys/')
         self.assertContains(response, pet1.name)
@@ -60,7 +60,7 @@ class DogProfileViewTest(TestCase):
 
     def test_dog_profile(self):
         shelter = ShelterFactory()
-        pet1 = PetFactory(shelter=shelter)
+        pet1 = DogFactory(shelter=shelter)
 
         response = self.client.get(f'/sunys/{pet1.pk}-{pet1.slug}/')
 
