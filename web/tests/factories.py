@@ -1,8 +1,8 @@
+import factory
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.contrib.gis.geos import Point
 from faker import Factory
-import factory
 from faker.providers import BaseProvider
 
 from web.models import Country, Dog, Mentor, Pet, PetGender, PetSize, PetStatus, Region, Shelter, TeamMember
@@ -104,7 +104,6 @@ class PetFactory(factory.DjangoModelFactory):
     gender = PetGender.Male
     age = factory.Faker('pyint')
     weight = factory.Faker('pyint')
-    size = PetSize.Medium
     desexed = factory.Faker('boolean')
 
 
@@ -112,7 +111,7 @@ class DogFactory(PetFactory):
     class Meta:
         model = Dog
 
-    dog_size = PetSize.Medium
+    size = PetSize.Medium
 
 
 class TeamMemberFactory(factory.DjangoModelFactory):

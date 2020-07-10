@@ -2,26 +2,26 @@ from unittest.mock import MagicMock
 
 from django.test import SimpleTestCase
 
-from web.models import Pet, PetGender, PetSize
+from web.models import Dog, PetGender, PetSize
 
 
 class TestPetDescriptionIncludingAllInformationTestCase(SimpleTestCase):
 
     @staticmethod
-    def _create_pet(**kwargs):
-        pet = Pet(**kwargs)
-        pet.properties_list = MagicMock(return_value=[])
+    def _create_dog(**kwargs):
+        dog = Dog(**kwargs)
+        dog.properties_list = MagicMock(return_value=[])
 
-        return pet
+        return dog
 
     def test_description_no_more_information(self):
         description = "description part 1\ndescription part2"
-        pet = self._create_pet(description=description)
+        pet = self._create_dog(description=description)
 
         self.assertEqual(pet.description_including_all_information(), description)
 
     def test_description_all_information(self):
-        pet = self._create_pet(
+        pet = self._create_dog(
             description="Man reikia kantraus ir supratingo mokytojo. Mokytojo, kuris išmokytų mėgautis paglostymais, ausyčių pakasymu, ilgais pasivaikščiojimais ir žmogaus draugija. Duok man šansą atgauti pasitikėjimą žmogumi ir tapti tau ištikimu draugu!",
             age=12,
             weight=2,
@@ -52,7 +52,7 @@ Amputuota galūnė ir šlapimo nelaikymas.
         description = "description"
         expected_description = "description\n\nAmžius: apie 12 m."
 
-        pet = self._create_pet(description=description, age=12)
+        pet = self._create_dog(description=description, age=12)
 
         self.assertEqual(pet.description_including_all_information(), expected_description)
 
@@ -60,7 +60,7 @@ Amputuota galūnė ir šlapimo nelaikymas.
         description = "description"
         expected_description = "description\n\nDydis: vidutinis"
 
-        pet = self._create_pet(description=description, size=PetSize.Medium)
+        pet = self._create_dog(description=description, size=PetSize.Medium)
 
         self.assertEqual(pet.description_including_all_information(), expected_description)
 
@@ -68,7 +68,7 @@ Amputuota galūnė ir šlapimo nelaikymas.
         description = "description"
         expected_description = "description\n\nDydis: didelis (apie 25 kg)"
 
-        pet = self._create_pet(description=description, size=PetSize.Large, weight=25)
+        pet = self._create_dog(description=description, size=PetSize.Large, weight=25)
 
         self.assertEqual(pet.description_including_all_information(), expected_description)
 
@@ -77,7 +77,7 @@ Amputuota galūnė ir šlapimo nelaikymas.
         pet_properties_list = ['Bailus', 'Labai aktyvus']
         expected_description = "description\n\nPastabos: bailus, labai aktyvus"
 
-        pet = self._create_pet(description=description)
+        pet = self._create_dog(description=description)
         pet.properties_list = MagicMock(return_value=pet_properties_list)
 
         self.assertEqual(pet.description_including_all_information(), expected_description)
@@ -86,7 +86,7 @@ Amputuota galūnė ir šlapimo nelaikymas.
         description = "description"
         expected_description = "description\n\nSpecialūs sveikatos poreikiai ir būklės:\nAmputuota galūnė"
 
-        pet = self._create_pet(description=description, special_information="Amputuota galūnė")
+        pet = self._create_dog(description=description, special_information="Amputuota galūnė")
 
         self.assertEqual(pet.description_including_all_information(), expected_description)
 
@@ -94,7 +94,7 @@ Amputuota galūnė ir šlapimo nelaikymas.
         description = "description"
         expected_description = "description\n\nLytis: patinas"
 
-        pet = self._create_pet(description=description, gender=PetGender.Male)
+        pet = self._create_dog(description=description, gender=PetGender.Male)
 
         self.assertEqual(pet.description_including_all_information(), expected_description)
 
@@ -102,7 +102,7 @@ Amputuota galūnė ir šlapimo nelaikymas.
         description = "description"
         expected_description = "description\n\nLytis: patelė"
 
-        pet = self._create_pet(description=description, gender=PetGender.Female)
+        pet = self._create_dog(description=description, gender=PetGender.Female)
 
         self.assertEqual(pet.description_including_all_information(), expected_description)
 
@@ -110,7 +110,7 @@ Amputuota galūnė ir šlapimo nelaikymas.
         description = "description"
         expected_description = "description\n\nLytis: patinas (kastruotas)"
 
-        pet = self._create_pet(description=description, gender=PetGender.Male, desexed=True)
+        pet = self._create_dog(description=description, gender=PetGender.Male, desexed=True)
 
         self.assertEqual(pet.description_including_all_information(), expected_description)
 
@@ -118,7 +118,7 @@ Amputuota galūnė ir šlapimo nelaikymas.
         description = "description"
         expected_description = "description\n\nLytis: patelė (sterilizuota)"
 
-        pet = self._create_pet(description=description, gender=PetGender.Female, desexed=True)
+        pet = self._create_dog(description=description, gender=PetGender.Female, desexed=True)
 
         self.assertEqual(pet.description_including_all_information(), expected_description)
 
@@ -126,7 +126,7 @@ Amputuota galūnė ir šlapimo nelaikymas.
         description = "description"
         expected_description = "description\n\nLytis: patinas (nekastruotas)"
 
-        pet = self._create_pet(description=description, gender=PetGender.Male, desexed=False)
+        pet = self._create_dog(description=description, gender=PetGender.Male, desexed=False)
 
         self.assertEqual(pet.description_including_all_information(), expected_description)
 
@@ -134,7 +134,7 @@ Amputuota galūnė ir šlapimo nelaikymas.
         description = "description"
         expected_description = "description\n\nLytis: patelė (nesterilizuota)"
 
-        pet = self._create_pet(description=description, gender=PetGender.Female, desexed=False)
+        pet = self._create_dog(description=description, gender=PetGender.Female, desexed=False)
 
         self.assertEqual(pet.description_including_all_information(), expected_description)
 
