@@ -242,6 +242,7 @@ class PetPropertyAdmin(admin.ModelAdmin):
     list_display = ['name', ]
     filter_horizontal = ['pets']
 
+
 @admin.register(DogProperty)
 class PetPropertyAdmin(admin.ModelAdmin):
     list_display = ['name', ]
