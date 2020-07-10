@@ -8,7 +8,7 @@ from django.core.mail import send_mail
 
 from getpet import settings
 from utils.utils import Datadog
-from web.models import Pet, PetStatus, Shelter
+from web.models import GetPetRequest, Pet, PetStatus, Shelter, User, UserPetChoice
 
 logger = logging.getLogger(__name__)
 
@@ -88,6 +88,12 @@ def ping_google_about_sitemap_update():
 def sync_product_metrics():
     Datadog().gauge('product.shelters.count', Shelter.objects.count())
     Datadog().gauge('product.shelters.available', Shelter.available.count())
+
+    Datadog().gauge('product.users.registered', User.objects.filter(groups__name='Api').count())
+
+    Datadog().gauge('product.dogs.getpet_requests', GetPetRequest.objects.count())
+    Datadog().gauge('product.dogs.likes', UserPetChoice.objects.filter(is_favorite=True).count())
+    Datadog().gauge('product.dogs.dislikes', UserPetChoice.objects.filter(is_favorite=False).count())
 
     for shelter in Shelter.available.all().annotate_with_statistics():
         Datadog().gauge('product.dogs.available', shelter.pets_available_count,
