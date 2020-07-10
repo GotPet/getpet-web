@@ -100,7 +100,7 @@ def find_first(seq, predicate, default=None):
 
 
 def file_extension(file_name: str) -> str:
-    return file_name.split('.')[-1]
+    return file_name.split('.')[-1].lower()
 
 
 def full_path(path: str) -> str:
