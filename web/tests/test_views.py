@@ -94,9 +94,9 @@ class ShelterPetsListViewTest(TestCase):
 
     def test_shelter_pets_list(self):
         shelter = ShelterFactory()
-        pet1 = PetFactory(shelter=shelter)
-        pet2 = PetFactory(shelter=shelter)
-        pet_disabled = PetFactory(shelter=shelter, status=PetStatus.TAKEN_NOT_VIA_GETPET)
+        pet1 = DogFactory(shelter=shelter)
+        pet2 = DogFactory(shelter=shelter)
+        pet_disabled = DogFactory(shelter=shelter, status=PetStatus.TAKEN_NOT_VIA_GETPET)
 
         response = self.client.get(f'/globos-organizacijos/{shelter.slug}/')
 
