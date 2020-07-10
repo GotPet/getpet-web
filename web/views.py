@@ -9,7 +9,7 @@ from sentry_sdk import last_event_id
 
 from utils.mixins import ViewPaginatorMixin
 from web.constants import Constants
-from web.models import Dog, Mentor, Pet, Shelter, TeamMember
+from web.models import Dog, Mentor, Shelter, TeamMember
 
 
 class IndexView(TemplateView):
@@ -45,13 +45,12 @@ class AllSheltersListView(ViewPaginatorMixin, ListView):
 
 class ShelterPetsListView(ViewPaginatorMixin, ListView):
     template_name = 'web/shelter-pets.html'
-    model = Pet
+    model = Dog
     context_object_name = 'pets'
     paginate_by = 18
-    ordering = ("order", "id")
 
     def get_queryset(self):
-        return Dog.available.filter(shelter=self.selected_shelter).all()
+        return Dog.available.filter(shelter=self.selected_shelter).order_by("order", "id")
 
     @cached_property
     def selected_shelter(self) -> Shelter:
