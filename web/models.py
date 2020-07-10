@@ -553,7 +553,7 @@ class Pet(models.Model):
         on_pet_created_or_updated.delay(self.pk, orig_status, orig_status_text)
 
     def similar_pets_from_same_shelter(self):
-        return Pet.available.filter(shelter=self.shelter).exclude(pk=self.pk).order_by('?')[:3]
+        return Dog.available.filter(shelter=self.shelter).exclude(pk=self.pk).order_by('?')[:3]
 
     def desexed_status_text(self) -> Optional[str]:
         if self.gender == PetGender.Male and self.desexed is True:
@@ -640,15 +640,6 @@ class Pet(models.Model):
 
         return "badge-primary"
 
-    @staticmethod
-    def pets_from_shelter(shelter: Shelter, annotate_with_likes_and_dislikes=False) -> QuerySet[Pet]:
-        queryset = Pet.objects.filter(shelter=shelter)
-
-        if annotate_with_likes_and_dislikes:
-            queryset = queryset.annotate_with_likes_and_dislikes()
-
-        return queryset
-
     def get_absolute_url(self) -> str:
         return reverse('web:dog_profile', kwargs={'pk': self.pk, 'slug': self.slug})
 
@@ -657,7 +648,7 @@ class Pet(models.Model):
 
     @staticmethod
     def generate_pets(liked_pet_ids, disliked_pet_ids, region):
-        queryset = Pet.available.prefetch_related('profile_photos', 'properties') \
+        queryset = Dog.available.prefetch_related('profile_photos', 'properties') \
             .select_related_full_shelter() \
             .exclude(pk__in=liked_pet_ids).order_by()
 
@@ -697,9 +688,27 @@ class Dog(Pet):
         choices=PetSize.choices,
     )
 
+    objects = PetQuerySet.as_manager()
+    available = AvailablePetsManager()
+
     class Meta:
         verbose_name = _("Šuo")
         verbose_name_plural = _("Šunys")
+
+    @staticmethod
+    def dogs_from_shelter(shelter: Shelter, annotate_with_likes_and_dislikes=False) -> QuerySet[Dog]:
+        queryset = Dog.objects.filter(shelter=shelter)
+
+        if annotate_with_likes_and_dislikes:
+            queryset = queryset.annotate_with_likes_and_dislikes()
+
+        return queryset
+
+    def get_absolute_url(self) -> str:
+        return reverse('web:dog_profile', kwargs={'pk': self.pk, 'slug': self.slug})
+
+    def edit_pet_url(self) -> str:
+        return reverse('management:pets_update', kwargs={'pk': self.pk})
 
 
 class DogProperty(models.Model):

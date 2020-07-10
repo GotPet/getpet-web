@@ -121,7 +121,7 @@ def randomize_shelters_order():
 
 def migrate_to_dogs():
     for p in PetProperty.objects.all():
-        DogProperty.objects.get_or_create(name=p.name)
+        DogProperty.objects.get_or_create(id=p.id, defaults={'name': p.name})
 
     for pet in Pet.objects.all():
         dog = Dog(pet_ptr=pet, dog_size=pet.size)

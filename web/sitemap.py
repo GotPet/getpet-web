@@ -1,7 +1,7 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 
-from web.models import Pet, Shelter
+from web.models import Dog, Pet, Shelter
 
 
 class StaticSitemap(Sitemap):
@@ -29,14 +29,14 @@ class ShelterSitemap(Sitemap):
         return shelter.updated_at
 
 
-class PetSitemap(Sitemap):
+class DogSitemap(Sitemap):
     changefreq = "daily"
     protocol = 'https'
     priority = 0.7
 
     def items(self):
-        return Pet.available.select_related('shelter').prefetch_related('profile_photos').order_by('-pk')
+        return Dog.available.select_related('shelter').prefetch_related('profile_photos').order_by('-pk')
 
     @staticmethod
-    def lastmod(pet: Pet):
+    def lastmod(pet: Dog):
         return pet.updated_at
