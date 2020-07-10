@@ -15,15 +15,15 @@ class IndexViewTest(TestCase):
         self.assertEquals(response.status_code, 200)
 
     def test_index_pets(self):
-        pet = PetFactory()
-        pet_disabled = PetFactory(status=PetStatus.TAKEN_NOT_VIA_GETPET)
+        dog = DogFactory()
+        dog_disabled = DogFactory(status=PetStatus.TAKEN_NOT_VIA_GETPET)
 
         response = self.client.get('/')
 
-        self.assertContains(response, pet.name)
-        self.assertContains(response, pet.short_description)
+        self.assertContains(response, dog.name)
+        self.assertContains(response, dog.short_description)
 
-        self.assertNotContains(response, pet_disabled.name)
+        self.assertNotContains(response, dog_disabled.name)
 
     def test_index_team_members(self):
         team_member = TeamMemberFactory()
