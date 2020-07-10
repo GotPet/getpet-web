@@ -115,3 +115,12 @@ class MentorListViewTest(TestCase):
 
         self.assertContains(response, mentor1.name)
         self.assertContains(response, mentor2.name)
+
+
+class SitemapTest(TestCase):
+    def test_sitemap_status(self):
+        shelter = ShelterFactory()
+        pet = PetFactory()
+        response = self.client.get('/sitemap.xml/')
+
+        self.assertEqual(response.status_code, 200)
