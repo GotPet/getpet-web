@@ -233,7 +233,7 @@ class Shelter(models.Model):
 
     legal_name = models.CharField(max_length=256, null=True, verbose_name=_("Įstaigos pavadinimas"))
 
-    is_published = models.BooleanField(default=True, db_index=True, verbose_name=_("Paskelbta"),
+    is_published = models.BooleanField(default=False, db_index=True, verbose_name=_("Paskelbta"),
                                        help_text=_("Pažymėjus prieglauda matoma viešai"))
 
     square_logo = models.ImageField(upload_to=_shelter_square_logo_file, verbose_name=_("Kvadratinis logotipas"))
