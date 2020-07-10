@@ -22,8 +22,8 @@ services:
     image: kartoza/pg-backup:12.1
     volumes:
       - /srv/getpet-web-db-backups:/backups
-    links:
-      - postgis
+    networks:
+      - database_network
     env_file:
       - .env
     environment:
