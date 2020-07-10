@@ -689,6 +689,39 @@ class PetProperty(models.Model):
         return self.name
 
 
+class Dog(Pet):
+    dog_properties = models.ManyToManyField("web.DogProperty", blank=True, related_name="+",
+                                            verbose_name=_("Šuns savybės"))
+    dog_size = models.SmallIntegerField(
+        verbose_name=_("Dydis"),
+        choices=PetSize.choices,
+    )
+
+    class Meta:
+        verbose_name = _("Šuo")
+        verbose_name_plural = _("Šunys")
+
+
+class DogProperty(models.Model):
+    name = models.CharField(max_length=128, unique=True, verbose_name=_("Šuns savybė"))
+    dogs = models.ManyToManyField(
+        Dog,
+        verbose_name=_("Gyvūnai"),
+        through=Dog.dog_properties.through,
+        related_name="+",
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name = _("Šuns savybė")
+        verbose_name_plural = _("Šuns savybės")
+        default_related_name = "+"
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
 class PetProfilePhoto(models.Model):
     def _pet_photo_file(self, filename):
         ext = file_extension(filename)

@@ -12,7 +12,8 @@ from django.utils.translation import gettext_lazy as _
 from mapwidgets import GooglePointFieldWidget
 
 from getpet import settings
-from web.models import Country, GetPetRequest, Mentor, Pet, PetProfilePhoto, PetProperty, Region, Shelter, TeamMember, \
+from web.models import Country, Dog, GetPetRequest, Mentor, Pet, PetProfilePhoto, PetProperty, Region, Shelter, \
+    TeamMember, \
     User, \
     UserPetChoice
 from web.tasks import connect_super_users_to_shelters
@@ -143,8 +144,7 @@ class GetPetRequestInline(admin.TabularInline):
     email.short_description = _("El. pašto adresas")
 
 
-@admin.register(Pet)
-class PetAdmin(admin.ModelAdmin):
+class BasePetAdmin(admin.ModelAdmin):
     search_fields = ['name', ]
     list_display = [
         'name',
@@ -200,6 +200,16 @@ class PetAdmin(admin.ModelAdmin):
         return round(total_pet_likes * 100.0 / total, 2) if total else None
 
     likes_ratio.short_description = _("% patinka")
+
+
+@admin.register(Pet)
+class PetAdmin(BasePetAdmin):
+    pass
+
+
+@admin.register(Dog)
+class DogAdmin(BasePetAdmin):
+    pass
 
 
 @admin.register(GetPetRequest)
