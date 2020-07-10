@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
 from django.contrib.gis.geos import Point
 from faker import Factory
 import factory
@@ -17,6 +18,14 @@ class DjangoGeoPointProvider(BaseProvider):
         return Point(x=float(coords[1]), y=float(coords[0]))
 
 
+class GroupFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = Group
+        django_get_or_create = ('name',)
+
+    name = factory.Faker('user_name')
+
+
 class UserFactory(factory.DjangoModelFactory):
     class Meta:
         model = get_user_model()
@@ -25,6 +34,16 @@ class UserFactory(factory.DjangoModelFactory):
     first_name = factory.Faker('first_name')
     last_name = factory.Faker('last_name')
     email = factory.Faker('email')
+
+    @factory.post_generation
+    def groups(self, create, extracted, **kwargs):
+        if not create:
+            # Simple build, do nothing.
+            return
+
+        if extracted:
+            for group in extracted:
+                self.groups.add(group)
 
 
 class CountryFactory(factory.DjangoModelFactory):
