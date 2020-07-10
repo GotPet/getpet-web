@@ -48,6 +48,8 @@ services:
       - .env
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8080/health/ || exit 1"]
+    labels:
+      - "lt.getpet.platform"
     deploy:
       replicas: 2
       restart_policy:
