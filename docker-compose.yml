@@ -18,6 +18,17 @@ services:
       restart_policy:
         condition: on-failure
 
+  dbbackup:
+    image: kartoza/pg-backup:12.1
+    volumes:
+      - /srv/getpet-web-db-backups:/backups
+    links:
+      - postgis
+    env_file:
+      - .env
+    environment:
+      - DUMPPREFIX=getpet_web
+
   redis:
     image: redis:6.0
     networks:
