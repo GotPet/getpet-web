@@ -12,7 +12,9 @@ from django.utils.translation import gettext_lazy as _
 from mapwidgets import GooglePointFieldWidget
 
 from getpet import settings
-from web.models import Country, GetPetRequest, Mentor, Pet, PetProfilePhoto, PetProperty, Region, Shelter, TeamMember, \
+from web.models import Country, Dog, DogProperty, GetPetRequest, Mentor, Pet, PetProfilePhoto, PetProperty, Region, \
+    Shelter, \
+    TeamMember, \
     User, \
     UserPetChoice
 from web.tasks import connect_super_users_to_shelters
@@ -143,8 +145,7 @@ class GetPetRequestInline(admin.TabularInline):
     email.short_description = _("El. pašto adresas")
 
 
-@admin.register(Pet)
-class PetAdmin(admin.ModelAdmin):
+class BasePetAdmin(admin.ModelAdmin):
     search_fields = ['name', ]
     list_display = [
         'name',
@@ -202,6 +203,16 @@ class PetAdmin(admin.ModelAdmin):
     likes_ratio.short_description = _("% patinka")
 
 
+@admin.register(Pet)
+class PetAdmin(BasePetAdmin):
+    pass
+
+
+@admin.register(Dog)
+class DogAdmin(BasePetAdmin):
+    pass
+
+
 @admin.register(GetPetRequest)
 class GetPetRequestAdmin(admin.ModelAdmin):
     list_display = ['user', 'pet', 'status', 'created_at']
@@ -230,6 +241,12 @@ class PetProfilePhotoAdmin(admin.ModelAdmin):
 class PetPropertyAdmin(admin.ModelAdmin):
     list_display = ['name', ]
     filter_horizontal = ['pets']
+
+
+@admin.register(DogProperty)
+class PetPropertyAdmin(admin.ModelAdmin):
+    list_display = ['name', ]
+    filter_horizontal = ['dogs']
 
 
 @admin.register(TeamMember)

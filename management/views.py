@@ -14,7 +14,7 @@ from management.forms import PetCreateUpdateForm, PetListFiltersForm, PetProfile
 from management.mixins import UserWithAssociatedShelterMixin
 from utils.mixins import ViewPaginatorMixin
 from utils.utils import add_url_params
-from web.models import Pet, Shelter
+from web.models import Dog, Pet, Shelter
 
 
 class IndexView(UserWithAssociatedShelterMixin):
@@ -32,7 +32,7 @@ class IndexView(UserWithAssociatedShelterMixin):
 # Pets
 class PetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, ListView):
     template_name = 'management/pets-list.html'
-    model = Pet
+    model = Dog
     context_object_name = 'pets'
     paginate_by = 30
     petListFiltersForm = None
@@ -47,7 +47,7 @@ class PetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, ListView)
         # noinspection PyUnresolvedReferences
         shelter = self.request.user_selected_shelter
 
-        pets = Pet.pets_from_shelter(shelter).order_by("status", "-pk")
+        pets = Dog.dogs_from_shelter(shelter).order_by("status", "-pk")
 
         return self.petListFiltersForm.filter_queryset(pets)
 
@@ -61,7 +61,7 @@ class PetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, ListView)
 
 
 class PetCreateView(UserWithAssociatedShelterMixin, CreateView):
-    model = Pet
+    model = Dog
     template_name = 'management/pet-create.html'
     form_class = PetCreateUpdateForm
     context_object_name = 'pet'
@@ -83,7 +83,7 @@ class PetCreateView(UserWithAssociatedShelterMixin, CreateView):
 
     def get_queryset(self) -> models.query.QuerySet:
         # noinspection PyUnresolvedReferences
-        return Pet.pets_from_shelter(self.request.user_selected_shelter)
+        return Dog.dogs_from_shelter(self.request.user_selected_shelter)
 
     def form_valid(self, form):
         # noinspection PyUnresolvedReferences

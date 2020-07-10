@@ -39,7 +39,7 @@ urlpatterns = [
                           'sitemaps': {
                               'static': sitemap.StaticSitemap,
                               'shelter': sitemap.ShelterSitemap,
-                              'pets': sitemap.PetSitemap,
+                              'dogs': sitemap.DogSitemap,
                           }
                       },
                       name='django.contrib.sitemaps.views.index'

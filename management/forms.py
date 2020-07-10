@@ -16,7 +16,7 @@ from django.utils.translation import gettext_lazy as _
 
 from management.custom_layout_object import AppendedText, CardTitle, Formset, PlainTextFormField, PrependedText
 from utils.utils import find_first
-from web.models import Pet, PetGender, PetProfilePhoto, PetQuerySet, PetStatus, Shelter
+from web.models import Dog, Pet, PetGender, PetProfilePhoto, PetQuerySet, PetStatus, Shelter
 
 logger = getLogger(__name__)
 
@@ -282,7 +282,7 @@ class PetCreateUpdateForm(forms.ModelForm):
         self.fields[field_name].widget.choices = choices
 
     class Meta:
-        model = Pet
+        model = Dog
         fields = [
             'name',
             'status',
@@ -373,7 +373,7 @@ class _BasePetProfilePhotoFormset(BaseInlineFormSet):
                 pet_photo.save()
 
 
-PetProfilePhotoFormSet = inlineformset_factory(Pet, PetProfilePhoto, form=PetProfilePhotoForm,
+PetProfilePhotoFormSet = inlineformset_factory(Dog, PetProfilePhoto, form=PetProfilePhotoForm,
                                                formset=_BasePetProfilePhotoFormset, extra=0)
 
 

@@ -113,7 +113,7 @@
         </div>
     </section>
 
-    {% include 'web/sections/pet-profile/more-shelter-pets-section.html' with shelter=pet.shelter pets=pet.similar_pets_from_same_shelter %}
+    {% include 'web/sections/pet-profile/more-shelter-pets-section.html' with shelter=pet.shelter pets=pet.similar_dogs_from_same_shelter %}
 
     {% include 'web/sections/app-section.html' with section_css_class='bg-gray' %}
 

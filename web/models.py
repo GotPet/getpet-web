@@ -552,9 +552,6 @@ class Pet(models.Model):
 
         on_pet_created_or_updated.delay(self.pk, orig_status, orig_status_text)
 
-    def similar_pets_from_same_shelter(self):
-        return Pet.available.filter(shelter=self.shelter).exclude(pk=self.pk).order_by('?')[:3]
-
     def desexed_status_text(self) -> Optional[str]:
         if self.gender == PetGender.Male and self.desexed is True:
             return _("kastruotas")
@@ -566,6 +563,12 @@ class Pet(models.Model):
             return _("nesterilizuota")
 
         return None
+
+    def properties_list(self) -> List[str]:
+        if hasattr(self, 'properties'):
+            return list([p.name for p in self.properties.all()])
+
+        return []
 
     def description_including_all_information(self) -> str:
         description_parts = [self.description + "\n"]
@@ -600,26 +603,6 @@ class Pet(models.Model):
 
         return '\n'.join(description_parts).strip(' \n\t')
 
-    def sitemap_image_entries(self) -> List[SitemapImageEntry]:
-        images = [
-            SitemapImageEntry(
-                relative_url=self.photo.url,
-                title=f"{_('Šuns')} {self.name} {_('profilio nuotrauka')}",
-                caption=f"{_('Šuo')} {self.name} {_('iš')} {self.shelter.name} {_('pagrindinė profilio nuotrauka')}",
-            )
-        ]
-
-        for i, photo in enumerate(self.profile_photos.all(), start=1):
-            images.append(
-                SitemapImageEntry(
-                    relative_url=photo.photo.url,
-                    title=f"{_('Šuns')} {self.name} {i} {_('nuotrauka')}",
-                    caption=f"{_('Šuo')} {self.name} {_('iš')} {self.shelter.name} {_('nuotrauka')} {photo.order}",
-                )
-            )
-
-        return images
-
     def all_photos(self) -> List[ImageFieldFile]:
         photos = [self.photo]
 
@@ -627,9 +610,6 @@ class Pet(models.Model):
             photos.append(photo.photo)
 
         return photos
-
-    def properties_list(self) -> List[str]:
-        return list([p.name for p in self.properties.all()])
 
     def is_available(self) -> bool:
         return self.status == PetStatus.AVAILABLE and self.shelter.is_published
@@ -641,23 +621,8 @@ class Pet(models.Model):
         return "badge-primary"
 
     @staticmethod
-    def pets_from_shelter(shelter: Shelter, annotate_with_likes_and_dislikes=False) -> QuerySet[Pet]:
-        queryset = Pet.objects.filter(shelter=shelter)
-
-        if annotate_with_likes_and_dislikes:
-            queryset = queryset.annotate_with_likes_and_dislikes()
-
-        return queryset
-
-    def get_absolute_url(self) -> str:
-        return reverse('web:dog_profile', kwargs={'pk': self.pk, 'slug': self.slug})
-
-    def edit_pet_url(self) -> str:
-        return reverse('management:pets_update', kwargs={'pk': self.pk})
-
-    @staticmethod
     def generate_pets(liked_pet_ids, disliked_pet_ids, region):
-        queryset = Pet.available.prefetch_related('profile_photos', 'properties') \
+        queryset = Dog.available.prefetch_related('profile_photos', 'properties') \
             .select_related_full_shelter() \
             .exclude(pk__in=liked_pet_ids).order_by()
 
@@ -683,6 +648,80 @@ class PetProperty(models.Model):
         verbose_name = _("Gyvūno savybė")
         verbose_name_plural = _("Gyvūno savybės")
         default_related_name = "properties"
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
+class Dog(Pet):
+    dog_properties = models.ManyToManyField("web.DogProperty", blank=True, related_name="+",
+                                            verbose_name=_("Šuns savybės"))
+    dog_size = models.SmallIntegerField(
+        verbose_name=_("Dydis"),
+        choices=PetSize.choices,
+    )
+
+    objects = PetQuerySet.as_manager()
+    available = AvailablePetsManager()
+
+    class Meta:
+        verbose_name = _("Šuo")
+        verbose_name_plural = _("Šunys")
+
+    @staticmethod
+    def dogs_from_shelter(shelter: Shelter, annotate_with_likes_and_dislikes=False) -> QuerySet[Dog]:
+        queryset = Dog.objects.filter(shelter=shelter)
+
+        if annotate_with_likes_and_dislikes:
+            queryset = queryset.annotate_with_likes_and_dislikes()
+
+        return queryset
+
+    def similar_dogs_from_same_shelter(self):
+        return Dog.available.filter(shelter=self.shelter).exclude(pk=self.pk).order_by('?')[:3]
+
+    def sitemap_image_entries(self) -> List[SitemapImageEntry]:
+        images = [
+            SitemapImageEntry(
+                relative_url=self.photo.url,
+                title=f"{_('Šuns')} {self.name} {_('profilio nuotrauka')}",
+                caption=f"{_('Šuo')} {self.name} {_('iš')} {self.shelter.name} {_('pagrindinė profilio nuotrauka')}",
+            )
+        ]
+
+        for i, photo in enumerate(self.profile_photos.all(), start=1):
+            images.append(
+                SitemapImageEntry(
+                    relative_url=photo.photo.url,
+                    title=f"{_('Šuns')} {self.name} {i} {_('nuotrauka')}",
+                    caption=f"{_('Šuo')} {self.name} {_('iš')} {self.shelter.name} {_('nuotrauka')} {photo.order}",
+                )
+            )
+
+        return images
+
+    def get_absolute_url(self) -> str:
+        return reverse('web:dog_profile', kwargs={'pk': self.pk, 'slug': self.slug})
+
+    def edit_pet_url(self) -> str:
+        return reverse('management:pets_update', kwargs={'pk': self.pk})
+
+
+class DogProperty(models.Model):
+    name = models.CharField(max_length=128, unique=True, verbose_name=_("Šuns savybė"))
+    dogs = models.ManyToManyField(
+        Dog,
+        verbose_name=_("Gyvūnai"),
+        through=Dog.dog_properties.through,
+        related_name="+",
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name = _("Šuns savybė")
+        verbose_name_plural = _("Šuns savybės")
+        default_related_name = "+"
         ordering = ['name']
 
     def __str__(self):
