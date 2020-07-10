@@ -1,17 +1,14 @@
-from typing import Optional
-
-from django.core.mail import send_mail
-
-from getpet import settings
-
 import logging
+from typing import Optional
 
 from celery import shared_task
 from django.contrib.auth import get_user_model
 from django.contrib.sitemaps import ping_google
+from django.core.mail import send_mail
 
+from getpet import settings
 from utils.utils import Datadog
-from web.models import Dog, DogProperty, PetProperty, PetStatus, Shelter, Pet
+from web.models import Pet, PetStatus, Shelter
 
 logger = logging.getLogger(__name__)
 
@@ -117,16 +114,3 @@ def randomize_shelters_order():
         shelter.save(update_fields=('order',))
 
     return True
-
-
-def migrate_to_dogs():
-    for p in PetProperty.objects.all():
-        DogProperty.objects.get_or_create(id=p.id, defaults={'name': p.name})
-
-    for pet in Pet.objects.all():
-        dog = Dog(pet_ptr=pet, dog_size=pet.size)
-        dog.save_base(raw=True)
-
-        for p in pet.properties.all():
-            prop, _ = DogProperty.objects.get_or_create(name=p.name)
-            dog.dog_properties.add(prop)

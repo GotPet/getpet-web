@@ -475,8 +475,6 @@ class Pet(models.Model):
                     "dėl GetPet mentoriaus priskyrimo.")
     )
 
-    properties = models.ManyToManyField("web.PetProperty", blank=True, related_name="+",
-                                        verbose_name=_("Gyvūno savybės"))
     special_information = models.TextField(
         verbose_name=_("Specialūs sveikatos poreikiai ir būklės"),
         blank=True,
@@ -496,10 +494,6 @@ class Pet(models.Model):
         verbose_name=_("Svoris"),
         null=True,
         blank=True,
-    )
-    size = models.SmallIntegerField(
-        verbose_name=_("Dydis"),
-        choices=PetSize.choices,
     )
     desexed = models.BooleanField(
         verbose_name=_("Kastruotas / sterilizuotas"),
@@ -634,30 +628,10 @@ class Pet(models.Model):
         return new_pets
 
 
-class PetProperty(models.Model):
-    name = models.CharField(max_length=128, unique=True, verbose_name=_("Gyvūno savybė"))
-    pets = models.ManyToManyField(
-        Pet,
-        verbose_name=_("Gyvūnai"),
-        through=Pet.properties.through,
-        related_name="+",
-        blank=True,
-    )
-
-    class Meta:
-        verbose_name = _("Gyvūno savybė")
-        verbose_name_plural = _("Gyvūno savybės")
-        default_related_name = "properties"
-        ordering = ['name']
-
-    def __str__(self):
-        return self.name
-
-
 class Dog(Pet):
-    dog_properties = models.ManyToManyField("web.DogProperty", blank=True, related_name="+",
-                                            verbose_name=_("Šuns savybės"))
-    dog_size = models.SmallIntegerField(
+    properties = models.ManyToManyField("web.DogProperty", blank=True, related_name="+",
+                                        verbose_name=_("Šuns savybės"))
+    size = models.SmallIntegerField(
         verbose_name=_("Dydis"),
         choices=PetSize.choices,
     )
@@ -713,7 +687,7 @@ class DogProperty(models.Model):
     dogs = models.ManyToManyField(
         Dog,
         verbose_name=_("Gyvūnai"),
-        through=Dog.dog_properties.through,
+        through=Dog.properties.through,
         related_name="+",
         blank=True,
     )
