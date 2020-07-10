@@ -120,7 +120,8 @@ class MentorListViewTest(TestCase):
 class SitemapTest(TestCase):
     def test_sitemap_status(self):
         shelter = ShelterFactory()
-        pet = PetFactory()
+        dog = DogFactory()
         response = self.client.get('/sitemap.xml/')
 
-        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, shelter.get_absolute_url())
+        self.assertContains(response, dog.get_absolute_url())
