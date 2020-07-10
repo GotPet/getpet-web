@@ -552,9 +552,6 @@ class Pet(models.Model):
 
         on_pet_created_or_updated.delay(self.pk, orig_status, orig_status_text)
 
-    def similar_pets_from_same_shelter(self):
-        return Dog.available.filter(shelter=self.shelter).exclude(pk=self.pk).order_by('?')[:3]
-
     def desexed_status_text(self) -> Optional[str]:
         if self.gender == PetGender.Male and self.desexed is True:
             return _("kastruotas")
@@ -566,6 +563,12 @@ class Pet(models.Model):
             return _("nesterilizuota")
 
         return None
+
+    def properties_list(self) -> List[str]:
+        if hasattr(self, 'properties'):
+            return list([p.name for p in self.properties.all()])
+
+        return []
 
     def description_including_all_information(self) -> str:
         description_parts = [self.description + "\n"]
@@ -600,26 +603,6 @@ class Pet(models.Model):
 
         return '\n'.join(description_parts).strip(' \n\t')
 
-    def sitemap_image_entries(self) -> List[SitemapImageEntry]:
-        images = [
-            SitemapImageEntry(
-                relative_url=self.photo.url,
-                title=f"{_('Šuns')} {self.name} {_('profilio nuotrauka')}",
-                caption=f"{_('Šuo')} {self.name} {_('iš')} {self.shelter.name} {_('pagrindinė profilio nuotrauka')}",
-            )
-        ]
-
-        for i, photo in enumerate(self.profile_photos.all(), start=1):
-            images.append(
-                SitemapImageEntry(
-                    relative_url=photo.photo.url,
-                    title=f"{_('Šuns')} {self.name} {i} {_('nuotrauka')}",
-                    caption=f"{_('Šuo')} {self.name} {_('iš')} {self.shelter.name} {_('nuotrauka')} {photo.order}",
-                )
-            )
-
-        return images
-
     def all_photos(self) -> List[ImageFieldFile]:
         photos = [self.photo]
 
@@ -627,9 +610,6 @@ class Pet(models.Model):
             photos.append(photo.photo)
 
         return photos
-
-    def properties_list(self) -> List[str]:
-        return list([p.name for p in self.properties.all()])
 
     def is_available(self) -> bool:
         return self.status == PetStatus.AVAILABLE and self.shelter.is_published
@@ -639,12 +619,6 @@ class Pet(models.Model):
             return "badge-success"
 
         return "badge-primary"
-
-    def get_absolute_url(self) -> str:
-        return reverse('web:dog_profile', kwargs={'pk': self.pk, 'slug': self.slug})
-
-    def edit_pet_url(self) -> str:
-        return reverse('management:pets_update', kwargs={'pk': self.pk})
 
     @staticmethod
     def generate_pets(liked_pet_ids, disliked_pet_ids, region):
@@ -703,6 +677,29 @@ class Dog(Pet):
             queryset = queryset.annotate_with_likes_and_dislikes()
 
         return queryset
+
+    def similar_dogs_from_same_shelter(self):
+        return Dog.available.filter(shelter=self.shelter).exclude(pk=self.pk).order_by('?')[:3]
+
+    def sitemap_image_entries(self) -> List[SitemapImageEntry]:
+        images = [
+            SitemapImageEntry(
+                relative_url=self.photo.url,
+                title=f"{_('Šuns')} {self.name} {_('profilio nuotrauka')}",
+                caption=f"{_('Šuo')} {self.name} {_('iš')} {self.shelter.name} {_('pagrindinė profilio nuotrauka')}",
+            )
+        ]
+
+        for i, photo in enumerate(self.profile_photos.all(), start=1):
+            images.append(
+                SitemapImageEntry(
+                    relative_url=photo.photo.url,
+                    title=f"{_('Šuns')} {self.name} {i} {_('nuotrauka')}",
+                    caption=f"{_('Šuo')} {self.name} {_('iš')} {self.shelter.name} {_('nuotrauka')} {photo.order}",
+                )
+            )
+
+        return images
 
     def get_absolute_url(self) -> str:
         return reverse('web:dog_profile', kwargs={'pk': self.pk, 'slug': self.slug})
