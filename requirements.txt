@@ -19,7 +19,7 @@ django-admin-sortable2~=0.7.6
 # Logging and monitoring
 ddtrace~=0.39.0
 datadog~=0.38.0
-sentry-sdk~=0.15.1
+sentry-sdk~=0.16.1
 
 
 # Django rest framework
@@ -31,16 +31,16 @@ drf-yasg~=1.17.1
 drf-api-tracking==1.7.3
 
 # Additional functionality
-Pillow~=7.1.2
+Pillow~=7.2.0
 requests~=2.24.0
-django-ipware~=2.1.0
+django-ipware~=3.0.0
 django-resized~=0.3.11
 django-crispy-forms~=1.9.1
 django-map-widgets~=0.3.0
 
 # Debugging
 ipdb~=0.13.3
-django-extensions~=2.2.9
+django-extensions~=3.0.3
 
 # Required for tests
 Faker~=4.1.1
