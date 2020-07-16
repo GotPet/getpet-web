@@ -8,7 +8,7 @@ from django.core.mail import send_mail
 
 from getpet import settings
 from utils.utils import Datadog
-from web.models import GetPetRequest, Pet, PetStatus, Shelter, User, UserPetChoice
+from web.models import Cat, Dog, GetPetRequest, Pet, PetStatus, Shelter, User, UserPetChoice
 
 logger = logging.getLogger(__name__)
 
@@ -91,16 +91,26 @@ def sync_product_metrics():
 
     Datadog().gauge('product.users.registered', User.objects.filter(groups__name='Api').count())
 
-    Datadog().gauge('product.dogs.getpet_requests', GetPetRequest.objects.count())
-    Datadog().gauge('product.dogs.likes', UserPetChoice.objects.filter(is_favorite=True).count())
-    Datadog().gauge('product.dogs.dislikes', UserPetChoice.objects.filter(is_favorite=False).count())
+    Datadog().gauge('product.dogs.getpet_requests', GetPetRequest.objects.filter(pet__dog__isnull=False).count())
+    Datadog().gauge('product.dogs.likes',
+                    UserPetChoice.objects.filter(pet__dog__isnull=False, is_favorite=True).count())
+    Datadog().gauge('product.dogs.dislikes',
+                    UserPetChoice.objects.filter(pet__dog__isnull=False, is_favorite=False).count())
 
-    for shelter in Shelter.available.all().annotate_with_statistics():
-        Datadog().gauge('product.dogs.available', shelter.pets_available_count,
+    for shelter in Shelter.available.all():
+        Datadog().gauge('product.dogs.available',
+                        Dog.available.filter(shelter=shelter).count(),
+                        tags=[f'shelter:{shelter.slug}'])
+        Datadog().gauge('product.cats.available',
+                        Cat.available.filter(shelter=shelter).count(),
                         tags=[f'shelter:{shelter.slug}'])
 
-    for shelter in Shelter.objects.all().annotate_with_statistics():
-        Datadog().gauge('product.dogs.count', shelter.pets_all_count,
+    for shelter in Shelter.objects.all():
+        Datadog().gauge('product.dogs.count',
+                        Dog.objects.filter(shelter=shelter).count(),
+                        tags=[f'shelter:{shelter.slug}'])
+        Datadog().gauge('product.cats.count',
+                        Cat.objects.filter(shelter=shelter).count(),
                         tags=[f'shelter:{shelter.slug}'])
 
 
