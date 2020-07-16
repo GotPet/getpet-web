@@ -1,3 +1,4 @@
+import re
 from html import escape
 
 from django.template import Library
@@ -10,6 +11,6 @@ register = Library()
 @register.filter(is_safe=True)
 @stringfilter
 def urltel(phone):
-    phone = phone.replace(' ', '-')
-    escaped_phone = escape(phone, quote=True)
-    return mark_safe(f'<a href="tel:{escaped_phone}">{escaped_phone}</a>')
+    phone_only_digits_or_plus = re.sub('[^0-9+]', '', phone)
+    escaped_phone = escape(phone.replace(' ', '-'), quote=True)
+    return mark_safe(f'<a href="tel:{phone_only_digits_or_plus}">{escaped_phone}</a>')
