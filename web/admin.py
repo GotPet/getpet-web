@@ -12,7 +12,7 @@ from django.utils.translation import gettext_lazy as _
 from mapwidgets import GooglePointFieldWidget
 
 from getpet import settings
-from web.models import Country, Dog, DogProperty, GetPetRequest, Mentor, Pet, PetProfilePhoto, Region, \
+from web.models import Cat, CatProperty, Country, Dog, DogProperty, GetPetRequest, Mentor, Pet, PetProfilePhoto, Region, \
     Shelter, \
     TeamMember, \
     User, \
@@ -213,6 +213,11 @@ class DogAdmin(BasePetAdmin):
     pass
 
 
+@admin.register(Cat)
+class CatAdmin(BasePetAdmin):
+    pass
+
+
 @admin.register(GetPetRequest)
 class GetPetRequestAdmin(admin.ModelAdmin):
     list_display = ['user', 'pet', 'status', 'created_at']
@@ -238,9 +243,15 @@ class PetProfilePhotoAdmin(admin.ModelAdmin):
 
 
 @admin.register(DogProperty)
-class PetPropertyAdmin(admin.ModelAdmin):
+class DogPropertyAdmin(admin.ModelAdmin):
     list_display = ['name', ]
     filter_horizontal = ['dogs']
+
+
+@admin.register(CatProperty)
+class CatPropertyAdmin(admin.ModelAdmin):
+    list_display = ['name', ]
+    filter_horizontal = ['cats']
 
 
 @admin.register(TeamMember)

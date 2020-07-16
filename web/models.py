@@ -644,12 +644,8 @@ class Dog(Pet):
         verbose_name_plural = _("Šunys")
 
     @staticmethod
-    def dogs_from_shelter(shelter: Shelter, annotate_with_likes_and_dislikes=False) -> QuerySet[Dog]:
+    def dogs_from_shelter(shelter: Shelter) -> QuerySet[Dog]:
         queryset = Dog.objects.filter(shelter=shelter)
-
-        if annotate_with_likes_and_dislikes:
-            queryset = queryset.annotate_with_likes_and_dislikes()
-
         return queryset
 
     def similar_dogs_from_same_shelter(self):
@@ -695,6 +691,72 @@ class DogProperty(models.Model):
     class Meta:
         verbose_name = _("Šuns savybė")
         verbose_name_plural = _("Šuns savybės")
+        default_related_name = "+"
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+
+
+class Cat(Pet):
+    properties = models.ManyToManyField("web.CatProperty", blank=True, related_name="+",
+                                        verbose_name=_("Savybės"))
+
+    objects = PetQuerySet.as_manager()
+    available = AvailablePetsManager()
+
+    class Meta:
+        verbose_name = _("Katė")
+        verbose_name_plural = _("Katės")
+
+    @staticmethod
+    def all_cats_from_shelter(shelter: Shelter) -> QuerySet[Cat]:
+        queryset = Cat.objects.filter(shelter=shelter)
+        return queryset
+
+    def similar_cats_from_same_shelter(self):
+        return Cat.available.filter(shelter=self.shelter).exclude(pk=self.pk).order_by('?')[:3]
+
+    def sitemap_image_entries(self) -> List[SitemapImageEntry]:
+        images = [
+            SitemapImageEntry(
+                relative_url=self.photo.url,
+                title=f"{_('Katės')} {self.name} {_('profilio nuotrauka')}",
+                caption=f"{_('Katė')} {self.name} {_('iš')} {self.shelter.name} {_('pagrindinė profilio nuotrauka')}",
+            )
+        ]
+
+        for i, photo in enumerate(self.profile_photos.all(), start=1):
+            images.append(
+                SitemapImageEntry(
+                    relative_url=photo.photo.url,
+                    title=f"{_('Katės')} {self.name} {i} {_('nuotrauka')}",
+                    caption=f"{_('Katė')} {self.name} {_('iš')} {self.shelter.name} {_('nuotrauka')} {photo.order}",
+                )
+            )
+
+        return images
+
+    def get_absolute_url(self) -> str:
+        return reverse('web:dog_profile', kwargs={'pk': self.pk, 'slug': self.slug})
+
+    def edit_pet_url(self) -> str:
+        return reverse('management:pets_update', kwargs={'pk': self.pk})
+
+
+class CatProperty(models.Model):
+    name = models.CharField(max_length=128, unique=True, verbose_name=_("Katės savybė"))
+    cats = models.ManyToManyField(
+        Cat,
+        verbose_name=_("Katės"),
+        through=Cat.properties.through,
+        related_name="+",
+        blank=True,
+    )
+
+    class Meta:
+        verbose_name = _("Katės savybė")
+        verbose_name_plural = _("Kačių savybės")
         default_related_name = "+"
         ordering = ['name']
 
