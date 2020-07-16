@@ -1,71 +1,40 @@
 {% load i18n %}
-{% load pagination %}
 
-<span class="flex-grow text-right text-lighter pr-2">{{ paginator_page.start_index }}-{{ paginator_page.end_index }} {% trans "iš" %} {{ paginator_page.paginator.count }}</span>
+<span class="flex-grow text-right text-lighter pr-2">
+    {{ paginator_page.start_index }}-{{ paginator_page.end_index }} {% trans "iš" %} {{ paginator_page.paginator.count }}
+</span>
 <nav>
     <ul class="pagination mb-0">
-        {% if paginator_page.has_previous %}
-            <li class="page-item">
-                <a class="page-link"
-                   href="{{ paginator_page.previous_page_url }}">
-                    <span class="ti-arrow-left"></span>
-                </a>
-            </li>
-        {% else %}
-            <li class="page-item disabled">
-                <span class="page-link ti-arrow-left"></span>
-            </li>
-        {% endif %}
-
-        <li class="page-item {% if paginator_page.number == 1 %}active{% endif %}">
-            <a class="page-link" href="{% get_page_link paginator_page 1 %}">1</a>
-        </li>
-
-        {% if  paginator_page.number|add:"-2" > 2 %}
-            <li class="page-item disabled">
-                <div class="page-link">...</div>
-            </li>
-        {% endif %}
-
-        {% for page in paginator_page.paginator.page_range %}
-            {% if page != 1 and page != paginator_page.paginator.num_pages %}
-                {% if paginator_page.number|add:"-2" <= page and paginator_page.number|add:"2" >= page %}
-                    <li class="page-item {% if page == paginator_page.number %}active{% endif %}">
-                        <a class="page-link"
-                           href="{% get_page_link paginator_page page %}">{{ page }}</a>
-                    </li>
-                {% endif %}
-            {% endif %}
-        {% endfor %}
-
-        {% if  paginator_page.number|add:"3" < paginator_page.paginator.num_pages %}
-            <li class="page-item disabled">
-                <div class="page-link">...</div>
-            </li>
-        {% endif %}
-
-        {% with last_page_num=paginator_page.paginator.num_pages %}
-            {% if last_page_num > 1 %}
-                <li class="page-item {% if last_page_num == paginator_page.number %}active{% endif %}">
+        {% with pagination_info=paginator_page.pagination_info %}
+            {% with previous_url=pagination_info.previous_url %}
+                <li class="page-item {{ previous_url|yesno:",disabled" }}">
                     <a class="page-link"
-                       href="{% get_page_link paginator_page last_page_num %}">
-                        {{ last_page_num }}
+                       href="{{ previous_url|default_if_none:"#" }}">
+                        <span class="ti-arrow-left"></span>
                     </a>
                 </li>
-            {% endif %}
-        {% endwith %}
+            {% endwith %}
 
-        {% if paginator_page.has_next %}
-            <li class="page-item">
-                <a class="page-link"
-                   href="{{ paginator_page.next_page_link }}">
-                    <span class="ti-arrow-right"></span>
-                </a>
-            </li>
-        {% else %}
-            <li class="page-item disabled">
-                <span class="page-link ti-arrow-right"></span>
-            </li>
-        {% endif %}
+            {% for entry in pagination_info.entries %}
+                {% if entry.url %}
+                    <li class="page-item {{ entry.is_active|yesno:"active," }}">
+                        <a class="page-link" href="{{ entry.url }}">{{ entry.text }}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item {{ entry.is_active|yesno:"active,disabled" }}">
+                        <div class="page-link">{{ entry.text }}</div>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+            {% with next_url=pagination_info.next_url %}
+                <li class="page-item {{ next_url|yesno:",disabled" }}">
+                    <a class="page-link"
+                       href="{{ next_url|default_if_none:"#" }}">
+                        <span class="ti-arrow-right"></span>
+                    </a>
+                </li>
+            {% endwith %}
+        {% endwith %}
     </ul>
 </nav>
