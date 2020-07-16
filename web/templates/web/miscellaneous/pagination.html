@@ -1,91 +1,34 @@
-{% load i18n %}
-{% load pagination %}
-
 <ul class="pagination justify-content-center">
-    {% if paginator_page.has_previous %}
-        <li class="page-item">
-            <a class="page-link"
-               href="{{ paginator_page.previous_page_url }}">
-                <span class="icon-chevron-left"></span>
-            </a>
-        </li>
-    {% else %}
-        <li class="page-item disabled">
-            <a class="page-link"
-               href="#">
-                <span class="icon-chevron-left"></span>
-            </a>
-        </li>
-    {% endif %}
+    {% with pagination_info=paginator_page.pagination_info %}
+        {% with previous_url=pagination_info.previous_url %}
+            <li class="page-item {{ previous_url|yesno:",disabled" }}">
+                <a class="page-link"
+                   href="{{ previous_url|default_if_none:"#" }}">
+                    <span class="icon-chevron-left"></span>
+                </a>
+            </li>
+        {% endwith %}
 
-    {% if paginator_page.number == 1 %}
-        <li class="page-item active">
-            <span class="page-link">1</span>
-        </li>
-    {% else %}
-        <li class="page-item">
-            <a class="page-link" href="{% get_page_link paginator_page 1 %}">1</a>
-        </li>
-    {% endif %}
-
-
-    {% if  paginator_page.number|add:"-2" > 2 %}
-        <li class="page-item disabled">
-            <div class="page-link">...</div>
-        </li>
-    {% endif %}
-
-    {% for page in paginator_page.paginator.page_range %}
-        {% if page != 1 and page != paginator_page.paginator.num_pages %}
-            {% if paginator_page.number|add:"-2" <= page and paginator_page.number|add:"2" >= page %}
-
-                {% if page == paginator_page.number %}
-                    <li class="page-item active">
-                        <span class="page-link">{{ page }}</span>
-                    </li>
-                {% else %}
-                    <li class="page-item">
-                        <a class="page-link" href="{% get_page_link paginator_page page %}">{{ page }}</a>
-                    </li>
-                {% endif %}
-
-            {% endif %}
-        {% endif %}
-    {% endfor %}
-
-    {% if  paginator_page.number|add:"3" < paginator_page.paginator.num_pages %}
-        <li class="page-item disabled">
-            <div class="page-link">...</div>
-        </li>
-    {% endif %}
-
-    {% with last_page_num=paginator_page.paginator.num_pages %}
-        {% if last_page_num > 1 %}
-            {% if last_page_num == paginator_page.number %}
-                <li class="page-item active">
-                    <span class="page-link">{{ last_page_num }}</span>
+        {% for entry in pagination_info.entries %}
+            {% if entry.url is None %}
+                <li class="page-item {{ entry.is_active|yesno:"active,disabled" }}">
+                    <span class="page-link">{{ entry.text }}</span>
                 </li>
             {% else %}
-                <li class="page-item">
-                    <a class="page-link" href="{% get_page_link paginator_page last_page_num %}">{{ last_page_num }}</a>
+                <li class="page-item {{ entry.is_active|yesno:"active," }}">
+                    <a class="page-link" href="{{ entry.url }}">{{ entry.text }}</a>
                 </li>
-            {% endif %}
-        {% endif %}
-    {% endwith %}
 
-    {% if paginator_page.has_next %}
-        <li class="page-item">
-            <a class="page-link"
-               href="{{ paginator_page.next_page_link }}">
-                <span class="icon-chevron-right"></span>
-            </a>
-        </li>
-    {% else %}
-        <li class="page-item disabled">
-            <a class="page-link"
-               href="#">
-                <span class="icon-chevron-right"></span>
-            </a>
-        </li>
-    {% endif %}
+            {% endif %}
+        {% endfor %}
+
+        {% with next_url=pagination_info.next_url %}
+            <li class="page-item {{ next_url|yesno:",disabled" }}">
+                <a class="page-link"
+                   href="{{ next_url|default_if_none:"#" }}">
+                    <span class="icon-chevron-right"></span>
+                </a>
+            </li>
+        {% endwith %}
+    {% endwith %}
 </ul>

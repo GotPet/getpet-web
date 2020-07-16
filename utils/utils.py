@@ -11,6 +11,7 @@ from django.core.paginator import Page, Paginator
 from django.utils.timezone import now
 
 from getpet import settings
+from utils.models import PageInfoEntry, PaginationInfo
 
 logger = logging.getLogger(__name__)
 
@@ -25,6 +26,10 @@ def try_parse_int(value) -> Optional[int]:
 
 def django_now() -> datetime:
     return now()
+
+
+class PageEntry(object):
+    pass
 
 
 class PageWithPageLink(Page):
@@ -42,6 +47,34 @@ class PageWithPageLink(Page):
 
     def page_link(self, page_number):
         return self._page_link_function(page_number)
+
+    def pagination_info(self) -> PaginationInfo:
+        previous_url = self.page_link(self.previous_page_number()) if self.has_previous() else None
+        next_url = self.page_link(self.next_page_number()) if self.has_next() else None
+
+        entries = []
+        skipped = False
+        count = self.paginator.num_pages
+        for i in range(1, count + 1):
+            if self.number - 2 <= i <= self.number + 2 or i == 1 or i == count:
+                if skipped:
+                    skipped = False
+                    entries.append(PageInfoEntry(text="...", url=None, is_active=False))
+
+                entries.append(
+                    PageInfoEntry(
+                        text=str(i),
+                        url=self.page_link(i) if self.number != i else None,
+                        is_active=self.number == i)
+                )
+            else:
+                skipped = True
+
+        return PaginationInfo(
+            previous_url=previous_url,
+            next_url=next_url,
+            entries=entries,
+        )
 
 
 class PaginatorWithPageLink(Paginator):
