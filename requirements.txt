@@ -1,47 +1,47 @@
-Django~=3.0.7
-gunicorn~=20.0.4
+Django==3.0.8
+gunicorn==20.0.4
 
 # Storage and caching
-psycopg2-binary~=2.8.5
-django-redis~=4.12.1
+psycopg2-binary==2.8.5
+django-redis==4.12.1
 
 # Authentication
-django-allauth~=0.42.0
-firebase-admin~=4.3.0
+django-allauth==0.42.0
+firebase-admin==4.3.0
 
 # Celery
-celery[redis]~=4.4.6
-django-celery-results~=1.2.1
+celery[redis]==4.4.6
+django-celery-results==1.2.1
 
 # Admin
-django-admin-sortable2~=0.7.6
+django-admin-sortable2==0.7.6
 
 # Logging and monitoring
-ddtrace~=0.39.0
-datadog~=0.38.0
-sentry-sdk~=0.16.1
+ddtrace==0.39.0
+datadog==0.38.0
+sentry-sdk==0.16.1
 
 
 # Django rest framework
-djangorestframework~=3.11.0
-django-filter~=2.3.0
-flex~=6.14.1
-drf-yasg~=1.17.1
+djangorestframework==3.11.0
+django-filter==2.3.0
+flex==6.14.1
+drf-yasg==1.17.1
 # 1.7.5 CommandError: Conflicting migrations detected; multiple leaf nodes in the migration graph: (0010_auto_20200609_1404, 0010_auto_20200605_2152 in rest_framework_tracking).
 drf-api-tracking==1.7.3
 
 # Additional functionality
-Pillow~=7.2.0
-requests~=2.24.0
-django-ipware~=3.0.0
-django-resized~=0.3.11
-django-crispy-forms~=1.9.1
-django-map-widgets~=0.3.0
+Pillow==7.2.0
+requests==2.24.0
+django-ipware==3.0.0
+django-resized==0.3.11
+django-crispy-forms==1.9.2
+django-map-widgets==0.3.0
 
 # Debugging
-ipdb~=0.13.3
-django-extensions~=3.0.3
+ipdb==0.13.3
+django-extensions==3.0.3
 
 # Required for tests
-Faker~=4.1.1
-factory_boy~=2.12.0
+Faker==4.1.1
+factory_boy==2.12.0
