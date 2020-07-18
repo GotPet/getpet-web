@@ -5,6 +5,10 @@ test_patterns = [
   "test_*.py"
 ]
 
+exclude_patterns = [
+  "migrations/**",
+]
+
 [[analyzers]]
 name = "docker"
 enabled = true
