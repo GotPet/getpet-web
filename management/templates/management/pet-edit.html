@@ -8,7 +8,8 @@
 
 {% block head %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/dropzone.min.css"
-          integrity="sha512-3g+prZHHfmnvE1HBLwUnVuunaPOob7dpksI7/v6UnF/rnKGwHf/GdEq9K7iEN7qTtW+S0iivTcGpeTBqqB04wA==" crossorigin="anonymous"/>
+          integrity="sha512-3g+prZHHfmnvE1HBLwUnVuunaPOob7dpksI7/v6UnF/rnKGwHf/GdEq9K7iEN7qTtW+S0iivTcGpeTBqqB04wA=="
+          crossorigin="anonymous"/>
 
     <style>
         .dropzone .dz-preview .dz-image {
@@ -20,26 +21,6 @@
 {% endblock %}
 
 {% block content %}
-    <div class="card mb-3">
-        <div class="card-body p-3">
-            <ol class="breadcrumb breadcrumb-arrow">
-                <li class="breadcrumb-item">
-                    <a href="{% url 'management:pets_list' %}">
-                        {% trans 'Gyvūnai iš' %}
-                        {{ pet.shelter.name }}
-                    </a>
-                </li>
-                <li class="breadcrumb-item active">
-                    {% if pet %}
-                        {{ pet.name }}
-                    {% else %}
-                        {% trans 'Naujo prieglaudos gyvūno kūrimas' %}
-                    {% endif %}
-                </li>
-            </ol>
-        </div>
-    </div>
-
     {% if request.GET.success %}
         <div class="alert alert-success" role="alert">
             {% if request.GET.success == 'create' %}
@@ -55,7 +36,8 @@
 
 {% block script %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/dropzone.min.js"
-            integrity="sha512-Dq6kqg3S+qRPKNx2EHFC+qEHC2TkX8WNFQymh1FxCeurkVEeYknooSSjAFNeLhEZuOl6lfLULnl9kFLJWIn43w==" crossorigin="anonymous"></script>
+            integrity="sha512-Dq6kqg3S+qRPKNx2EHFC+qEHC2TkX8WNFQymh1FxCeurkVEeYknooSSjAFNeLhEZuOl6lfLULnl9kFLJWIn43w=="
+            crossorigin="anonymous"></script>
 
     <script data-provide="dropify">
         const PET_PROFILE_PHOTO_CLASS = 'pet-profile-photo';
