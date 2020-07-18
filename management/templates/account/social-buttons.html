@@ -8,13 +8,13 @@
         {% if google_social_account %}
             <input type="hidden" name="account" value="{{ google_social_account.id }}">
             <button class="btn btn-label btn-google btn-block" type="submit">
-                <label><i class="fa fa-google"></i></label>
-                Atsijungti iš Google
+                <label><i class="fab fa-google"></i>/label>
+                    Atsijungti iš Google
             </button>
         {% else %}
             <a class="btn btn-label btn-google btn-block"
-               href="{% provider_login_url "google" process=process %}"><label><i
-                    class="fa fa-google"></i></label>
+               href="{% provider_login_url "google" process=process %}">
+                <label><i class="fab fa-google"></i></label>
                 Prisijungti su Google
             </a>
         {% endif %}

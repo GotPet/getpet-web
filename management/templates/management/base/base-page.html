@@ -30,21 +30,21 @@
 
                 <li class="menu-item{% if active_menu_item == 'dogs_list' %} active{% endif %}">
                     <a class="menu-link" href="{% url 'management:pets_list' %}">
-                        <span class="icon fa fa-paw"></span>
+                        <span class="icon fas fa-dog"></span>
                         <span class="title">{% trans "Šunys" %}</span>
                     </a>
                 </li>
 
                 <li class="menu-item{% if active_menu_item == 'cats_list' %} active{% endif %}">
                     <a class="menu-link" href="{% url 'management:cats_list' %}">
-                        <span class="icon fa fa-paw"></span>
+                        <span class="icon fas fa-cat"></span>
                         <span class="title">{% trans "Katės" %}</span>
                     </a>
                 </li>
 
                 <li class="menu-item {% if active_menu_item == 'shelter' %} active{% endif %}">
                     <a class="menu-link" href="{% url 'management:shelters_update' user_selected_shelter.pk %}">
-                        <span class="icon fa fa-building-o"></span>
+                        <span class="icon fas fa-building"></span>
                         <span class="title">{% trans "Prieglauda" %}</span>
                     </a>
                 </li>
@@ -65,7 +65,7 @@
                     <input class="no-radius no-border" name="q" type="text" required
                            placeholder="{% trans 'Ieškokite gyvūnų pagal vardą...' %}">
                     <button type="submit" class="btn btn-pure btn-secondary topbar-btn">
-                        <i class="fa fa-search"></i>
+                        <i class="fas fa-search"></i>
                     </button>
                 </form>
 
@@ -76,7 +76,7 @@
                 <form method="post" action="{% url 'account_logout' %}">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-pure topbar-btn">
-                        <i class="fa fa-sign-out"></i>
+                        <i class="fas fa-sign-out-alt"></i>
                     </button>
                 </form>
             </div>
