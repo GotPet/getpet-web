@@ -13,7 +13,7 @@ from api.mixins import ApiLoggingMixin
 from api.serializers import CountryWithRegionSerializer, FirebaseSerializer, GeneratePetsRequestSerializer, \
     PetFlatListSerializer, PetProfilePhotoUploadSerializer, ShelterPetSerializer, TokenSerializer, \
     UserPetChoiceSerializer
-from web.models import Country, Dog, GetPetRequest, Pet, UserPetChoice
+from web.models import Country, Dog, GetPetRequest, UserPetChoice
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
