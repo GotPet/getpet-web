@@ -28,7 +28,7 @@ django-filter==2.3.0
 flex==6.14.1
 drf-yasg==1.17.1
 # 1.7.5 CommandError: Conflicting migrations detected; multiple leaf nodes in the migration graph: (0010_auto_20200609_1404, 0010_auto_20200605_2152 in rest_framework_tracking).
-drf-api-tracking==1.7.3
+drf-api-tracking==1.7.5
 
 # Additional functionality
 Pillow==7.2.0
