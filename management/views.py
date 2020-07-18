@@ -135,6 +135,12 @@ class SheltersListView(UserWithAssociatedShelterMixin, ListView):
     def get_queryset(self):
         return Shelter.user_associated_shelters(self.request.user).select_related('region').annotate_with_statistics()
 
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['active_menu_item'] = 'shelters_list'
+
+        return context
+
 
 class ShelterSwitchView(UserWithAssociatedShelterMixin, SingleObjectMixin):
     model = Shelter

@@ -48,6 +48,12 @@
                         <span class="title">{% trans "Prieglauda" %}</span>
                     </a>
                 </li>
+                <li class="menu-item {% if active_menu_item == 'shelters_list' %} active{% endif %}">
+                    <a class="menu-link" href="{% url 'management:shelters_list' %}">
+                        <span class="icon fas fa-cubes"></span>
+                        <span class="title">{% trans "Prieglaudos" %}</span>
+                    </a>
+                </li>
             </ul>
         </nav>
 
@@ -113,9 +119,6 @@
                             {% if user.is_superuser %}
                                 <a class="nav-link" href="{% url 'admin:index' %}">
                                     {% trans 'Super administravimas' %}
-                                </a>
-                                <a class="nav-link" href="{% url 'management:shelters_list' %}">
-                                    {% trans 'Gyvūnų prieglaudos' %}
                                 </a>
                             {% endif %}
                         </li>
