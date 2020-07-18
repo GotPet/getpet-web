@@ -324,7 +324,7 @@ class Shelter(models.Model):
         )
 
     def json_ld(self) -> str:
-        social_networks = list([s for s in [self.facebook, self.instagram] if s])
+        social_networks = [s for s in [self.facebook, self.instagram] if s]
         json_ld_object = {
             "@context": "https://schema.org",
             "@type": "Organization",
@@ -560,7 +560,7 @@ class Pet(models.Model):
 
     def properties_list(self) -> List[str]:
         if hasattr(self, 'properties'):
-            return list([p.name for p in self.properties.all()])
+            return [p.name for p in self.properties.all()]
 
         return []
 
