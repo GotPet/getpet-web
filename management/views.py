@@ -71,6 +71,12 @@ class DogCreateView(UserWithAssociatedShelterMixin, PetCreateViewMixin):
         # noinspection PyUnresolvedReferences
         return Dog.all_dogs_from_shelter(self.request.user_selected_shelter)
 
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['active_menu_item'] = 'dogs_list'
+
+        return context
+
 
 class DogUpdateView(DogCreateView, UpdateView):
     template_name = 'management/pet-edit.html'
@@ -105,6 +111,12 @@ class CatCreateView(UserWithAssociatedShelterMixin, PetCreateViewMixin):
     def get_queryset(self) -> models.query.QuerySet:
         # noinspection PyUnresolvedReferences
         return Cat.all_cats_from_shelter(self.request.user_selected_shelter)
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['active_menu_item'] = 'cats_list'
+
+        return context
 
 
 class CatUpdateView(CatCreateView, UpdateView):
