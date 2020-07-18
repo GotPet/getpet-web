@@ -82,8 +82,11 @@ def sync_product_metrics():
         Datadog().gauge('product.dogs.available',
                         Dog.available.filter(shelter=shelter).count(),
                         tags=[f'shelter:{shelter.slug}'])
+        # Datadog().gauge('product.cats.available',
+        #                 Cat.available.filter(shelter=shelter).count(),
+        #                 tags=[f'shelter:{shelter.slug}'])
         Datadog().gauge('product.cats.available',
-                        Cat.available.filter(shelter=shelter).count(),
+                        0,
                         tags=[f'shelter:{shelter.slug}'])
 
     for shelter in Shelter.objects.all():
