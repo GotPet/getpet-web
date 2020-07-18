@@ -1,7 +1,7 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 
-from web.models import Dog, Pet, Shelter
+from web.models import Dog, Shelter
 
 
 class StaticSitemap(Sitemap):

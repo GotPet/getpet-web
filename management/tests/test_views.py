@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from web.tests.factories import DogFactory, GroupFactory, PetFactory, ShelterFactory, UserFactory
+from web.tests.factories import DogFactory, GroupFactory, ShelterFactory, UserFactory
 
 
 class PetsListViewTest(TestCase):
