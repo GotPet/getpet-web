@@ -1,5 +1,17 @@
 version = 1
 
+test_patterns = [
+  "tests/**",
+  "test_*.py"
+]
+
 [[analyzers]]
 name = "docker"
 enabled = true
+
+[[analyzers]]
+name = "python"
+enabled = true
+
+  [analyzers.meta]
+  type_checker = "mypy"
