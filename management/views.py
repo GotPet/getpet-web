@@ -29,6 +29,7 @@ class IndexView(UserWithAssociatedShelterMixin):
 
 
 class PetListRedirectView(UserWithAssociatedShelterMixin, RedirectView):
+    query_string = True
 
     def get_redirect_url(self, *args: Any, **kwargs: Any) -> Optional[str]:
         # noinspection PyUnresolvedReferences
