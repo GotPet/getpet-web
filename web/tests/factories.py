@@ -5,7 +5,7 @@ from django.contrib.gis.geos import Point
 from faker import Factory
 from faker.providers import BaseProvider
 
-from web.models import Country, Dog, Mentor, Pet, PetGender, PetSize, PetStatus, Region, Shelter, TeamMember
+from web.models import Cat, Country, Dog, Mentor, Pet, PetGender, PetSize, PetStatus, Region, Shelter, TeamMember
 
 faker = Factory.create()
 
@@ -112,6 +112,11 @@ class DogFactory(PetFactory):
         model = Dog
 
     size = PetSize.Medium
+
+
+class CatFactory(PetFactory):
+    class Meta:
+        model = Cat
 
 
 class TeamMemberFactory(factory.DjangoModelFactory):
