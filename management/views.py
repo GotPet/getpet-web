@@ -1,20 +1,19 @@
 from typing import Any, Dict
 
 from django.contrib.auth.decorators import login_required
-from django.db import models, transaction
+from django.db import models
 from django.http import HttpResponse
 from django.http.request import HttpRequest
 from django.shortcuts import redirect, render
 from django.views.generic import RedirectView
 from django.views.generic.detail import SingleObjectMixin
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
 
-from management.forms import PetCreateUpdateForm, PetListFiltersForm, PetProfilePhotoFormSet, ShelterInfoUpdateForm
-from management.mixins import UserWithAssociatedShelterMixin
+from management.forms import CatCreateUpdateForm, DogCreateUpdateForm, ShelterInfoUpdateForm
+from management.mixins import PetCreateViewMixin, PetsListViewMixin, UserWithAssociatedShelterMixin
 from utils.mixins import ViewPaginatorMixin
-from utils.utils import add_url_params
-from web.models import Dog, Pet, Shelter
+from web.models import Cat, Dog, Shelter
 
 
 class IndexView(UserWithAssociatedShelterMixin):
@@ -29,77 +28,60 @@ class IndexView(UserWithAssociatedShelterMixin):
         return redirect('management:pets_list')
 
 
-# Pets
-class PetsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, ListView):
+# Dogs
+class DogsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, PetsListViewMixin):
     template_name = 'management/pets-list.html'
     model = Dog
-    context_object_name = 'pets'
-    paginate_by = 30
-    petListFiltersForm = None
-
-    def get(self, request: HttpRequest, *args: Any, **kwargs: Any) -> HttpResponse:
-        # noinspection PyTypeChecker
-        self.petListFiltersForm = PetListFiltersForm(request.GET)
-
-        return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
         # noinspection PyUnresolvedReferences
         shelter = self.request.user_selected_shelter
 
-        pets = Dog.dogs_from_shelter(shelter).order_by("status", "-pk")
+        pets = Dog.all_dogs_from_shelter(shelter).order_by("status", "-pk")
 
         return self.petListFiltersForm.filter_queryset(pets)
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context['filters_form'] = self.petListFiltersForm
-        context['search_term'] = self.petListFiltersForm.get_search_term()
-        context['active_menu_item'] = 'pets_list'
 
-        return context
-
-
-class PetCreateView(UserWithAssociatedShelterMixin, CreateView):
+class DogCreateView(UserWithAssociatedShelterMixin, PetCreateViewMixin):
     model = Dog
     template_name = 'management/pet-create.html'
-    form_class = PetCreateUpdateForm
-    context_object_name = 'pet'
-    action_type = 'create'
-
-    # https://dev.to/zxenia/django-inline-formsets-with-class-based-views-and-crispy-forms-14o6
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-
-        # noinspection PyUnresolvedReferences
-        context['pet_photo_form_set'] = PetProfilePhotoFormSet(data=self.request.POST or None,
-                                                               instance=self.object)
-
-        return context
-
-    def get_success_url(self) -> str:
-        # noinspection PyUnresolvedReferences
-        return add_url_params(self.object.edit_pet_url(), {'success': self.action_type})
+    form_class = DogCreateUpdateForm
 
     def get_queryset(self) -> models.query.QuerySet:
         # noinspection PyUnresolvedReferences
-        return Dog.dogs_from_shelter(self.request.user_selected_shelter)
+        return Dog.all_dogs_from_shelter(self.request.user_selected_shelter)
 
-    def form_valid(self, form):
+
+class DogUpdateView(DogCreateView, UpdateView):
+    template_name = 'management/pet-edit.html'
+    action_type = 'update'
+
+
+# Cats
+class CatsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, PetsListViewMixin):
+    template_name = 'management/pets-list.html'
+    model = Cat
+
+    def get_queryset(self):
         # noinspection PyUnresolvedReferences
-        form.instance.shelter = self.request.user_selected_shelter
+        shelter = self.request.user_selected_shelter
 
-        with transaction.atomic():
-            pet = form.save()
+        pets = Cat.all_cats_from_shelter(shelter).order_by("status", "-pk")
 
-            pet_photo_form_set = PetProfilePhotoFormSet(data=self.request.POST)
-            if pet_photo_form_set.is_valid():
-                pet_photo_form_set.save_photos(pet)
-
-        return super().form_valid(form)
+        return self.petListFiltersForm.filter_queryset(pets)
 
 
-class PetUpdateView(PetCreateView, UpdateView):
+class CatCreateView(UserWithAssociatedShelterMixin, PetCreateViewMixin):
+    model = Cat
+    template_name = 'management/pet-create.html'
+    form_class = CatCreateUpdateForm
+
+    def get_queryset(self) -> models.query.QuerySet:
+        # noinspection PyUnresolvedReferences
+        return Cat.all_cats_from_shelter(self.request.user_selected_shelter)
+
+
+class CatUpdateView(CatCreateView, UpdateView):
     template_name = 'management/pet-edit.html'
     action_type = 'update'
 

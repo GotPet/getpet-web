@@ -16,7 +16,7 @@ from django.utils.translation import gettext_lazy as _
 
 from management.custom_layout_object import AppendedText, CardTitle, Formset, PlainTextFormField, PrependedText
 from utils.utils import find_first
-from web.models import Dog, Pet, PetGender, PetProfilePhoto, PetQuerySet, PetStatus, Shelter
+from web.models import Cat, Dog, Pet, PetGender, PetProfilePhoto, PetQuerySet, PetStatus, Shelter
 
 logger = getLogger(__name__)
 
@@ -159,6 +159,7 @@ class ShelterSwitchForm(forms.ModelForm):
 
 
 class PetCreateUpdateForm(forms.ModelForm):
+    main_information_additional_layouts = []
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -183,7 +184,7 @@ class PetCreateUpdateForm(forms.ModelForm):
             photo_field.required = False
             photo_field.widget.attrs['data-default-file'] = self.instance.photo.url
 
-        field_names_to_remove_none_choice = ['gender', 'size', 'desexed']
+        field_names_to_remove_none_choice = ['gender', 'desexed']
         for field_name in field_names_to_remove_none_choice:
             self.remove_none_choice(field_name)
 
@@ -203,12 +204,11 @@ class PetCreateUpdateForm(forms.ModelForm):
                             Div(AppendedText('age', 'm.'), css_class='col-md-6'),
                             Div(AppendedText('weight', 'kg'), css_class='col-md-6'),
 
-                            Div('size', css_class='col-md-4'),
+                            *self.main_information_additional_layouts,
                             Div('gender', css_class='col-md-4'),
                             Div('desexed', css_class='col-md-4'),
 
                             *read_only_date_divs,
-
                             css_class='row'
                         ),
                         css_class='card-body'
@@ -282,7 +282,6 @@ class PetCreateUpdateForm(forms.ModelForm):
         self.fields[field_name].widget.choices = choices
 
     class Meta:
-        model = Dog
         fields = [
             'name',
             'status',
@@ -292,7 +291,6 @@ class PetCreateUpdateForm(forms.ModelForm):
             'description',
             'gender',
             'age',
-            'size',
             'weight',
             'desexed',
             'properties',
@@ -317,7 +315,6 @@ class PetCreateUpdateForm(forms.ModelForm):
                 }
             ),
             'properties': CheckboxSelectMultiple(),
-            'size': RadioSelect(),
             'gender': RadioSelect(),
             'desexed': RadioSelect(),
         }
@@ -326,6 +323,33 @@ class PetCreateUpdateForm(forms.ModelForm):
             'information_for_getpet_team': "",
             'properties': "",
         }
+
+
+class DogCreateUpdateForm(PetCreateUpdateForm):
+    main_information_additional_layouts = [
+        Div('size', css_class='col-md-4'),
+    ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.remove_none_choice('size')
+
+    class Meta(PetCreateUpdateForm.Meta):
+        model = Dog
+        fields = [
+            *PetCreateUpdateForm.Meta.fields,
+            'size',
+        ]
+        widgets = {
+            **PetCreateUpdateForm.Meta.widgets,
+            'size': RadioSelect()
+        }
+
+
+class CatCreateUpdateForm(PetCreateUpdateForm):
+    class Meta(PetCreateUpdateForm.Meta):
+        model = Cat
 
 
 class PetProfilePhotoForm(forms.ModelForm):

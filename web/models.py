@@ -644,7 +644,7 @@ class Dog(Pet):
         verbose_name_plural = _("Šunys")
 
     @staticmethod
-    def dogs_from_shelter(shelter: Shelter) -> QuerySet[Dog]:
+    def all_dogs_from_shelter(shelter: Shelter) -> QuerySet[Dog]:
         queryset = Dog.objects.filter(shelter=shelter)
         return queryset
 
@@ -741,7 +741,7 @@ class Cat(Pet):
         return reverse('web:dog_profile', kwargs={'pk': self.pk, 'slug': self.slug})
 
     def edit_pet_url(self) -> str:
-        return reverse('management:pets_update', kwargs={'pk': self.pk})
+        return reverse('management:cats_update', kwargs={'pk': self.pk})
 
 
 class CatProperty(models.Model):
