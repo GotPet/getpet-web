@@ -61,7 +61,7 @@ class ShelterPetsListView(ViewPaginatorMixin, ListView):
         shelter = Shelter.available.filter(slug=slug).first()
 
         if shelter is None:
-            raise Http404(f"Unable to find shelter")
+            raise Http404("Unable to find shelter")
 
         return shelter
 
