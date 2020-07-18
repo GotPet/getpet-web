@@ -12,7 +12,7 @@ class IndexViewTest(TestCase):
 
     def test_index_status(self):
         response = self.client.get('/')
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_index_pets(self):
         dog = DogFactory()
@@ -49,14 +49,14 @@ class DogProfileViewTest(TestCase):
     def test_dog_profile_view_does_not_exist(self):
         response = self.client.get('/sunys/1-bar/')
 
-        self.assertEquals(response.status_code, 404)
+        self.assertEqual(response.status_code, 404)
 
     def test_dog_profile_view_does_disabled(self):
         pet_disabled = PetFactory(status=PetStatus.TAKEN_PERMANENTLY)
 
         response = self.client.get(f'/sunys/{pet_disabled.pk}-{pet_disabled.slug}/')
 
-        self.assertEquals(response.status_code, 404)
+        self.assertEqual(response.status_code, 404)
 
     def test_dog_profile(self):
         shelter = ShelterFactory()
@@ -85,12 +85,12 @@ class ShelterPetsListViewTest(TestCase):
         shelter = ShelterFactory()
         response = self.client.get(f'/globos-organizacijos/{shelter.slug}/')
 
-        self.assertEquals(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)
 
     def test_shelter_pets_list_no_shelter(self):
         response = self.client.get('/globos-organizacijos/does-not-exist/')
 
-        self.assertEquals(response.status_code, 404)
+        self.assertEqual(response.status_code, 404)
 
     def test_shelter_pets_list(self):
         shelter = ShelterFactory()
