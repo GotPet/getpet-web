@@ -8,7 +8,7 @@ class PetsListViewTest(TestCase):
     def setUp(self):
         self.shelterGroup = GroupFactory(name='Shelter')
 
-    def test_pets_list_view_with_associated_shelters(self):
+    def test_dogs_list_view_with_associated_shelters(self):
         user_associated_to_shelter1 = UserFactory(groups=[self.shelterGroup])
 
         shelter1 = ShelterFactory(authenticated_users=[user_associated_to_shelter1])
@@ -20,7 +20,7 @@ class PetsListViewTest(TestCase):
 
         self.client.force_login(user_associated_to_shelter1)
 
-        response = self.client.get('/admin/pets/')
+        response = self.client.get('/admin/dogs/')
 
         self.assertContains(response, shelter1pet1.name)
         self.assertContains(response, shelter1pet2.name)

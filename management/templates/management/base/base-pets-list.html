@@ -2,15 +2,14 @@
 {% load crispy_forms_tags %}
 {% load i18n %}
 
-{% block title %}{% trans "Prieglaudos gyvūnų administravimas" %}{% endblock %}
 
 {% block main_aside %}
     <aside class="aside aside-expand-md">
         <div class="aside-body">
             <div class="mr-4 ml-4 mt-2">
                 <a class="btn btn-bold btn-block btn-primary"
-                   href="{% url 'management:pets_create' %}">
-                    {% trans 'Naujas gyvūnas' %}
+                   href="{% block create_pet_url %}{% endblock %}">
+                    {% block create_pet_text %}{% endblock %}
                 </a>
                 <hr>
             </div>
@@ -19,9 +18,6 @@
 
         <button class="aside-toggler"></button>
     </aside>
-    <!-- END Page aside -->
-
-
 {% endblock %}
 
 {% block content %}

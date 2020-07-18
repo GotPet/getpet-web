@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from django.contrib.auth.decorators import login_required
 from django.db import models
@@ -28,9 +28,23 @@ class IndexView(UserWithAssociatedShelterMixin):
         return redirect('management:pets_list')
 
 
+class PetListRedirectView(UserWithAssociatedShelterMixin, RedirectView):
+
+    def get_redirect_url(self, *args: Any, **kwargs: Any) -> Optional[str]:
+        # noinspection PyUnresolvedReferences
+        shelter = self.request.user_selected_shelter
+
+        if Dog.all_dogs_from_shelter(shelter).exists():
+            self.pattern_name = 'management:dogs_list'
+        else:
+            self.pattern_name = 'management:cats_list'
+
+        return super().get_redirect_url(*args, **kwargs)
+
+
 # Dogs
 class DogsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, PetsListViewMixin):
-    template_name = 'management/pets-list.html'
+    template_name = 'management/dogs-list.html'
     model = Dog
 
     def get_queryset(self):
@@ -40,6 +54,12 @@ class DogsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, PetsListV
         pets = Dog.all_dogs_from_shelter(shelter).order_by("status", "-pk")
 
         return self.petListFiltersForm.filter_queryset(pets)
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['active_menu_item'] = 'dogs_list'
+
+        return context
 
 
 class DogCreateView(UserWithAssociatedShelterMixin, PetCreateViewMixin):
@@ -59,7 +79,7 @@ class DogUpdateView(DogCreateView, UpdateView):
 
 # Cats
 class CatsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, PetsListViewMixin):
-    template_name = 'management/pets-list.html'
+    template_name = 'management/cats-list.html'
     model = Cat
 
     def get_queryset(self):
@@ -69,6 +89,12 @@ class CatsListView(UserWithAssociatedShelterMixin, ViewPaginatorMixin, PetsListV
         pets = Cat.all_cats_from_shelter(shelter).order_by("status", "-pk")
 
         return self.petListFiltersForm.filter_queryset(pets)
+
+    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        context['active_menu_item'] = 'cats_list'
+
+        return context
 
 
 class CatCreateView(UserWithAssociatedShelterMixin, PetCreateViewMixin):

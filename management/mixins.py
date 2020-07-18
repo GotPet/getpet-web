@@ -67,6 +67,5 @@ class PetsListViewMixin(ListView):
         context = super().get_context_data(**kwargs)
         context['filters_form'] = self.petListFiltersForm
         context['search_term'] = self.petListFiltersForm.get_search_term()
-        context['active_menu_item'] = 'pets_list'
 
         return context

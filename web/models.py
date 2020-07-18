@@ -675,7 +675,7 @@ class Dog(Pet):
         return reverse('web:dog_profile', kwargs={'pk': self.pk, 'slug': self.slug})
 
     def edit_pet_url(self) -> str:
-        return reverse('management:pets_update', kwargs={'pk': self.pk})
+        return reverse('management:dogs_update', kwargs={'pk': self.pk})
 
 
 class DogProperty(models.Model):

@@ -28,10 +28,17 @@
             </div>
             <ul class="menu">
 
-                <li class="menu-item{% if active_menu_item == 'pets_list' %} active{% endif %}">
+                <li class="menu-item{% if active_menu_item == 'dogs_list' %} active{% endif %}">
                     <a class="menu-link" href="{% url 'management:pets_list' %}">
                         <span class="icon fa fa-paw"></span>
-                        <span class="title">{% trans "Gyvūnai" %}</span>
+                        <span class="title">{% trans "Šunys" %}</span>
+                    </a>
+                </li>
+
+                <li class="menu-item{% if active_menu_item == 'cats_list' %} active{% endif %}">
+                    <a class="menu-link" href="{% url 'management:cats_list' %}">
+                        <span class="icon fa fa-paw"></span>
+                        <span class="title">{% trans "Katės" %}</span>
                     </a>
                 </li>
 

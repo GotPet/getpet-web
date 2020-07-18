@@ -1,0 +1,6 @@
+{% extends 'management/base/base-pets-list.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Prieglaudos šunų administravimas" %}{% endblock %}
+{% block create_pet_url %}{% url 'management:dogs_create' %}{% endblock %}
+{% block create_pet_text %}{% trans 'Naujas šuo' %}{% endblock %}

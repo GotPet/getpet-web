@@ -11,7 +11,6 @@ from django import forms
 from django.forms import BaseInlineFormSet, inlineformset_factory
 from django.forms.utils import ErrorList
 from django.forms.widgets import CheckboxSelectMultiple, ClearableFileInput, FileInput, RadioSelect, TextInput, Textarea
-from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 
 from management.custom_layout_object import AppendedText, CardTitle, Formset, PlainTextFormField, PrependedText
@@ -494,13 +493,7 @@ class PetListFiltersForm(BaseFiltersForm):
             'gender',
             'q',
             HTML("<hr>"),
-            Div(
-                HTML(
-                    f"""<a href="{reverse("management:pets_list")}" 
-                           class="button btn btn-sm btn-secondary">{_("Atstatyti")}</a>"""),
-                Submit('', _("Filtruoti"), css_class='btn btn-sm btn-primary'),
-                css_class='flexbox'
-            )
+            Submit('', _("Filtruoti"), css_class='btn btn-sm btn-primary btn-block'),
         )
 
     def get_selected_status(self) -> Optional[PetStatus]:
