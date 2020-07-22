@@ -75,9 +75,9 @@ class AllSheltersListViewTest(TestCase):
         shelter_disabled = ShelterFactory(is_published=False)
 
         response = self.client.get('/globos-organizacijos/')
-        self.assertContains(response, shelter1.name)
-        self.assertContains(response, shelter2.name)
-        self.assertNotContains(response, shelter_disabled.name)
+        self.assertContains(response, shelter1.get_absolute_url())
+        self.assertContains(response, shelter2.get_absolute_url())
+        self.assertNotContains(response, shelter_disabled.get_absolute_url())
 
 
 class ShelterPetsListViewTest(TestCase):
@@ -101,9 +101,9 @@ class ShelterPetsListViewTest(TestCase):
         response = self.client.get(f'/globos-organizacijos/{shelter.slug}/')
 
         self.assertContains(response, shelter.name)
-        self.assertContains(response, pet1.name)
-        self.assertContains(response, pet2.name)
-        self.assertNotContains(response, pet_disabled.name)
+        self.assertContains(response, pet1.get_absolute_url())
+        self.assertContains(response, pet2.get_absolute_url())
+        self.assertNotContains(response, pet_disabled.get_absolute_url())
 
 
 class MentorListViewTest(TestCase):
