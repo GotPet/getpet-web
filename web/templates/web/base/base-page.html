@@ -32,14 +32,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'web:all_dogs' %}">{% trans 'Svajonių šunys' %}</a>
                     </li>
-                    {% if user.is_superuser %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'web:mentors' %}">{% trans 'Mentoriai' %}</a>
-                        </li>
-                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link"
                            href="{% url 'web:all_shelters' %}">{% trans 'Gyvūnų globos organizacijos' %}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'web:mentors' %}">{% trans 'Mentoriai' %}</a>
                     </li>
                 </ul>
             </section>
