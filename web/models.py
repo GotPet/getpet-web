@@ -329,7 +329,7 @@ class Shelter(models.Model):
             "@context": "https://schema.org",
             "@type": "Organization",
             "name": self.name,
-            'url': self.website,
+            "url": self.website if self.website else full_path(self.get_absolute_url()),
             "legalName": self.legal_name,
             "logo": full_path(self.square_logo.url),
             "email": self.email,
