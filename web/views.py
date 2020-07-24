@@ -95,7 +95,7 @@ class PrivacyPolicyDocumentView(RedirectView):
 
 
 class AboutGetPetDocumentView(RedirectView):
-    url = 'https://drive.google.com/file/d/10rbMmDMjoeJHT6L8opQbZyzA75PrH1SK/view'
+    url = 'https://drive.google.com/file/d/1yv87ocec763nyefedjXPjje_WOUNuDWT/view'
 
 
 class FairUseRulesDocumentView(RedirectView):
