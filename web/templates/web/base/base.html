@@ -52,6 +52,27 @@
 </head>
 
 <body>
+<!-- Load Facebook SDK for JavaScript -->
+<div id="fb-root"></div>
+<script>
+    window.fbAsyncInit = function () {
+        FB.init({
+            xfbml: true,
+            version: 'v7.0'
+        });
+        FB.CustomerChat.show(true);
+    };
+</script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/lt_LT/sdk/xfbml.customerchat.js"></script>
+
+<!-- Your Chat Plugin code -->
+<div class="fb-customerchat"
+     attribution=setup_tool
+     page_id="2215027108562441"
+     theme_color="#DD6172"
+     logged_in_greeting="Sveiki! Kuo galime padėti ?"
+     logged_out_greeting="Sveiki! Kuo galime padėti ?">
+</div>
 {% block extra_body_start %}
 {% endblock %}
 
@@ -64,7 +85,8 @@
 <!-- Scripts -->
 <!-- IE-11 Support -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.10.4/polyfill.min.js"
-        integrity="sha512-pgx+g4+yrNG/DhUEosN7ontsnk2WayfSuK1Fmy2GrqNi8ktUpIlTpKj80dCLyoEELA6c6m5otWP9RM/lq5UTQg==" crossorigin="anonymous"></script>
+        integrity="sha512-pgx+g4+yrNG/DhUEosN7ontsnk2WayfSuK1Fmy2GrqNi8ktUpIlTpKj80dCLyoEELA6c6m5otWP9RM/lq5UTQg=="
+        crossorigin="anonymous"></script>
 <script src="{% static 'web/js/page.min.js' %}?v={{ GIT_COMMIT }}"></script>
 
 {% block script %}{% endblock %}
