@@ -52,27 +52,6 @@
 </head>
 
 <body>
-<!-- Load Facebook SDK for JavaScript -->
-<div id="fb-root"></div>
-<script>
-    window.fbAsyncInit = function () {
-        FB.init({
-            xfbml: true,
-            version: 'v7.0'
-        });
-        FB.CustomerChat.hideDialog();
-    };
-</script>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/lt_LT/sdk/xfbml.customerchat.js"></script>
-
-<!-- Your Chat Plugin code -->
-<div class="fb-customerchat"
-     attribution=setup_tool
-     page_id="2215027108562441"
-     theme_color="#DD6172"
-     logged_in_greeting="Sveiki! Kuo galime padėti ?"
-     logged_out_greeting="Sveiki! Kuo galime padėti ?">
-</div>
 {% block extra_body_start %}
 {% endblock %}
 
