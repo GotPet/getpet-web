@@ -4,9 +4,10 @@ from django.contrib.auth.models import Group
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
+from api.fields import EnumField
 from api.firebase import Firebase
 from api.utils import first_or_none
-from web.models import Country, GetPetRequest, Pet, PetProfilePhoto, Region, Shelter, User, UserPetChoice
+from web.models import Country, GetPetRequest, Pet, PetProfilePhoto, PetType, Region, Shelter, User, UserPetChoice
 
 logger = getLogger()
 
@@ -55,9 +56,8 @@ class GeneratePetsRequestSerializer(serializers.Serializer):
         allow_null=True,
     )
 
-    pet_type = serializers.IntegerField(
-        min_value=0,
-        max_value=1,
+    pet_type = EnumField(
+        enum=PetType,
         required=False,
         allow_null=True,
     )
@@ -87,10 +87,11 @@ class PetFlatListSerializer(serializers.ModelSerializer):
     shelter = ShelterSerializer()
     profile_photos = PetProfilePhotoSerializer(many=True)
     description = serializers.CharField(source='description_including_all_information')
+    pet_type = EnumField(enum=PetType, read_only=True)
 
     class Meta:
         model = Pet
-        fields = ['id', 'name', 'is_available', 'photo', 'shelter', 'short_description', 'description',
+        fields = ['id', 'name', 'is_available', 'pet_type', 'photo', 'shelter', 'short_description', 'description',
                   'profile_photos', 'updated_at', ]
 
 

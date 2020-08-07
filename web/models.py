@@ -351,8 +351,8 @@ class Shelter(models.Model):
 
 
 class PetType(Enum):
-    DOG = 0
-    CAT = 1
+    DOG = "DOG"
+    CAT = "CAT"
 
 
 class PetStatus(models.IntegerChoices):
@@ -618,22 +618,6 @@ class Pet(models.Model):
 
         return "badge-primary"
 
-    @staticmethod
-    def generate_pets(liked_pet_ids: List[int], disliked_pet_ids: List[int], region: Optional[str],
-                      pet_type: PetType):
-        queryset = (Cat if pet_type is PetType.CAT else Dog)
-
-        queryset = queryset.available.prefetch_related('profile_photos', 'properties') \
-            .select_related_full_shelter() \
-            .exclude(pk__in=liked_pet_ids).order_by()
-
-        if region:
-            queryset = queryset.filter(shelter__region=region)
-
-        new_pets = queryset.exclude(pk__in=disliked_pet_ids).order_by('?')
-
-        return new_pets
-
 
 class Dog(Pet):
     properties = models.ManyToManyField("web.DogProperty", blank=True, related_name="+",
@@ -642,6 +626,8 @@ class Dog(Pet):
         verbose_name=_("Dydis"),
         choices=PetSize.choices,
     )
+
+    pet_type = PetType.DOG
 
     objects = PetQuerySet.as_manager()
     available = AvailablePetsManager()
@@ -717,6 +703,21 @@ class Dog(Pet):
 
         return '\n'.join(description_parts).strip(' \n\t')
 
+    @staticmethod
+    def generate_pets(liked_pet_ids: List[int], disliked_pet_ids: List[int], region: Optional[str],
+                      pet_type: PetType):
+        queryset = (Cat if pet_type == PetType.CAT else Dog)
+        queryset = queryset.available.prefetch_related('profile_photos', 'properties') \
+            .select_related_full_shelter() \
+            .exclude(pk__in=liked_pet_ids).order_by()
+
+        if region:
+            queryset = queryset.filter(shelter__region=region)
+
+        new_pets = queryset.exclude(pk__in=disliked_pet_ids).order_by('?')
+
+        return new_pets
+
 
 class DogProperty(models.Model):
     name = models.CharField(max_length=128, unique=True, verbose_name=_("Šuns savybė"))
@@ -741,6 +742,8 @@ class DogProperty(models.Model):
 class Cat(Pet):
     properties = models.ManyToManyField("web.CatProperty", blank=True, related_name="+",
                                         verbose_name=_("Savybės"))
+
+    pet_type = PetType.CAT
 
     objects = PetQuerySet.as_manager()
     available = AvailablePetsManager()
