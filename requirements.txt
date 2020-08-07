@@ -1,4 +1,4 @@
-Django==3.0.8
+Django==3.1.0
 gunicorn==20.0.4
 
 # Storage and caching
