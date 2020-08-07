@@ -14,7 +14,7 @@ celery[redis]==4.4.7
 django-celery-results==1.2.1
 
 # Admin
-django-admin-sortable2==0.7.6
+django-admin-sortable2==0.7.7
 
 # Logging and monitoring
 ddtrace==0.40.0
