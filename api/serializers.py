@@ -60,6 +60,7 @@ class GeneratePetsRequestSerializer(serializers.Serializer):
         enum=PetType,
         required=False,
         allow_null=True,
+        default=PetType.DOG
     )
 
     def update(self, instance, validated_data):

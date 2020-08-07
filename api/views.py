@@ -60,7 +60,7 @@ class PetGenerateListView(ApiLoggingMixin, CreateAPIView, ListModelMixin):
         serializer = GeneratePetsRequestSerializer(data=self.request.data)
         serializer.is_valid(raise_exception=True)
 
-        pet_type = PetType(serializer.data.get('pet_type', PetType.DOG.value))
+        pet_type = PetType(serializer.data['pet_type'])
 
         return Dog.generate_pets(
             liked_pet_ids=serializer.data['liked_pets'],
