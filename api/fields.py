@@ -8,7 +8,9 @@ class EnumField(serializers.ChoiceField):
         super(EnumField, self).__init__(**kwargs)
 
     def to_representation(self, obj):
-        return obj.value
+        if hasattr(obj, 'value'):
+            return obj.value
+        return obj
 
     def to_internal_value(self, data):
         try:
