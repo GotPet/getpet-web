@@ -33,7 +33,7 @@ drf-api-tracking==1.7.3
 # Additional functionality
 Pillow==7.2.0
 requests==2.24.0
-django-ipware==3.0.0
+django-ipware==3.0.1
 django-resized==0.3.11
 django-crispy-forms==1.9.2
 django-map-widgets==0.3.0
