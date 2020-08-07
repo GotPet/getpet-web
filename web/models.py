@@ -4,6 +4,7 @@ import json
 import uuid
 from _md5 import md5
 from datetime import timedelta
+from enum import Enum
 from os.path import join
 from typing import List, Optional
 
@@ -349,6 +350,11 @@ class Shelter(models.Model):
         return self.name
 
 
+class PetType(Enum):
+    DOG = 0
+    CAT = 1
+
+
 class PetStatus(models.IntegerChoices):
     AVAILABLE = 1, _('Laukia šeimininko')
     TAKEN_TEMPORARY = 2, _('Laikinai paimtas per GetPet')
@@ -579,10 +585,8 @@ class Pet(models.Model):
             age_part = f"{_('Amžius')}: {_('apie')} {self.age} m."
             description_parts.append(age_part)
 
-        if self.size:
-            size_part = f"{_('Dydis')}: {self.get_size_display().lower()}"
-            if self.weight:
-                size_part += f" ({_('apie')} {self.weight} kg)"
+        if self.weight:
+            size_part = f" ({_('Apie')} {self.weight} kg)"
 
             description_parts.append(size_part)
 
@@ -615,8 +619,11 @@ class Pet(models.Model):
         return "badge-primary"
 
     @staticmethod
-    def generate_pets(liked_pet_ids, disliked_pet_ids, region):
-        queryset = Dog.available.prefetch_related('profile_photos', 'properties') \
+    def generate_pets(liked_pet_ids: List[int], disliked_pet_ids: List[int], region: Optional[str],
+                      pet_type: PetType):
+        queryset = (Cat if pet_type is PetType.CAT else Dog)
+
+        queryset = queryset.available.prefetch_related('profile_photos', 'properties') \
             .select_related_full_shelter() \
             .exclude(pk__in=liked_pet_ids).order_by()
 
@@ -676,6 +683,39 @@ class Dog(Pet):
 
     def edit_pet_url(self) -> str:
         return reverse('management:dogs_update', kwargs={'pk': self.pk})
+
+    def description_including_all_information(self) -> str:
+        description_parts = [self.description + "\n"]
+
+        if self.gender:
+            gender_part = f"{_('Lytis')}: {self.get_gender_display().lower()}"
+
+            if desexed_text := self.desexed_status_text():
+                gender_part += f" ({desexed_text})"
+
+            description_parts.append(gender_part)
+
+        if self.age:
+            age_part = f"{_('Amžius')}: {_('apie')} {self.age} m."
+            description_parts.append(age_part)
+
+        if self.size:
+            size_part = f"{_('Dydis')}: {self.get_size_display().lower()}"
+            if self.weight:
+                size_part += f" ({_('apie')} {self.weight} kg)"
+
+            description_parts.append(size_part)
+
+        properties = self.properties_list()
+        if len(properties) > 0:
+            properties_part = f"{_('Pastabos')}: {', '.join(properties).lower()}"
+            description_parts.append(properties_part)
+
+        if special_information := self.special_information:
+            special_information_part = f"{_('Specialūs sveikatos poreikiai ir būklės')}:\n{special_information}"
+            description_parts.append(special_information_part)
+
+        return '\n'.join(description_parts).strip(' \n\t')
 
 
 class DogProperty(models.Model):

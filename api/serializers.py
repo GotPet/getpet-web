@@ -55,6 +55,13 @@ class GeneratePetsRequestSerializer(serializers.Serializer):
         allow_null=True,
     )
 
+    pet_type = serializers.IntegerField(
+        min_value=0,
+        max_value=1,
+        required=False,
+        allow_null=True,
+    )
+
     def update(self, instance, validated_data):
         raise RuntimeError("Unsupported operation")
 

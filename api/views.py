@@ -13,7 +13,7 @@ from api.mixins import ApiLoggingMixin
 from api.serializers import CountryWithRegionSerializer, FirebaseSerializer, GeneratePetsRequestSerializer, \
     PetFlatListSerializer, PetProfilePhotoUploadSerializer, ShelterPetSerializer, TokenSerializer, \
     UserPetChoiceSerializer
-from web.models import Country, Dog, GetPetRequest, UserPetChoice
+from web.models import Country, Dog, GetPetRequest, PetType, UserPetChoice
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
@@ -60,10 +60,15 @@ class PetGenerateListView(ApiLoggingMixin, CreateAPIView, ListModelMixin):
         serializer = GeneratePetsRequestSerializer(data=self.request.data)
         serializer.is_valid(raise_exception=True)
 
+        pet_type = PetType.DOG
+        if serializer.data['pet_type'] == PetType.CAT.value:
+            pet_type = PetType.CAT
+
         return Dog.generate_pets(
             liked_pet_ids=serializer.data['liked_pets'],
             disliked_pet_ids=serializer.data['disliked_pets'],
             region=serializer.data['region_code'],
+            pet_type=pet_type
         )
 
     def post(self, request, *args, **kwargs):
