@@ -2,10 +2,11 @@ from unittest.mock import MagicMock
 
 from django.test import SimpleTestCase
 
-from web.models import Dog, PetGender, PetSize
+from web.models import Cat, Dog, PetGender, PetSize
 
 
 class TestPetDescriptionIncludingAllInformationTestCase(SimpleTestCase):
+    maxDiff = None
 
     @staticmethod
     def _create_dog(**kwargs):
@@ -13,6 +14,13 @@ class TestPetDescriptionIncludingAllInformationTestCase(SimpleTestCase):
         dog.properties_list = MagicMock(return_value=[])
 
         return dog
+
+    @staticmethod
+    def _create_cat(**kwargs):
+        cat = Cat(**kwargs)
+        cat.properties_list = MagicMock(return_value=[])
+
+        return cat
 
     def test_description_no_more_information(self):
         description = "description part 1\ndescription part2"
@@ -42,6 +50,89 @@ class TestPetDescriptionIncludingAllInformationTestCase(SimpleTestCase):
 Lytis: patinas (kastruotas)
 Amžius: apie 12 m.
 Dydis: vidutinis (apie 2 kg)
+Pastabos: nemoka atlikti tualeto reikalų lauke, nemoka vaikščioti su pavadėliu
+Specialūs sveikatos poreikiai ir būklės:
+Amputuota galūnė ir šlapimo nelaikymas.
+        """.strip()
+
+        self.assertEqual(pet.description_including_all_information(), expected_description)
+
+    def test_cat_description_all_information(self):
+        pet = self._create_cat(
+            description="Man reikia kantraus ir supratingo mokytojo. Mokytojo, kuris išmokytų mėgautis paglostymais, ausyčių pakasymu, ilgais pasivaikščiojimais ir žmogaus draugija. Duok man šansą atgauti pasitikėjimą žmogumi ir tapti tau ištikimu draugu!",
+            age=12,
+            weight=2,
+            gender=PetGender.Male,
+            desexed=True,
+            special_information="Amputuota galūnė ir šlapimo nelaikymas."
+        )
+        pet.properties_list = MagicMock(
+            return_value=[
+                "Nemoka atlikti tualeto reikalų lauke",
+                "nemoka vaikščioti su pavadėliu"
+            ])
+
+        expected_description = """
+                Man reikia kantraus ir supratingo mokytojo. Mokytojo, kuris išmokytų mėgautis paglostymais, ausyčių pakasymu, ilgais pasivaikščiojimais ir žmogaus draugija. Duok man šansą atgauti pasitikėjimą žmogumi ir tapti tau ištikimu draugu!
+
+Lytis: patinas (kastruotas)
+Amžius: apie 12 m.
+Svoris: apie 2 kg
+Pastabos: nemoka atlikti tualeto reikalų lauke, nemoka vaikščioti su pavadėliu
+Specialūs sveikatos poreikiai ir būklės:
+Amputuota galūnė ir šlapimo nelaikymas.
+                """.strip()
+        print(pet.description_including_all_information())
+        self.assertEqual(pet.description_including_all_information(), expected_description)
+
+    def test_description_all_no_special_information(self):
+        pet = self._create_dog(
+            description="Man reikia kantraus ir supratingo mokytojo. Mokytojo, kuris išmokytų mėgautis paglostymais, ausyčių pakasymu, ilgais pasivaikščiojimais ir žmogaus draugija. Duok man šansą atgauti pasitikėjimą žmogumi ir tapti tau ištikimu draugu!",
+            age=12,
+            weight=2,
+            size=PetSize.Medium,
+            gender=PetGender.Male,
+            desexed=True,
+            special_information=""
+        )
+        pet.properties_list = MagicMock(
+            return_value=[
+                "Nemoka atlikti tualeto reikalų lauke",
+                "nemoka vaikščioti su pavadėliu"
+            ])
+
+        expected_description = """
+        Man reikia kantraus ir supratingo mokytojo. Mokytojo, kuris išmokytų mėgautis paglostymais, ausyčių pakasymu, ilgais pasivaikščiojimais ir žmogaus draugija. Duok man šansą atgauti pasitikėjimą žmogumi ir tapti tau ištikimu draugu!
+
+Lytis: patinas (kastruotas)
+Amžius: apie 12 m.
+Dydis: vidutinis (apie 2 kg)
+Pastabos: nemoka atlikti tualeto reikalų lauke, nemoka vaikščioti su pavadėliu
+        """.strip()
+        self.assertEqual(pet.description_including_all_information(), expected_description)
+
+    def test_description_no_weight(self):
+        pet = self._create_dog(
+            weight=None,
+            description="Man reikia kantraus ir supratingo mokytojo. Mokytojo, kuris išmokytų mėgautis paglostymais, ausyčių pakasymu, ilgais pasivaikščiojimais ir žmogaus draugija. Duok man šansą atgauti pasitikėjimą žmogumi ir tapti tau ištikimu draugu!",
+            age=12,
+            size=PetSize.Medium,
+            gender=PetGender.Male,
+            desexed=True,
+            special_information="Amputuota galūnė ir šlapimo nelaikymas."
+        )
+        pet.properties_list = MagicMock(
+            return_value=[
+                "Nemoka atlikti tualeto reikalų lauke",
+                "nemoka vaikščioti su pavadėliu"
+            ])
+
+        expected_description = """
+        Man reikia kantraus ir supratingo mokytojo. Mokytojo, kuris išmokytų mėgautis paglostymais, ausyčių pakasymu, ilgais pasivaikščiojimais ir žmogaus draugija. Duok man šansą atgauti pasitikėjimą žmogumi ir tapti tau ištikimu draugu!
+
+Lytis: patinas (kastruotas)
+Amžius: apie 12 m.
+Dydis: vidutinis
 Pastabos: nemoka atlikti tualeto reikalų lauke, nemoka vaikščioti su pavadėliu
 Specialūs sveikatos poreikiai ir būklės:
 Amputuota galūnė ir šlapimo nelaikymas.
@@ -137,5 +228,3 @@ Amputuota galūnė ir šlapimo nelaikymas.
         pet = self._create_dog(description=description, gender=PetGender.Female, desexed=False)
 
         self.assertEqual(pet.description_including_all_information(), expected_description)
-
-

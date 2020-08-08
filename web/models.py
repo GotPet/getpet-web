@@ -571,35 +571,7 @@ class Pet(models.Model):
         return []
 
     def description_including_all_information(self) -> str:
-        description_parts = [self.description + "\n"]
-
-        if self.gender:
-            gender_part = f"{_('Lytis')}: {self.get_gender_display().lower()}"
-
-            if desexed_text := self.desexed_status_text():
-                gender_part += f" ({desexed_text})"
-
-            description_parts.append(gender_part)
-
-        if self.age:
-            age_part = f"{_('Amžius')}: {_('apie')} {self.age} m."
-            description_parts.append(age_part)
-
-        if self.weight:
-            size_part = f" ({_('Apie')} {self.weight} kg)"
-
-            description_parts.append(size_part)
-
-        properties = self.properties_list()
-        if len(properties) > 0:
-            properties_part = f"{_('Pastabos')}: {', '.join(properties).lower()}"
-            description_parts.append(properties_part)
-
-        if special_information := self.special_information:
-            special_information_part = f"{_('Specialūs sveikatos poreikiai ir būklės')}:\n{special_information}"
-            description_parts.append(special_information_part)
-
-        return '\n'.join(description_parts).strip(' \n\t')
+        return ""
 
     def all_photos(self) -> List[ImageFieldFile]:
         photos = [self.photo]
@@ -779,6 +751,34 @@ class Cat(Pet):
             )
 
         return images
+
+    def description_including_all_information(self) -> str:
+        description_parts = [self.description + "\n"]
+
+        gender_part = f"{_('Lytis')}: {self.get_gender_display().lower()}"
+        gender_part += f" ({self.desexed_status_text()})"
+
+        description_parts.append(gender_part)
+
+        if self.age:
+            age_part = f"{_('Amžius')}: {_('apie')} {self.age} m."
+            description_parts.append(age_part)
+
+        if self.weight:
+            size_part = f"Svoris: apie {self.weight} kg"
+
+            description_parts.append(size_part)
+
+        properties = self.properties_list()
+        if len(properties) > 0:
+            properties_part = f"{_('Pastabos')}: {', '.join(properties).lower()}"
+            description_parts.append(properties_part)
+
+        if special_information := self.special_information:
+            special_information_part = f"{_('Specialūs sveikatos poreikiai ir būklės')}:\n{special_information}"
+            description_parts.append(special_information_part)
+
+        return '\n'.join(description_parts).strip(' \n\t')
 
     def get_absolute_url(self) -> str:
         return reverse('web:dog_profile', kwargs={'pk': self.pk, 'slug': self.slug})
