@@ -2,6 +2,7 @@ import factory
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.contrib.gis.geos import Point
+from factory.django import DjangoModelFactory
 from faker import Factory
 from faker.providers import BaseProvider
 
@@ -18,7 +19,7 @@ class DjangoGeoPointProvider(BaseProvider):
         return Point(x=float(coords[1]), y=float(coords[0]))
 
 
-class GroupFactory(factory.DjangoModelFactory):
+class GroupFactory(DjangoModelFactory):
     class Meta:
         model = Group
         django_get_or_create = ('name',)
@@ -26,7 +27,7 @@ class GroupFactory(factory.DjangoModelFactory):
     name = factory.Faker('user_name')
 
 
-class UserFactory(factory.DjangoModelFactory):
+class UserFactory(DjangoModelFactory):
     class Meta:
         model = get_user_model()
 
@@ -46,7 +47,7 @@ class UserFactory(factory.DjangoModelFactory):
                 self.groups.add(group)
 
 
-class CountryFactory(factory.DjangoModelFactory):
+class CountryFactory(DjangoModelFactory):
     class Meta:
         model = Country
         django_get_or_create = ('code',)
@@ -55,7 +56,7 @@ class CountryFactory(factory.DjangoModelFactory):
     code = 'lt'
 
 
-class RegionFactory(factory.DjangoModelFactory):
+class RegionFactory(DjangoModelFactory):
     class Meta:
         model = Region
         django_get_or_create = ('code',)
@@ -65,7 +66,7 @@ class RegionFactory(factory.DjangoModelFactory):
     country = factory.SubFactory(CountryFactory)
 
 
-class ShelterFactory(factory.DjangoModelFactory):
+class ShelterFactory(DjangoModelFactory):
     factory.Faker.add_provider(DjangoGeoPointProvider)
 
     class Meta:
@@ -91,7 +92,7 @@ class ShelterFactory(factory.DjangoModelFactory):
                 self.authenticated_users.add(user)
 
 
-class PetFactory(factory.DjangoModelFactory):
+class PetFactory(DjangoModelFactory):
     class Meta:
         model = Pet
 
@@ -119,7 +120,7 @@ class CatFactory(PetFactory):
         model = Cat
 
 
-class TeamMemberFactory(factory.DjangoModelFactory):
+class TeamMemberFactory(DjangoModelFactory):
     class Meta:
         model = TeamMember
 
@@ -133,7 +134,7 @@ class TeamMemberFactory(factory.DjangoModelFactory):
     instagram = factory.Faker('url')
 
 
-class MentorFactory(factory.DjangoModelFactory):
+class MentorFactory(DjangoModelFactory):
     class Meta:
         model = Mentor
 
