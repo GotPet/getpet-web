@@ -11,6 +11,9 @@ urlpatterns = [
     path('sunys/', views.AllDogsListView.as_view(), name="all_dogs"),
     path('sunys/<int:pk>-<slug:slug>/', views.DogProfileView.as_view(), name="dog_profile"),
 
+    path('kates/', views.AllCatsListView.as_view(), name="all_cats"),
+    path('kates/<int:pk>-<slug:slug>/', views.CatProfileView.as_view(), name="cat_profile"),
+
     path('globos-organizacijos/', views.AllSheltersListView.as_view(), name="all_shelters"),
     path('globos-organizacijos/<slug:slug>/', views.ShelterPetsListView.as_view(), name="shelter_profile"),
 

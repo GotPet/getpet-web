@@ -1,0 +1,15 @@
+{% extends 'web/dog-profile.html' %}
+{% load i18n %}
+{% load text_tags %}
+
+{% block title %}{{ pet.is_male|yesno:"Katinas,Katė" }} {{ pet.name }} -
+    {{ pet.short_description|lower_first }}{% endblock %}
+
+{% block pet_specific_list_items %}
+    {% if pet.weight %}
+        <li>
+            <strong>{% trans 'Svoris' %}</strong>
+            <span>{% trans 'Apie' %} {{ pet.weight }} kg</span>
+        </li>
+    {% endif %}
+{% endblock %}

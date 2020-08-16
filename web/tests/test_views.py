@@ -2,7 +2,7 @@ from django.core.cache import cache
 from django.test import TestCase
 
 from web.models import PetStatus
-from web.tests.factories import DogFactory, MentorFactory, PetFactory, ShelterFactory, TeamMemberFactory
+from web.tests.factories import CatFactory, DogFactory, MentorFactory, ShelterFactory, TeamMemberFactory
 
 
 class IndexViewTest(TestCase):
@@ -45,6 +45,16 @@ class AllDogsListViewTest(TestCase):
         self.assertContains(response, pet2.name)
 
 
+class AllCatsListViewTest(TestCase):
+    def test_all_dogs_list_view(self):
+        pet1 = CatFactory()
+        pet2 = CatFactory()
+
+        response = self.client.get('/kates/')
+        self.assertContains(response, pet1.name)
+        self.assertContains(response, pet2.name)
+
+
 class DogProfileViewTest(TestCase):
     def test_dog_profile_view_does_not_exist(self):
         response = self.client.get('/sunys/1-bar/')
@@ -52,7 +62,7 @@ class DogProfileViewTest(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_dog_profile_view_does_disabled(self):
-        pet_disabled = PetFactory(status=PetStatus.TAKEN_PERMANENTLY)
+        pet_disabled = DogFactory(status=PetStatus.TAKEN_PERMANENTLY)
 
         response = self.client.get(f'/sunys/{pet_disabled.pk}-{pet_disabled.slug}/')
 
@@ -63,6 +73,29 @@ class DogProfileViewTest(TestCase):
         pet1 = DogFactory(shelter=shelter)
 
         response = self.client.get(f'/sunys/{pet1.pk}-{pet1.slug}/')
+
+        self.assertContains(response, shelter.name)
+        self.assertContains(response, pet1.name)
+
+
+class CatProfileViewTest(TestCase):
+    def test_cat_profile_view_does_not_exist(self):
+        response = self.client.get('/kates/1-bar/')
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_cat_profile_view_does_disabled(self):
+        pet_disabled = CatFactory(status=PetStatus.TAKEN_PERMANENTLY)
+
+        response = self.client.get(f'/kates/{pet_disabled.pk}-{pet_disabled.slug}/')
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_cat_profile(self):
+        shelter = ShelterFactory()
+        pet1 = CatFactory(shelter=shelter)
+
+        response = self.client.get(f'/kates/{pet1.pk}-{pet1.slug}/')
 
         self.assertContains(response, shelter.name)
         self.assertContains(response, pet1.name)
@@ -94,16 +127,18 @@ class ShelterPetsListViewTest(TestCase):
 
     def test_shelter_pets_list(self):
         shelter = ShelterFactory()
-        pet1 = DogFactory(shelter=shelter)
-        pet2 = DogFactory(shelter=shelter)
-        pet_disabled = DogFactory(shelter=shelter, status=PetStatus.TAKEN_NOT_VIA_GETPET)
+        dog = DogFactory(shelter=shelter)
+        cat = CatFactory(shelter=shelter)
+        dog_disabled = DogFactory(shelter=shelter, status=PetStatus.TAKEN_NOT_VIA_GETPET)
+        cat_disabled = CatFactory(shelter=shelter, status=PetStatus.TAKEN_NOT_VIA_GETPET)
 
         response = self.client.get(f'/globos-organizacijos/{shelter.slug}/')
 
         self.assertContains(response, shelter.name)
-        self.assertContains(response, pet1.get_absolute_url())
-        self.assertContains(response, pet2.get_absolute_url())
-        self.assertNotContains(response, pet_disabled.get_absolute_url())
+        self.assertContains(response, dog.get_absolute_url())
+        self.assertContains(response, cat.get_absolute_url())
+        self.assertNotContains(response, dog_disabled.get_absolute_url())
+        self.assertNotContains(response, cat_disabled.get_absolute_url())
 
 
 class MentorListViewTest(TestCase):

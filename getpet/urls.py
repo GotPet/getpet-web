@@ -15,10 +15,9 @@ Including another URLconf
 """
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import include, path
 
 from getpet import settings
-
 from utils.utils import sitemap_with_images
 from web import sitemap
 
@@ -40,6 +39,7 @@ urlpatterns = [
                               'static': sitemap.StaticSitemap,
                               'shelter': sitemap.ShelterSitemap,
                               'dogs': sitemap.DogSitemap,
+                              'cats': sitemap.CatSitemap,
                           }
                       },
                       name='django.contrib.sitemaps.views.index'

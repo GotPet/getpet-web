@@ -552,6 +552,17 @@ class Pet(models.Model):
 
         on_pet_created_or_updated.delay(self.pk, orig_status, orig_status_text)
 
+    def get_absolute_url(self) -> str:
+        if hasattr(self, 'dog'):
+            return self.dog.get_absolute_url()
+        if hasattr(self, 'cat'):
+            return self.cat.get_absolute_url()
+
+        raise ValueError(f"Pet {self.pk} is not associated with cat or dog")
+
+    def is_male(self) -> bool:
+        return self.gender == PetGender.Male
+
     def desexed_status_text(self) -> Optional[str]:
         if self.gender == PetGender.Male and self.desexed is True:
             return _("kastruotas")
@@ -781,7 +792,7 @@ class Cat(Pet):
         return '\n'.join(description_parts).strip(' \n\t')
 
     def get_absolute_url(self) -> str:
-        return reverse('web:dog_profile', kwargs={'pk': self.pk, 'slug': self.slug})
+        return reverse('web:cat_profile', kwargs={'pk': self.pk, 'slug': self.slug})
 
     def edit_pet_url(self) -> str:
         return reverse('management:cats_update', kwargs={'pk': self.pk})

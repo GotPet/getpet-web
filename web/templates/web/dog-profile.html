@@ -68,15 +68,16 @@
                             <strong>{% trans 'Amžius' %}</strong>
                             <span>{% trans 'Apie' %} {{ pet.age }} {% trans 'm.' %}</span>
                         </li>
-
-                        <li>
-                            <strong>{% trans 'Dydis' %}</strong>
-                            <span>{{ pet.get_size_display }}
-                                {% if pet.weight %}
-                                    ({% trans 'apie' %} {{ pet.weight }} kg)
-                                {% endif %}
+                        {% block pet_specific_list_items %}
+                            <li>
+                                <strong>{% trans 'Dydis' %}</strong>
+                                <span>{{ pet.get_size_display }}
+                                    {% if pet.weight %}
+                                        ({% trans 'apie' %} {{ pet.weight }} kg)
+                                    {% endif %}
                             </span>
-                        </li>
+                            </li>
+                        {% endblock %}
                         <li>
                             <strong>{% trans 'Pastabos' %}</strong>
                             <span>{{ pet.properties_list|join:", "|lower|capfirst|default:"-" }}</span>
