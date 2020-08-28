@@ -1,4 +1,5 @@
 from django.utils.decorators import method_decorator
+from drf_multiple_model.views import ObjectMultipleModelAPIView
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
@@ -13,7 +14,7 @@ from api.mixins import ApiLoggingMixin
 from api.serializers import CountryWithRegionSerializer, FirebaseSerializer, GeneratePetsRequestSerializer, \
     PetFlatListSerializer, PetProfilePhotoUploadSerializer, ShelterPetSerializer, TokenSerializer, \
     UserPetChoiceSerializer
-from web.models import Country, Dog, GetPetRequest, PetType, UserPetChoice
+from web.models import Cat, Country, Dog, GetPetRequest, PetType, UserPetChoice
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
@@ -29,7 +30,8 @@ class CountriesAndRegionsListView(ApiLoggingMixin, ListAPIView):
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
     operation_description="Returns all pets.",
-    security=[]
+    security=[],
+    deprecated=True,
 ))
 class PetListView(ListAPIView):
     queryset = Dog.objects.prefetch_related('profile_photos', 'properties').select_related_full_shelter().order_by(
@@ -38,6 +40,34 @@ class PetListView(ListAPIView):
     permission_classes = (AllowAny,)
 
     filterset_class = PetFilter
+
+
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    operation_description="Returns all pets.",
+    security=[]
+))
+class SelectedPetsListView(ObjectMultipleModelAPIView):
+    querylist = [
+        {
+            'queryset': Dog.objects.prefetch_related('profile_photos',
+                                                     'properties').select_related_full_shelter().order_by('-pk'),
+            'serializer_class': PetFlatListSerializer,
+            'label': 'dogs',
+        },
+        {
+            'queryset': Cat.objects.prefetch_related('profile_photos',
+                                                     'properties').select_related_full_shelter().order_by('-pk'),
+            'serializer_class': PetFlatListSerializer,
+            'label': 'cats',
+        },
+    ]
+    permission_classes = (AllowAny,)
+    serializer_class = PetFlatListSerializer
+    filterset_class = PetFilter
+    pagination_class = None
+
+    def post(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 
 @method_decorator(name='post', decorator=swagger_auto_schema(

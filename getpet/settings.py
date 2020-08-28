@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'django_filters',
     'drf_yasg',
     'rest_framework_tracking',
+    'drf_multiple_model',
 
     'crispy_forms',
     'adminsortable2',
