@@ -19,7 +19,7 @@ class IndexView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         context['organization_json_ld'] = Constants.GETPET_ORGANIZATION_JSON_LD
-        context['pets'] = Dog.available.order_by('?')[:3]
+        context['pets'] = Pet.available.select_related('cat', 'dog').order_by('?')[:3]
         context['team_members'] = TeamMember.objects.all()
 
         return context
