@@ -66,9 +66,6 @@ class SelectedPetsListView(ObjectMultipleModelAPIView):
     filterset_class = PetFilter
     pagination_class = None
 
-    def post(self, request, *args, **kwargs):
-        return self.list(request, *args, **kwargs)
-
 
 @method_decorator(name='post', decorator=swagger_auto_schema(
     operation_description="Generated pets to swipe.",
