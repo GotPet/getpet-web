@@ -7,7 +7,7 @@ django-redis==4.12.1
 
 # Authentication
 django-allauth==0.42.0
-firebase-admin==4.3.0
+firebase-admin==4.4.0
 
 # Celery
 celery[redis]==4.4.7
