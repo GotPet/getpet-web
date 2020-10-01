@@ -40,7 +40,7 @@ django-crispy-forms==1.9.2
 django-map-widgets==0.3.0
 
 # Debugging
-ipdb==0.13.3
+ipdb==0.13.4
 django-extensions==3.0.9
 
 # Required for tests
