@@ -6,7 +6,7 @@ psycopg2-binary==2.8.6
 django-redis==4.12.1
 
 # Authentication
-django-allauth==0.43.0
+django-allauth==0.44.0
 firebase-admin==4.4.0
 
 # Celery
