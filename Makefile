@@ -3,7 +3,7 @@
 all: deploy
 
 deploy:
-	docker stack deploy getpet-platform --compose-file docker-compose.yml
+	docker stack deploy getpet-platform --with-registry-auth --compose-file docker-compose.yml
 
 nginx_reload:
 	docker exec $(docker ps -qf "label=lt.getpet.nginx") nginx -s reload
