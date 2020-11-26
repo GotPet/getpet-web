@@ -3,20 +3,20 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.contrib.gis.geos import Point
 from factory.django import DjangoModelFactory
-from faker import Factory
+from faker import Factory, Faker
 from faker.providers import BaseProvider
 
 from web.models import Cat, Country, Dog, Mentor, Pet, PetGender, PetSize, PetStatus, Region, Shelter, TeamMember
 
-faker = Factory.create()
-
+faker_factory = Factory.create()
+faker = Faker()
 
 class DjangoGeoPointProvider(BaseProvider):
 
     def geo_point(self, **kwargs):
         kwargs['coords_only'] = True
-        coords = factory.Faker('local_latlng', **kwargs).generate()
-        return Point(x=float(coords[1]), y=float(coords[0]))
+        lat_lng = faker.latlng()
+        return Point(x=float(lat_lng[0]), y=float(lat_lng[1]))
 
 
 class GroupFactory(DjangoModelFactory):
