@@ -44,5 +44,5 @@ ipdb==0.13.4
 django-extensions==3.1.0
 
 # Required for tests
-Faker==4.17.1
+Faker==4.18.0
 factory_boy==3.1.0
