@@ -36,7 +36,7 @@ Pillow==8.1.0
 requests==2.25.1
 django-ipware==3.0.2
 django-resized==0.3.11
-django-crispy-forms==1.10.0
+django-crispy-forms==1.11.0
 django-map-widgets==0.3.0
 
 # Debugging
