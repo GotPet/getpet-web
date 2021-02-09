@@ -18,7 +18,7 @@ django-admin-sortable2==0.7.8
 
 # Logging and monitoring
 ddtrace==0.46.0
-datadog==0.39.0
+datadog==0.40.0
 sentry-sdk==0.19.5
 
 
