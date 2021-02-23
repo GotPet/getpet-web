@@ -30,7 +30,7 @@ services:
       - DUMPPREFIX=getpet_web
 
   redis:
-    image: redis:6.0
+    image: redis:6.2
     networks:
       - redis_network
     volumes:
