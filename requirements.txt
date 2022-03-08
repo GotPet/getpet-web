@@ -11,7 +11,7 @@ firebase-admin==4.5.3
 
 # Celery
 celery[redis]==5.2.3
-django-celery-results==2.0.1
+django-celery-results==2.3.0
 
 # Admin
 django-admin-sortable2==0.7.8
