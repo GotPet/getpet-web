@@ -17,7 +17,7 @@ django-celery-results==2.3.0
 django-admin-sortable2==0.7.8
 
 # Logging and monitoring
-ddtrace==0.59.0
+ddtrace==0.59.1
 datadog==0.44.0
 sentry-sdk==0.20.3
 
