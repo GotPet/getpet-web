@@ -45,4 +45,4 @@ django-extensions==3.1.5
 
 # Required for tests
 Faker==5.8.0
-factory_boy==3.2.0
+factory_boy==3.2.1
