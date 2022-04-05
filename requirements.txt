@@ -10,7 +10,7 @@ django-allauth==0.49.0
 firebase-admin==4.5.3
 
 # Celery
-celery[redis]==5.2.3
+celery[redis]==5.2.6
 django-celery-results==2.3.0
 
 # Admin
