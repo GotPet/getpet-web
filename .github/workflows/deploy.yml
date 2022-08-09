@@ -14,7 +14,7 @@ jobs:
 
     services:
       postgres:
-        image: kartoza/postgis:12.1
+        image: kartoza/postgis:13.0
         ports: ['5432:5432']
         env:
           POSTGRES_HOST: ${{ env.POSTGRES_HOST }}
