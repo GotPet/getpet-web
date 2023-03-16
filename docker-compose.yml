@@ -19,7 +19,7 @@ services:
         condition: on-failure
 
   dbbackup:
-    image: kartoza/pg-backup:12.1
+    image: kartoza/pg-backup:13.0
     volumes:
       - /srv/getpet-web-db-backups:/backups
     networks:
