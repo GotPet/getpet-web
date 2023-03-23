@@ -37,7 +37,7 @@ requests==2.28.0
 django-ipware==3.0.7
 django-resized==0.3.11
 django-crispy-forms==1.14.0
-django-map-widgets==0.4.0
+django-map-widgets==0.4.1
 
 # Debugging
 ipdb==0.13.9
