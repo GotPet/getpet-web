@@ -72,7 +72,7 @@ jobs:
           echo ::set-env name=GIT_BRANCH::$(git rev-parse --abbrev-ref HEAD)
 
       - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@master
+        uses: elgohr/Publish-Docker-Github-Action@v5
         with:
           name: vycius/getpet-platform
           username: ${{ secrets.DOCKER_USERNAME }}
