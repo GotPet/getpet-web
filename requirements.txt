@@ -41,7 +41,7 @@ django-map-widgets==0.4.1
 
 # Debugging
 ipdb==0.13.13
-django-extensions==3.1.5
+django-extensions==3.2.3
 
 # Required for tests
 Faker==5.8.0
